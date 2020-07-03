@@ -7,12 +7,13 @@
 
 'use strict';
 
+const school = require('../../data/school/config.json');
 
 function getNaviObj (role, loginname='') {
   switch (role) {
     case 'student':
     return {
-      school: 'Internationale Gesamtschule Heidelberg',
+      school: school.name,
       loginname: 'Student: '+loginname,
       home: {
         name: 'HomeSchool-DS',
@@ -33,7 +34,7 @@ function getNaviObj (role, loginname='') {
     };
     default:
       return {
-        school: 'Internationale Gesamtschule Heidelberg',
+        school: school.name,
         loginname: '',
         home: {
           name: 'HomeSchool-DS',

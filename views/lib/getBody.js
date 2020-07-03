@@ -8,49 +8,7 @@
 'use strict';
 
 
-function getBody () {
-  let myLessons = [
-    {
-      id: 1,
-      color: 'bg-primary',
-      weekdays: [1,3,5],
-      lesson: 'Mathe',
-      chapter: 'Funktionen',
-      details: 'Aufgaben aus dem Mathe-Buch S.256-266'
-    },
-    {
-      id: 2,
-      color: 'bg-success',
-      weekdays: [1,2,4],
-      lesson: 'Deutsch',
-      chapter: '',
-      details: 'Bitte lest das Buch zu Ende.'
-    },
-    {
-      id: 3,
-      color: 'bg-danger',
-      weekdays: [2,4],
-      lesson: 'English',
-      chapter: 'past tense',
-      details: 'Pls do the exercises in text book chapter 5.'
-    },
-    {
-      id: 4,
-      color: 'bg-warning',
-      weekdays: [3,5],
-      lesson: 'Informatik',
-      chapter: 'Java',
-      details: 'Bitte Übung 3 Programmieren!'
-    },
-    {
-      id: 5,
-      color: 'bg-info',
-      weekdays: [1,3],
-      lesson: 'Geschichte',
-      chapter: 'Die Römer',
-      details: 'Zusammenfasssung der Herrschaft Cesars'
-    }
-  ];
+function getBody (myLessons) {
   return `
   <div id="dashboard" class="container my-3 p-3 border collapse" data-parent="#homeschool-ds">
     <h2>Dashboard</h2>
