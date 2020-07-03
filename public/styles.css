@@ -1,0 +1,199 @@
+:root {
+  --color: #2c2c2c;
+  --bg-color: #ffffff;
+  --bg-input-disabled: #e9ecef;
+}
+
+body {
+  color: var(--color);
+  background-color: var(--bg-color);
+}
+
+a, a:focus, a:hover {
+  color: #f96332;
+}
+
+.bg-secondary {
+  background-color: #f96332 !important;
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: rgba(255,255,255,.8);
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+  color: rgb(255,255,255);
+}
+
+.navbar-dark .navbar-nav .nav-link:focus {
+  color: rgb(255, 255, 255);
+}
+
+.btn-secondary {
+  background-color: #f96332 !important;
+  border-color: #f96332;
+}
+
+.btn-secondary:hover {
+  border-color: #fa7a50;
+  background-color: #fa7a50 !important;
+  box-shadow: 0 3px 8px 0 rgba(0,0,0,.17);
+}
+
+.btn-secondary:active {
+  border-color: #fa7a50;
+  background-color: #fa7a50 !important;
+  box-shadow: none;
+}
+
+.btn-secondary:focus {
+  border-color: #fa7a50;
+  background-color: #fa7a50 !important;
+  box-shadow: none;
+}
+
+.col-form-label {
+  font-size: 0.8rem;
+}
+
+.border {
+  box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+  border: 0;
+  border-radius: 0.1875rem;
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  margin-bottom: 30px;
+  box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.2);
+}
+
+.card.lesson {
+  position: relative;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: .25rem;
+  box-shadow: none;
+  margin-bottom: 0;
+  font-size: .8rem;
+}
+
+.card.lessonbig {
+  position: relative;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: .25rem;
+  box-shadow: none;
+  margin-bottom: 0;
+}
+
+ .modal-content, .card {
+  color: var(--color);
+  background-color: var(--bg-color);
+  border: 1px solid #ffffff;
+}
+
+.form-control:disabled, .form-control[readonly] {
+  color: var(--color);
+  background-color: var(--bg-input-disabled);
+}
+
+.ui-sortable-handle, .form-control-plaintext, .form-control {
+  color: var(--color);
+  background-color: var(--bg-color);
+}
+
+input.form-control {
+  background-color: transparent;
+  /*border: 1px solid #E3E3E3;*/
+  border-radius: 30px;
+  color: var(--color);
+  line-height: normal;
+  font-size: 0.8571em;
+  -webkit-transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  -moz-transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  -o-transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  -ms-transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.form-control:focus {
+  border: 1px solid #f96332;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  outline: 0 !important;
+  color: #2c2c2c;
+}
+
+.theme-row {
+  cursor: pointer;
+}
+
+.theme-row-selected {
+  cursor: pointer;
+  background-color: lightcyan;
+  color: #2c2c2c;
+}
+
+.theme-row-thumbnail {
+  max-width: 100px;
+}
+
+/* Additional styles for views */
+
+.form-listitem-addimg {
+  height: 30px;
+  width: 38px;
+}
+
+.welcome-addonbox {
+  flex-wrap: wrap;
+}
+
+.welcome-addonbox-helper {
+  height: 44px;
+  width: 200px;
+}
+
+.loginform-card {
+  width: 25rem;
+}
+
+.content-listandform {
+  border: 1px solid lightgrey;
+}
+
+.navi-current-theme {
+  font-size: 66%;
+}
+
+.navi-onoff {
+  border: none;
+  background-color: transparent;
+}
+
+/* Other additional styles */
+
+.webgen-errorpage {
+  text-align: center;
+  padding-top: 200px;
+}

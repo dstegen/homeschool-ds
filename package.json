@@ -1,0 +1,25 @@
+{
+  "name": "homeschool-ds",
+  "version": "0.0.1",
+  "description": "simple homeschool web app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dstegen/homeschool-ds.git"
+  },
+  "keywords": [
+    "homeschool"
+  ],
+  "author": "Daniel Stegen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dstegen/homeschool-ds/issues"
+  },
+  "homepage": "https://github.com/dstegen/homeschool-ds#readme",
+  "dependencies": {
+    "webapputils-ds": "^0.4.7"
+  }
+}
