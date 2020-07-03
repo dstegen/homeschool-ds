@@ -8,7 +8,6 @@
 'use strict';
 
 // Required Modules
-const fs = require('fs');
 const path = require('path');
 
 let users = [];
@@ -44,6 +43,13 @@ function getUserDetails (userId) {
   }
 }
 
+function getAllUsers (group) {
+  if (group !== undefined && group !== '') {
+    return users.filter( user => user.group === group );
+  } else {
+    return users;
+  }
+}
 
 // Additional functions
 
@@ -58,4 +64,4 @@ function loadUsers (filePath) {
 }
 
 
-module.exports = { initUsers, getPasswdObj, getUserFullName, getUserDetails };
+module.exports = { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers };

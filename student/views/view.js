@@ -1,5 +1,5 @@
 /*!
- * views/lib/getBody.js
+ * student/views/view.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2020 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/webapputils-ds/blob/master/LICENSE)
@@ -10,7 +10,7 @@
 const lessonsConfig = require('../../data/classes/7A1/config.json');
 
 
-function getBody (myLessons) {
+function studentView (myLessons) {
   return `
   <div id="dashboard" class="container my-3 p-3 border collapse" data-parent="#homeschool-ds">
     <h2>Dashboard</h2>
@@ -97,6 +97,29 @@ function helperLessonBig (lessonObj, curDay) {
         <div id="lessonbig-details-${lessonObj.id}${curDay}" class="card-body collapse" data-parent="#today">
           <strong class="card-title">Aufgabe:</strong>
           <p class="card-text">${lessonObj.details}</p>
+          <strong class="card-title">Downloads:</strong>
+          <ul>
+            <li><a href="#">aufgaben.pdf</a></li>
+            <li><a href="#">erklärung.pdf</a></li>
+            <li><a href="#">lösungen.pdf</a></li>
+          </ul>
+          <hr />
+          <strong class="card-title">Uploads:</strong>
+          <ul>
+            <li><a href="#">aufgaben1.pdf</a></li>
+            <li><a href="#">aufgaben2.jpg</a></li>
+          </ul>
+          <form class="row my-3 p-2 mx-0 align-item-center" action="/action" method="post" enctype="multipart/form-data">
+            <input type="text" readonly class="d-none form_action" id="action" name="action" value="fileupload">
+            <div class="custom-file col-sm-9">
+              <input type="file" class="custom-file-input" id="filetoupload" name="filetoupload" required>
+              <label class="custom-file-label" for="filetoupload">Datei hochladen...</label>
+              <div class="invalid-feedback">Ups, da gab es einen Fehler</div>
+            </div>
+            <div class="col-sm-3">
+              <button type="submit" class="btn btn-primary">Upload</button>
+            </div>
+          </form>
         </div>
       </div>
     `;
@@ -106,4 +129,4 @@ function helperLessonBig (lessonObj, curDay) {
 }
 
 
-module.exports = getBody;
+module.exports = studentView;

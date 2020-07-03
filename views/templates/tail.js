@@ -26,7 +26,7 @@ function tail () {
         <script src="/node_modules/trumbowyg/dist/trumbowyg.min.js"></script>
       <!-- Other Scripts -->
         <script src="/public/clock.js"></script>
-        <script src="/public/fredscripts.js"></script>
+        <script src="/public/scripts.js"></script>
     </body>
   </html>`;
 }
