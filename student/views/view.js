@@ -7,10 +7,12 @@
 
 'use strict';
 
-const lessonsConfig = require('../../data/classes/7A1/config.json');
+const path = require('path');
+let lessonsConfig = {};
 
 
-function studentView (myLessons) {
+function studentView (myLessons, myGroup) {
+  lessonsConfig = require(path.join('../../data/classes/', myGroup,'/config.json'));
   return `
   <div id="dashboard" class="container my-3 p-3 border collapse" data-parent="#homeschool-ds">
     <h2>Dashboard</h2>

@@ -7,6 +7,7 @@
 
 'use strict';
 
+const path = require('path');
 const { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers } = require('../../models/model-user');
 
 
@@ -16,14 +17,15 @@ function teacherView (teacher) {
       <h2>Dashboard</h2>
       <hr />
     </div>
-    <div id="class" class="container my-3 p-3 border collapse show" data-parent="#homeschool-ds">
+    <div id="class" class="container my-3 p-3 border collapse" data-parent="#homeschool-ds">
       <h2>Klasse/n von ${teacher.fname} ${teacher.lname}</h2>
       <hr />
       ${teacher.group.map(displayClass).join('')}
     </div>
-    <div id="lessons" class="container my-3 p-3 border collapse" data-parent="#homeschool-ds">
+    <div id="lessons" class="container my-3 p-3 border collapse show" data-parent="#homeschool-ds">
       <h2>Stunden</h2>
       <hr />
+      ${teacher.group.map(displayLessons).join('')}
     </div>
   `;
 }
@@ -52,5 +54,19 @@ function displayClass (group) {
   return returnHtml;
 }
 
+function displayLessons (group) {
+  let returnHtml = `<div class="mb-5"><h4>Klasse ${group}</h4>`;
+  const lessons = require(path.join('../../data/classes', group , 'lessons.json')).lessons;
+  lessons.forEach((item, i) => {
+    returnHtml += `
+      <div class="border p-2 mb-2 d-flex justify-content-between">
+        <div><strong>${item.lesson}</strong>: ${item.chapter}</div>
+        <button class="btn-sm btn-primary">Edit</button>
+      </div>
+    `;
+  });
+  returnHtml += `</div>`;
+  return returnHtml;
+}
 
 module.exports = teacherView;

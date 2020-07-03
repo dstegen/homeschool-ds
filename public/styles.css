@@ -121,7 +121,7 @@ a, a:focus, a:hover {
 }
 
 .bg-yellow {
-  background-color: yellow !important;
+  background-color: #F7E007 !important;
   /*color: white !important;*/
 }
 
@@ -137,6 +137,11 @@ a, a:focus, a:hover {
 
 .bg-teal {
   background-color: teal !important;
+  color: white !important;
+}
+
+.bg-purple {
+  background-color: purple !important;
   color: white !important;
 }
 
