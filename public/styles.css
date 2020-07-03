@@ -104,7 +104,43 @@ a, a:focus, a:hover {
   margin-bottom: 0;
 }
 
- .modal-content, .card {
+/* Lesson colors */
+.bg-green {
+  background-color: green !important;
+  color: white !important;
+}
+
+.bg-blue {
+  background-color: blue !important;
+  color: white !important;
+}
+
+.bg-red {
+  background-color: red !important;
+  color: white !important;
+}
+
+.bg-yellow {
+  background-color: yellow !important;
+  /*color: white !important;*/
+}
+
+.bg-brown {
+  background-color: brown !important;
+  color: white !important;
+}
+
+.bg-grey {
+  background-color: grey !important;
+  color: white !important;
+}
+
+.bg-teal {
+  background-color: teal !important;
+  color: white !important;
+}
+
+.modal-content, .card {
   color: var(--color);
   background-color: var(--bg-color);
   border: 1px solid #ffffff;

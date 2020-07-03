@@ -7,6 +7,8 @@
 
 'use strict';
 
+const lessonsConfig = require('../../data/classes/7A1/config.json');
+
 
 function getBody (myLessons) {
   return `
@@ -27,27 +29,27 @@ function getBody (myLessons) {
     <h2>Diese Woche</h2>
     <hr />
     <div class="row text-center">
-      <div class="col-2 border-right">
+      <div class="col-12 col-md-6 col-lg-2 border-right mb-5 mb-lg-0">
         <h5>Montag</h5>
         ${myLessons.map(lesson => helperLesson(lesson, 1)).join('')}
       </div>
-      <div class="col-2 border-right">
+      <div class="col-12 col-md-6 col-lg-2 border-right mb-5 mb-lg-0">
         <h5>Dienstag</h5>
         ${myLessons.map(lesson => helperLesson(lesson, 2)).join('')}
       </div>
-      <div class="col-2 border-right">
+      <div class="col-12 col-md-6 col-lg-2 border-right mb-5 mb-lg-0">
         <h5>Mittwoch</h5>
         ${myLessons.map(lesson => helperLesson(lesson, 3)).join('')}
       </div>
-      <div class="col-2 border-right">
+      <div class="col-12 col-md-6 col-lg-2 border-right mb-5 mb-lg-0">
         <h5>Donnerstag</h5>
         ${myLessons.map(lesson => helperLesson(lesson, 4)).join('')}
       </div>
-      <div class="col-2 border-right">
+      <div class="col-12 col-md-6 col-lg-2 border-right mb-5 mb-lg-0">
         <h5>Freitag</h5>
         ${myLessons.map(lesson => helperLesson(lesson, 5)).join('')}
       </div>
-      <div class="col-2">
+      <div class="col-12 col-md-6 col-lg-2 mb-5 mb-lg-0">
         <h5>Samstag</h5>
         <span class="text-muted">- kein Unterricht -</span>
       </div>
@@ -60,9 +62,13 @@ function getBody (myLessons) {
 // Additional functions
 
 function helperLesson (lessonObj, curDay) {
+  let lessonColor = '';
+  if (lessonsConfig.courses.filter( item => item.name === lessonObj.lesson).length > 0) {
+    lessonColor = lessonsConfig.courses.filter( item => item.name === lessonObj.lesson)[0].color;
+  }
   if (lessonObj.weekdays.includes(curDay)) {
     return `
-      <div class="card lesson text-white ${lessonObj.color} mt-2 text-left">
+      <div class="card lesson ${lessonColor} mt-2 text-left">
         <div id="lesson-${lessonObj.id}${curDay}" class="card-header px-2 py-1" onclick="$('#lesson-details-${lessonObj.id}${curDay}').collapse('toggle');">
           ${lessonObj.lesson}: ${lessonObj.chapter}
         </div>
@@ -78,9 +84,13 @@ function helperLesson (lessonObj, curDay) {
 }
 
 function helperLessonBig (lessonObj, curDay) {
+  let lessonColor = '';
+  if (lessonsConfig.courses.filter( item => item.name === lessonObj.lesson).length > 0) {
+    lessonColor = lessonsConfig.courses.filter( item => item.name === lessonObj.lesson)[0].color;
+  }
   if (lessonObj.weekdays.includes(curDay)) {
     return `
-      <div class="card lessonbig text-white ${lessonObj.color} mt-2 text-left">
+      <div class="card lessonbig ${lessonColor} mt-2 text-left">
         <div id="lessonbig-${lessonObj.id}${curDay}" class="card-header" onclick="$('#lessonbig-details-${lessonObj.id}${curDay}').collapse('toggle');">
           ${lessonObj.lesson}: ${lessonObj.chapter}
         </div>

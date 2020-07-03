@@ -32,6 +32,27 @@ function getNaviObj (role, loginname='') {
         }
       ]
     };
+    case 'teacher':
+    return {
+      school: school.name,
+      loginname: 'Teacher: '+loginname,
+      home: {
+        name: 'HomeSchool-DS',
+        link: '#dashboard'
+      },
+      menuItems: [
+        {
+          name: 'my class',
+          link: '#class',
+          dropdown: false
+        },
+        {
+          name: 'lessons',
+          link: '#lessons',
+          dropdown: false
+        }
+      ]
+    };
     default:
       return {
         school: school.name,
