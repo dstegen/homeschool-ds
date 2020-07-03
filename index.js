@@ -8,12 +8,12 @@
 'use strict';
 
 // Required modules
-const { ServerDS, ServerDSS } = require('webapputils-ds');
+const { ServerDS } = require('webapputils-ds');
 const router = require('./lib/router');
 
 // Name the process
 process.title = 'homeschool-ds';
 
-const server = new ServerDS('homeschool-ds');
+const server = new ServerDS('homeschool-ds', 9090);
 server.setCallback(router);
 server.startServer();
