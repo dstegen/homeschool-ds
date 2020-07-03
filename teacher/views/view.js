@@ -13,16 +13,18 @@ const { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers } 
 
 function teacherView (teacher) {
   return `
-    <div id="dashboard" class="container my-3 p-3 border collapse" data-parent="#homeschool-ds">
-      <h2>Dashboard</h2>
-      <hr />
+    <div id="dashboard" class="container collapse show" data-parent="#homeschool-ds">
+      <h2 class="d-flex justify-content-between py-2 px-3 my-3 border">
+        Dashboard
+        <span id="clock" class="d-none d-md-block">&nbsp;</span>
+      </h2>
     </div>
     <div id="class" class="container my-3 p-3 border collapse" data-parent="#homeschool-ds">
       <h2>Klasse/n von ${teacher.fname} ${teacher.lname}</h2>
       <hr />
       ${teacher.group.map(displayClass).join('')}
     </div>
-    <div id="lessons" class="container my-3 p-3 border collapse show" data-parent="#homeschool-ds">
+    <div id="lessons" class="container my-3 p-3 border collapse" data-parent="#homeschool-ds">
       <h2>Stunden</h2>
       <hr />
       ${teacher.group.map(displayLessons).join('')}
@@ -50,6 +52,7 @@ function displayClass (group) {
         </td>
       </tr>`
   });
+  returnHtml += `<tr><td class="text-right" colspan="5"><button class="btn-sm btn-primary" data-toggle="tooltip" data-placement="left" title="Add student"> + </button></td></tr>`;
   returnHtml += '</table>'
   return returnHtml;
 }
@@ -65,6 +68,11 @@ function displayLessons (group) {
       </div>
     `;
   });
+  returnHtml += `
+      <div class="d-flex justify-content-end p-2 mb-">
+        <button class="btn-sm btn-primary" data-toggle="tooltip" data-placement="left" title="Add lesson"> + </button>
+      </div>
+  `;
   returnHtml += `</div>`;
   return returnHtml;
 }
