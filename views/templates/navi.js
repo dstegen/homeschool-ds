@@ -33,11 +33,13 @@ function navi (naviObj, loggedIn, history) {
     </div>
     `;
   }
+  let onClick = '';
+  if (naviObj.home.link.includes('#')) onClick = `data-toggle="collapse" onclick="$('${naviObj.home.link}').collapse('toggle');"`;
   return `
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-secondary sticky-top d-block">
       <div class="container w-100">
-        <a class="navbar-brand text-truncate w-50 py-0" data-toggle="collapse" href="${naviObj.home.link}" onclick="$('${naviObj.home.link}').collapse('toggle');">
+        <a class="navbar-brand text-truncate w-50 py-0" href="${naviObj.home.link}" ${onClick}>
           ${naviObj.home.name}
         </a>
         ${loggedInHtml}

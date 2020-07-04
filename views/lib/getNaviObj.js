@@ -17,7 +17,7 @@ function getNaviObj (role, loginname='') {
       loginname: 'Student: '+loginname,
       home: {
         name: 'HomeSchool-DS',
-        link: '#dashboard'
+        link: '/student'
       },
       menuItems: [
         {
