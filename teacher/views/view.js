@@ -71,7 +71,7 @@ function displayLessons (group) {
   });
   returnHtml += `
       <div class="d-flex justify-content-end p-2 mb-">
-        <button class="btn-sm btn-primary" data-toggle="tooltip" data-placement="left" title="Add lesson"> + </button>
+        <a href="/edit/${group}" class="btn-sm btn-primary" data-toggle="tooltip" data-placement="left" title="Add lesson"> + </a>
       </div>
   `;
   returnHtml += `</div>`;

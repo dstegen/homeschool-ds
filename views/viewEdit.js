@@ -5,57 +5,107 @@
  * Licensed under MIT (https://github.com/dstegen/webapputils-ds/blob/master/LICENSE)
  */
 
-const {SendObj} = require('webapputils-ds');
+const path = require('path');
+const view = require('./view');
+const { thisWeek, weekDates, weekDayNumber, formatDay, formatDate, weekDay, beforeToday, isActualWeek } = require('../lib/dateJuggler');
+let lessonsConfig = {};
 
-function viewEdit (itemObj) {
-  let sendObj = new SendObj();
-  sendObj.data = `
-  <!DOCTYPE HTML>
-  <html lang="en">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <!-- Bootstrap, jquery and CSS -->
-      <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
-      <link rel="stylesheet" href="/node_modules/webapputils-ds/example/public/styles.css">
-      <title>webapputils-ds</title>
-    </head>
-    <body>
-      <main class="container p-5 h-100">
-        <h1>Edit/add item</h1>
+function viewEdit (itemObj, naviObj, myGroup) {
+  lessonsConfig = require(path.join('../data/classes/', myGroup,'/config.json'));
+  let body = `
+      <main class="container h-100 border py-2 px-3 my-3">
+        <h2>Edit/add lesson for class ${myGroup}</h2>
         <form action="/update" method="post">
           <input type="text" name="id" class="d-none" hidden value="${itemObj.id}" />
           ${formInputs(itemObj)}
-          <input type="submit" class="btn-sm btn-primary" value="add/update" />
+          <div class="d-flex justify-content-end">
+            <button type="button" class="btn-sm btn-info" onclick="window.open('/', '_top', '');">cancle</a>
+            <button type="submit" class="btn-sm btn-primary ml-3">add/update</button>
+          </div>
         </form>
-        <hr />
-        <div class="d-flex justify-content-end">
-          <a href="/" class="btn-sm btn-secondary">cancle</a>
-        </div>
       </main>
-      <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-      <script src="/node_modules/jquery/dist/jquery.min.js"></script>
-      <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-      <script src="/node_modules/webapputils-ds/example/public/scripts.js"></script>
-    </body>
-  </html>
   `;
-  return sendObj;
+  return view('', naviObj, body, {});
 }
 
 
 // Additional functions
 
 function formInputs (itemObj) {
-  let returnHtml = ''
+  let fieldTypes = {
+    weekdays: 'checkbox',
+    validFrom: 'date',
+    validUntil: 'date',
+    lesson: 'select',
+    details: 'textarea'
+  }
+  let returnHtml = '';
   if (Object.keys(itemObj).length > 0) {
     Object.keys(itemObj).forEach( key => {
       if (key !== 'id') {
-        returnHtml += `<input type="text" class="mr-3" name="${key}" value="${itemObj[key]}" placeholder="${key}" />`;
+        returnHtml += `<div class="form-group row mb-1">`;
+        switch (fieldTypes[key]) {
+          case 'checkbox':
+            returnHtml += `<label for="${key}-field" class="col-sm-2 col-form-label text-right">${key}</label>`;
+            returnHtml += `<div class="col-sm-10">`;
+            [1,2,3,4,5,6].forEach( item => {
+              let checked = '';
+              if (itemObj[key].includes(item)) checked = 'checked';
+              returnHtml += `
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="${key}-${item}" name="${key}" value="${item}" ${checked}>
+                  <label class="form-check-label" for="${key}-${item}">${weekDay(item)}</label>
+                </div>
+              `;
+            });
+            returnHtml += `</div>`;
+            break;
+          case 'date':
+            returnHtml += `
+              <label for="${key}-field" class="col-sm-2 col-form-label text-right">${key}</label>
+              <div class="col-sm-2">
+                <input type="date" class="form-control" id="${key}-field" name="${key}" value="${itemObj[key]}" required>
+              </div>
+            `;
+            break;
+          case 'textarea':
+            returnHtml += `
+            <label for="${key}-field" class="col-sm-2 col-form-label text-right">${key}</label>
+            <div class="col-sm-7">
+              <textarea class="form-control" id="${key}-field" rows="3" name="${key}">${itemObj[key]}</textarea>
+            </div>
+            `;
+            break;
+          case 'select':
+            returnHtml += `
+              <label for="${key}-field" class="col-sm-2 col-form-label text-right">${key}</label>
+              <div class="col-sm-7">
+                <select class="form-control form-control-sm" id="${key}-field" name="${key}" required>
+                  <option></option>
+            `;
+            lessonsConfig.courses.map( item => { return item.name; }).forEach( item => {
+
+              returnHtml += `<option ${itemObj[key] === item ? 'selected':''}>${item}</option>`
+            });
+            returnHtml += `
+                </select>
+              </div>
+            `;
+            break;
+          default:
+          returnHtml += `
+            <label for="${key}-field" class="col-sm-2 col-form-label text-right">${key}</label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control" id="${key}-field" name="${key}" value="${itemObj[key]}">
+            </div>
+          `;
+        }
+        returnHtml += `</div>`;
       }
     });
   }
   return returnHtml;
 }
+
 
 module.exports = viewEdit;
