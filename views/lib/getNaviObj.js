@@ -22,12 +22,12 @@ function getNaviObj (role, loginname='') {
       menuItems: [
         {
           name: 'today',
-          link: '#today',
+          link: '/student/day',
           dropdown: false
         },
         {
           name: 'this week',
-          link: '#week',
+          link: '/student/week',
           dropdown: false
         }
       ]

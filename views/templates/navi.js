@@ -72,9 +72,11 @@ function helperMenuItem (item) {
       </div>
     `;
   } else {
+    let onClick = '';
+    if (item.link.includes('#')) onClick = `data-toggle="collapse" onclick="$('${item.link}').collapse('toggle');"`;
     returnHtml += `
       <div class="nav-item">
-        <a class="nav-link text-capitalize" data-toggle="collapse" href="${item.link}" onclick="$('${item.link}').collapse('toggle');">${item.name}</a>
+        <a class="nav-link text-capitalize" href="${item.link}" ${onClick}>${item.name}</a>
       </div>
     `;
   }
