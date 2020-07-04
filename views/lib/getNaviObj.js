@@ -38,17 +38,17 @@ function getNaviObj (role, loginname='') {
       loginname: 'Teacher: '+loginname,
       home: {
         name: 'HomeSchool-DS',
-        link: '#dashboard'
+        link: '/teacher'
       },
       menuItems: [
         {
-          name: 'my class',
-          link: '#class',
+          name: 'my classes',
+          link: '/teacher/classes',
           dropdown: false
         },
         {
           name: 'lessons',
-          link: '#lessons',
+          link: '/teacher/lessons',
           dropdown: false
         }
       ]
