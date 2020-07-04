@@ -17,9 +17,10 @@ function viewEdit (itemObj, naviObj, myGroup) {
         <h2>Edit/add lesson for class ${myGroup}</h2>
         <form action="/update" method="post">
           <input type="text" name="id" class="d-none" hidden value="${itemObj.id}" />
+          <input type="text" name="group" class="d-none" hidden value="${myGroup}" />
           ${formInputs(itemObj)}
           <div class="d-flex justify-content-end">
-            <button type="button" class="btn-sm btn-info" onclick="window.open('/', '_top', '');">cancle</a>
+            <button type="button" class="btn-sm btn-info" onclick="window.open('/teacher/lessons', '_top', '');">cancle</a>
             <button type="submit" class="btn-sm btn-primary ml-3">add/update</button>
           </div>
         </form>

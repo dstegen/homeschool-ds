@@ -65,7 +65,7 @@ function displayLessons (group) {
     returnHtml += `
       <div class="border p-2 mb-2 d-flex justify-content-between">
         <div><strong>${item.lesson}</strong>: ${item.chapter}</div>
-        <button class="btn-sm btn-primary">Edit</button>
+        <a href="/edit/${group}/${item.id}" class="btn-sm btn-primary">Edit</a>
       </div>
     `;
   });
