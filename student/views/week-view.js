@@ -66,6 +66,12 @@ function studentView (myLessons, myGroup, curWeek=thisWeek()) {
         ${myLessons.map(lesson => helperLesson(lesson, 6, curWeek)).join('')}
         ${myLessons.filter( item => item.weekdays.includes(6) && isActualWeek(item.validFrom, item.validUntil, curWeek)).length < 1 ?'<p class="text-muted mt-2">- kein Unterricht -</p>':''}
       </div>
+      <div class="col-12 mb-5 mb-lg-0 border-top mt-4 pt-3 d-none">
+        <h5 class="mb-0 ${beforeToday(7, curWeek)?'text-black-50':''}">${weekDay(7)}</h5>
+        <small class="text-muted">${formatDate(7, curWeek)}</small>
+        ${myLessons.map(lesson => helperLesson(lesson, 7, curWeek)).join('')}
+        ${myLessons.filter( item => item.weekdays.includes(7) && isActualWeek(item.validFrom, item.validUntil, curWeek)).length < 1 ?'<p class="text-muted mt-2">- kein Unterricht -</p>':''}
+      </div>
     </div>
   </div>
   `;
