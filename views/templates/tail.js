@@ -20,10 +20,13 @@ function tail () {
       </div>
       <!-- jQuery first, then Popper.js, then Bootstrap JS -->
         <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+        <!--
         <script src="/node_modules/jquery-ui-dist/jquery-ui.min.js"></script>
+        <script src="/node_modules/trumbowyg/dist/trumbowyg.min.js"></script>
+        -->
         <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="/node_modules/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
-        <script src="/node_modules/trumbowyg/dist/trumbowyg.min.js"></script>
+
       <!-- Other Scripts -->
         <script src="/public/clock.js"></script>
         <script src="/public/scripts.js"></script>

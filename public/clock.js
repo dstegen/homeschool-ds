@@ -1,5 +1,11 @@
-// FredCMS Backend by Daniel Stegen
-// clock.js
+/*!
+ * public/clock.js
+ * homeschool-ds (https://github.com/dstegen/homeschool-ds)
+ * Copyright 2020 Daniel Stegen <info@danielstegen.de>
+ * Licensed under MIT (https://github.com/dstegen/webapputils-ds/blob/master/LICENSE)
+ */
+
+'use strict';
 
 function updateClock ( ) {
   var currentTime = new Date ( );
@@ -11,19 +17,11 @@ function updateClock ( ) {
   currentMinutes = ( currentMinutes < 10 ? "0" : "" ) + currentMinutes;
   currentSeconds = ( currentSeconds < 10 ? "0" : "" ) + currentSeconds;
 
-  // Choose either "AM" or "PM" as appropriate
-  //var timeOfDay = ( currentHours < 12 ) ? "AM" : "PM";
-
-  // Convert the hours component to 12-hour format if needed
-  //currentHours = ( currentHours > 12 ) ? currentHours - 12 : currentHours;
-
-  // Convert an hours component of "0" to "12"
-  //currentHours = ( currentHours == 0 ) ? 12 : currentHours;
-
   // Compose the string for display
-  //var currentTimeString = currentHours + ":" + currentMinutes + ":" + currentSeconds + " " + timeOfDay;
   var currentTimeString = currentHours + ":" + currentMinutes + ":" + currentSeconds;
 
   // Update the time display
-  document.getElementById("clock").firstChild.nodeValue = currentTimeString;
+  if (document.getElementById("clock")) {
+    document.getElementById("clock").firstChild.nodeValue = currentTimeString;
+  }
 }
