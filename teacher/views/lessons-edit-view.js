@@ -6,19 +6,19 @@
  */
 
 const path = require('path');
-const view = require('./view');
-const { thisWeek, weekDates, weekDayNumber, formatDay, formatDate, weekDay, beforeToday, isActualWeek } = require('../lib/dateJuggler');
+const view = require('../../views/view');
+const { thisWeek, weekDates, weekDayNumber, formatDay, formatDate, weekDay, beforeToday, isActualWeek } = require('../../lib/dateJuggler');
 let lessonsConfig = {};
 
-function viewEdit (itemObj, naviObj, myGroup) {
-  lessonsConfig = require(path.join('../data/classes/', myGroup,'/config.json'));
+function viewEdit (itemObj, naviObj, myGroup, user) {
+  lessonsConfig = require(path.join('../../data/classes/', myGroup,'/config.json'));
   let body = `
       <main class="container h-100 border py-2 px-3 my-3">
         <h2>Edit/add lesson for class ${myGroup}</h2>
         <form action="/update" method="post">
           <input type="text" name="id" class="d-none" hidden value="${itemObj.id}" />
           <input type="text" name="group" class="d-none" hidden value="${myGroup}" />
-          ${formInputs(itemObj)}
+          ${formInputs(itemObj, user.courses)}
           <div class="d-flex justify-content-end">
             <button type="button" class="btn-sm btn-info" onclick="window.open('/teacher/lessons', '_top', '');">cancle</a>
             <button type="submit" class="btn-sm btn-primary ml-3">add/update</button>
@@ -32,7 +32,7 @@ function viewEdit (itemObj, naviObj, myGroup) {
 
 // Additional functions
 
-function formInputs (itemObj) {
+function formInputs (itemObj, courses) {
   let fieldTypes = {
     weekdays: 'checkbox',
     validFrom: 'date',
@@ -85,8 +85,9 @@ function formInputs (itemObj) {
                   <option></option>
             `;
             lessonsConfig.courses.map( item => { return item.name; }).forEach( item => {
-
-              returnHtml += `<option ${itemObj[key] === item ? 'selected':''}>${item}</option>`
+              if (courses.includes(item) || courses[0] === 'all') {
+                returnHtml += `<option ${itemObj[key] === item ? 'selected':''}>${item}</option>`
+              }
             });
             returnHtml += `
                 </select>
