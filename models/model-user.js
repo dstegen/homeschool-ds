@@ -9,6 +9,7 @@
 
 // Required Modules
 const path = require('path');
+const fs = require('fs');
 
 let users = [];
 
@@ -51,6 +52,23 @@ function getAllUsers (group) {
   }
 }
 
+function usersOnline (group) {
+  let onlineUsers = [];
+  try {
+    let sessionIds = JSON.parse(fs.readFileSync(path.join(__dirname, '../sessionids.json')));
+    let userIds = sessionIds.ids.map( user => { return Object.values(user)[0]; } )
+    let allUsers = getAllUsers(group).filter( user => (user.role === 'student' && userIds.includes(user.userId)) );
+    allUsers.forEach(user => {
+      onlineUsers.push(user.fname+' '+user.lname);
+    });
+  } catch (e) {
+    console.log('- ERROR reading determing online students: '+e);
+  }
+  console.log(onlineUsers);
+  return onlineUsers;
+}
+
+
 // Additional functions
 
 function loadUsers (filePath) {
@@ -64,4 +82,4 @@ function loadUsers (filePath) {
 }
 
 
-module.exports = { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers };
+module.exports = { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers, usersOnline };

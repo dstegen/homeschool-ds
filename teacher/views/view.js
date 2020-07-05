@@ -10,7 +10,7 @@
 const path = require('path');
 const fs = require('fs');
 const { thisWeek, thisDay, weekDates, weekDayNumber, formatDay, formatDate, weekDay, beforeToday, isActualWeek } = require('../../lib/dateJuggler');
-const { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers } = require('../../models/model-user');
+const { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers, usersOnline } = require('../../models/model-user');
 
 
 function teacherView (teacher) {
@@ -50,9 +50,8 @@ function teacherView (teacher) {
         <div class="border py-2 px-3 mb-3">
           <h4>Schüler online:</h4>
           <hr />
-          ${studentsOnline(teacher)}
+          ${studentsOnline(teacher.group)}
         </div>
-
       </div>
     </div>
   </div>
@@ -62,25 +61,15 @@ function teacherView (teacher) {
 
 // Additional functions
 
-function studentsOnline (teacher) {
+function studentsOnline (allGroups) {
   let returnHtml = '';
-  try {
-    let sessionIds = JSON.parse(fs.readFileSync(path.join(__dirname, '../../sessionids.json')));
-    let userIds = sessionIds.ids.map( user => { return Object.values(user)[0]; } )
-    let allUsers = getAllUsers().filter( user => (user.role === 'student' && userIds.includes(user.userId)) );
-    let allGroups = teacher.group;
-    allGroups.forEach( group => {
-      returnHtml += `<h5>Klasse: ${group}:</h5><ul>`;
-      allUsers.forEach( user => {
-        if (user.group === group) {
-          returnHtml += `<li>${user.fname} ${user.lname}</li>`
-        }
-      });
-      returnHtml += `</ul>`;
+  allGroups.forEach( group => {
+    returnHtml += `<h5>Klasse: ${group}:</h5><ul>`;
+    usersOnline(group).forEach( user => {
+      returnHtml += `<li>${user}</li>`
     });
-  } catch (e) {
-    console.log('- ERROR reading determing online students: '+e);
-  }
+    returnHtml += `</ul>`;
+  });
   return returnHtml;
 }
 

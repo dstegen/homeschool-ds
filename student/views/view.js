@@ -9,6 +9,7 @@
 
 const path = require('path');
 const { thisWeek, thisDay, weekDates, weekDayNumber, formatDay, formatDate, weekDay, beforeToday, isActualWeek } = require('../../lib/dateJuggler');
+const { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers, usersOnline } = require('../../models/model-user');
 let lessonsConfig = {};
 
 
@@ -46,6 +47,13 @@ function studentView (myLessons, myGroup, curWeek=thisWeek(), user={}) {
             <hr />
             <br /><br /><br /><br /><br /><br />
           </div>
+          <div class="border py-2 px-3 mb-3">
+            <h4>Schüler online:</h4>
+            <hr />
+            <ul>
+              ${usersOnline(myGroup).map( user => { return '<li>'+user+'</li>'; } ).join('')}
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -72,5 +80,6 @@ function helperLessonsToday (lessonObj, curWeekDay, curWeek) {
   }
   return returnHtml;
 }
+
 
 module.exports = studentView;
