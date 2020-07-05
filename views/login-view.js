@@ -1,5 +1,5 @@
 /*!
- * views/viewLogin.js
+ * views/login-view.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2020 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/webapputils-ds/blob/master/LICENSE)
@@ -11,7 +11,7 @@ const getNaviObj = require('./lib/getNaviObj');
 const view = require('./view');
 
 
-function viewLogin (wsport, message='') {
+function loginView (wsport, message='') {
   let body = `
    <!-- Loginform -->
     <div class="container d-flex justify-content-center py-5">
@@ -47,4 +47,4 @@ function viewLogin (wsport, message='') {
 }
 
 
-module.exports = viewLogin;
+module.exports = loginView;

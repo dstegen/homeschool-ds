@@ -10,7 +10,7 @@ const view = require('../../views/view');
 const { thisWeek, weekDates, weekDayNumber, formatDay, formatDate, weekDay, beforeToday, isActualWeek } = require('../../lib/dateJuggler');
 let lessonsConfig = {};
 
-function viewEdit (itemObj, naviObj, myGroup, user) {
+function teacherLessonsEditView (itemObj, naviObj, myGroup, user) {
   lessonsConfig = require(path.join('../../data/classes/', myGroup,'/config.json'));
   let body = `
       <main class="container h-100 border py-2 px-3 my-3">
@@ -110,4 +110,4 @@ function formInputs (itemObj, courses) {
 }
 
 
-module.exports = viewEdit;
+module.exports = teacherLessonsEditView;
