@@ -23,7 +23,7 @@ function studentView (myLessons, myGroup, curWeek=thisWeek(), user={}) {
         <span id="clock" class="d-none d-md-block">&nbsp;</span>
       </h2>
       <div class="row">
-        <div class="col-6">
+        <div class="col-12 col-md-6">
           <div class="border py-2 px-3 mb-3">
             <h4>Hallo ${user.fname},</h4>
             <p>
@@ -35,7 +35,7 @@ function studentView (myLessons, myGroup, curWeek=thisWeek(), user={}) {
             <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
           </div>
         </div>
-        <div class="col-6">
+        <div class="col-12 col-md-6">
           <div class="border py-2 px-3 mb-3">
             <h4>Klassen-Chat</h4>
             <hr />
