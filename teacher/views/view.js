@@ -8,11 +8,12 @@
 'use strict';
 
 const path = require('path');
+const fs = require('fs');
 const { thisWeek, thisDay, weekDates, weekDayNumber, formatDay, formatDate, weekDay, beforeToday, isActualWeek } = require('../../lib/dateJuggler');
 const { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers } = require('../../models/model-user');
 
 
-function teacherView (user) {
+function teacherView (teacher) {
   return `
     <div id="dashboard" class="container collapse show" data-parent="#homeschool-ds">
       <h2 class="d-flex justify-content-between py-2 px-3 my-3 border">
@@ -22,7 +23,7 @@ function teacherView (user) {
     <div class="row">
       <div class="col-12 col-md-6">
         <div class="border py-2 px-3 mb-3">
-          <h4>Guten Tag ${user.fname} ${user.lname},</h4>
+          <h4>Guten Tag ${teacher.fname} ${teacher.lname},</h4>
           <p>
             heute is ${weekDay()} und Sie haben <strong>27</strong> neue Nachrichten:
           </p>
@@ -44,7 +45,12 @@ function teacherView (user) {
         <div class="border py-2 px-3 mb-3">
           <h4>Klassen-Chat</h4>
           <hr />
-          <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+          <br /><br /><br /><br /><br /><br />
+        </div>
+        <div class="border py-2 px-3 mb-3">
+          <h4>Schüler online:</h4>
+          <hr />
+          ${studentsOnline(teacher)}
         </div>
 
       </div>
@@ -56,6 +62,27 @@ function teacherView (user) {
 
 // Additional functions
 
+function studentsOnline (teacher) {
+  let returnHtml = '';
+  try {
+    let sessionIds = JSON.parse(fs.readFileSync(path.join(__dirname, '../../sessionids.json')));
+    let userIds = sessionIds.ids.map( user => { return Object.values(user)[0]; } )
+    let allUsers = getAllUsers().filter( user => (user.role === 'student' && userIds.includes(user.userId)) );
+    let allGroups = teacher.group;
+    allGroups.forEach( group => {
+      returnHtml += `<h5>Klasse: ${group}:</h5><ul>`;
+      allUsers.forEach( user => {
+        if (user.group === group) {
+          returnHtml += `<li>${user.fname} ${user.lname}</li>`
+        }
+      });
+      returnHtml += `</ul>`;
+    });
+  } catch (e) {
+    console.log('- ERROR reading determing online students: '+e);
+  }
+  return returnHtml;
+}
 
 
 module.exports = teacherView;
