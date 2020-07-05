@@ -69,8 +69,8 @@ function helperLessonBig (lessonObj, curWeekDay, curDay) {
           <form class="row my-3 p-2 mx-0 align-item-center" action="/action" method="post" enctype="multipart/form-data">
             <input type="text" readonly class="d-none form_action" id="action" name="action" value="fileupload">
             <div class="custom-file col-sm-9">
-              <input type="file" class="custom-file-input" id="filetoupload" name="filetoupload" required>
-              <label class="custom-file-label" for="filetoupload">Datei hochladen...</label>
+              <input type="file" class="custom-file-input" id="filetoupload-${lessonObj.id}" name="filetoupload">
+              <label class="custom-file-label" for="filetoupload-${lessonObj.id}">Datei wählen...</label>
               <div class="invalid-feedback">Ups, da gab es einen Fehler</div>
             </div>
             <div class="col-sm-3">

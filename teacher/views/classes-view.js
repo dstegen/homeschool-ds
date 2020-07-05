@@ -36,8 +36,8 @@ function displayClass (group) {
         <td>${item.lname}</td>
         <td>${item.phone}</td>
         <td class="d-flex justify-content-end">
-          <button class="btn-sm btn-secondary ml-2" onclick="sendEmail('${item.email}');">E-Mail</button>
-          <button class="btn-sm btn-success ml-2" onclick="alert('Hallo ${item.email}');">Nachricht</button>
+          <button class="btn btn-sm btn-secondary ml-2" onclick="sendEmail('${item.email}');">E-Mail</button>
+          <button class="btn btn-sm btn-success ml-2" onclick="alert('Hallo ${item.email}');">Nachricht</button>
         </td>
       </tr>`
   });

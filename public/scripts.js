@@ -9,10 +9,16 @@
  updateClock();
  setInterval('updateClock()', 1000 );
 
-// Enable tooltip
-$(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-})
+ // Init some scripts and settings
+ $(document).ready(function () {
+   // Init bsCustomFileInput-script for better file-upload forms
+   bsCustomFileInput.init();
+   // Enable tooltip
+   $(function () {
+     $('[data-toggle="tooltip"]').tooltip()
+   })
+ });
+
 
 // E-Mail function for onclick
 function sendEmail (email) {

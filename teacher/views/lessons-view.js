@@ -37,9 +37,9 @@ function displayLessons (group, courses) {
             <form action="/delete" method="post">
               <input type="text" name="id" class="d-none" hidden value="${item.id}" />
               <input type="text" name="group" class="d-none" hidden value="${group}" />
-              <button type="submit" class="btn-sm btn-danger" onclick="confirmDelete(this.form.name, \'delete\')">Delete</button>
+              <button type="submit" class="btn btn-sm btn-danger" onclick="confirmDelete(this.form.name, \'delete\')">Delete</button>
             </form>
-            <a href="/edit/${group}/${item.id}" class="btn-sm btn-primary ml-3">Edit</a>
+            <a href="/edit/${group}/${item.id}" class="btn btn-sm btn-primary ml-3">Edit</a>
           </div>
         </div>
       `;

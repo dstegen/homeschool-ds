@@ -19,9 +19,9 @@ function teacherLessonsEditView (itemObj, naviObj, myGroup, user) {
           <input type="text" name="id" class="d-none" hidden value="${itemObj.id}" />
           <input type="text" name="group" class="d-none" hidden value="${myGroup}" />
           ${formInputs(itemObj, user.courses)}
-          <div class="d-flex justify-content-end">
-            <button type="button" class="btn-sm btn-info" onclick="window.open('/teacher/lessons', '_top', '');">cancle</a>
-            <button type="submit" class="btn-sm btn-primary ml-3">add/update</button>
+          <div class="d-flex justify-content-end mb-3">
+            <button type="button" class="btn btn-sm btn-info" onclick="window.open('/teacher/lessons', '_top', '');">cancle</a>
+            <button type="submit" class="btn btn-sm btn-primary ml-3">add/update</button>
           </div>
         </form>
       </main>
