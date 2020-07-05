@@ -32,5 +32,11 @@
     "bs-custom-file-input": "^1.3.4",
     "moment": "^2.27.0",
     "webapputils-ds": "^0.4.7"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "*.json",
+      "data/*"
+    ]
   }
 }

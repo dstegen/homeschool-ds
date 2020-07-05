@@ -36,13 +36,12 @@ function displayClass (group) {
         <td>${item.lname}</td>
         <td>${item.phone}</td>
         <td class="d-flex justify-content-end">
-          <button class="btn-sm btn-primary">Edit</button>
           <button class="btn-sm btn-secondary ml-2" onclick="sendEmail('${item.email}');">E-Mail</button>
           <button class="btn-sm btn-success ml-2" onclick="alert('Hallo ${item.email}');">Nachricht</button>
         </td>
       </tr>`
   });
-  returnHtml += `<tr><td class="text-right" colspan="5"><button class="btn-sm btn-primary" data-toggle="tooltip" data-placement="left" title="Add student"> + </button></td></tr>`;
+  returnHtml += `<tr class="d-none"><td class="text-right" colspan="5"><button class="btn-sm btn-primary" data-toggle="tooltip" data-placement="left" title="Add student"> + </button></td></tr>`;
   returnHtml += '</table>'
   return returnHtml;
 }
