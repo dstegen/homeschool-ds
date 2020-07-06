@@ -28,7 +28,7 @@ function studentDayView (myLessons, myGroup, curDay=thisDay()) {
       <hr />
       <div class="row text-center">
         <div class="col-6 border-right">
-          ${myLessons.map(lesson => helperLessonBig(lesson, weekDayNumber(curDay), curDay)).join('')}
+          ${myLessons.map(lesson => helperLessonBig(lesson, weekDayNumber(curDay), curDay, myGroup)).join('')}
           ${todayOff}
         </div>
       </div>
@@ -39,7 +39,7 @@ function studentDayView (myLessons, myGroup, curDay=thisDay()) {
 
 // Additional functions
 
-function helperLessonBig (lessonObj, curWeekDay, curDay) {
+function helperLessonBig (lessonObj, curWeekDay, curDay, myGroup) {
   let lessonColor = '';
   if (lessonsConfig.courses.filter( item => item.name === lessonObj.lesson).length > 0) {
     lessonColor = lessonsConfig.courses.filter( item => item.name === lessonObj.lesson)[0].color;
@@ -66,8 +66,10 @@ function helperLessonBig (lessonObj, curWeekDay, curDay) {
             <li><a href="#">aufgaben1.pdf</a></li>
             <li><a href="#">aufgaben2.jpg</a></li>
           </ul>
-          <form class="row my-3 p-2 mx-0 align-item-center" action="/action" method="post" enctype="multipart/form-data">
-            <input type="text" readonly class="d-none form_action" id="action" name="action" value="fileupload">
+          <form class="row my-3 p-2 mx-0 align-item-center" action="/fileupload" method="post" enctype="multipart/form-data">
+            <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">
+            <input type="text" readonly class="d-none" id="course" name="course" value="${lessonObj.lesson}">
+            <input type="text" readonly class="d-none" id="course" name="courseId" value="${lessonObj.id}">
             <div class="custom-file col-sm-9">
               <input type="file" class="custom-file-input" id="filetoupload-${lessonObj.id}" name="filetoupload">
               <label class="custom-file-label" for="filetoupload-${lessonObj.id}">Datei wählen...</label>
