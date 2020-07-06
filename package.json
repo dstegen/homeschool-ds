@@ -1,6 +1,6 @@
 {
   "name": "homeschool-ds",
-  "version": "0.0.1",
+  "version": "0.2.2",
   "description": "simple homeschool web app",
   "main": "index.js",
   "directories": {
@@ -12,6 +12,7 @@
     "views": "./views"
   },
   "scripts": {
+    "postinstall": "node helper/install-example.js",
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
