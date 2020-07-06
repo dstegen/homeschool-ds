@@ -64,7 +64,6 @@ function usersOnline (group) {
   } catch (e) {
     console.log('- ERROR reading determing online students: '+e);
   }
-  console.log(onlineUsers);
   return onlineUsers;
 }
 
