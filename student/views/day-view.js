@@ -8,11 +8,12 @@
 'use strict';
 
 const path = require('path');
+const fs = require('fs');
 const { thisWeek, thisDay, weekDates, weekDayNumber, formatDay, formatDate, weekDay, beforeToday, isActualWeek, momentFromDay } = require('../../lib/dateJuggler');
 let lessonsConfig = {};
 
 
-function studentDayView (myLessons, myGroup, curDay=thisDay()) {
+function studentDayView (myLessons, myGroup, curDay=thisDay(), studentId) {
   lessonsConfig = require(path.join('../../data/classes/', myGroup,'/config.json'));
   let todayOff = '';
   if (myLessons.filter( item => item.weekdays.includes(weekDayNumber())).length < 1) todayOff = `<span class="text-muted">- kein Unterricht -</span>`;
@@ -28,7 +29,7 @@ function studentDayView (myLessons, myGroup, curDay=thisDay()) {
       <hr />
       <div class="row text-center">
         <div class="col-6 border-right">
-          ${myLessons.map(lesson => helperLessonBig(lesson, weekDayNumber(curDay), curDay, myGroup)).join('')}
+          ${myLessons.map(lesson => helperLessonBig(lesson, weekDayNumber(curDay), curDay, myGroup, studentId)).join('')}
           ${todayOff}
         </div>
       </div>
@@ -39,7 +40,7 @@ function studentDayView (myLessons, myGroup, curDay=thisDay()) {
 
 // Additional functions
 
-function helperLessonBig (lessonObj, curWeekDay, curDay, myGroup) {
+function helperLessonBig (lessonObj, curWeekDay, curDay, myGroup, studentId) {
   let lessonColor = '';
   if (lessonsConfig.courses.filter( item => item.name === lessonObj.lesson).length > 0) {
     lessonColor = lessonsConfig.courses.filter( item => item.name === lessonObj.lesson)[0].color;
@@ -55,16 +56,13 @@ function helperLessonBig (lessonObj, curWeekDay, curDay, myGroup) {
           <strong class="card-title">Aufgabe:</strong>
           <p class="card-text">${lessonObj.details}</p>
           <strong class="card-title">Downloads:</strong>
-          <ul>
-            <li><a href="#">aufgaben.pdf</a></li>
-            <li><a href="#">erklärung.pdf</a></li>
-            <li><a href="#">lösungen.pdf</a></li>
+          <ul class="text-truncate">
+            ${getFilesList(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString()))}
           </ul>
           <hr />
           <strong class="card-title">Uploads:</strong>
-          <ul>
-            <li><a href="#">aufgaben1.pdf</a></li>
-            <li><a href="#">aufgaben2.jpg</a></li>
+          <ul class="text-truncate">
+            ${getFilesList(path.join(myGroup, 'students', studentId.toString(), lessonObj.lesson, lessonObj.id.toString()))}
           </ul>
           <form class="row my-3 p-2 mx-0 align-item-center" action="/fileupload" method="post" enctype="multipart/form-data">
             <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">
@@ -87,5 +85,22 @@ function helperLessonBig (lessonObj, curWeekDay, curDay, myGroup) {
   }
 }
 
+function getFilesList (filePath) {
+  let returnHtml = '';
+  let filesList = [];
+  let readPath = path.join(__dirname, '../../data/classes/', filePath);
+  if (fs.existsSync(readPath)) {
+    try {
+      //console.log('+ Reading fileList from: '+readPath);
+      filesList = fs.readdirSync(readPath);
+      filesList.forEach( item => {
+        returnHtml += `<li><a href="${path.join('/data/classes/', filePath, item)}" target="_blank">${item}</a>&nbsp;&nbsp;<a href="#"><strong>[ X ]</strong></a></li>`;
+      });
+    } catch (e) {
+      console.log('- ERROR reading directory: '+e);
+    }
+  }
+  return returnHtml;
+}
 
 module.exports = studentDayView;
