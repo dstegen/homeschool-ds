@@ -10,6 +10,7 @@
 const path = require('path');
 const { thisWeek } = require('../../lib/dateJuggler');
 const { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers } = require('../../models/model-user');
+const { getLessons } = require('../../models/model-lessons');
 
 
 function teacherLessonsView (teacher) {
@@ -27,7 +28,7 @@ function teacherLessonsView (teacher) {
 
 function displayLessons (group, courses) {
   let returnHtml = `<div class="mb-5"><h4>Klasse ${group}</h4>`;
-  const lessons = require(path.join('../../data/classes', group , 'lessons.json')).lessons;
+  const lessons = getLessons(group); //require(path.join('../../data/classes', group , 'lessons.json')).lessons;
   lessons.forEach( item => {
     if (courses.includes(item.lesson) || courses[0] === 'all') {
       returnHtml += `
