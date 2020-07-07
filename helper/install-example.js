@@ -25,6 +25,7 @@ const schoolConfig = {
 const users = {
   "users": [
     {
+      "id": 0,
       "userId": "ds@me.com",
       "password": "$2a$10$tyZ6UFV9NDkSxMM2AdvS0.br8pnPZot7aBFFE3rFczikFbDRFL5dC",
       "role": "teacher",
@@ -35,6 +36,7 @@ const users = {
       "email": "ds@me.com"
     },
     {
+      "id": 1,
       "userId": "ms@me.com",
       "password": "$2a$10$tyZ6UFV9NDkSxMM2AdvS0.br8pnPZot7aBFFE3rFczikFbDRFL5dC",
       "role": "teacher",
@@ -45,6 +47,7 @@ const users = {
       "email": "ms@me.com"
     },
     {
+      "id": 2,
       "userId": "dm@me.com",
       "password": "$2a$10$tyZ6UFV9NDkSxMM2AdvS0.br8pnPZot7aBFFE3rFczikFbDRFL5dC",
       "role": "student",
