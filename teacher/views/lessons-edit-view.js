@@ -8,12 +8,13 @@
 const path = require('path');
 const view = require('../../views/view');
 const { thisWeek, weekDates, weekDayNumber, formatDay, formatDate, weekDay, beforeToday, isActualWeek } = require('../../lib/dateJuggler');
+const getFilesList = require('../../lib/getFilesList');
 let lessonsConfig = {};
 
 function teacherLessonsEditView (itemObj, naviObj, myGroup, user) {
   lessonsConfig = require(path.join('../../data/classes/', myGroup,'/config.json'));
   let body = `
-      <main class="container h-100 border py-2 px-3 my-3">
+      <div class="container h-100 border py-2 px-3 my-3">
         <h2>Edit/add lesson for class ${myGroup}</h2>
         <form action="/update" method="post">
           <input type="text" name="id" class="d-none" hidden value="${itemObj.id}" />
@@ -24,7 +25,27 @@ function teacherLessonsEditView (itemObj, naviObj, myGroup, user) {
             <button type="submit" class="btn btn-sm btn-primary ml-3">add/update</button>
           </div>
         </form>
-      </main>
+      </div>
+      <div class="container h-100 border py-2 px-3 mb-3">
+      <strong class="card-title">Uploads:</strong>
+      <ul class="text-truncate">
+        ${getFilesList(path.join(myGroup, 'courses', itemObj.lesson, itemObj.id.toString())).map(item => helperListitem(path.join(myGroup, 'courses', itemObj.lesson, itemObj.id.toString()), item)).join('')}
+      </ul>
+      <form class="row my-3 p-2 mx-0 align-item-center" action="/fileupload" method="post" enctype="multipart/form-data">
+        <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">
+        <input type="text" readonly class="d-none" id="course" name="course" value="${itemObj.lesson}">
+        <input type="text" readonly class="d-none" id="course" name="courseId" value="${itemObj.id}">
+        <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/edit/${myGroup}/${itemObj.id}">
+        <div class="custom-file col-sm-6 offset-lg-3">
+          <input type="file" class="custom-file-input" id="filetoupload-${itemObj.id}" name="filetoupload">
+          <label class="custom-file-label" for="filetoupload-${itemObj.id}">Datei wählen...</label>
+          <div class="invalid-feedback">Ups, da gab es einen Fehler</div>
+        </div>
+        <div class="col-sm-3">
+          <button type="submit" class="btn btn-primary">Upload</button>
+        </div>
+      </form>
+      </div>
   `;
   return view('', naviObj, body, {});
 }
@@ -107,6 +128,12 @@ function formInputs (itemObj, courses) {
     });
   }
   return returnHtml;
+}
+
+function helperListitem (filePath, item) {
+  return `
+    <li><div class="d-flex justify-content-between text-truncate"><a href="${path.join('/data/classes/', filePath, item)}" target="_blank">${item}</a><span>&nbsp;&nbsp;<a href="#"><strong>[ X ]</strong></a></span></li>
+  `;
 }
 
 

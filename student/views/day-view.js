@@ -10,6 +10,7 @@
 const path = require('path');
 const fs = require('fs');
 const { thisWeek, thisDay, weekDates, weekDayNumber, formatDay, formatDate, weekDay, beforeToday, isActualWeek, momentFromDay } = require('../../lib/dateJuggler');
+const getFilesList = require('../../lib/getFilesList');
 let lessonsConfig = {};
 
 
@@ -57,17 +58,18 @@ function helperLessonBig (lessonObj, curWeekDay, curDay, myGroup, studentId) {
           <p class="card-text">${lessonObj.details}</p>
           <strong class="card-title">Downloads:</strong>
           <ul class="text-truncate">
-            ${getFilesList(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString()))}
+            ${getFilesList(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString())).map(item => helperListitem(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString()), item)).join('')}
           </ul>
           <hr />
           <strong class="card-title">Uploads:</strong>
           <ul class="text-truncate">
-            ${getFilesList(path.join(myGroup, 'students', studentId.toString(), lessonObj.lesson, lessonObj.id.toString()))}
+            ${getFilesList(path.join(myGroup, 'students', studentId.toString(), lessonObj.lesson, lessonObj.id.toString())).map(item => helperListitem(path.join(myGroup, 'students', studentId.toString(), lessonObj.lesson, lessonObj.id.toString()), item, true)).join('')}
           </ul>
           <form class="row my-3 p-2 mx-0 align-item-center" action="/fileupload" method="post" enctype="multipart/form-data">
             <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">
             <input type="text" readonly class="d-none" id="course" name="course" value="${lessonObj.lesson}">
             <input type="text" readonly class="d-none" id="course" name="courseId" value="${lessonObj.id}">
+            <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/student/day/${curDay}">
             <div class="custom-file col-sm-9">
               <input type="file" class="custom-file-input" id="filetoupload-${lessonObj.id}" name="filetoupload">
               <label class="custom-file-label" for="filetoupload-${lessonObj.id}">Datei wählen...</label>
@@ -85,22 +87,17 @@ function helperLessonBig (lessonObj, curWeekDay, curDay, myGroup, studentId) {
   }
 }
 
-function getFilesList (filePath) {
-  let returnHtml = '';
-  let filesList = [];
-  let readPath = path.join(__dirname, '../../data/classes/', filePath);
-  if (fs.existsSync(readPath)) {
-    try {
-      //console.log('+ Reading fileList from: '+readPath);
-      filesList = fs.readdirSync(readPath);
-      filesList.forEach( item => {
-        returnHtml += `<li><a href="${path.join('/data/classes/', filePath, item)}" target="_blank">${item}</a>&nbsp;&nbsp;<a href="#"><strong>[ X ]</strong></a></li>`;
-      });
-    } catch (e) {
-      console.log('- ERROR reading directory: '+e);
-    }
+function helperListitem (filePath, item, deleteable) {
+  let delButton = '';
+  if (deleteable) {
+    delButton = `
+      <span>&nbsp;&nbsp;<a href="#"><strong>[ X ]</strong></a></span>
+    `;
   }
-  return returnHtml;
+  return `
+    <li><div class="d-flex justify-content-between text-truncate"><a href="${path.join('/data/classes/', filePath, item)}" target="_blank">${item}</a>${delButton}</div></li>
+  `;
 }
+
 
 module.exports = studentDayView;
