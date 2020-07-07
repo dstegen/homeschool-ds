@@ -11,7 +11,7 @@ const path = require('path');
 const fs = require('fs');
 const { thisWeek, thisDay, weekDates, weekDayNumber, formatDay, formatDate, weekDay, beforeToday, isActualWeek } = require('../../lib/dateJuggler');
 const { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers, usersOnline } = require('../../models/model-user');
-
+const getRER = require('../../lib/getRecentExerciseReturns');
 
 function teacherView (teacher) {
   return `
@@ -38,6 +38,7 @@ function teacherView (teacher) {
         <div class="border py-2 px-3 mb-3">
           <h4>Abgegebene Aufgaben:</h4>
           <hr />
+          ${returnedExercises(teacher.group)}
           <br /><br /><br /><br /><br /><br />
         </div>
       </div>
@@ -71,6 +72,23 @@ function studentsOnline (allGroups) {
     returnHtml += `</ul>`;
   });
   return returnHtml;
+}
+
+function returnedExercises (allGroups) {
+  let returnHtml = '';
+  allGroups.forEach( group => {
+    returnHtml += `<h5>Klasse: ${group}:</h5><ul>`;
+    returnHtml += getRER(group).map( item => helperListitem(item, group)).join('');
+    returnHtml += `</ul>`;
+  });
+  return returnHtml;
+}
+
+function helperListitem (item, group) {
+  let filePath = path.join(group, 'students', item.studentId, item.course, item.lessonId);
+  return `
+    <li><div class="d-flex justify-content-between text-truncate"><a href="${path.join('/data/classes/', filePath, item.files[0])}" target="_blank">${item.files[0]}</a></li>
+  `;
 }
 
 
