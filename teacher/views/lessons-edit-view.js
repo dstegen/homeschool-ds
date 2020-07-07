@@ -27,22 +27,25 @@ function teacherLessonsEditView (itemObj, naviObj, myGroup, user) {
         </form>
       </div>
       <div class="container h-100 border py-2 px-3 mb-3">
-      <strong class="card-title">Uploads:</strong>
-      <ul class="text-truncate">
-        ${getFilesList(path.join(myGroup, 'courses', itemObj.lesson, itemObj.id.toString())).map(item => helperListitem(path.join(myGroup, 'courses', itemObj.lesson, itemObj.id.toString()), item)).join('')}
-      </ul>
-      <form class="row my-3 p-2 mx-0 align-item-center" action="/fileupload" method="post" enctype="multipart/form-data">
-        <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">
-        <input type="text" readonly class="d-none" id="course" name="course" value="${itemObj.lesson}">
-        <input type="text" readonly class="d-none" id="course" name="courseId" value="${itemObj.id}">
-        <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/edit/${myGroup}/${itemObj.id}">
-        <div class="custom-file col-sm-6 offset-lg-3">
-          <input type="file" class="custom-file-input" id="filetoupload-${itemObj.id}" name="filetoupload">
-          <label class="custom-file-label" for="filetoupload-${itemObj.id}">Datei wählen...</label>
-          <div class="invalid-feedback">Ups, da gab es einen Fehler</div>
-        </div>
-        <div class="col-sm-3">
-          <button type="submit" class="btn btn-primary">Upload</button>
+      <h4>Uploads:</h4>
+      <div class="row">
+        <div class="col-sm-10 offset-lg-2">
+        <ul class="text-truncate pl-3 w-75">
+          ${getFilesList(path.join(myGroup, 'courses', itemObj.lesson, itemObj.id.toString())).map(item => helperListitem(path.join(myGroup, 'courses', itemObj.lesson, itemObj.id.toString()), item, true, myGroup, itemObj.id)).join('')}
+        </ul>
+        <form class="row my-3 py-2 mx-0 align-item-center" action="/fileupload" method="post" enctype="multipart/form-data">
+          <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">
+          <input type="text" readonly class="d-none" id="course" name="course" value="${itemObj.lesson}">
+          <input type="text" readonly class="d-none" id="course" name="courseId" value="${itemObj.id}">
+          <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/edit/${myGroup}/${itemObj.id}">
+          <div class="custom-file col-sm-7">
+            <input type="file" class="custom-file-input" id="filetoupload-${itemObj.id}" name="filetoupload">
+            <label class="custom-file-label" for="filetoupload-${itemObj.id}">Datei wählen...</label>
+            <div class="invalid-feedback">Ups, da gab es einen Fehler</div>
+          </div>
+          <div class="col-sm-3 mt-2 mt-sm-0">
+            <button type="submit" class="btn btn-primary">Upload</button>
+          </div>
         </div>
       </form>
       </div>
@@ -130,9 +133,20 @@ function formInputs (itemObj, courses) {
   return returnHtml;
 }
 
-function helperListitem (filePath, item) {
+function helperListitem (filePath, item, deleteable=false, myGroup='00', itemId) {
+  let delButton = '';
+  if (deleteable) {
+    delButton = `
+      <form id="delform-${item.split('.')[0]}" action="/filedelete" method="post" enctype="multipart/form-data">
+        <input type="text" readonly class="d-none" id="filePath" name="filePath" value="${filePath}">
+        <input type="text" readonly class="d-none" id="delfilename" name="delfilename" value="${item}">
+        <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/edit/${myGroup}/${itemId}">
+        <a href="#" onclick="fileDelete('delform-${item.split('.')[0]}')"><strong>[ X ]</strong></a>
+      </form>
+    `;
+  }
   return `
-    <li><div class="d-flex justify-content-between text-truncate"><a href="${path.join('/data/classes/', filePath, item)}" target="_blank">${item}</a><span>&nbsp;&nbsp;<a href="#"><strong>[ X ]</strong></a></span></li>
+    <li><div class="d-flex justify-content-between text-truncate"><a href="${path.join('/data/classes/', filePath, item)}" target="_blank">${item}</a>${delButton}</li>
   `;
 }
 

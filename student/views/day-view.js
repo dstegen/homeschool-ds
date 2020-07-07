@@ -63,7 +63,7 @@ function helperLessonBig (lessonObj, curWeekDay, curDay, myGroup, studentId) {
           <hr />
           <strong class="card-title">Uploads:</strong>
           <ul class="text-truncate">
-            ${getFilesList(path.join(myGroup, 'students', studentId.toString(), lessonObj.lesson, lessonObj.id.toString())).map(item => helperListitem(path.join(myGroup, 'students', studentId.toString(), lessonObj.lesson, lessonObj.id.toString()), item, true)).join('')}
+            ${getFilesList(path.join(myGroup, 'students', studentId.toString(), lessonObj.lesson, lessonObj.id.toString())).map(item => helperListitem(path.join(myGroup, 'students', studentId.toString(), lessonObj.lesson, lessonObj.id.toString()), item, true,curDay)).join('')}
           </ul>
           <form class="row my-3 p-2 mx-0 align-item-center" action="/fileupload" method="post" enctype="multipart/form-data">
             <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">
@@ -87,11 +87,16 @@ function helperLessonBig (lessonObj, curWeekDay, curDay, myGroup, studentId) {
   }
 }
 
-function helperListitem (filePath, item, deleteable) {
+function helperListitem (filePath, item, deleteable=false, curDay='') {
   let delButton = '';
   if (deleteable) {
     delButton = `
-      <span>&nbsp;&nbsp;<a href="#"><strong>[ X ]</strong></a></span>
+      <form id="delform-${item.split('.')[0]}" action="/filedelete" method="post" enctype="multipart/form-data">
+        <input type="text" readonly class="d-none" id="filePath" name="filePath" value="${filePath}">
+        <input type="text" readonly class="d-none" id="delfilename" name="delfilename" value="${item}">
+        <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/student/day/${curDay}">
+        <a href="#" onclick="fileDelete('delform-${item.split('.')[0]}')"><strong>[ X ]</strong></a>
+      </form>
     `;
   }
   return `

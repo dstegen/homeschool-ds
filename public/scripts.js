@@ -34,3 +34,11 @@ function confirmDelete (id, action) {
     $('#'+id).submit();
   }
 };
+
+function fileDelete (formId) {
+  //console.log(formId);
+  let confirmQuestion = 'Are you sure, you want to delete this item?';
+  if (confirm(confirmQuestion)) {
+    $('#'+formId).submit();
+  }
+}
