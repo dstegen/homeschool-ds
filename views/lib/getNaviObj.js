@@ -15,6 +15,7 @@ function getNaviObj (role, loginname='') {
     return {
       school: school.name,
       loginname: 'Student: '+loginname,
+      loggedin: true,
       home: {
         name: 'HomeSchool-DS',
         link: '/student'
@@ -36,6 +37,7 @@ function getNaviObj (role, loginname='') {
     return {
       school: school.name,
       loginname: 'Teacher: '+loginname,
+      loggedin: true,
       home: {
         name: 'HomeSchool-DS',
         link: '/teacher'
@@ -57,6 +59,7 @@ function getNaviObj (role, loginname='') {
       return {
         school: school.name,
         loginname: '',
+        loggedin: false,
         home: {
           name: 'HomeSchool-DS',
           link: '#dashboard'

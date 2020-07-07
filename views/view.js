@@ -16,7 +16,7 @@ const tail = require('./templates/tail');
 function view (wsport, naviObj, body, history={}) {
   let sendObj = new SendObj();
   sendObj.data += header();
-  sendObj.data += navi(naviObj, true, history);
+  sendObj.data += navi(naviObj, naviObj.loggedin, history);
   sendObj.data += body;
   sendObj.data += tail();
   return sendObj;
