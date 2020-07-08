@@ -31,7 +31,7 @@ function teacherLessonsEditView (itemObj, naviObj, myGroup, user) {
       <div class="row">
         <div class="col-sm-10 offset-lg-2">
         <ul class="text-truncate pl-3 w-75">
-          ${getFilesList(path.join(myGroup, 'courses', itemObj.lesson, itemObj.id.toString())).map(item => helperListitem(path.join(myGroup, 'courses', itemObj.lesson, itemObj.id.toString()), item, true, myGroup, itemObj.id)).join('')}
+          ${getFilesList(path.join(myGroup, 'courses', itemObj.lesson, itemObj.id.toString(), 'material')).map(item => helperListitem(path.join(myGroup, 'courses', itemObj.lesson, itemObj.id.toString(), 'material'), item, true, myGroup, itemObj.id)).join('')}
         </ul>
         <form class="row my-3 py-2 mx-0 align-item-center" action="/fileupload" method="post" enctype="multipart/form-data">
           <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">

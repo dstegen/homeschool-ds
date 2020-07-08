@@ -58,12 +58,12 @@ function helperLessonBig (lessonObj, curWeekDay, curDay, myGroup, studentId) {
           <p class="card-text">${lessonObj.details}</p>
           <strong class="card-title">Downloads:</strong>
           <ul class="text-truncate">
-            ${getFilesList(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString())).map(item => helperListitem(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString()), item)).join('')}
+            ${getFilesList(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString(), 'material')).map(item => helperListitem(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString(), 'material'), item)).join('')}
           </ul>
           <hr />
           <strong class="card-title">Uploads:</strong>
           <ul class="text-truncate">
-            ${getFilesList(path.join(myGroup, 'students', studentId.toString(), lessonObj.lesson, lessonObj.id.toString())).map(item => helperListitem(path.join(myGroup, 'students', studentId.toString(), lessonObj.lesson, lessonObj.id.toString()), item, true,curDay)).join('')}
+            ${getFilesList(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString(), 'homework', studentId.toString())).map(item => helperListitem(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString(), 'homework', studentId.toString()), item, true, curDay)).join('')}
           </ul>
           <form class="row my-3 p-2 mx-0 align-item-center" action="/fileupload" method="post" enctype="multipart/form-data">
             <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">
