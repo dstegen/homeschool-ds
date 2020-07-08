@@ -13,6 +13,7 @@ const { thisWeek, thisDay, weekDates, weekDayNumber, formatDay, formatDate, week
 const { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers, usersOnline } = require('../../models/model-user');
 const getRER = require('../../lib/getRecentExerciseReturns');
 
+
 function teacherView (teacher) {
   return `
     <div id="dashboard" class="container collapse show" data-parent="#homeschool-ds">
@@ -85,9 +86,11 @@ function returnedExercises (allGroups) {
 }
 
 function helperListitem (item, group) {
-  let filePath = path.join(group, 'students', item.studentId, item.course, item.lessonId);
+  let filePath = path.join(group, 'courses', item.course, item.lessonId, 'homework', item.studentId);
+  console.log(getAllUsers(group).filter( user => user.id === Number(item.studentId)));
+  let curStudent = getAllUsers(group).filter( user => user.id === Number(item.studentId)).map( user => { return user.fname+' '+user.lname} );
   return `
-    <li><div class="d-flex justify-content-between text-truncate"><a href="${path.join('/data/classes/', filePath, item.files[0])}" target="_blank">${item.files[0]}</a></li>
+    <li><div class="d-flex justify-content-between text-truncate"><a href="${path.join('/data/classes/', filePath, item.files[0])}" target="_blank">${item.course} (${item.lessonId}): ${item.files[0]} (${curStudent})</a></li>
   `;
 }
 
