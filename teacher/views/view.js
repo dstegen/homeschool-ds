@@ -87,7 +87,6 @@ function returnedExercises (allGroups) {
 
 function helperListitem (item, group) {
   let filePath = path.join(group, 'courses', item.course, item.lessonId, 'homework', item.studentId);
-  console.log(getAllUsers(group).filter( user => user.id === Number(item.studentId)));
   let curStudent = getAllUsers(group).filter( user => user.id === Number(item.studentId)).map( user => { return user.fname+' '+user.lname} );
   return `
     <li><div class="d-flex justify-content-between text-truncate"><a href="${path.join('/data/classes/', filePath, item.files[0])}" target="_blank">${item.course} (${item.lessonId}): ${item.files[0]} (${curStudent})</a></li>
