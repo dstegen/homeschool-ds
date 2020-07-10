@@ -39,7 +39,7 @@ function teacherView (teacher) {
         <div class="border py-2 px-3 mb-3">
           <h4>Abgegebene Aufgaben:</h4>
           <hr />
-          ${returnedExercises(teacher.group)}
+          ${returnedExercises(teacher.group, teacher.courses)}
           <br /><br /><br /><br /><br /><br />
         </div>
       </div>
@@ -75,11 +75,11 @@ function studentsOnline (allGroups) {
   return returnHtml;
 }
 
-function returnedExercises (allGroups) {
+function returnedExercises (allGroups, courses) {
   let returnHtml = '';
   allGroups.forEach( group => {
     returnHtml += `<h5>Klasse: ${group}:</h5><ul>`;
-    returnHtml += getRER(group).map( item => helperListitem(item, group)).join('');
+    returnHtml += getRER(group, courses).map( item => helperListitem(item, group)).join('');
     returnHtml += `</ul>`;
   });
   return returnHtml;
