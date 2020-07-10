@@ -38,6 +38,7 @@ function displayLessons (group, courses) {
             <div class="d-flex justify-content-end">
               <a href="/edit/${group}/${item.id}" class="btn btn-sm bg-grey ml-3">Edit</a>
               <a data-toggle="collapse" href="#lesson-homework-${group}-${item.id}" class="btn btn-sm btn-primary ml-3">Homework</a>
+              <a href="/teacher/lessons/${group}/${item.id}" class="btn btn-sm btn-secondary ml-3">Details</a>
             </div>
           </div>
           <div class="collapse" id="lesson-homework-${group}-${item.id}" data-parent="#lessons">
