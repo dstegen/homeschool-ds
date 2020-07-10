@@ -105,7 +105,7 @@ function formInputs (itemObj, courses) {
             returnHtml += `
               <label for="${key}-field" class="col-sm-2 col-form-label text-right">${key}</label>
               <div class="col-sm-7">
-                <select class="form-control form-control-sm" id="${key}-field" name="${key}" required>
+                <select class="form-control form-control-sm" id="${key}-field" name="${key}" required  ${itemObj.id !== '' ? 'disabled' : ''}>
                   <option></option>
             `;
             lessonsConfig.courses.map( item => { return item.name; }).forEach( item => {
