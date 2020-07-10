@@ -90,7 +90,6 @@ function returnedExercises (allGroups, courses) {
 }
 
 function helperListitem (item, group) {
-  console.log(item);
   if (item.files.length > 0) {
     let filePath = path.join(group, 'courses', item.course, item.lessonId, 'homework', item.studentId);
     let curStudent = getAllUsers(group).filter( user => user.id === Number(item.studentId)).map( user => { return user.fname+' '+user.lname} );
