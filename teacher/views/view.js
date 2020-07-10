@@ -9,7 +9,7 @@
 
 const path = require('path');
 const fs = require('fs');
-const { thisWeek, thisDay, weekDates, weekDayNumber, formatDay, formatDate, weekDay, beforeToday, isActualWeek } = require('../../lib/dateJuggler');
+const { thisWeek, thisDay, weekDates, weekDayNumber, formatDay, formatDate, weekDay, beforeToday, isActualWeek, dateIsRecent } = require('../../lib/dateJuggler');
 const { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers, usersOnline } = require('../../models/model-user');
 const getRER = require('../../lib/getRecentExerciseReturns');
 
@@ -79,7 +79,7 @@ function returnedExercises (allGroups, courses) {
   let returnHtml = '';
   allGroups.forEach( group => {
     returnHtml += `<h5>Klasse: ${group}:</h5><ul>`;
-    returnHtml += getRER(group, courses).map( item => helperListitem(item, group)).join('');
+    returnHtml += getRER(group, courses).filter( item => dateIsRecent(item.birthtime, 3)).map( item => helperListitem(item, group)).join('');
     returnHtml += `</ul>`;
   });
   return returnHtml;
