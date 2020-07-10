@@ -36,11 +36,6 @@ function displayLessons (group, courses) {
           <div class="d-flex justify-content-between">
             <div><strong>${item.lesson}</strong>: ${item.chapter} <span class="text-muted">(${item.validFrom} – ${item.validUntil})</span></div>
             <div class="d-flex justify-content-end">
-              <form action="/delete" method="post">
-                <input type="text" name="id" class="d-none" hidden value="${item.id}" />
-                <input type="text" name="group" class="d-none" hidden value="${group}" />
-                <button type="submit" class="btn btn-sm btn-danger" onclick="confirmDelete(this.form.name, \'delete\')" disabled>Delete</button>
-              </form>
               <a href="/edit/${group}/${item.id}" class="btn btn-sm bg-grey ml-3">Edit</a>
               <a data-toggle="collapse" href="#lesson-homework-${group}-${item.id}" class="btn btn-sm btn-primary ml-3">Homework</a>
             </div>
@@ -66,11 +61,15 @@ function displayLessons (group, courses) {
 }
 
 function helperListitem (item, group) {
-  let filePath = path.join(group, 'courses', item.course, item.lessonId, 'homework', item.studentId);
-  let curStudent = getAllUsers(group).filter( user => user.id === Number(item.studentId)).map( user => { return user.fname+' '+user.lname} );
-  return `
-    <li><div class="d-flex justify-content-between text-truncate"><a href="${path.join('/data/classes/', filePath, item.files[0])}" target="_blank">${item.course} (${item.lessonId}): ${item.files[0]} (${curStudent})</a></li>
-  `;
+  if (item.files.length > 0) {
+    let filePath = path.join(group, 'courses', item.course, item.lessonId, 'homework', item.studentId);
+    let curStudent = getAllUsers(group).filter( user => user.id === Number(item.studentId)).map( user => { return user.fname+' '+user.lname} );
+    return `
+      <li><div class="d-flex justify-content-between text-truncate"><a href="${path.join('/data/classes/', filePath, item.files[0])}" target="_blank">${curStudent}: ${item.files[0]}</a></li>
+    `;
+  } else {
+    return '';
+  }
 }
 
 

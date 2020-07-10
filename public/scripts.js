@@ -27,10 +27,10 @@ function sendEmail (email) {
 
 // Add "Are you sure?"-Alert to delete-buttons
 function confirmDelete (id, action) {
-  //console.log(id);
+  //console.log(id+':'+action);
   let confirmQuestion = 'Are you sure, you want to delete this item?';
   if (confirm(confirmQuestion)) {
-    $('#'+id + ' .form_action').attr('value', action);
+    $('#'+id).attr('action', action);
     $('#'+id).submit();
   }
 };

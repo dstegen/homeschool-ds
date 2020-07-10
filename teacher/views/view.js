@@ -78,19 +78,29 @@ function studentsOnline (allGroups) {
 function returnedExercises (allGroups, courses) {
   let returnHtml = '';
   allGroups.forEach( group => {
-    returnHtml += `<h5>Klasse: ${group}:</h5><ul>`;
-    returnHtml += getRER(group, courses).filter( item => dateIsRecent(item.birthtime, 3)).map( item => helperListitem(item, group)).join('');
-    returnHtml += `</ul>`;
+    try {
+      returnHtml += `<h5>Klasse: ${group}:</h5><ul>`;
+      returnHtml += getRER(group, courses).filter( item => dateIsRecent(item.birthtime, 3)).map( item => helperListitem(item, group)).join('');
+      returnHtml += `</ul>`;
+    } catch (e) {
+      console.log('- ERROR getting lates returned homeworks: '+e);
+    }
   });
   return returnHtml;
 }
 
 function helperListitem (item, group) {
-  let filePath = path.join(group, 'courses', item.course, item.lessonId, 'homework', item.studentId);
-  let curStudent = getAllUsers(group).filter( user => user.id === Number(item.studentId)).map( user => { return user.fname+' '+user.lname} );
-  return `
-    <li><div class="d-flex justify-content-between text-truncate"><a href="${path.join('/data/classes/', filePath, item.files[0])}" target="_blank">${item.course} (${item.lessonId}): ${item.files[0]} (${curStudent})</a></li>
-  `;
+  console.log(item);
+  if (item.files.length > 0) {
+    let filePath = path.join(group, 'courses', item.course, item.lessonId, 'homework', item.studentId);
+    let curStudent = getAllUsers(group).filter( user => user.id === Number(item.studentId)).map( user => { return user.fname+' '+user.lname} );
+    return `
+      <li><a href="/teacher/lessons/${group}/${item.lessonId}">${item.course} (${item.lessonId})</a>: <a href="${path.join('/data/classes/', filePath, item.files[0])}" target="_blank">${item.files[0]} (${curStudent})</a></li>
+    `;
+  } else {
+    return '';
+  }
+
 }
 
 
