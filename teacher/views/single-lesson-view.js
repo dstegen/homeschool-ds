@@ -10,6 +10,7 @@
 const path = require('path');
 const { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers } = require('../../models/model-user');
 const { getLessons } = require('../../models/model-lessons');
+const { workdaysBetween } = require('../../lib/dateJuggler');
 const getFilesList = require('../../lib/getFilesList');
 const getRER = require('../../lib/getRecentExerciseReturns');
 
@@ -22,11 +23,13 @@ function teacherLessonsView (teacher, urlPath) {
     return `
       <div id="lesson" class="container my-3 p-3 border collapse show" data-parent="#homeschool-ds">
         <h2 class="d-flex justify-content-between"><span>${item.lesson}: ${item.chapter}</span><span>${group}</span></h2>
-        <span class="text-muted">(${item.validFrom} – ${item.validUntil})</span>
-        <hr />
         <div class="d-flex justify-content-between">
-          <span>${item.details}</span>
+          <span class="text-muted">Umfang: ${workdaysBetween(item.validFrom, item.validUntil, item.weekdays)} Stunden (${item.validFrom} – ${item.validUntil})</span>
           <a href="/edit/${group}/${item.id}" class="btn btn-sm bg-grey ml-3">Edit</a>
+        </div>
+        <hr />
+        <div class="mb-3">
+          <span class="details-box px-2 py-1">${item.details}</span>
         </div>
 
         <span>Downloads:</span>
@@ -53,7 +56,7 @@ function helperListitem (item, group) {
     let filePath = path.join(group, 'courses', item.course, item.lessonId, 'homework', item.studentId);
     let curStudent = getAllUsers(group).filter( user => user.id === Number(item.studentId)).map( user => { return user.fname+' '+user.lname} );
     return `
-      <li><div class="d-flex justify-content-between text-truncate"><a href="${path.join('/data/classes/', filePath, item.files[0])}" target="_blank">${curStudent}: ${item.files[0]}</a></li>
+      <li><div class="d-flex justify-content-between text-truncate"><a href="${path.join('/data/classes/', filePath, item.files[0])}" target="_blank">${curStudent}: ${item.files[0]}</a><span class="checkmark-ok">&#10003;</span> </li>
     `;
   } else {
     return '';
