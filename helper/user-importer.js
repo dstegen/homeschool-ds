@@ -7,24 +7,23 @@
 
 'use strict';
 
-let startId = 100001;
+let startId = 100100;
 
-function createUserListFromNames(namesList, users) {
-  let userList = [];
+function createUserListFromNames(namesList, users=[], group='7A1') {
   namesList.forEach( name => {
     let tmpObj = {};
     tmpObj.userId = name.toLowerCase().replace(' ','.')+'@me.com';
     tmpObj.id = getNextUserId(users);
     tmpObj.password = '$2a$10$Lcj1Cq9ldWV4bKrnxzVHqe1uDQwvleEQi1V5pHBcWJqRQDulOFtFa';
     tmpObj.role = 'student';
-    tmpObj.group = '7A1';
+    tmpObj.group = group;
     tmpObj.fname = name.split(' ')[0];
     tmpObj.lname = name.split(' ')[1];
     tmpObj.email = name.toLowerCase().replace(' ','.')+'@me.com';
     tmpObj.phone = '+49 '+getRandomInt(123456789, 987654321);
-    userList.push(tmpObj);
+    users.push(tmpObj);
   });
-  return userList;
+  return users;
 }
 
 

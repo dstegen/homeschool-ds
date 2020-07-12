@@ -12,6 +12,7 @@ const path = require('path');
 const fs = require('fs');
 const moment = require('moment');
 const readline = require('readline');
+const cl = require('./user-importer');
 
 let rl = readline.createInterface({
   input: process.stdin,
@@ -22,7 +23,7 @@ const schoolConfig = {
   "name": "My School"
 };
 
-const users = {
+let users = {
   "users": [
     {
       "id": 100000,
@@ -57,6 +58,13 @@ const users = {
       "email": "dm@me.com"
     }
   ]
+}
+
+try {
+  let namesList = fs.readFileSync(path.join(__dirname, '../helper/names_int.csv')).toString().split('\n');
+  users.users = cl(namesList, users.users, '7A');
+} catch (e) {
+  console.log('- ERROR couldn\'t extend users: '+e);
 }
 
 const classConfig = {
