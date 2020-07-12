@@ -9,7 +9,7 @@
 
 const path = require('path');
 const fs = require('fs');
-const { thisWeek, thisDay, weekDates, weekDayNumber, formatDay, formatDate, weekDay, beforeToday, isActualWeek, momentFromDay } = require('../../lib/dateJuggler');
+const { thisWeek, thisDay, weekDates, weekDayNumber, formatDay, formatDate, weekDay, beforeToday, isActualWeek, momentFromDay, workdaysBetween, dateIsRecent, beforeFinishDate } = require('../../lib/dateJuggler');
 const getFilesList = require('../../lib/getFilesList');
 let lessonsConfig = {};
 
@@ -51,7 +51,8 @@ function helperLessonBig (lessonObj, curWeekDay, curDay, myGroup, studentId) {
     return `
       <div class="card lessonbig ${lessonColor} mt-2 text-left">
         <div id="lessonbig-${lessonObj.id}${curWeekDay}" class="card-header d-flex justify-content-between" onclick="$('#lessonbig-details-${lessonObj.id}${curWeekDay}').collapse('toggle');">
-          <span>${lessonObj.lesson}: ${lessonObj.chapter}</span>${lessonObj.lessonFinished.includes(studentId)?'<span class="checkmark-ok-grey">&#10003;</span>':''}
+          <span>${lessonObj.lesson}: ${lessonObj.chapter}</span>
+          ${lessonIndicator(myGroup, lessonObj, studentId, curDay)}
         </div>
         <div id="lessonbig-details-${lessonObj.id}${curWeekDay}" class="card-body collapse" data-parent="#today">
           <strong class="card-title">Aufgabe:</strong>
@@ -115,7 +116,7 @@ function helperUpload (myGroup, lessonObj, studentId, curDay) {
   }
 }
 
-function helperFinishButton (myGroup, lessonObj,studentId, curDay) {
+function helperFinishButton (myGroup, lessonObj, studentId, curDay) {
   if (lessonObj.lessonFinished.includes(studentId)) {
     return '';
   } else {
@@ -129,6 +130,16 @@ function helperFinishButton (myGroup, lessonObj,studentId, curDay) {
         <button type="submit" class="btn btn-success">Finished</button>
       </form>
     `;
+  }
+}
+
+function lessonIndicator (myGroup, lessonObj, studentId, curDay) {
+  if (lessonObj.lessonFinished.includes(studentId)) {
+    return '<span class="checkmark-ok-grey">&#10003;</span>';
+  } else {
+    let lessonsTotal = workdaysBetween(lessonObj.validFrom, lessonObj.validUntil, lessonObj.weekdays);
+    let lessonsLeft = lessonsTotal + 1 - workdaysBetween(momentFromDay(curDay), lessonObj.validUntil, lessonObj.weekdays);
+    return `${lessonsLeft}/${lessonsTotal}`;
   }
 }
 

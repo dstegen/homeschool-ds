@@ -8,7 +8,7 @@
 'use strict';
 
 const path = require('path');
-const { thisWeek } = require('../../lib/dateJuggler');
+const { thisWeek, notValid } = require('../../lib/dateJuggler');
 const { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers } = require('../../models/model-user');
 const { getLessons } = require('../../models/model-lessons');
 const getRER = require('../../lib/getRecentExerciseReturns');
@@ -38,11 +38,11 @@ function displayLessons (group, courses) {
   lessons.forEach( item => {
     if (courses.includes(item.lesson) || courses[0] === 'all') {
       returnHtml += `
-        <div class="border p-2 mb-2 ">
+        <div class="border p-2 mb-2 ${notValid(item.validUntil) ? 'details-box' : ''}">
           <div class="d-flex justify-content-between">
             <div><strong>${item.lesson}</strong>: ${item.chapter} <span class="text-muted">(${item.validFrom} – ${item.validUntil})</span></div>
             <div class="d-flex justify-content-end">
-              <a href="/edit/${group}/${item.id}" class="btn btn-sm bg-grey ml-3">Edit</a>
+              <a href="/edit/${group}/${item.id}" class="btn btn-sm bg-grey ml-3 ${notValid(item.validUntil) ? 'd-none' : ''}">Edit</a>
               <a data-toggle="collapse" href="#lesson-homework-${group}-${item.id}" class="btn btn-sm btn-primary ml-3">Homework</a>
               <a href="/teacher/lessons/${group}/${item.id}" class="btn btn-sm btn-secondary ml-3">Details</a>
             </div>

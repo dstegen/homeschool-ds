@@ -37,6 +37,7 @@ function updateLesson(fields) {
     // add
     let newItem = {};
     newItem.id = getNewId(myLessons);
+    newItem.lessonFinished = [];
     Object.keys(fields).forEach( key => {
       if (key !== 'id' && key !== 'group') {
         if (key === 'weekdays') {

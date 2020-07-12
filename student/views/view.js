@@ -8,7 +8,7 @@
 'use strict';
 
 const path = require('path');
-const { thisWeek, thisDay, weekDates, weekDayNumber, formatDay, formatDate, weekDay, beforeToday, isActualWeek } = require('../../lib/dateJuggler');
+const { thisWeek, thisDay, weekDates, weekDayNumber, formatDay, formatDate, weekDay, beforeToday, isActualWeek, beforeFinishDate } = require('../../lib/dateJuggler');
 const { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers, usersOnline } = require('../../models/model-user');
 let lessonsConfig = {};
 
@@ -28,12 +28,13 @@ function studentView (myLessons, myGroup, curWeek=thisWeek(), user={}) {
           <div class="border py-2 px-3 mb-3">
             <h4>Hallo ${user.fname},</h4>
             <p>
-              heute is ${weekDay()} und du hast <strong>${helperLessonsCount(myLessons, weekDayNumber(), curWeek)} Stunden</strong>:
+              heute ist ${formatDay()} und du hast <strong>${helperLessonsCount(myLessons, weekDayNumber(), curWeek)} Stunde/n</strong>:
             </p>
             <ul>
               ${myLessons.map(lesson => helperLessonsToday(lesson, weekDayNumber(), curWeek)).join('')}
             </ul>
-            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+            <br /><br />
+            ${helperLessonsNotFinished(myLessons, curWeek, user.id)}
           </div>
         </div>
         <div class="col-12 col-md-6">
@@ -81,5 +82,29 @@ function helperLessonsToday (lessonObj, curWeekDay, curWeek) {
   return returnHtml;
 }
 
+function helperLessonsNotFinished (myLessons, curWeek, studentId) {
+  let counter = 0;
+  let returnHtml = '';
+  myLessons.forEach( lessonObj => {
+    if (!lessonObj.lessonFinished.includes(studentId) && isActualWeek(lessonObj.validFrom, lessonObj.validUntil, curWeek) && beforeFinishDate(lessonObj.validUntil)) {
+      returnHtml += `<li>${lessonObj.lesson}: ${lessonObj.chapter} (Abgabe: ${formatDay(thisDay(lessonObj.validUntil))})</li>`;
+      counter++;
+    } else if (!lessonObj.lessonFinished.includes(studentId) && !isActualWeek(lessonObj.validFrom, lessonObj.validUntil, curWeek)) {
+      returnHtml += `<li>${lessonObj.lesson}: ${lessonObj.chapter} (Abgabe: ${formatDay(thisDay(lessonObj.validUntil))})</li>`;
+      counter++;
+    }
+  });
+  if (counter > 0) {
+    return `<p class="text-danger">
+              Du hast <strong>${counter}</strong> Stunde/n <strong>noch nicht</strong> abgeschlossen:
+            </p>
+            <ul>
+              ${returnHtml}
+            </ul>
+            `;
+  } else {
+    return '';
+  }
+}
 
 module.exports = studentView;
