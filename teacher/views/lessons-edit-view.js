@@ -63,12 +63,13 @@ function formInputs (itemObj, courses) {
     validFrom: 'date',
     validUntil: 'date',
     lesson: 'select',
-    details: 'textarea'
+    details: 'textarea',
+    returnHomework: 'select2'
   }
   let returnHtml = '';
   if (Object.keys(itemObj).length > 0) {
     Object.keys(itemObj).forEach( key => {
-      if (key !== 'id') {
+      if (key !== 'id' && key !== 'lessonFinished') {
         returnHtml += `<div class="form-group row mb-1">`;
         switch (fieldTypes[key]) {
           case 'checkbox':
@@ -106,7 +107,7 @@ function formInputs (itemObj, courses) {
             returnHtml += `
               <label for="${key}-field" class="col-sm-2 col-form-label text-right">${key}</label>
               <div class="col-sm-7">
-                <select class="form-control form-control-sm" id="${key}-field" name="${key}" required  ${itemObj.id !== '' ? 'disabled' : ''}>
+                <select class="form-control form-control-sm" id="${key}-field" name="${key}" required ${itemObj.id !== '' ? 'disabled' : ''}>
                   <option></option>
             `;
             lessonsConfig.courses.map( item => { return item.name; }).forEach( item => {
@@ -115,6 +116,17 @@ function formInputs (itemObj, courses) {
               }
             });
             returnHtml += `
+                </select>
+              </div>
+            `;
+            break;
+          case 'select2':
+            returnHtml += `
+              <label for="${key}-field" class="col-sm-2 col-form-label text-right">${key}</label>
+              <div class="col-sm-7">
+                <select class="form-control form-control-sm" id="${key}-field" name="${key}" required>
+                  <option ${itemObj.returnHomework === 'false'?'selected':''}>false</option>
+                  <option ${itemObj.returnHomework === 'true'?'selected':''}>true</option>
                 </select>
               </div>
             `;

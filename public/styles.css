@@ -159,6 +159,14 @@ a, a:focus, a:hover {
   border-radius: 0.25rem;
 }
 
+.checkmark-ok-grey {
+  content: '✓'; /* '&#10003;';*/
+  font-weight: bold;
+  padding: 0 0.5rem;
+  border-radius: 0.25rem;
+  border: 1px solid;
+}
+
 .checkmark-missing {
   content: '⨯'; /* '&#10799;';*/
   color: white;

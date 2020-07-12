@@ -50,8 +50,8 @@ function helperLessonBig (lessonObj, curWeekDay, curDay, myGroup, studentId) {
   if (lessonObj.weekdays.includes(curWeekDay) && isActualWeek(lessonObj.validFrom, lessonObj.validUntil, weekNumber)) {
     return `
       <div class="card lessonbig ${lessonColor} mt-2 text-left">
-        <div id="lessonbig-${lessonObj.id}${curWeekDay}" class="card-header" onclick="$('#lessonbig-details-${lessonObj.id}${curWeekDay}').collapse('toggle');">
-          ${lessonObj.lesson}: ${lessonObj.chapter}
+        <div id="lessonbig-${lessonObj.id}${curWeekDay}" class="card-header d-flex justify-content-between" onclick="$('#lessonbig-details-${lessonObj.id}${curWeekDay}').collapse('toggle');">
+          <span>${lessonObj.lesson}: ${lessonObj.chapter}</span>${lessonObj.lessonFinished.includes(studentId)?'<span class="checkmark-ok-grey">&#10003;</span>':''}
         </div>
         <div id="lessonbig-details-${lessonObj.id}${curWeekDay}" class="card-body collapse" data-parent="#today">
           <strong class="card-title">Aufgabe:</strong>
@@ -60,33 +60,8 @@ function helperLessonBig (lessonObj, curWeekDay, curDay, myGroup, studentId) {
           <ul class="text-truncate">
             ${getFilesList(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString(), 'material')).map(item => helperListitem(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString(), 'material'), item)).join('')}
           </ul>
-          <hr />
-          <strong class="card-title">Uploads:</strong>
-          <ul class="text-truncate">
-            ${getFilesList(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString(), 'homework', studentId.toString())).map(item => helperListitem(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString(), 'homework', studentId.toString()), item, true, curDay)).join('')}
-          </ul>
-          <form class="row my-3 p-2 mx-0 align-item-center" action="/fileupload" method="post" enctype="multipart/form-data">
-            <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">
-            <input type="text" readonly class="d-none" id="course" name="course" value="${lessonObj.lesson}">
-            <input type="text" readonly class="d-none" id="courseId" name="courseId" value="${lessonObj.id}">
-            <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/student/day/${curDay}">
-            <div class="custom-file col-sm-9">
-              <input type="file" class="custom-file-input" id="filetoupload-${lessonObj.id}" name="filetoupload">
-              <label class="custom-file-label" for="filetoupload-${lessonObj.id}">Datei wählen...</label>
-              <div class="invalid-feedback">Ups, da gab es einen Fehler</div>
-            </div>
-            <div class="col-sm-3">
-              <button type="submit" class="btn btn-primary">Upload</button>
-            </div>
-          </form>
-          <hr />
-          <form class="my-3 p-2 mx-0 text-right" action="/lessonfinished" method="post" enctype="multipart/form-data">
-            <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">
-            <input type="text" readonly class="d-none" id="courseId" name="courseId" value="${lessonObj.id}">
-            <input type="text" readonly class="d-none" id="studentId" name="studentId" value="${studentId}">
-            <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/student/day/${curDay}">
-            <button type="submit" class="btn btn-success">Finished</button>
-          </form>
+          ${helperUpload(myGroup, lessonObj, studentId, curDay)}
+          ${helperFinishButton(myGroup, lessonObj,studentId, curDay)}
         </div>
       </div>
     `;
@@ -110,6 +85,51 @@ function helperListitem (filePath, item, deleteable=false, curDay='') {
   return `
     <li><div class="d-flex justify-content-between text-truncate"><a href="${path.join('/data/classes/', filePath, item)}" target="_blank">${item}</a>${delButton}</div></li>
   `;
+}
+
+function helperUpload (myGroup, lessonObj, studentId, curDay) {
+  if (lessonObj.returnHomework === 'true') {
+    return `
+      <hr />
+      <strong class="card-title">Uploads:</strong>
+      <ul class="text-truncate">
+        ${getFilesList(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString(), 'homework', studentId.toString())).map(item => helperListitem(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString(), 'homework', studentId.toString()), item, true, curDay)).join('')}
+      </ul>
+      <form class="row my-3 p-2 mx-0 align-item-center" action="/fileupload" method="post" enctype="multipart/form-data">
+        <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">
+        <input type="text" readonly class="d-none" id="course" name="course" value="${lessonObj.lesson}">
+        <input type="text" readonly class="d-none" id="courseId" name="courseId" value="${lessonObj.id}">
+        <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/student/day/${curDay}">
+        <div class="custom-file col-sm-9">
+          <input type="file" class="custom-file-input" id="filetoupload-${lessonObj.id}" name="filetoupload">
+          <label class="custom-file-label" for="filetoupload-${lessonObj.id}">Datei wählen...</label>
+          <div class="invalid-feedback">Ups, da gab es einen Fehler</div>
+        </div>
+        <div class="col-sm-3 px-0 text-right">
+          <button type="submit" class="btn btn-primary">Upload</button>
+        </div>
+      </form>
+    `;
+  } else {
+    return '';
+  }
+}
+
+function helperFinishButton (myGroup, lessonObj,studentId, curDay) {
+  if (lessonObj.lessonFinished.includes(studentId)) {
+    return '';
+  } else {
+    return `
+      <hr />
+      <form class="my-3 p-2 mx-0 text-right" action="/lessonfinished" method="post" enctype="multipart/form-data">
+        <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">
+        <input type="text" readonly class="d-none" id="courseId" name="courseId" value="${lessonObj.id}">
+        <input type="text" readonly class="d-none" id="studentId" name="studentId" value="${studentId}">
+        <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/student/day/${curDay}">
+        <button type="submit" class="btn btn-success">Finished</button>
+      </form>
+    `;
+  }
 }
 
 

@@ -25,7 +25,7 @@ const schoolConfig = {
 const users = {
   "users": [
     {
-      "id": 0,
+      "id": 100000,
       "userId": "ds@me.com",
       "password": "$2a$10$tyZ6UFV9NDkSxMM2AdvS0.br8pnPZot7aBFFE3rFczikFbDRFL5dC",
       "role": "teacher",
@@ -36,7 +36,7 @@ const users = {
       "email": "ds@me.com"
     },
     {
-      "id": 1,
+      "id": 100001,
       "userId": "ms@me.com",
       "password": "$2a$10$tyZ6UFV9NDkSxMM2AdvS0.br8pnPZot7aBFFE3rFczikFbDRFL5dC",
       "role": "teacher",
@@ -47,7 +47,7 @@ const users = {
       "email": "ms@me.com"
     },
     {
-      "id": 2,
+      "id": 100002,
       "userId": "dm@me.com",
       "password": "$2a$10$tyZ6UFV9NDkSxMM2AdvS0.br8pnPZot7aBFFE3rFczikFbDRFL5dC",
       "role": "student",
@@ -86,6 +86,7 @@ const myLessons = {
       "lesson": "Math",
       "chapter": "Functions",
       "details": "Introducting exponential functions",
+      "returnHomework": "true",
       "validFrom": moment().day(1).week(moment().isoWeek()).format('YYYY-MM-DD'),
       "validUntil": moment().day(7).week(moment().isoWeek()+4).format('YYYY-MM-DD'),
       "weekdays": [
@@ -93,13 +94,15 @@ const myLessons = {
         3,
         4,
         5
-      ]
+      ],
+      "lessonFinished": []
     },
     {
       "id": 1,
       "lesson": "English",
       "chapter": "past tens",
       "details": "Read the next chapter from the textbook.",
+      "returnHomework": "false",
       "validFrom": moment().day(7).week(moment().isoWeek()).format('YYYY-MM-DD'),
       "validUntil": moment().day(7).week(moment().isoWeek()+4).format('YYYY-MM-DD'),
       "weekdays": [
@@ -107,19 +110,22 @@ const myLessons = {
         2,
         4,
         5
-      ]
+      ],
+      "lessonFinished": []
     },
     {
       "id": 2,
       "lesson": "History",
       "chapter": "The Romans",
       "details": "Read the introduction from the history book page 70.",
+      "returnHomework": "false",
       "validFrom": moment().day(7).week(moment().isoWeek()).format('YYYY-MM-DD'),
       "validUntil": moment().day(7).week(moment().isoWeek()+4).format('YYYY-MM-DD'),
       "weekdays": [
         1,
         3
-      ]
+      ],
+      "lessonFinished": []
     }
   ]
 }

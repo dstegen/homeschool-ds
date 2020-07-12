@@ -7,7 +7,7 @@
 
 'use strict';
 
-let startId = 900001;
+let startId = 100001;
 
 function createUserListFromNames(namesList, users) {
   let userList = [];

@@ -91,7 +91,7 @@ function helperLesson (lessonObj, curDay, curWeek) {
   if (lessonObj.weekdays.includes(curDay) && isActualWeek(lessonObj.validFrom, lessonObj.validUntil, curWeek)) {
     return `
       <div class="card lesson ${lessonColor} mt-2 text-left">
-        <div id="lesson-${lessonObj.id}${curDay}" class="card-header px-2 py-1" onclick="$('#lesson-details-${lessonObj.id}${curDay}').collapse('toggle');">
+        <div id="lesson-${lessonObj.id}${curDay}" class="card-header px-2 py-1 text-truncate" onclick="$('#lesson-details-${lessonObj.id}${curDay}').collapse('toggle');">
           ${lessonObj.lesson}: ${lessonObj.chapter}
         </div>
         <div id="lesson-details-${lessonObj.id}${curDay}" class="card-body collapse px-2 py-1" data-parent="#week">
