@@ -1,5 +1,5 @@
 /*!
- * student/views/week-view.js
+ * student/views/timetable-view.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2020 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/webapputils-ds/blob/master/LICENSE)
@@ -8,24 +8,27 @@
 'use strict';
 
 const path = require('path');
-const { thisWeek, weekDates, weekDayNumber, formatDay, formatDate, weekDay, beforeToday, isActualWeek } = require('../../lib/dateJuggler');
+const { thisWeek, weekDates, weekDayNumber, formatDay, formatDate, weekDay, beforeToday, isActualWeek } = require('../lib/dateJuggler');
 let lessonsConfig = {};
 
 
-function studentView (myLessons, myGroup, curWeek=thisWeek()) {
-  lessonsConfig = require(path.join('../../data/classes/', myGroup,'/config.json'));
+function timetableView (myLessons, myGroup, curWeek=thisWeek()) {
+  lessonsConfig = require(path.join('../data/classes/', myGroup,'/config.json'));
   let todayOff = '';
   if (myLessons.filter( item => item.weekdays.includes(weekDayNumber())).length < 1) todayOff = `<span class="text-muted">- kein Unterricht -</span>`;
   return `
-  <div id="week" class="container my-3 p-3 border collapse show" data-parent="#homeschool-ds">
+  <div class="container mt-3 p-3">
+    <h4>Klasse: ${myGroup}</h4>
+  </div>
+  <div id="week" class="container mb-3 p-3 border collapse show" data-parent="#homeschool-ds">
     <div class="d-flex justify-content-between">
       <div class="d-md-flex">
         <h2>${curWeek}. Woche</h2>
         <span class="ml-md-3 mt-md-2">(${weekDates(curWeek)})</span>
       </div>
       <div class="mt-1">
-        <a href="/student/week/${curWeek-1}" class="btn-sm btn-primary">&nbsp;<<&nbsp;</a>
-        <a href="/student/week/${curWeek+1}" class="btn-sm btn-primary ml-3">&nbsp;>>&nbsp;</a>
+        <a href="/timetable/${myGroup}/${curWeek-1}" class="btn-sm btn-primary">&nbsp;<<&nbsp;</a>
+        <a href="/timetable/${myGroup}/${curWeek+1}" class="btn-sm btn-primary ml-3">&nbsp;>>&nbsp;</a>
       </div>
     </div>
     <hr />
@@ -103,4 +106,4 @@ function helperLesson (lessonObj, curDay, curWeek) {
 }
 
 
-module.exports = studentView;
+module.exports = timetableView;

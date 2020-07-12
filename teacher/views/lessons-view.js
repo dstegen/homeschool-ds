@@ -27,7 +27,13 @@ function teacherLessonsView (teacher) {
 // Additional functions
 
 function displayLessons (group, courses) {
-  let returnHtml = `<div class="mb-5"><h4>Klasse ${group}</h4>`;
+  let returnHtml = `
+      <div class="mb-5">
+        <div class="d-flex justify-content-between">
+          <h4>Klasse ${group}</h4>
+          <a href="/timetable/${group}">Timetable</a>
+        </div>
+          `;
   const lessons = getLessons(group);
   lessons.forEach( item => {
     if (courses.includes(item.lesson) || courses[0] === 'all') {

@@ -26,7 +26,12 @@ function teacherClassesView (teacher) {
 // Additional functions
 
 function displayClass (group) {
-  let returnHtml = `<h4 class="pt-3 pb-1 px-1">Klasse: ${group}</h4>`;
+  let returnHtml = `<div class="mb-5">
+    <div class="d-flex justify-content-between">
+      <h4>Klasse ${group}</h4>
+      <a href="/timetable/${group}">Timetable</a>
+    </div>
+    `;
   returnHtml += '<table class="table border"><tr><th>Nr.</th><th>Vorname</th><th>Nachname</th><th>Telefon</th></tr>';
   getAllUsers(group).filter( person => person.role === 'student').forEach((item, i) => {
     returnHtml += `
@@ -42,7 +47,7 @@ function displayClass (group) {
       </tr>`
   });
   returnHtml += `<tr class="d-none"><td class="text-right" colspan="5"><button class="btn-sm btn-primary" data-toggle="tooltip" data-placement="left" title="Add student"> + </button></td></tr>`;
-  returnHtml += '</table>'
+  returnHtml += '</table></div>'
   return returnHtml;
 }
 

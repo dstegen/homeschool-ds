@@ -28,7 +28,7 @@ function getNaviObj (role, loginname='') {
         },
         {
           name: 'this week',
-          link: '/student/week',
+          link: '/timetable',
           dropdown: false
         }
       ]
