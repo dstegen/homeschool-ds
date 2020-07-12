@@ -61,6 +61,16 @@ function deleteLesson (fields) {
   return myLessons;
 }
 
+function finishLesson (fields) {
+  //console.log(fields);
+  let myLessons = getLessons(fields.group);
+  let tmpList = myLessons.filter( item => item.id === Number(fields.courseId))[0].lessonFinished;
+  tmpList.push(Number(fields.studentId));
+  myLessons.filter( item => item.id === Number(fields.courseId))[0].lessonFinished = tmpList;
+  //myLessons.filter( item => item.id === fields.courseId)[0].lessonFinished.push(fields.studentId);
+  saveFile(myLessons, fields.group);
+  return myLessons;
+}
 
 // Additional functions
 
@@ -94,4 +104,4 @@ function getNewId (lessons) {
 }
 
 
-module.exports = { getLessons, updateLesson, deleteLesson };
+module.exports = { getLessons, updateLesson, deleteLesson, finishLesson };

@@ -68,7 +68,7 @@ function helperLessonBig (lessonObj, curWeekDay, curDay, myGroup, studentId) {
           <form class="row my-3 p-2 mx-0 align-item-center" action="/fileupload" method="post" enctype="multipart/form-data">
             <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">
             <input type="text" readonly class="d-none" id="course" name="course" value="${lessonObj.lesson}">
-            <input type="text" readonly class="d-none" id="course" name="courseId" value="${lessonObj.id}">
+            <input type="text" readonly class="d-none" id="courseId" name="courseId" value="${lessonObj.id}">
             <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/student/day/${curDay}">
             <div class="custom-file col-sm-9">
               <input type="file" class="custom-file-input" id="filetoupload-${lessonObj.id}" name="filetoupload">
@@ -78,6 +78,14 @@ function helperLessonBig (lessonObj, curWeekDay, curDay, myGroup, studentId) {
             <div class="col-sm-3">
               <button type="submit" class="btn btn-primary">Upload</button>
             </div>
+          </form>
+          <hr />
+          <form class="my-3 p-2 mx-0 text-right" action="/lessonfinished" method="post" enctype="multipart/form-data">
+            <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">
+            <input type="text" readonly class="d-none" id="courseId" name="courseId" value="${lessonObj.id}">
+            <input type="text" readonly class="d-none" id="studentId" name="studentId" value="${studentId}">
+            <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/student/day/${curDay}">
+            <button type="submit" class="btn btn-success">Finished</button>
           </form>
         </div>
       </div>
