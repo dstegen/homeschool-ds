@@ -29,9 +29,9 @@ function teacherView (teacher) {
             heute is ${weekDay()} und Sie haben <strong>27</strong> neue Nachrichten:
           </p>
           <ul>
-            <li>Verstehe Mathe nicht! (Mimi, 3C)</li>
-            <li>Hab keine lust zu lesen (Samuel, 3C)</li>
-            <li>Wann kann ich mehr Meinecraft spielen? (David, 7A1)</li>
+            <li>Verstehe Mathe nicht! (Michael, 3C)</li>
+            <li>Hab keine lust zu lesen (Sam, 3C)</li>
+            <li>Wann kann ich mehr Meinecraft spielen? (Dave, 7A1)</li>
             <li>...</li>
           </ul>
           <br /><br /><br /><br /><br /><br />
@@ -94,7 +94,7 @@ function helperListitem (item, group) {
     let filePath = path.join(group, 'courses', item.course, item.lessonId, 'homework', item.studentId);
     let curStudent = getAllUsers(group).filter( user => user.id === Number(item.studentId)).map( user => { return user.fname+' '+user.lname} );
     return `
-      <li><a href="/teacher/lessons/${group}/${item.lessonId}">${item.course} (${item.lessonId})</a> : <a href="${path.join('/data/classes/', filePath, item.files[0])}" target="_blank">${item.files[0]} (${curStudent})</a></li>
+      <li><a href="/teacher/lessons/${group}/${item.lessonId}" class="orange">${item.course} (${item.lessonId})</a> : <a href="${path.join('/data/classes/', filePath, item.files[0])}" class="orange" target="_blank">${item.files[0]} (${curStudent})</a></li>
     `;
   } else {
     return '';
