@@ -90,13 +90,13 @@ const classConfig = {
 const myLessons = {
   "lessons": [
     {
-      "id": 0,
+      "id": 700000,
       "lesson": "Math",
       "chapter": "Functions",
       "details": "Introducting exponential functions",
       "returnHomework": "true",
       "validFrom": moment().day(1).week(moment().isoWeek()).format('YYYY-MM-DD'),
-      "validUntil": moment().day(7).week(moment().isoWeek()+4).format('YYYY-MM-DD'),
+      "validUntil": moment().day(7).week(moment().isoWeek()+1).format('YYYY-MM-DD'),
       "weekdays": [
         1,
         3,
@@ -106,13 +106,13 @@ const myLessons = {
       "lessonFinished": []
     },
     {
-      "id": 1,
+      "id": 700001,
       "lesson": "English",
       "chapter": "past tens",
       "details": "Read the next chapter from the textbook.",
       "returnHomework": "false",
       "validFrom": moment().day(7).week(moment().isoWeek()).format('YYYY-MM-DD'),
-      "validUntil": moment().day(7).week(moment().isoWeek()+4).format('YYYY-MM-DD'),
+      "validUntil": moment().day(7).week(moment().isoWeek()+2).format('YYYY-MM-DD'),
       "weekdays": [
         1,
         2,
@@ -122,7 +122,7 @@ const myLessons = {
       "lessonFinished": []
     },
     {
-      "id": 2,
+      "id": 700002,
       "lesson": "History",
       "chapter": "The Romans",
       "details": "Read the introduction from the history book page 70.",
@@ -132,6 +132,22 @@ const myLessons = {
       "weekdays": [
         1,
         3
+      ],
+      "lessonFinished": []
+    },
+    {
+      "id": 700003,
+      "lesson": "Math",
+      "chapter": "Functions II",
+      "details": "Exponential functions II",
+      "returnHomework": "true",
+      "validFrom": moment().day(1).week(moment().isoWeek()+1).format('YYYY-MM-DD'),
+      "validUntil": moment().day(7).week(moment().isoWeek()+2).format('YYYY-MM-DD'),
+      "weekdays": [
+        1,
+        3,
+        4,
+        5
       ],
       "lessonFinished": []
     }
