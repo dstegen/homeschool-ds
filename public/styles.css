@@ -9,8 +9,13 @@ body {
   background-color: var(--bg-color);
 }
 
-a, a:focus, a:hover {
-  color: #f96332;
+a {
+  color: var(--color);
+}
+
+a:focus, a:hover {
+  color: var(--color);
+  text-decoration: underline;
 }
 
 .bg-secondary {

@@ -28,10 +28,13 @@ function studentDayView (myLessons, myGroup, curDay=thisDay(), studentId) {
         </div>
       </div>
       <hr />
-      <div class="row text-center">
-        <div class="col-6 border-right">
+      <div class="row">
+        <div class="col-12 col-md-6 border-right">
           ${myLessons.map(lesson => helperLessonBig(lesson, weekDayNumber(curDay), curDay, myGroup, studentId)).join('')}
           ${todayOff}
+        </div>
+        <div class="col-12 col-md-6">
+          ${helperLessonsNotFinished(myLessons, weekDayNumber(curDay), curDay, myGroup, studentId)}
         </div>
       </div>
     </div>
@@ -40,6 +43,24 @@ function studentDayView (myLessons, myGroup, curDay=thisDay(), studentId) {
 
 
 // Additional functions
+
+function helperLessonsNotFinished (myLessons, curWeekDay, curDay, myGroup, studentId) {
+  let returnHtml = '<h6 class="text-center text-danger my-4">Noch nicht abgeschlossene Stunden:</h6>'
+  let counter = 0;
+  let curWeek = thisWeek(momentFromDay(curDay));
+  let lessonsList = [];
+  myLessons.forEach( lessonObj => {
+    if (!lessonObj.lessonFinished.includes(studentId) && !isActualWeek(lessonObj.validFrom, lessonObj.validUntil, curWeek) && !beforeFinishDate(lessonObj.validUntil)) {
+      returnHtml += lessonBigCart(lessonObj, curWeekDay, curDay, myGroup, studentId);
+      counter++;
+    }
+  });
+  if (counter > 0) {
+    return returnHtml;
+  } else {
+    return '';
+  }
+}
 
 function helperLessonBig (lessonObj, curWeekDay, curDay, myGroup, studentId) {
   let lessonColor = '';
@@ -69,6 +90,31 @@ function helperLessonBig (lessonObj, curWeekDay, curDay, myGroup, studentId) {
   } else {
     return '';
   }
+}
+
+function lessonBigCart (lessonObj, curWeekDay, curDay, myGroup, studentId) {
+  let lessonColor = '';
+  if (lessonsConfig.courses.filter( item => item.name === lessonObj.lesson).length > 0) {
+    lessonColor = lessonsConfig.courses.filter( item => item.name === lessonObj.lesson)[0].color;
+  }
+  return `
+    <div class="card lessonbig ${lessonColor} mt-2 text-left">
+      <div id="lessonbig-${lessonObj.id}${curWeekDay}" class="card-header d-flex justify-content-between" onclick="$('#lessonbig-details-${lessonObj.id}${curWeekDay}').collapse('toggle');">
+        <span>${lessonObj.lesson}: ${lessonObj.chapter}</span>
+        Abgabe: ${formatDay(thisDay(lessonObj.validUntil))}
+      </div>
+      <div id="lessonbig-details-${lessonObj.id}${curWeekDay}" class="card-body collapse" data-parent="#today">
+        <strong class="card-title">Aufgabe:</strong>
+        <p class="card-text">${lessonObj.details}</p>
+        <strong class="card-title">Downloads:</strong>
+        <ul class="text-truncate">
+          ${getFilesList(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString(), 'material')).map(item => helperListitem(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString(), 'material'), item)).join('')}
+        </ul>
+        ${helperUpload(myGroup, lessonObj, studentId, curDay)}
+        ${helperFinishButton(myGroup, lessonObj,studentId, curDay)}
+      </div>
+    </div>
+  `;
 }
 
 function helperListitem (filePath, item, deleteable=false, curDay='') {

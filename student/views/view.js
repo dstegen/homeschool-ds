@@ -77,7 +77,7 @@ function helperLessonsCount (myLessons, curWeekDay, curWeek) {
 function helperLessonsToday (lessonObj, curWeekDay, curWeek) {
   let returnHtml = '';
   if (lessonObj.weekdays.includes(curWeekDay) && isActualWeek(lessonObj.validFrom, lessonObj.validUntil, curWeek)) {
-    returnHtml = `<li>${lessonObj.lesson}: ${lessonObj.chapter}</li>`;
+    returnHtml = `<li><a href="/student/day">${lessonObj.lesson}: ${lessonObj.chapter}</a></li>`;
   }
   return returnHtml;
 }
@@ -87,10 +87,10 @@ function helperLessonsNotFinished (myLessons, curWeek, studentId) {
   let returnHtml = '';
   myLessons.forEach( lessonObj => {
     if (!lessonObj.lessonFinished.includes(studentId) && isActualWeek(lessonObj.validFrom, lessonObj.validUntil, curWeek) && beforeFinishDate(lessonObj.validUntil)) {
-      returnHtml += `<li>${lessonObj.lesson}: ${lessonObj.chapter} (Abgabe: ${formatDay(thisDay(lessonObj.validUntil))})</li>`;
+      returnHtml += `<li><a href="/student/day">${lessonObj.lesson}: ${lessonObj.chapter} (Abgabe: ${formatDay(thisDay(lessonObj.validUntil))})</a></li>`;
       counter++;
     } else if (!lessonObj.lessonFinished.includes(studentId) && !isActualWeek(lessonObj.validFrom, lessonObj.validUntil, curWeek)) {
-      returnHtml += `<li>${lessonObj.lesson}: ${lessonObj.chapter} (Abgabe: ${formatDay(thisDay(lessonObj.validUntil))})</li>`;
+      returnHtml += `<li><a href="/student/day">${lessonObj.lesson}: ${lessonObj.chapter} (Abgabe: ${formatDay(thisDay(lessonObj.validUntil))})</a></li>`;
       counter++;
     }
   });
