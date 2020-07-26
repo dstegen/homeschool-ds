@@ -9,7 +9,8 @@
 
 const school = require('../../data/school/config.json');
 
-function getNaviObj (role, loginname='') {
+function getNaviObj (role, loginname='', myGroup=[]) {
+  let lessonsDropdown = [];
   switch (role) {
     case 'student':
     return {
@@ -34,6 +35,20 @@ function getNaviObj (role, loginname='') {
       ]
     };
     case 'teacher':
+    lessonsDropdown = [
+      {
+        name: 'Overview',
+        link: '/teacher/lessons'
+      }
+    ]
+    for (let i=0; i<myGroup.length; i++) {
+      lessonsDropdown.push(
+        {
+          name: '+ New Lesson '+myGroup[i],
+          link: '/edit/'+myGroup[i]
+        }
+      )
+    }
     return {
       school: school.name,
       loginname: 'Teacher: '+loginname,
@@ -50,8 +65,9 @@ function getNaviObj (role, loginname='') {
         },
         {
           name: 'lessons',
-          link: '/teacher/lessons',
-          dropdown: false
+          link: '#',
+          dropdown: true,
+          dropdownItems: lessonsDropdown
         }
       ]
     };

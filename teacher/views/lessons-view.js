@@ -31,14 +31,17 @@ function displayLessons (group, courses) {
       <div class="mb-5">
         <div class="d-flex justify-content-between">
           <h4>Klasse ${group}</h4>
-          <a href="/timetable/${group}">Timetable</a>
+          <span>
+            <a href="#" onclick="$('.details-box').removeClass('d-none');">Show archived lessons</a>
+            <a href="/timetable/${group}">Timetable</a>
+          </span>
         </div>
           `;
   const lessons = getLessons(group);
   lessons.forEach( item => {
     if (courses.includes(item.lesson) || courses[0] === 'all') {
       returnHtml += `
-        <div class="border p-2 mb-2 ${notValid(item.validUntil) ? 'details-box' : ''}">
+        <div class="border p-2 mb-2 ${notValid(item.validUntil) ? 'details-box d-none' : ''}">
           <div class="d-flex justify-content-between">
             <div><strong>${item.lesson}</strong>: ${item.chapter} <span class="text-muted">(${item.validFrom} – ${item.validUntil})</span></div>
             <div class="d-flex justify-content-end">

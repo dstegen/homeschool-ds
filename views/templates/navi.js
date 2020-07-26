@@ -90,9 +90,11 @@ function helperDropdown (dropdownItem) {
   if (dropdownItem.subCat) slavePadding = ' pl-4';
   let borderTop = '';
   if (dropdownItem.link.includes('new')) borderTop = 'border-top';
+  let onClick = '';
+  if (dropdownItem.link.includes('#')) onClick = `data-toggle="collapse" onclick="$('${dropdownItem.link}').collapse('toggle');"`;
   return `
     <div class="nav-item ${borderTop}">
-      <a class="nav-link text-capitalize text-dark${slavePadding}" data-toggle="collapse" href="${dropdownItem.link}" onclick="$('${dropdownItem.link}').collapse('toggle');">
+      <a class="nav-link text-capitalize text-dark ${slavePadding}" href="${dropdownItem.link}" ${onClick}>
         ${dropdownItem.name}
       </a>
     </div>
