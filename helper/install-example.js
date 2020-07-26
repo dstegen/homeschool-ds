@@ -160,6 +160,7 @@ rl.on('line', function (input) {
     console.log('\n+ Installing the demo...');
     createDir('/data');
     createDir('/data/school');
+    createDir('/data/school/pics');
     createDir('/data/classes');
     createDir('/data/classes/7A');
     saveFile('/data/school/config.json', schoolConfig);
