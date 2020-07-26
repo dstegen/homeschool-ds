@@ -154,6 +154,14 @@ const myLessons = {
   ]
 }
 
+const myChat = [
+    {
+      "chaterId": 100000,
+      "timeStamp": new Date(),
+      "chat": "Hello students!"
+    }
+  ]
+
 console.log("\n- Do you want to install the demo? (Y/N) ");
 rl.on('line', function (input) {
   if (input === 'y' || input === 'Y') {
@@ -165,9 +173,9 @@ rl.on('line', function (input) {
     createDir('/data/classes/7A');
     saveFile('/data/school/config.json', schoolConfig);
     saveFile('/data/school/users.json', users);
-    saveFile('/data/school/chat.json', {[]});
     saveFile('/data/classes/7A/config.json', classConfig);
     saveFile('/data/classes/7A/lessons.json', myLessons);
+    saveFile('/data/classes/7A/chat.json', myChat);
     console.log('\nDemo is installed! \n\nPls login \n - as class teacher with: ds@me.com password: 123 \n - as English teacher with: ms@me.com password: 123 \n - as student with: dm@me.com password: 123\n');
     console.log('Start the HomeSchoo-DS server with "npm start" \n');
     process.exit(0);
