@@ -164,6 +164,7 @@ rl.on('line', function (input) {
     createDir('/data/classes/7A');
     saveFile('/data/school/config.json', schoolConfig);
     saveFile('/data/school/users.json', users);
+    saveFile('/data/school/chat.json', {[]});
     saveFile('/data/classes/7A/config.json', classConfig);
     saveFile('/data/classes/7A/lessons.json', myLessons);
     console.log('\nDemo is installed! \n\nPls login \n - as class teacher with: ds@me.com password: 123 \n - as English teacher with: ms@me.com password: 123 \n - as student with: dm@me.com password: 123\n');
