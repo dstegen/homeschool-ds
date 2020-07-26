@@ -16,9 +16,45 @@
    // Enable tooltip
    $(function () {
      $('[data-toggle="tooltip"]').tooltip()
-   })
+   });
+   // Chat & chat-windows
+   initChat();
  });
 
+// Initialize Chat functions
+function initChat () {
+  for (let i=0; i<$('.chat-window').length; i++) {
+    $('#'+$('.chat-window')[i].id).scrollTop($('.chat-window')[i].scrollHeight);
+  };
+  if (!localStorage.closedChats) {
+    localStorage.closedChats = '';
+  }
+  localStorage.closedChats.split(',').forEach(item => {
+    if (item != '') {
+      $('#'+item).collapse('hide');
+      $('#toggle-button-'+item.split('-')[2]).text(' + ');
+    }
+  });
+}
+
+function toggleChat (id) {
+  console.log(id);
+  if ($('#'+id+'.collapse.show').length > 0) {
+    $('#'+id).collapse('hide');
+    $('#toggle-button-'+id.split('-')[2]).text(' + ');
+    let closedChats = localStorage.closedChats.split(',').filter( item => item !== '');
+    closedChats.push(id);
+    localStorage.closedChats = closedChats;
+    console.log(localStorage.closedChats);
+  } else {
+    $('#'+id).collapse('show');
+    $('#toggle-button-'+id.split('-')[2]).text(' - ');
+    let closedChats = localStorage.closedChats.split(',').filter( item => item !== '');
+    closedChats.splice(closedChats.indexOf(id),1);
+    localStorage.closedChats = closedChats;
+    console.log(localStorage.closedChats);
+  }
+}
 
 // E-Mail function for onclick
 function sendEmail (email) {

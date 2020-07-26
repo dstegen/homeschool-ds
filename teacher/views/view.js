@@ -12,11 +12,12 @@ const fs = require('fs');
 const { thisWeek, thisDay, weekDates, weekDayNumber, formatDay, formatDate, weekDay, beforeToday, isActualWeek, dateIsRecent } = require('../../lib/dateJuggler');
 const { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers, usersOnline } = require('../../models/model-user');
 const getRER = require('../../lib/getRecentExerciseReturns');
+const classChat = require('../../lib/chat');
 
 
-function teacherView (teacher) {
+function teacherView (teacher, wsport) {
   return `
-    <div id="dashboard" class="container collapse show" data-parent="#homeschool-ds">
+    <div id="dashboard" class="container">
       <h2 class="d-flex justify-content-between py-2 px-3 my-3 border">
         Dashboard
         <span id="clock" class="d-none d-md-block">&nbsp;</span>
@@ -44,11 +45,7 @@ function teacherView (teacher) {
         </div>
       </div>
       <div class="col-12 col-md-6">
-        <div class="border py-2 px-3 mb-3">
-          <h4>Klassen-Chat</h4>
-          <hr />
-          <br /><br /><br /><br /><br /><br />
-        </div>
+        ${classChat(teacher.group, teacher)}
         <div class="border py-2 px-3 mb-3">
           <h4>Schüler online:</h4>
           <hr />
@@ -57,6 +54,15 @@ function teacherView (teacher) {
       </div>
     </div>
   </div>
+  <script>
+    // Websockets
+    const hostname = window.location.hostname ;
+    const socket = new WebSocket('ws://'+hostname+':${wsport}/', 'protocolOne', { perMessageDeflate: false });
+    socket.onmessage = function (msg) {
+      location.reload();
+      console.log(msg.data);
+    };
+  </script>
     `;
 }
 

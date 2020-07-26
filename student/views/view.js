@@ -10,15 +10,16 @@
 const path = require('path');
 const { thisWeek, thisDay, weekDates, weekDayNumber, formatDay, formatDate, weekDay, beforeToday, isActualWeek, beforeFinishDate } = require('../../lib/dateJuggler');
 const { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers, usersOnline } = require('../../models/model-user');
+const classChat = require('../../lib/chat');
 let lessonsConfig = {};
 
 
-function studentView (myLessons, myGroup, curWeek=thisWeek(), user={}) {
+function studentView (myLessons, myGroup, curWeek=thisWeek(), user={}, wsport) {
   lessonsConfig = require(path.join('../../data/classes/', myGroup,'/config.json'));
   let todayOff = '';
   if (myLessons.filter( item => item.weekdays.includes(weekDayNumber())).length < 1) todayOff = `<span class="text-muted">- kein Unterricht -</span>`;
   return `
-    <div id="dashboard" class="container collapse show" data-parent="#homeschool-ds">
+    <div id="dashboard" class="container">
       <h2 class="container d-flex justify-content-between py-2 px-3 my-3 border">
         Dashboard
         <span id="clock" class="d-none d-md-block">&nbsp;</span>
@@ -38,16 +39,7 @@ function studentView (myLessons, myGroup, curWeek=thisWeek(), user={}) {
           </div>
         </div>
         <div class="col-12 col-md-6">
-          <div class="border py-2 px-3 mb-3">
-            <h4>Klassen-Chat</h4>
-            <hr />
-            <br /><br /><br /><br /><br /><br />
-          </div>
-          <div class="border py-2 px-3 mb-3">
-            <h4>Persönlicher Chat</h4>
-            <hr />
-            <br /><br /><br /><br /><br /><br />
-          </div>
+          ${classChat([myGroup], user)}
           <div class="border py-2 px-3 mb-3">
             <h4>Schüler online:</h4>
             <hr />
@@ -58,6 +50,15 @@ function studentView (myLessons, myGroup, curWeek=thisWeek(), user={}) {
         </div>
       </div>
     </div>
+    <script>
+      // Websockets
+      const hostname = window.location.hostname ;
+      const socket = new WebSocket('ws://'+hostname+':${wsport}/', 'protocolOne', { perMessageDeflate: false });
+      socket.onmessage = function (msg) {
+        location.reload();
+        console.log(msg.data);
+      };
+    </script>
   `;
 }
 
