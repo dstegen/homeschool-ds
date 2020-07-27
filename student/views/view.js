@@ -10,7 +10,7 @@
 const path = require('path');
 const { thisWeek, thisDay, weekDates, weekDayNumber, formatDay, formatDate, weekDay, beforeToday, isActualWeek, beforeFinishDate } = require('../../lib/dateJuggler');
 const { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers, usersOnline } = require('../../models/model-user');
-const classChat = require('../../lib/chat');
+const classChat = require('../../views/templates/chat');
 let lessonsConfig = {};
 
 

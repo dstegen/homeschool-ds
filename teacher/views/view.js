@@ -12,7 +12,7 @@ const fs = require('fs');
 const { thisWeek, thisDay, weekDates, weekDayNumber, formatDay, formatDate, weekDay, beforeToday, isActualWeek, dateIsRecent } = require('../../lib/dateJuggler');
 const { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers, usersOnline } = require('../../models/model-user');
 const getRER = require('../../lib/getRecentExerciseReturns');
-const classChat = require('../../lib/chat');
+const classChat = require('../../views/templates/chat');
 
 
 function teacherView (teacher, wsport) {

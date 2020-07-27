@@ -272,3 +272,8 @@ input.form-control {
   border: none;
   background-color: transparent;
 }
+
+.supersmall {
+  font-size: 66%;
+  color: #6c757d;
+}

@@ -1,5 +1,5 @@
 /*!
- * lib/chat.js
+ * views/templates/chat.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2020 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/webapputils-ds/blob/master/LICENSE)
@@ -8,7 +8,9 @@
 'use strict';
 
 // Required modules
-const { getChat, updateChat } = require('../models/model-chat');
+const moment = require('moment');
+const { getChat, updateChat } = require('../../models/model-chat');
+
 
 function classChat (groupsList, user) {
   let returnHtml = '';
@@ -40,28 +42,45 @@ function classChat (groupsList, user) {
   return returnHtml;
 }
 
+
 // Additional functions
 
 function chatterEntry (myGroup, user) {
   let returnHtml = '';
   getChat(myGroup).forEach( (item, i) => {
+    let cssInline = 'd-inline';
+    if (item.chat.split('').length > 46) cssInline = '';
     if (item.chaterId === user.id) {
       returnHtml += `
-        <div class="d-flex mb-2 pr-2">
-          <img src="/data/school/pics/${item.chaterId}.jpg" height="25" width="25" class="border rounded-circle"/>
-          <span class="ml-2 px-1 border rounded">${item.chat}</span>
+        <div class="row no-gutters mb-2">
+          <div class="col-1">
+            <img src="/data/school/pics/${item.chaterId}.jpg" height="40" width="40" class="img-fluid border rounded-circle"/>
+          </div>
+          <div class="col-9 pl-2">
+            <div class="${cssInline} px-1 border rounded">${item.chat}</div>
+            <div class="supersmall text-muted">${moment(item.timeStamp).format('dddd[, ] HH:MM')}</div>
+          </div>
+          <div class="col-2"></div>
         </div>
       `;
     } else {
       returnHtml += `
-        <div class="d-flex justify-content-end mb-2 pr-2">
-          <span class="mr-2 px-1 border rounded">${item.chat}</span>
-          <img src="/data/school/pics/${item.chaterId}.jpg" height="25" width="25" class="border rounded-circle"/>
+        <div class="row no-gutters mb-2">
+          <div class="col-2"></div>
+          <div class="col-9 pr-2 text-right">
+            <div class="${cssInline} px-1 border rounded text-left">${item.chat}</div>
+            <div class="supersmall text-muted">${moment(item.timeStamp).format('dddd[, ] HH:MM')}</div>
+          </div>
+          <div class="col-1">
+            <img src="/data/school/pics/${item.chaterId}.jpg" height="40" width="40" class="img-fluid border rounded-circle"/>
+          </div>
         </div>
+
       `;
     }
   });
   return returnHtml;
 }
+
 
 module.exports = classChat;
