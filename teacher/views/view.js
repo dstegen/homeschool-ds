@@ -10,10 +10,10 @@
 const path = require('path');
 const fs = require('fs');
 const { thisWeek, thisDay, weekDates, weekDayNumber, formatDay, formatDate, weekDay, beforeToday, isActualWeek, dateIsRecent } = require('../../lib/dateJuggler');
-const { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers, usersOnline } = require('../../models/model-user');
+const { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers, usersOnline, getUserById } = require('../../models/model-user');
 const getRER = require('../../lib/getRecentExerciseReturns');
 const classChat = require('../../views/templates/chat');
-const privateMessages = require('../../views/templates/private-messages');
+const { getLatestMessages } = require('../../models/model-messages');
 
 function teacherView (teacher, wsport) {
   return `
@@ -27,15 +27,10 @@ function teacherView (teacher, wsport) {
         <div class="border py-2 px-3 mb-3">
           <h4>Guten Tag ${teacher.fname} ${teacher.lname},</h4>
           <p>
-            heute is ${weekDay()} und Sie haben <strong>27</strong> neue Nachrichten:
+            heute is ${weekDay()} und Sie haben <strong>${getLatestMessages(teacher.id).length}</strong> neue Nachrichten:
           </p>
-          <ul>
-            <li>Verstehe Mathe nicht! (Michael, 3C)</li>
-            <li>Hab keine lust zu lesen (Sam, 3C)</li>
-            <li>Wann kann ich mehr Meinecraft spielen? (Dave, 7A1)</li>
-            <li>...</li>
-          </ul>
-          <br /><br /><br /><br /><br /><br />
+          ${helperRecentMessages(teacher.id)}
+          <br /><br />
         </div>
         <div class="border py-2 px-3 mb-3">
           <h4>Abgegebene Aufgaben:</h4>
@@ -43,7 +38,6 @@ function teacherView (teacher, wsport) {
           ${returnedExercises(teacher.group, teacher.courses)}
           <br /><br /><br /><br /><br /><br />
         </div>
-        ${privateMessages(teacher.id)}
       </div>
       <div class="col-12 col-md-6">
         ${classChat(teacher.group, teacher)}
@@ -106,7 +100,17 @@ function helperListitem (item, group) {
   } else {
     return '';
   }
+}
 
+function helperRecentMessages (userId) {
+  let returnHtml = '<ul>';
+  getLatestMessages(userId).forEach((item, i) => {
+    let allMessages = item.messages.filter( item => item.chaterId !== userId);
+    let message = allMessages[allMessages.length-1];
+    if (message !== undefined) returnHtml += `<li><a href="/communication">${message.chat} (${getUserById(message.chaterId).fname}, ${getUserById(message.chaterId).group})</li>`
+  });
+  returnHtml += '</ul>';
+  return returnHtml;
 }
 
 

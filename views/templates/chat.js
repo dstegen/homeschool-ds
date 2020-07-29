@@ -16,6 +16,7 @@ const { getUserById } = require('../../models/model-user');
 
 function classChat (groupsList, user) {
   let returnHtml = '';
+  if (typeof(groupsList) === 'string') groupsList = [groupsList];
   groupsList.forEach( myGroup => {
     returnHtml += `
       <div class="border py-2 px-3 mb-3">

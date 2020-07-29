@@ -31,6 +31,11 @@ function getNaviObj (role, loginname='', myGroup=[]) {
           name: 'this week',
           link: '/timetable',
           dropdown: false
+        },
+        {
+          name: 'communication',
+          link: '/communication',
+          dropdown: false
         }
       ]
     };
@@ -58,6 +63,11 @@ function getNaviObj (role, loginname='', myGroup=[]) {
         link: '/teacher'
       },
       menuItems: [
+        {
+          name: 'communication',
+          link: '/communication',
+          dropdown: false
+        },
         {
           name: 'my classes',
           link: '/teacher/classes',

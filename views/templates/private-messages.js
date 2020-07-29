@@ -14,17 +14,17 @@ const moment = require('moment');
 const { getPrivateMessages, updatePrivateMessages } = require('../../models/model-messages');
 const { getUserById } = require('../../models/model-user');
 
-function privateMessages (teacherId=0, studentId=0) {
-  let allMessages = getPrivateMessages(teacherId, studentId);
-  let userId = teacherId;
-  if (studentId > 0) userId = studentId;
+function privateMessages (userId) {
+  let allMessages = getPrivateMessages(userId);
   let returnHtml = '';
-  allMessages.forEach( msg => {
-    let myGroup = msg.studentId+'-'+msg.studentId;
+  allMessages.forEach( (msg, i) => {
+    let myGroup = userId+'-'+i;
+    let chatMateId = msg.chatMates.filter( id => id !== userId)[0];
+    let chatMate = getUserById(chatMateId);
     returnHtml += `
       <div class="border py-2 px-3 mb-3">
         <div class="d-flex justify-content-between">
-          <h4>Unterhaltung mit ${getUserById(msg.studentId).fname} ${getUserById(msg.studentId).lname}</h4>
+          <h4>Unterhaltung mit ${helperTitle(chatMate)}</h4>
           <span>
             <button type="button" class="btn btn-sm btn-outline-info" id="toggle-button-${myGroup}" onclick="toggleChat('chat-window-${myGroup}')"> - </button>
           </span>
@@ -35,9 +35,9 @@ function privateMessages (teacherId=0, studentId=0) {
             ${chatterEntry(msg.messages, userId)}
           </div>
           <hr />
-          <form id="classChat-form" action="/chat" class="d-flex justify-content-between" method="post">
+          <form id="classChat-form" action="/communication" class="d-flex justify-content-between" method="post">
             <input type="text" name="chatterId" class="d-none" hidden value="${userId}" />
-            <input type="text" name="group" class="d-none" hidden value="${myGroup}" />
+            <input type="text" name="chatMate" class="d-none" hidden value="${chatMateId}" />
             <input type="texte" class="form-control mr-2" id="userchat" name="userchat" placeholder="${getUserById(userId).fname}, write something..." value="" />
             <button type="submit" class="btn btn-sm btn-primary">Send</button>
           </form>
@@ -53,23 +53,17 @@ function privateMessages (teacherId=0, studentId=0) {
 
 function chatterEntry (messages, userId) {
   let returnHtml = '';
+  let lastMoment = moment().day();
   messages.forEach( (item, i) => {
     let chatUser = getUserById(item.chaterId);
-    let chatUserName = chatUser.fname + ' ' + chatUser.lname;
-    if (chatUser.role === 'teacher') {
-      if (chatUser.gender && chatUser.gender === 'male') {
-        chatUserName = 'Mr. ' + chatUser.lname;
-      } else if (chatUser.gender && chatUser.gender === 'female') {
-        chatUserName = 'Ms. ' + chatUser.lname;
-      } else {
-        chatUserName = 'Mr./Ms. ' + chatUser.lname;
-      }
-    }
     let cssInline = 'd-inline';
     if (item.chat.split('').length > 46) cssInline = '';
     let chatterImage = '<span class="p-2 small border rounded-circle">' + chatUser.fname.split('')[0] + chatUser.lname.split('')[0] + '</span>';
     if (fs.existsSync(path.join(__dirname, '../../data/school/pics/', item.chaterId+'.jpg'))) {
-      chatterImage = `<img src="/data/school/pics/${item.chaterId}.jpg" height="40" width="40" class="img-fluid border rounded-circle"/>`;
+      chatterImage = `<img src="/data/school/pics/${item.chaterId}.jpg" height="40" width="40" class="img-fluid border2 rounded-circle"/>`;
+    }
+    if (moment(item.timeStamp).day() !== lastMoment) {
+      returnHtml += `<div class="w-100 small text-muted text-center py-3">- - - - - - - - - - ${moment(item.timeStamp).format('dddd[, ] HH:MM')} - - - - - - - - - -</div>`
     }
     if (item.chaterId === userId) {
       returnHtml += `
@@ -78,8 +72,8 @@ function chatterEntry (messages, userId) {
             ${chatterImage}
           </div>
           <div class="col-9 pl-2">
-            <div class="${cssInline} px-1 border rounded">${item.chat}</div>
-            <div class="supersmall text-muted">${chatUserName} | ${moment(item.timeStamp).format('dddd[, ] HH:MM')}</div>
+            <div class="${cssInline} px-1 border2 rounded">${item.chat}</div>
+            <div class="d-none supersmall text-muted">${moment(item.timeStamp).format('dddd[, ] HH:MM')}</div>
           </div>
           <div class="col-2"></div>
         </div>
@@ -89,8 +83,8 @@ function chatterEntry (messages, userId) {
         <div class="row no-gutters mb-2">
           <div class="col-2"></div>
           <div class="col-9 pr-2 text-right">
-            <div class="${cssInline} px-1 border rounded text-left">${item.chat}</div>
-            <div class="supersmall text-muted">${chatUserName} | ${moment(item.timeStamp).format('dddd[, ] HH:MM')}</div>
+            <div class="${cssInline} px-1 border2 rounded text-left">${item.chat}</div>
+            <div class="d-none supersmall text-muted">${moment(item.timeStamp).format('dddd[, ] HH:MM')}</div>
           </div>
           <div class="col-1">
             ${chatterImage}
@@ -99,8 +93,21 @@ function chatterEntry (messages, userId) {
 
       `;
     }
+    lastMoment = moment(item.timeStamp).day();
   });
   return returnHtml;
+}
+
+function helperTitle (chatUser) {
+  if (chatUser.role === 'student') {
+    return chatUser.fname + ' ' + chatUser.lname + ', ' + chatUser.group;
+  } else if (chatUser.gender && chatUser.gender === 'male') {
+    return 'Mr. ' + chatUser.lname;
+  } else if (chatUser.gender && chatUser.gender === 'female') {
+    return 'Ms. ' + chatUser.lname;
+  } else {
+    return 'Mr./Ms. ' + chatUser.lname;
+  }
 }
 
 

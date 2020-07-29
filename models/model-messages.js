@@ -10,47 +10,53 @@
 // Required modules
 const fs = require('fs');
 const path = require('path');
+const { dateIsRecent } = require('../lib/dateJuggler');
 
-function getPrivateMessages (teacherId=0, studentId=0) {
+function getPrivateMessages (userId) {
   let messages = [];
   try {
     messages = require(path.join(__dirname, '../data/school', 'private-messages.json'));
-    if (teacherId > 0) {
-      return messages.filter( item => item.teacherId === teacherId);
-    } else if (studentId > 0) {
-      return messages.filter( item => item.studentId === studentId);
-    } else {
-      throw new Error();
-    }
+    return messages.filter( item => item.chatMates.includes(userId));
   } catch (e) {
-    console.log('- ERROR reading chat file: '+e);
+    console.log('- ERROR reading private messages file: '+e);
     return [
       {
         "chaterId": 0,
         "timeStamp": new Date(),
-        "chat": "Error, chat not available at the moment..."
+        "chat": "Error, message not available at the moment..."
       }
-    ]
+    ];
+  }
+}
+
+function getLatestMessages (userId) {
+  let messages = [];
+  try {
+    messages = require(path.join(__dirname, '../data/school', 'private-messages.json'));
+    return messages.filter( item => (item.chatMates.includes(userId) && dateIsRecent(item.timeStamp, 5)));
+  } catch (e) {
+    console.log('- ERROR reading private messages file: '+e);
+    return '';
   }
 }
 
 function updatePrivateMessages (fields) {
-  /*
+  let chatMates = [fields.chatterId,fields.chatMate];
   if (fields.chatterId !== '' && fields.userchat !== '') {
     let newMessage = {
       chaterId: Number(fields.chatterId),
       timeStamp: new Date(),
       chat: fields.userchat
     }
-    let myMessages = getPrivateMessages();
+    let allMessages = getPrivateMessages(fields.chatterId);
     try {
-      myMessages.push(newMessage);
-      fs.writeFileSync(path.join(__dirname, '../data/school', 'private-messages.json'), JSON.stringify(myMessages));
+      allMessages.filter( item => item.chatMates === chatMates).messages.push(newMessage);
+      fs.writeFileSync(path.join(__dirname, '../data/school', 'private-messages.json'), JSON.stringify(allMessages));
     } catch (e) {
       console.log('- ERROR writing chat to disk: '+e);
     }
   }
-  */
 }
 
-module.exports = { getPrivateMessages, updatePrivateMessages };
+
+module.exports = { getPrivateMessages, getLatestMessages, updatePrivateMessages };
