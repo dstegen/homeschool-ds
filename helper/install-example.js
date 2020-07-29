@@ -34,7 +34,9 @@ let users = {
       "courses": ["all"],
       "fname": "Daniel",
       "lname": "Stegen",
-      "email": "ds@me.com"
+      "email": "ds@me.com",
+      "phone": "+49 296112994",
+      "gender": "male"
     },
     {
       "id": 100001,
@@ -45,7 +47,9 @@ let users = {
       "courses": ["English"],
       "fname": "Mary",
       "lname": "Smith",
-      "email": "ms@me.com"
+      "email": "ms@me.com",
+      "phone": "+49 296332994",
+      "gender": "female"
     },
     {
       "id": 100002,
@@ -55,7 +59,9 @@ let users = {
       "group": "7A",
       "fname": "Dave",
       "lname": "Muller",
-      "email": "dm@me.com"
+      "email": "dm@me.com",
+      "phone": "+49 2960823294",
+      "gender": "male"
     }
   ]
 }

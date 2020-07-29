@@ -21,6 +21,7 @@ function createUserListFromNames(namesList, users=[], group='7A1') {
     tmpObj.lname = name.split(' ')[1];
     tmpObj.email = name.toLowerCase().replace(' ','.')+'@me.com';
     tmpObj.phone = '+49 '+getRandomInt(123456789, 987654321);
+    tmpObj.gender = name.split(' ')[2];
     users.push(tmpObj);
   });
   return users;
