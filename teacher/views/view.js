@@ -13,7 +13,7 @@ const { thisWeek, thisDay, weekDates, weekDayNumber, formatDay, formatDate, week
 const { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers, usersOnline } = require('../../models/model-user');
 const getRER = require('../../lib/getRecentExerciseReturns');
 const classChat = require('../../views/templates/chat');
-
+const privateMessages = require('../../views/templates/private-messages');
 
 function teacherView (teacher, wsport) {
   return `
@@ -43,6 +43,7 @@ function teacherView (teacher, wsport) {
           ${returnedExercises(teacher.group, teacher.courses)}
           <br /><br /><br /><br /><br /><br />
         </div>
+        ${privateMessages(teacher.id)}
       </div>
       <div class="col-12 col-md-6">
         ${classChat(teacher.group, teacher)}
