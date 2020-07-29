@@ -67,6 +67,13 @@ function usersOnline (group) {
   return onlineUsers;
 }
 
+function getUserById (id) {
+  if (id !== '' && typeof(id) === 'number') {
+    return users.filter( user => user.id === id)[0];
+  } else {
+    return {}
+  }
+}
 
 // Additional functions
 
@@ -81,4 +88,4 @@ function loadUsers (filePath) {
 }
 
 
-module.exports = { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers, usersOnline };
+module.exports = { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers, usersOnline, getUserById };
