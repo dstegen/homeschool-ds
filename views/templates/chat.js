@@ -8,9 +8,11 @@
 'use strict';
 
 // Required modules
+const fs = require('fs');
+const path = require('path');
 const moment = require('moment');
 const { getChat, updateChat } = require('../../models/model-chat');
-
+const { getUserById } = require('../../models/model-user');
 
 function classChat (groupsList, user) {
   let returnHtml = '';
@@ -48,17 +50,32 @@ function classChat (groupsList, user) {
 function chatterEntry (myGroup, user) {
   let returnHtml = '';
   getChat(myGroup).forEach( (item, i) => {
+    let chatUser = getUserById(item.chaterId);
+    let chatUserName = chatUser.fname + ' ' + chatUser.lname;
+    if (chatUser.role === 'teacher') {
+      if (chatUser.gender && chatUser.gender === 'male') {
+        chatUserName = 'Mr. ' + chatUser.lname;
+      } else if (chatUser.gender && chatUser.gender === 'female') {
+        chatUserName = 'Ms. ' + chatUser.lname;
+      } else {
+        chatUserName = 'Mr./Ms. ' + chatUser.lname;
+      }
+    }
     let cssInline = 'd-inline';
     if (item.chat.split('').length > 46) cssInline = '';
+    let chatterImage = '<span class="p-2 small border rounded-circle">' + chatUser.fname.split('')[0] + chatUser.lname.split('')[0] + '</span>';
+    if (fs.existsSync(path.join(__dirname, '../../data/school/pics/', item.chaterId+'.jpg'))) {
+      chatterImage = `<img src="/data/school/pics/${item.chaterId}.jpg" height="40" width="40" class="img-fluid border rounded-circle"/>`;
+    }
     if (item.chaterId === user.id) {
       returnHtml += `
         <div class="row no-gutters mb-2">
           <div class="col-1">
-            <img src="/data/school/pics/${item.chaterId}.jpg" height="40" width="40" class="img-fluid border rounded-circle"/>
+            ${chatterImage}
           </div>
           <div class="col-9 pl-2">
             <div class="${cssInline} px-1 border rounded">${item.chat}</div>
-            <div class="supersmall text-muted">${moment(item.timeStamp).format('dddd[, ] HH:MM')}</div>
+            <div class="supersmall text-muted">${chatUserName} | ${moment(item.timeStamp).format('dddd[, ] HH:MM')}</div>
           </div>
           <div class="col-2"></div>
         </div>
@@ -69,10 +86,10 @@ function chatterEntry (myGroup, user) {
           <div class="col-2"></div>
           <div class="col-9 pr-2 text-right">
             <div class="${cssInline} px-1 border rounded text-left">${item.chat}</div>
-            <div class="supersmall text-muted">${moment(item.timeStamp).format('dddd[, ] HH:MM')}</div>
+            <div class="supersmall text-muted">${chatUserName} | ${moment(item.timeStamp).format('dddd[, ] HH:MM')}</div>
           </div>
           <div class="col-1">
-            <img src="/data/school/pics/${item.chaterId}.jpg" height="40" width="40" class="img-fluid border rounded-circle"/>
+            ${chatterImage}
           </div>
         </div>
 
