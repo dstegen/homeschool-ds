@@ -107,7 +107,7 @@ function helperRecentMessages (userId) {
   getLatestMessages(userId).forEach((item, i) => {
     let allMessages = item.messages.filter( item => item.chaterId !== userId);
     let message = allMessages[allMessages.length-1];
-    if (message !== undefined) returnHtml += `<li><a href="/communication">${message.chat} (${getUserById(message.chaterId).fname}, ${getUserById(message.chaterId).group})</li>`
+    if (message !== undefined) returnHtml += `<li><a href="/communication">${message.chat} (${getUserById(message.chaterId).fname}, ${getUserById(message.chaterId).group})</a></li>`
   });
   returnHtml += '</ul>';
   return returnHtml;
