@@ -43,24 +43,39 @@ function getLatestMessages (userId) {
 }
 
 function updatePrivateMessages (fields) {
-  if (fields.chatterId !== '' && fields.userchat !== '' && fields.privateMessageId !== '') {
-    let newMessage = {
-      chaterId: Number(fields.chatterId),
-      timeStamp: new Date(),
-      chat: fields.userchat
+  let allMessages = loadPrivateMessages();
+  if (fields.privateMessageId === '' || fields.privateMessageId === undefined) {
+    if (allMessages.filter( item => item.chatMates.includes(Number(fields.chatterId)) ).filter(item => item.chatMates.includes(Number(fields.chatMate)) ).length > 0) {
+      fields.privateMessageId = allMessages.filter( item => item.chatMates.includes(Number(fields.chatterId)) ).filter(item => item.chatMates.includes(Number(fields.chatMate)))[0].id;
+      addPrivateMessage(allMessages, fields);
+    } else {
+      createNewPrivateMessage(allMessages ,fields);
     }
-    try {
-      let allMessages = loadPrivateMessages();
-      allMessages.filter( item => item.id === fields.privateMessageId)[0].messages.push(newMessage);
-      allMessages.filter( item => item.id === fields.privateMessageId)[0].updated = new Date();
-      fs.writeFileSync(path.join(__dirname, '../data/school', 'private-messages.json'), JSON.stringify(allMessages));
-    } catch (e) {
-      console.log('- ERROR writing private messages to disk: '+e);
-    }
+  } else if (fields.chatterId !== '' && fields.userchat !== '' && fields.privateMessageId !== '') {
+    addPrivateMessage(allMessages, fields);
   }
 }
 
-function createNewPrivateMessage (fields) {
+
+// Additional functions
+
+function addPrivateMessage (allMessages, fields) {
+  let newMessage = {
+    chaterId: Number(fields.chatterId),
+    timeStamp: new Date(),
+    chat: fields.userchat
+  }
+  try {
+    //let allMessages = loadPrivateMessages();
+    allMessages.filter( item => item.id === fields.privateMessageId)[0].messages.push(newMessage);
+    allMessages.filter( item => item.id === fields.privateMessageId)[0].updated = new Date();
+    fs.writeFileSync(path.join(__dirname, '../data/school', 'private-messages.json'), JSON.stringify(allMessages));
+  } catch (e) {
+    console.log('- ERROR writing private messages to disk: '+e);
+  }
+}
+
+function createNewPrivateMessage (allMessages,fields) {
   let newCom = {
     chatMates: [Number(fields.chatterId),Number(fields.chatMate)],
     updated: new Date(),
@@ -73,17 +88,14 @@ function createNewPrivateMessage (fields) {
       }
     ]
   }
-  console.log(newCom);
+  //console.log(newCom);
   try {
-    let allMessages = loadPrivateMessages();
     allMessages.push(newCom);
-    fs.writeFileSync(path.join(__dirname, '../data/school', 'private-messages.json'), JSON.stringify(allMessages));
+    //fs.writeFileSync(path.join(__dirname, '../data/school', 'private-messages.json'), JSON.stringify(allMessages));
   } catch (e) {
     console.log('- ERROR creating new private message to disk: '+e);
   }
 }
-
-// Additional functions
 
 function loadPrivateMessages () {
   let allMessages = [];
@@ -96,4 +108,4 @@ function loadPrivateMessages () {
 }
 
 
-module.exports = { getPrivateMessages, getLatestMessages, updatePrivateMessages, createNewPrivateMessage };
+module.exports = { getPrivateMessages, getLatestMessages, updatePrivateMessages };
