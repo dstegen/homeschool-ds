@@ -35,6 +35,9 @@ function initChat () {
       $('#toggle-button-'+item.split('-')[2]).text(' + ');
     }
   });
+  if (newMessages > 0) {
+    $('#topnavi-communication').append('<span class="badge badge-light ml-1">'+newMessages+'</span>');
+  }
 }
 
 function toggleChat (id) {

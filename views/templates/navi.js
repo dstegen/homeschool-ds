@@ -56,6 +56,9 @@ function navi (naviObj, loggedIn, history) {
         </div>
       </div>
     </div>
+    <script>
+      let newMessages = ${naviObj.newMessages};
+    </script>
   `;
 }
 
@@ -78,7 +81,7 @@ function helperMenuItem (item) {
     if (item.link.includes('#')) onClick = `data-toggle="collapse" onclick="$('${item.link}').collapse('toggle');"`;
     returnHtml += `
       <div class="nav-item">
-        <a class="nav-link text-capitalize" href="${item.link}" ${onClick}>${item.name}</a>
+        <a class="nav-link text-capitalize" id="topnavi-${item.link.replace(/\//g,'')}" href="${item.link}" ${onClick}>${item.name}</a>
       </div>
     `;
   }

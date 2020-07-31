@@ -7,9 +7,13 @@
 
 'use strict';
 
+const { getLatestMessages } = require('../../models/model-messages');
 const school = require('../../data/school/config.json');
 
-function getNaviObj (role, loginname='', myGroup=[]) {
+
+function getNaviObj (user, loginname='', myGroup=[]) {
+  let role = '';
+  if (user) role = user.role;
   let lessonsDropdown = [];
   switch (role) {
     case 'student':
@@ -37,7 +41,8 @@ function getNaviObj (role, loginname='', myGroup=[]) {
           link: '/communication',
           dropdown: false
         }
-      ]
+      ],
+      newMessages: getLatestMessages(user.id).length
     };
     case 'teacher':
     lessonsDropdown = [
@@ -79,7 +84,8 @@ function getNaviObj (role, loginname='', myGroup=[]) {
           dropdown: true,
           dropdownItems: lessonsDropdown
         }
-      ]
+      ],
+      newMessages: getLatestMessages(user.id).length
     };
     default:
       return {
