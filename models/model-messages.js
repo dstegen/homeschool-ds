@@ -10,12 +10,14 @@
 // Required modules
 const fs = require('fs');
 const path = require('path');
+const uuidv4 = require('uuid').v4;
 const { dateIsRecent } = require('../lib/dateJuggler');
+
 
 function getPrivateMessages (userId) {
   let messages = [];
   try {
-    messages = require(path.join(__dirname, '../data/school', 'private-messages.json'));
+    messages = loadPrivateMessages();
     return messages.filter( item => item.chatMates.includes(userId));
   } catch (e) {
     console.log('- ERROR reading private messages file: '+e);
@@ -32,7 +34,7 @@ function getPrivateMessages (userId) {
 function getLatestMessages (userId) {
   let messages = [];
   try {
-    messages = require(path.join(__dirname, '../data/school', 'private-messages.json'));
+    messages = loadPrivateMessages();
     return messages.filter( item => (item.chatMates.includes(userId) && dateIsRecent(item.timeStamp, 5)));
   } catch (e) {
     console.log('- ERROR reading private messages file: '+e);
@@ -41,22 +43,57 @@ function getLatestMessages (userId) {
 }
 
 function updatePrivateMessages (fields) {
-  let chatMates = [fields.chatterId,fields.chatMate];
-  if (fields.chatterId !== '' && fields.userchat !== '') {
+  if (fields.chatterId !== '' && fields.userchat !== '' && fields.privateMessageId !== '') {
     let newMessage = {
       chaterId: Number(fields.chatterId),
       timeStamp: new Date(),
       chat: fields.userchat
     }
-    let allMessages = getPrivateMessages(fields.chatterId);
     try {
-      allMessages.filter( item => item.chatMates === chatMates).messages.push(newMessage);
+      let allMessages = loadPrivateMessages();
+      allMessages.filter( item => item.id === fields.privateMessageId)[0].messages.push(newMessage);
+      allMessages.filter( item => item.id === fields.privateMessageId)[0].updated = new Date();
       fs.writeFileSync(path.join(__dirname, '../data/school', 'private-messages.json'), JSON.stringify(allMessages));
     } catch (e) {
-      console.log('- ERROR writing chat to disk: '+e);
+      console.log('- ERROR writing private messages to disk: '+e);
     }
   }
 }
 
+function createNewPrivateMessage (fields) {
+  let newCom = {
+    chatMates: [Number(fields.chatterId),Number(fields.chatMate)],
+    updated: new Date(),
+    id: uuidv4(),
+    messages: [
+      {
+        chaterId: Number(fields.chatterId),
+        timeStamp: new Date(),
+        chat: fields.userchat
+      }
+    ]
+  }
+  console.log(newCom);
+  try {
+    let allMessages = loadPrivateMessages();
+    allMessages.push(newCom);
+    fs.writeFileSync(path.join(__dirname, '../data/school', 'private-messages.json'), JSON.stringify(allMessages));
+  } catch (e) {
+    console.log('- ERROR creating new private message to disk: '+e);
+  }
+}
 
-module.exports = { getPrivateMessages, getLatestMessages, updatePrivateMessages };
+// Additional functions
+
+function loadPrivateMessages () {
+  let allMessages = [];
+  try {
+    allMessages = require(path.join(__dirname, '../data/school', 'private-messages.json'));
+  } catch (e) {
+    console.log('- ERROR reading all private messages from disk: '+e);
+  }
+  return allMessages;
+}
+
+
+module.exports = { getPrivateMessages, getLatestMessages, updatePrivateMessages, createNewPrivateMessage };

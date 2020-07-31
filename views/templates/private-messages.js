@@ -35,9 +35,10 @@ function privateMessages (userId) {
             ${chatterEntry(msg.messages, userId)}
           </div>
           <hr />
-          <form id="classChat-form" action="/communication" class="d-flex justify-content-between" method="post">
+          <form id="classChat-form" action="/message" class="d-flex justify-content-between" method="post">
             <input type="text" name="chatterId" class="d-none" hidden value="${userId}" />
             <input type="text" name="chatMate" class="d-none" hidden value="${chatMateId}" />
+            <input type="text" name="privateMessageId" class="d-none" hidden value="${msg.id}" />
             <input type="texte" class="form-control mr-2" id="userchat" name="userchat" placeholder="${getUserById(userId).fname}, write something..." value="" />
             <button type="submit" class="btn btn-sm btn-primary">Send</button>
           </form>
