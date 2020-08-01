@@ -32,10 +32,16 @@ function getPrivateMessages (userId) {
 }
 
 function getLatestMessages (userId) {
-  let messages = [];
+  let allMessages = [];
   try {
-    messages = loadPrivateMessages();
-    return messages.filter( item => (item.chatMates.includes(userId) && dateIsRecent(item.timeStamp, 5)));
+    let allMessages = loadPrivateMessages().filter(
+      item => item.chatMates.includes(userId)
+    ).filter(
+        item => dateIsRecent(item.updated, 5)
+      ).filter(
+          item => item.messages[item.messages.length-1].chaterId !== userId
+        );
+    return allMessages;
   } catch (e) {
     console.log('- ERROR reading private messages file: '+e);
     return '';
