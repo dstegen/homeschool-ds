@@ -5,11 +5,14 @@
  * Licensed under MIT (https://github.com/dstegen/webapputils-ds/blob/master/LICENSE)
  */
 
+'use strict';
+
 const path = require('path');
 const view = require('../../views/view');
 const { thisWeek, weekDates, weekDayNumber, formatDay, formatDate, weekDay, beforeToday, isActualWeek } = require('../../lib/dateJuggler');
 const getFilesList = require('../../lib/getFilesList');
 let lessonsConfig = {};
+
 
 function teacherLessonsEditView (itemObj, naviObj, myGroup, user) {
   lessonsConfig = require(path.join('../../data/classes/', myGroup,'/config.json'));
@@ -108,7 +111,6 @@ function formInputs (itemObj, courses) {
               <label for="${key}-field" class="col-sm-2 col-form-label text-right">${key}</label>
               <div class="col-sm-7">
                 <select class="form-control form-control-sm" id="${key}-field" name="${key}" required ${itemObj.id !== '' ? 'disabled' : ''}>
-                  <option></option>
             `;
             lessonsConfig.courses.map( item => { return item.name; }).forEach( item => {
               if (courses.includes(item) || courses[0] === 'all') {
