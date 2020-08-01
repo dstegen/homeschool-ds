@@ -18,7 +18,7 @@ function privateMessages (userId) {
   let allMessages = getPrivateMessages(userId);
   let returnHtml = '';
   allMessages.forEach( (msg, i) => {
-    let myGroup = userId+'-'+i;
+    let myGroup = userId+'_'+i;
     let chatMateId = msg.chatMates.filter( id => id !== userId)[0];
     let chatMate = getUserById(chatMateId);
     returnHtml += `

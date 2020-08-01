@@ -7,6 +7,9 @@
 
 'use strict';
 
+const moment = require('moment');
+
+
 // Required modules
 const fs = require('fs');
 const path = require('path');
@@ -17,8 +20,9 @@ const { dateIsRecent } = require('../lib/dateJuggler');
 function getPrivateMessages (userId) {
   let messages = [];
   try {
-    messages = loadPrivateMessages();
-    return messages.filter( item => item.chatMates.includes(userId));
+    messages = loadPrivateMessages().filter( item => item.chatMates.includes(userId));
+    messages.sort((a, b) => reorderPrivateMessages(a, b));
+    return messages;
   } catch (e) {
     console.log('- ERROR reading private messages file: '+e);
     return [
@@ -41,6 +45,9 @@ function getLatestMessages (userId) {
       ).filter(
           item => item.messages[item.messages.length-1].chaterId !== userId
         );
+    console.log(allMessages);
+    allMessages.sort((a, b) => reorderPrivateMessages(a, b));
+    console.log(allMessages);
     return allMessages;
   } catch (e) {
     console.log('- ERROR reading private messages file: '+e);
@@ -94,10 +101,9 @@ function createNewPrivateMessage (allMessages,fields) {
       }
     ]
   }
-  //console.log(newCom);
   try {
     allMessages.push(newCom);
-    //fs.writeFileSync(path.join(__dirname, '../data/school', 'private-messages.json'), JSON.stringify(allMessages));
+    fs.writeFileSync(path.join(__dirname, '../data/school', 'private-messages.json'), JSON.stringify(allMessages));
   } catch (e) {
     console.log('- ERROR creating new private message to disk: '+e);
   }
@@ -111,6 +117,17 @@ function loadPrivateMessages () {
     console.log('- ERROR reading all private messages from disk: '+e);
   }
   return allMessages;
+}
+
+function reorderPrivateMessages (msgA, msgB) {
+  // Sort latest message at top
+  if (moment(msgA.updated).isAfter(moment(msgB.updated))) {
+    return -1;
+  }
+  if (moment(msgB.updated).isAfter(moment(msgA.updated))) {
+    return 1;
+  }
+  return 0;
 }
 
 
