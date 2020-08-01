@@ -59,6 +59,12 @@ function toggleChat (id) {
   }
 }
 
+// newPrivateMessage-Modal
+function showNewPrivateMessage (myGroup, chatMate) {
+  $('#new-message-'+myGroup+' form select').val(chatMate);
+  $('#new-message-'+myGroup).collapse('show');
+}
+
 // E-Mail function for onclick
 function sendEmail (email) {
   window.location = "mailto:"+email;
