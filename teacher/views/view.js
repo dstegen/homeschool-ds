@@ -10,7 +10,7 @@
 const path = require('path');
 const fs = require('fs');
 const { thisWeek, thisDay, weekDates, weekDayNumber, formatDay, formatDate, weekDay, beforeToday, isActualWeek, dateIsRecent } = require('../../lib/dateJuggler');
-const { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers, usersOnline, getUserById } = require('../../models/model-user');
+const { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers, usersOnline, getUserById, getTitleNameById } = require('../../models/model-user');
 const getRER = require('../../lib/getRecentExerciseReturns');
 const classChat = require('../../views/templates/chat');
 const { getLatestMessages } = require('../../models/model-messages');
@@ -25,18 +25,18 @@ function teacherView (teacher, wsport) {
     <div class="row">
       <div class="col-12 col-md-6">
         <div class="border py-2 px-3 mb-3">
-          <h4>Guten Tag ${teacher.fname} ${teacher.lname},</h4>
+          <h4>Guten Tag ${getTitleNameById(teacher.id)},</h4>
           <p>
-            heute is ${weekDay()} und Sie haben <strong>${getLatestMessages(teacher.id).length}</strong> neue Nachrichten:
+            heute is ${formatDay()} ${getLatestMessages(teacher.id).length > 0 ? ' und Sie haben <strong>'+getLatestMessages(teacher.id).length+'</strong> neue Nachrichten:' : ''}
           </p>
           ${helperRecentMessages(teacher.id)}
-          <br /><br />
+          <br />
         </div>
         <div class="border py-2 px-3 mb-3">
           <h4>Abgegebene Aufgaben:</h4>
           <hr />
           ${returnedExercises(teacher.group, teacher.courses)}
-          <br /><br /><br /><br /><br /><br />
+          <br />
         </div>
       </div>
       <div class="col-12 col-md-6">

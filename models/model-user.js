@@ -75,6 +75,23 @@ function getUserById (id) {
   }
 }
 
+function getTitleNameById (id) {
+  if (id !== '' && typeof(id) === 'number') {
+    let user = users.filter( user => user.id === id)[0];
+    if (user.role === 'student') {
+      return user.fname + ' ' + user.lname + ', ' + user.group;
+    } else if (user.gender && user.user === 'male') {
+      return 'Mr. ' + user.lname;
+    } else if (user.gender && user.gender === 'female') {
+      return 'Ms. ' + user.lname;
+    } else {
+      return 'Mr./Ms. ' + user.lname;
+    }
+  } else {
+    return {}
+  }
+}
+
 // Additional functions
 
 function loadUsers (filePath) {
@@ -88,4 +105,4 @@ function loadUsers (filePath) {
 }
 
 
-module.exports = { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers, usersOnline, getUserById };
+module.exports = { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers, usersOnline, getUserById, getTitleNameById };
