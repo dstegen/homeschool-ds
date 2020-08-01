@@ -14,7 +14,7 @@ const moment = require('moment');
 const { getChat, updateChat } = require('../../models/model-chat');
 const { getUserById } = require('../../models/model-user');
 
-function classChat (groupsList, user) {
+function classChat (groupsList, user, windowLength=250) {
   let returnHtml = '';
   if (typeof(groupsList) === 'string') groupsList = [groupsList];
   groupsList.forEach( myGroup => {
@@ -28,7 +28,7 @@ function classChat (groupsList, user) {
         </div>
         <div id="chat-window-${myGroup}" class="collapse show">
           <hr />
-          <div id="${myGroup}" class="chat-window" style="max-height: 250px; overflow: auto;">
+          <div id="${myGroup}" class="chat-window" style="max-height: ${windowLength}px; overflow: auto;">
             ${chatterEntry(myGroup, user)}
           </div>
           <hr />
