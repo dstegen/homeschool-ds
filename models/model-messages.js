@@ -7,13 +7,11 @@
 
 'use strict';
 
-const moment = require('moment');
-
-
 // Required modules
 const fs = require('fs');
 const path = require('path');
 const uuidv4 = require('uuid').v4;
+const moment = require('moment');
 const { dateIsRecent } = require('../lib/dateJuggler');
 
 
@@ -45,9 +43,7 @@ function getLatestMessages (userId) {
       ).filter(
           item => item.messages[item.messages.length-1].chaterId !== userId
         );
-    console.log(allMessages);
     allMessages.sort((a, b) => reorderPrivateMessages(a, b));
-    console.log(allMessages);
     return allMessages;
   } catch (e) {
     console.log('- ERROR reading private messages file: '+e);
