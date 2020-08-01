@@ -15,6 +15,7 @@ function getNaviObj (user, loginname='', myGroup=[]) {
   let role = '';
   if (user) role = user.role;
   let lessonsDropdown = [];
+  let classesDropdown = [];
   switch (role) {
     case 'student':
     return {
@@ -59,6 +60,14 @@ function getNaviObj (user, loginname='', myGroup=[]) {
         }
       )
     }
+    for (let i=0; i<myGroup.length; i++) {
+      classesDropdown.push(
+        {
+          name: 'Class '+myGroup[i],
+          link: '/teacher/classes/'+myGroup[i]
+        }
+      )
+    }
     return {
       school: school.name,
       loginname: 'Teacher: '+loginname,
@@ -75,8 +84,9 @@ function getNaviObj (user, loginname='', myGroup=[]) {
         },
         {
           name: 'my classes',
-          link: '/teacher/classes',
-          dropdown: false
+          link: '#',
+          dropdown: true,
+          dropdownItems: classesDropdown
         },
         {
           name: 'lessons',

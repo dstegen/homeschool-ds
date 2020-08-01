@@ -12,12 +12,12 @@ const { thisWeek } = require('../../lib/dateJuggler');
 const { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers } = require('../../models/model-user');
 const classChat = require('../../views/templates/chat');
 
-function teacherClassesView (teacher) {
+function teacherClassesView (teacher, group) {
   return `
     <div id="class" class="container my-3 p-3 border collapse show" data-parent="#homeschool-ds">
       <h2>Klasse/n von ${teacher.fname} ${teacher.lname}</h2>
       <hr />
-      ${teacher.group.map( group => displayClass(group, teacher) ).join('')}
+      ${displayClass(group, teacher)}
     </div>
   `;
 }
