@@ -8,16 +8,15 @@
 'use strict';
 
 const path = require('path');
-const fs = require('fs');
-const { thisWeek, thisDay, weekDates, weekDayNumber, formatDay, formatDate, weekDay, beforeToday, isActualWeek, momentFromDay, workdaysBetween, dateIsRecent, beforeFinishDate } = require('../../lib/dateJuggler');
+const { thisWeek, thisDay, weekDayNumber, formatDay, momentFromDay, workdaysBetween, notValid } = require('../../lib/dateJuggler');
+const { lessonsToday, lessonsNotFinished } = require('../../models/model-lessons');
 const getFilesList = require('../../lib/getFilesList');
 let lessonsConfig = {};
 
 
-function studentDayView (myLessons, myGroup, curDay=thisDay(), studentId) {
+function studentDayView (myLessons, myGroup, curDay=thisDay(), user) {
   lessonsConfig = require(path.join('../../data/classes/', myGroup,'/config.json'));
-  let todayOff = '';
-  if (myLessons.filter( item => item.weekdays.includes(weekDayNumber())).length < 1) todayOff = `<span class="text-muted">- kein Unterricht -</span>`;
+  let myLessonsToday = lessonsToday(myGroup, weekDayNumber(curDay), thisWeek(momentFromDay(curDay)));
   return `
     <div id="today" class="container my-3 p-3 border collapse show" data-parent="#homeschool-ds">
       <div class="d-flex justify-content-between">
@@ -30,11 +29,11 @@ function studentDayView (myLessons, myGroup, curDay=thisDay(), studentId) {
       <hr />
       <div class="row">
         <div class="col-12 col-md-6 border-right">
-          ${myLessons.map(lesson => helperLessonBig(lesson, weekDayNumber(curDay), curDay, myGroup, studentId)).join('')}
-          ${todayOff}
+          ${myLessonsToday.map(lesson => helperLessonBig(lesson, weekDayNumber(curDay), curDay, myGroup, user.id)).join('')}
+          ${myLessonsToday.length === 0 ? '<div class="text-muted w-100 text-center mt-4">- kein Unterricht -</div>' : ''}
         </div>
         <div class="col-12 col-md-6">
-          ${helperLessonsNotFinished(myLessons, weekDayNumber(curDay), curDay, myGroup, studentId)}
+          ${helperLessonsNotFinished(weekDayNumber(curDay), curDay, myGroup, user)}
         </div>
       </div>
     </div>
@@ -44,55 +43,17 @@ function studentDayView (myLessons, myGroup, curDay=thisDay(), studentId) {
 
 // Additional functions
 
-function helperLessonsNotFinished (myLessons, curWeekDay, curDay, myGroup, studentId) {
-  let returnHtml = '<h6 class="text-center text-danger my-4">Noch nicht abgeschlossene Stunden:</h6>'
-  let counter = 0;
-  let curWeek = thisWeek(momentFromDay(curDay));
-  let lessonsList = [];
-  myLessons.forEach( lessonObj => {
-    if (!lessonObj.lessonFinished.includes(studentId) && !isActualWeek(lessonObj.validFrom, lessonObj.validUntil, curWeek) && !beforeFinishDate(lessonObj.validUntil)) {
-      returnHtml += lessonBigCart(lessonObj, curWeekDay, curDay, myGroup, studentId);
-      counter++;
-    }
-  });
-  if (counter > 0) {
-    return returnHtml;
-  } else {
-    return '';
+function helperLessonsNotFinished (curWeekDay, curDay, myGroup, user) {
+  let returnHtml = '';
+  let lessonsNotFinishedToday = lessonsNotFinished(user, momentFromDay(curDay));
+  if (lessonsNotFinishedToday.length > 0) {
+    returnHtml += '<h6 class="text-center text-danger my-4">Noch nicht abgeschlossene Stunden:</h6>'
+    returnHtml += lessonsNotFinishedToday.map( lessonObj => helperLessonBig(lessonObj, curWeekDay, curDay, myGroup, user.id)).join('');
   }
+  return returnHtml;
 }
 
 function helperLessonBig (lessonObj, curWeekDay, curDay, myGroup, studentId) {
-  let lessonColor = '';
-  if (lessonsConfig.courses.filter( item => item.name === lessonObj.lesson).length > 0) {
-    lessonColor = lessonsConfig.courses.filter( item => item.name === lessonObj.lesson)[0].color;
-  }
-  let weekNumber = thisWeek(momentFromDay(curDay));
-  if (lessonObj.weekdays.includes(curWeekDay) && isActualWeek(lessonObj.validFrom, lessonObj.validUntil, weekNumber)) {
-    return `
-      <div class="card lessonbig ${lessonColor} mt-2 text-left">
-        <div id="lessonbig-${lessonObj.id}${curWeekDay}" class="card-header d-flex justify-content-between" onclick="$('#lessonbig-details-${lessonObj.id}${curWeekDay}').collapse('toggle');">
-          <span>${lessonObj.lesson}: ${lessonObj.chapter}</span>
-          ${lessonIndicator(myGroup, lessonObj, studentId, curDay)}
-        </div>
-        <div id="lessonbig-details-${lessonObj.id}${curWeekDay}" class="card-body collapse" data-parent="#today">
-          <strong class="card-title">Aufgabe:</strong>
-          <p class="card-text">${lessonObj.details}</p>
-          <strong class="card-title">Downloads:</strong>
-          <ul class="text-truncate">
-            ${getFilesList(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString(), 'material')).map(item => helperListitem(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString(), 'material'), item)).join('')}
-          </ul>
-          ${helperUpload(myGroup, lessonObj, studentId, curDay)}
-          ${helperFinishButton(myGroup, lessonObj,studentId, curDay)}
-        </div>
-      </div>
-    `;
-  } else {
-    return '';
-  }
-}
-
-function lessonBigCart (lessonObj, curWeekDay, curDay, myGroup, studentId) {
   let lessonColor = '';
   if (lessonsConfig.courses.filter( item => item.name === lessonObj.lesson).length > 0) {
     lessonColor = lessonsConfig.courses.filter( item => item.name === lessonObj.lesson)[0].color;
@@ -101,7 +62,7 @@ function lessonBigCart (lessonObj, curWeekDay, curDay, myGroup, studentId) {
     <div class="card lessonbig ${lessonColor} mt-2 text-left">
       <div id="lessonbig-${lessonObj.id}${curWeekDay}" class="card-header d-flex justify-content-between" onclick="$('#lessonbig-details-${lessonObj.id}${curWeekDay}').collapse('toggle');">
         <span>${lessonObj.lesson}: ${lessonObj.chapter}</span>
-        Abgabe: ${formatDay(thisDay(lessonObj.validUntil))}
+        ${lessonIndicator(myGroup, lessonObj, studentId, curDay)}
       </div>
       <div id="lessonbig-details-${lessonObj.id}${curWeekDay}" class="card-body collapse" data-parent="#today">
         <strong class="card-title">Aufgabe:</strong>
@@ -182,6 +143,8 @@ function helperFinishButton (myGroup, lessonObj, studentId, curDay) {
 function lessonIndicator (myGroup, lessonObj, studentId, curDay) {
   if (lessonObj.lessonFinished.includes(studentId)) {
     return '<span class="checkmark-ok-grey">&#10003;</span>';
+  } else if (notValid(lessonObj.validUntil, momentFromDay(curDay))) {
+    return `Abgabe: ${formatDay(thisDay(lessonObj.validUntil))}`;
   } else {
     let lessonsTotal = workdaysBetween(lessonObj.validFrom, lessonObj.validUntil, lessonObj.weekdays);
     let lessonsLeft = lessonsTotal + 1 - workdaysBetween(momentFromDay(curDay), lessonObj.validUntil, lessonObj.weekdays);

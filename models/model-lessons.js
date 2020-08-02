@@ -10,6 +10,7 @@
 // Required Modules
 const path = require('path');
 const fs = require('fs');
+const { isActualWeek, notValid } = require('../lib/dateJuggler');
 
 function getLessons(myGroup) {
   return loadFile(myGroup);
@@ -73,6 +74,15 @@ function finishLesson (fields) {
   return myLessons;
 }
 
+function lessonsToday (myGroup, curWeekDay, curWeek) {
+  return getLessons(myGroup).filter( lesson => (lesson.weekdays.includes(curWeekDay) && isActualWeek(lesson.validFrom, lesson.validUntil, curWeek)));
+}
+
+function lessonsNotFinished (user, inDay) {
+  return getLessons(user.group).filter( lesson => (!lesson.lessonFinished.includes(user.id) && notValid(lesson.validUntil, inDay)));
+}
+
+
 // Additional functions
 
 function loadFile (myGroup) {
@@ -105,4 +115,4 @@ function getNewId (lessons) {
 }
 
 
-module.exports = { getLessons, updateLesson, deleteLesson, finishLesson };
+module.exports = { getLessons, updateLesson, deleteLesson, finishLesson, lessonsToday, lessonsNotFinished };
