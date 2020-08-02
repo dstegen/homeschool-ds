@@ -9,14 +9,13 @@
 
 const path = require('path');
 const fs = require('fs');
-const { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers } = require('../../models/model-user');
+const { getAllUsers } = require('../../models/model-user');
 const { getLessons } = require('../../models/model-lessons');
 const { workdaysBetween } = require('../../lib/dateJuggler');
 const getFilesList = require('../../lib/getFilesList');
-const getRER = require('../../lib/getRecentExerciseReturns');
 
 
-function teacherLessonsView (teacher, urlPath) {
+function singleLessonView (teacher, urlPath) {
   let group = urlPath.split('/')[2];
   let myLessonId = urlPath.split('/')[3];
   const myLesson = getLessons(group).filter( lesson => lesson.id === Number(myLessonId))[0];
@@ -98,19 +97,6 @@ function lessonStatus (myLesson, studentId) {
   }
 }
 
-
-function helperListitem (item, group) {
-  if (item.files.length > 0) {
-    let filePath = path.join(group, 'courses', item.course, item.lessonId, 'homework', item.studentId);
-    let curStudent = getAllUsers(group).filter( user => user.id === Number(item.studentId)).map( user => { return user.fname+' '+user.lname} );
-    return `
-      <li><div class="d-flex justify-content-between text-truncate"><a href="${path.join('/data/classes/', filePath, item.files[0])}" target="_blank">${curStudent}: ${item.files[0]}</a><span class="checkmark-ok">&#10003;</span> </li>
-    `;
-  } else {
-    return '';
-  }
-}
-
 function helperDownloads (filePath, item) {
   return `
     <li><div class="d-flex justify-content-between text-truncate"><a href="${path.join('/data/classes/', filePath, item)}" target="_blank">${item}</a></li>
@@ -118,4 +104,4 @@ function helperDownloads (filePath, item) {
 }
 
 
-module.exports = teacherLessonsView;
+module.exports = singleLessonView;

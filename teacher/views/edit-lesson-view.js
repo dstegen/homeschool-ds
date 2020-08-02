@@ -1,5 +1,5 @@
 /*!
- * example/views/viewEdit.js
+ * example/views/edit-lesson-view.js
  * webapputils-ds (https://github.com/dstegen/webapputils-ds)
  * Copyright 2020 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/webapputils-ds/blob/master/LICENSE)
@@ -9,12 +9,12 @@
 
 const path = require('path');
 const view = require('../../views/view');
-const { thisWeek, weekDates, weekDayNumber, formatDay, formatDate, weekDay, beforeToday, isActualWeek } = require('../../lib/dateJuggler');
+const { weekDay } = require('../../lib/dateJuggler');
 const getFilesList = require('../../lib/getFilesList');
 let lessonsConfig = {};
 
 
-function teacherLessonsEditView (itemObj, naviObj, myGroup, user) {
+function editLessonView (itemObj, naviObj, myGroup, user) {
   lessonsConfig = require(path.join('../../data/classes/', myGroup,'/config.json'));
   let body = `
       <div class="container h-100 border py-2 px-3 my-3">
@@ -166,4 +166,4 @@ function helperListitem (filePath, item, deleteable=false, myGroup='00', itemId)
 }
 
 
-module.exports = teacherLessonsEditView;
+module.exports = editLessonView;

@@ -8,12 +8,13 @@
 'use strict';
 
 const path = require('path');
-const { thisWeek, notValid } = require('../../lib/dateJuggler');
-const { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers } = require('../../models/model-user');
+const { notValid } = require('../../lib/dateJuggler');
+const { getAllUsers } = require('../../models/model-user');
 const { getLessons } = require('../../models/model-lessons');
 const getRER = require('../../lib/getRecentExerciseReturns');
 
-function teacherLessonsView (teacher) {
+
+function lessonsView (teacher) {
   return `
     <div id="lessons" class="container my-3 p-3 border collapse show" data-parent="#homeschool-ds">
       <h2>Stunden</h2>
@@ -27,47 +28,47 @@ function teacherLessonsView (teacher) {
 // Additional functions
 
 function displayLessons (group, courses) {
-  let returnHtml = `
-      <div class="mb-5">
-        <div class="d-flex justify-content-between">
-          <h4>Klasse ${group}</h4>
-          <span>
-            <a href="#" onclick="$('.details-box').removeClass('d-none');">Show archived lessons</a>
-            <a href="/timetable/${group}">Timetable</a>
-          </span>
-        </div>
-          `;
-  const lessons = getLessons(group);
-  lessons.forEach( item => {
-    if (courses.includes(item.lesson) || courses[0] === 'all') {
-      returnHtml += `
-        <div class="border p-2 mb-2 ${notValid(item.validUntil) ? 'details-box d-none' : ''}">
-          <div class="d-flex justify-content-between">
-            <div><strong>${item.lesson}</strong>: ${item.chapter} <span class="text-muted">(${item.validFrom} – ${item.validUntil})</span></div>
-            <div class="d-flex justify-content-end">
-              <a href="/edit/${group}/${item.id}" class="btn btn-sm bg-grey ml-3 ${notValid(item.validUntil) ? 'd-none' : ''}">Edit</a>
-              <a data-toggle="collapse" href="#lesson-homework-${group}-${item.id}" class="btn btn-sm btn-primary ml-3">Homework</a>
-              <a href="/teacher/lessons/${group}/${item.id}" class="btn btn-sm btn-secondary ml-3">Details</a>
-            </div>
-          </div>
-          <div class="collapse" id="lesson-homework-${group}-${item.id}" data-parent="#lessons">
-            <hr />
-            <strong>Abgegeben Aufgaben:</strong>
-            <ul>
-              ${getRER(group, [item.lesson]).filter( file => Number(file.lessonId) === Number(item.id) ).map( lesson => helperListitem(lesson, group)).join('')}
-            </ul>
-          </div>
-        </div>
-      `;
-    }
-  });
-  returnHtml += `
+  return `
+    <div class="mb-5">
+      <div class="d-flex justify-content-between">
+        <h4>Klasse ${group}</h4>
+        <span>
+          <a href="#" onclick="$('.details-box').removeClass('d-none');">Show archived lessons</a>
+          <a href="/timetable/${group}">Timetable</a>
+        </span>
+      </div>
+      ${getLessons(group).map( item => helperLesson(item, group, courses)).join('')}
       <div class="d-flex justify-content-end p-2 mb-">
         <a href="/edit/${group}" class="btn-sm btn-primary" data-toggle="tooltip" data-placement="left" title="Add lesson"> + </a>
       </div>
+    </div>
   `;
-  returnHtml += `</div>`;
-  return returnHtml;
+}
+
+function helperLesson (item, group, courses) {
+  if (courses.includes(item.lesson) || courses[0] === 'all') {
+    return `
+      <div class="border p-2 mb-2 ${notValid(item.validUntil) ? 'details-box d-none' : ''}">
+        <div class="d-flex justify-content-between">
+          <div><strong>${item.lesson}</strong>: ${item.chapter} <span class="text-muted">(${item.validFrom} – ${item.validUntil})</span></div>
+          <div class="d-flex justify-content-end">
+            <a href="/edit/${group}/${item.id}" class="btn btn-sm bg-grey ml-3 ${notValid(item.validUntil) ? 'd-none' : ''}">Edit</a>
+            <a data-toggle="collapse" href="#lesson-homework-${group}-${item.id}" class="btn btn-sm btn-primary ml-3">Homework</a>
+            <a href="/teacher/lessons/${group}/${item.id}" class="btn btn-sm btn-secondary ml-3">Details</a>
+          </div>
+        </div>
+        <div class="collapse" id="lesson-homework-${group}-${item.id}" data-parent="#lessons">
+          <hr />
+          <strong>Abgegeben Aufgaben:</strong>
+          <ul>
+            ${getRER(group, [item.lesson]).filter( file => Number(file.lessonId) === Number(item.id) ).map( lesson => helperListitem(lesson, group)).join('')}
+          </ul>
+        </div>
+      </div>
+    `;
+  } else {
+    return '';
+  }
 }
 
 function helperListitem (item, group) {
@@ -83,4 +84,4 @@ function helperListitem (item, group) {
 }
 
 
-module.exports = teacherLessonsView;
+module.exports = lessonsView;
