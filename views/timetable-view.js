@@ -31,7 +31,7 @@ function timetableView (myLessons, myGroup, curWeek=thisWeek()) {
     </div>
     <hr />
     <div class="row text-center">
-      ${[1,2,3,4,5,6,7].map( day => helperWeekday(day, curWeek, myLessons)).join('')}
+      ${[1,2,3,4,5,6].map( day => helperWeekday(day, curWeek, myLessons)).join('')}
     </div>
   </div>
   `;
