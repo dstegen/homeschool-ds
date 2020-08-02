@@ -59,6 +59,7 @@ function navi (naviObj, loggedIn, history) {
     <script>
       let newMessages = ${naviObj.newMessages};
     </script>
+    <!-- Main content -->
   `;
 }
 
