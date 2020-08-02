@@ -8,12 +8,12 @@
 'use strict';
 
 const path = require('path');
-const fs = require('fs');
-const { thisWeek, thisDay, weekDates, weekDayNumber, formatDay, formatDate, weekDay, beforeToday, isActualWeek, dateIsRecent } = require('../../lib/dateJuggler');
-const { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers, usersOnline, getUserById, getTitleNameById } = require('../../models/model-user');
+const { formatDay, dateIsRecent } = require('../../lib/dateJuggler');
+const { getAllUsers, usersOnline, getUserById, getTitleNameById } = require('../../models/model-user');
 const getRER = require('../../lib/getRecentExerciseReturns');
 const classChat = require('../../views/templates/chat');
 const { getLatestMessages } = require('../../models/model-messages');
+
 
 function teacherView (teacher, wsport) {
   return `
@@ -104,7 +104,7 @@ function helperListitem (item, group) {
 
 function helperRecentMessages (userId) {
   let returnHtml = '<ul>';
-  getLatestMessages(userId).forEach((item, i) => {
+  getLatestMessages(userId).forEach( item => {
     let allMessages = item.messages.filter( item => item.chaterId !== userId);
     let message = allMessages[allMessages.length-1];
     if (message !== undefined) returnHtml += `<li><a href="/communication">${message.chat} (${getUserById(message.chaterId).fname}, ${getUserById(message.chaterId).group})</a></li>`

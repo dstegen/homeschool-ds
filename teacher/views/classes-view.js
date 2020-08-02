@@ -7,15 +7,13 @@
 
 'use strict';
 
-const path = require('path');
-const { thisWeek } = require('../../lib/dateJuggler');
-const { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers } = require('../../models/model-user');
+const { getAllUsers } = require('../../models/model-user');
 const classChat = require('../../views/templates/chat');
 const newPrivateMessage = require('../../views/templates/new-private-message');
 
 
-function teacherClassesView (teacher, group) {
-  let returnHtml = `
+function teacherClassesView (teacher, group, wsport) {
+  return `
     <div id="class" class="container">
       <div class="mb-5">
         <div class="d-flex justify-content-between py-2 px-3 my-3 border align-items-center">
@@ -33,20 +31,7 @@ function teacherClassesView (teacher, group) {
                 <th>Vorname</th>
                 <th>Nachname</th>
               </tr>
-  `;
-  getAllUsers(group).filter( person => person.role === 'student').forEach((item, i) => {
-    returnHtml += `
-              <tr>
-                <td>${i+1}</td>
-                <td>${item.fname}</td>
-                <td>${item.lname}</td>
-                <td class="d-flex justify-content-end">
-                  <button class="d-none btn btn-sm btn-secondary ml-2" onclick="sendEmail('${item.email}');">E-Mail</button>
-                  <button class="btn btn-sm btn-success ml-2" onclick="showNewPrivateMessage('${group}','${item.id}')">Nachricht</button>
-                </td>
-              </tr>`
-  });
-  returnHtml += `
+              ${getAllUsers(group).filter( person => person.role === 'student').map( (item, i) => helperClassTable(item, i, group)).join('')}
             </table>
           </div>
           <div id="new-message-${group}" class="col-12 col-lg collapse" data-parent="#classParent">
@@ -57,8 +42,34 @@ function teacherClassesView (teacher, group) {
           </div>
         </div>
       </div>
-        `;
-  return returnHtml;
+    </div>
+    <script>
+      // Websockets
+      const hostname = window.location.hostname ;
+      const socket = new WebSocket('ws://'+hostname+':${wsport}/', 'protocolOne', { perMessageDeflate: false });
+      socket.onmessage = function (msg) {
+        location.reload();
+        console.log(msg.data);
+      };
+    </script>
+    `;
+}
+
+
+// Additional functions
+
+function helperClassTable (item, index, group) {
+  return `
+    <tr>
+      <td>${index+1}</td>
+      <td>${item.fname}</td>
+      <td>${item.lname}</td>
+      <td class="d-flex justify-content-end">
+        <button class="d-none btn btn-sm btn-secondary ml-2" onclick="sendEmail('${item.email}');">E-Mail</button>
+        <button class="btn btn-sm btn-success ml-2" onclick="showNewPrivateMessage('${group}','${item.id}')">Nachricht</button>
+      </td>
+    </tr>
+  `;
 }
 
 

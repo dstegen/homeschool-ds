@@ -21,10 +21,8 @@ function privateMessages (userId) {
   allMessages.forEach( (msg, i) => {
     let myGroup = userId+'_'+i;
     let chatMateId = msg.chatMates.filter( id => id !== userId)[0];
-    console.log(chatMateId);
     if (chatMateId > 99999) {
       let chatMate = getUserById(chatMateId);
-      console.log(chatMate);
       returnHtml += `
         <div class="border py-2 px-3 mb-3">
           <div class="d-flex justify-content-between">
