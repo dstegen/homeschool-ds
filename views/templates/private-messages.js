@@ -11,8 +11,9 @@
 const fs = require('fs');
 const path = require('path');
 const moment = require('moment');
-const { getPrivateMessages, updatePrivateMessages } = require('../../models/model-messages');
+const { getPrivateMessages } = require('../../models/model-messages');
 const { getUserById } = require('../../models/model-user');
+
 
 function privateMessages (userId) {
   let allMessages = getPrivateMessages(userId);
@@ -20,31 +21,35 @@ function privateMessages (userId) {
   allMessages.forEach( (msg, i) => {
     let myGroup = userId+'_'+i;
     let chatMateId = msg.chatMates.filter( id => id !== userId)[0];
-    let chatMate = getUserById(chatMateId);
-    returnHtml += `
-      <div class="border py-2 px-3 mb-3">
-        <div class="d-flex justify-content-between">
-          <h4>Unterhaltung mit ${helperTitle(chatMate)}</h4>
-          <span>
-            <button type="button" class="btn btn-sm btn-outline-info" id="toggle-button-${myGroup}" onclick="toggleChat('chat-window-${myGroup}')"> - </button>
-          </span>
-        </div>
-        <div id="chat-window-${myGroup}" class="collapse show">
-          <hr />
-          <div id="${myGroup}" class="chat-window" style="max-height: 250px; overflow: auto;">
-            ${chatterEntry(msg.messages, userId)}
+    console.log(chatMateId);
+    if (chatMateId > 99999) {
+      let chatMate = getUserById(chatMateId);
+      console.log(chatMate);
+      returnHtml += `
+        <div class="border py-2 px-3 mb-3">
+          <div class="d-flex justify-content-between">
+            <h4>Unterhaltung mit ${helperTitle(chatMate)}</h4>
+            <span>
+              <button type="button" class="btn btn-sm btn-outline-info" id="toggle-button-${myGroup}" onclick="toggleChat('chat-window-${myGroup}')"> - </button>
+            </span>
           </div>
-          <hr />
-          <form id="classChat-form" action="/message" class="d-flex justify-content-between" method="post">
-            <input type="text" name="chatterId" class="d-none" hidden value="${userId}" />
-            <input type="text" name="chatMate" class="d-none" hidden value="${chatMateId}" />
-            <input type="text" name="privateMessageId" class="d-none" hidden value="${msg.id}" />
-            <input type="texte" class="form-control mr-2" id="userchat" name="userchat" placeholder="${getUserById(userId).fname}, write something..." value="" />
-            <button type="submit" class="btn btn-sm btn-primary">Send</button>
-          </form>
+          <div id="chat-window-${myGroup}" class="collapse show">
+            <hr />
+            <div id="${myGroup}" class="chat-window" style="max-height: 250px; overflow: auto;">
+              ${chatterEntry(msg.messages, userId)}
+            </div>
+            <hr />
+            <form id="classChat-form" action="/message" class="d-flex justify-content-between" method="post">
+              <input type="text" name="chatterId" class="d-none" hidden value="${userId}" />
+              <input type="text" name="chatMate" class="d-none" hidden value="${chatMateId}" />
+              <input type="text" name="privateMessageId" class="d-none" hidden value="${msg.id}" />
+              <input type="texte" class="form-control mr-2" id="userchat" name="userchat" placeholder="${getUserById(userId).fname}, write something..." value="" />
+              <button type="submit" class="btn btn-sm btn-primary">Send</button>
+            </form>
+          </div>
         </div>
-      </div>
-    `;
+      `;
+    }
   });
   return returnHtml;
 }
@@ -55,7 +60,7 @@ function privateMessages (userId) {
 function chatterEntry (messages, userId) {
   let returnHtml = '';
   let lastMoment = moment().day();
-  messages.forEach( (item, i) => {
+  messages.forEach( item => {
     let chatUser = getUserById(item.chaterId);
     let cssInline = 'd-inline';
     if (item.chat.split('').length > 46) cssInline = '';

@@ -11,8 +11,9 @@
 const fs = require('fs');
 const path = require('path');
 const moment = require('moment');
-const { getChat, updateChat } = require('../../models/model-chat');
+const { getChat } = require('../../models/model-chat');
 const { getUserById } = require('../../models/model-user');
+
 
 function classChat (groupsList, user, windowLength=250) {
   let returnHtml = '';
@@ -50,7 +51,7 @@ function classChat (groupsList, user, windowLength=250) {
 
 function chatterEntry (myGroup, user) {
   let returnHtml = '';
-  getChat(myGroup).forEach( (item, i) => {
+  getChat(myGroup).forEach( item => {
     let chatUser = getUserById(item.chaterId);
     let chatUserName = chatUser.fname + ' ' + chatUser.lname;
     if (chatUser.role === 'teacher') {
