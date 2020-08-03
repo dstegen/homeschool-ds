@@ -168,6 +168,8 @@ const myChat = [
     }
   ]
 
+const myPrivateMessages = [];
+
 console.log("\n- Do you want to install the demo? (Y/N) ");
 rl.on('line', function (input) {
   if (input === 'y' || input === 'Y') {
@@ -179,6 +181,7 @@ rl.on('line', function (input) {
     createDir('/data/classes/7A');
     saveFile('/data/school/config.json', schoolConfig);
     saveFile('/data/school/users.json', users);
+    saveFile('/data/school/private-messages.json', myPrivateMessages);
     saveFile('/data/classes/7A/config.json', classConfig);
     saveFile('/data/classes/7A/lessons.json', myLessons);
     saveFile('/data/classes/7A/chat.json', myChat);
