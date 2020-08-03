@@ -15,13 +15,13 @@
     "rules": {
       "no-console": "off",
       "no-useless-escape": "off",
-      "no-unused-vars": "off"
+      "no-unused-vars": "warn"
     },
     "overrides": [
       {
         "files": ["data/*"],
         "rules": {
-          "no-unused-vars": "off"
+          "no-unused-vars": "warn"
         }
       }
     ]

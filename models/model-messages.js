@@ -36,7 +36,7 @@ function getPrivateMessages (userId) {
 function getLatestMessages (userId) {
   let allMessages = [];
   try {
-    let allMessages = loadPrivateMessages().filter(
+    allMessages = loadPrivateMessages().filter(
       item => item.chatMates.includes(userId)
     ).filter(
         item => dateIsRecent(item.updated, 5)
