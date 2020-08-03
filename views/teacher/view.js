@@ -10,9 +10,9 @@
 const path = require('path');
 const { formatDay, dateIsRecent } = require('../../lib/dateJuggler');
 const { getAllUsers, usersOnline, getUserById, getTitleNameById } = require('../../models/model-user');
-const getRER = require('../../lib/getRecentExerciseReturns');
-const classChat = require('../../views/templates/chat');
 const { getLatestMessages } = require('../../models/model-messages');
+const getRER = require('../../lib/getRecentExerciseReturns');
+const classChat = require('../templates/chat');
 
 
 function teacherView (teacher, wsport) {

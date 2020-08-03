@@ -8,8 +8,8 @@
 'use strict';
 
 const { getAllUsers } = require('../../models/model-user');
-const classChat = require('../../views/templates/chat');
-const newPrivateMessage = require('../../views/templates/new-private-message');
+const classChat = require('../templates/chat');
+const newPrivateMessage = require('../templates/new-private-message');
 
 
 function teacherClassesView (teacher, group, wsport) {

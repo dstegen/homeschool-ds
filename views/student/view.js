@@ -10,7 +10,7 @@
 const { thisWeek, thisDay, weekDayNumber, formatDay } = require('../../lib/dateJuggler');
 const { lessonsToday, lessonsNotFinished } = require('../../models/model-lessons');
 const { usersOnline } = require('../../models/model-user');
-const classChat = require('../../views/templates/chat');
+const classChat = require('../templates/chat');
 
 
 function studentView (myLessons, myGroup, curWeek=thisWeek(), user={}, wsport) {
