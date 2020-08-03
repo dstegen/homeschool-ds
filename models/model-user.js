@@ -80,7 +80,7 @@ function getTitleNameById (id) {
     let user = users.filter( user => user.id === id)[0];
     if (user.role === 'student') {
       return user.fname + ' ' + user.lname + ', ' + user.group;
-    } else if (user.gender && user.user === 'male') {
+    } else if (user.gender && user.gender === 'male') {
       return 'Mr. ' + user.lname;
     } else if (user.gender && user.gender === 'female') {
       return 'Ms. ' + user.lname;
