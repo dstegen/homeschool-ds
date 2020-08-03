@@ -26,15 +26,6 @@ function getPasswdObj () {
   return passwdObj;
 }
 
-function getUserFullName (userId) {
-  let currUser = users.filter( user => user.userId === userId )[0];
-  if (currUser != undefined) {
-    return currUser.fname+' '+currUser.lname;
-  } else {
-    return '';
-  }
-}
-
 function getUserDetails (userId) {
   let currUser = users.filter( user => user.userId === userId )[0];
   if (currUser != undefined) {
@@ -105,4 +96,4 @@ function loadUsers (filePath) {
 }
 
 
-module.exports = { initUsers, getPasswdObj, getUserFullName, getUserDetails, getAllUsers, usersOnline, getUserById, getTitleNameById };
+module.exports = { initUsers, getPasswdObj, getUserDetails, getAllUsers, usersOnline, getUserById, getTitleNameById };
