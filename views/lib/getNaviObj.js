@@ -8,19 +8,21 @@
 'use strict';
 
 const { getLatestMessages } = require('../../models/model-messages');
+const { getTitleNameById } = require('../../models/model-user');
 const school = require('../../data/school/config.json');
 
 
-function getNaviObj (user, loginname='', myGroup=[]) {
+function getNaviObj (user) {
   let role = '';
   if (user) role = user.role;
+  let myGroup = [];
   let lessonsDropdown = [];
   let classesDropdown = [];
   switch (role) {
     case 'student':
     return {
       school: school.name,
-      loginname: 'Student: '+loginname,
+      loginname: 'Student: '+getTitleNameById(user.id),
       loggedin: true,
       home: {
         name: 'HomeSchool-DS',
@@ -46,6 +48,7 @@ function getNaviObj (user, loginname='', myGroup=[]) {
       newMessages: getLatestMessages(user.id).length
     };
     case 'teacher':
+    myGroup = user.group;
     lessonsDropdown = [
       {
         name: 'Overview',
@@ -70,7 +73,7 @@ function getNaviObj (user, loginname='', myGroup=[]) {
     }
     return {
       school: school.name,
-      loginname: 'Teacher: '+loginname,
+      loginname: 'Teacher: '+getTitleNameById(user.id),
       loggedin: true,
       home: {
         name: 'HomeSchool-DS',
