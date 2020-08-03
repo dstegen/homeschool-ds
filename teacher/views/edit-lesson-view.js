@@ -8,13 +8,12 @@
 'use strict';
 
 const path = require('path');
-const view = require('../../views/view');
 const { weekDay } = require('../../lib/dateJuggler');
 const getFilesList = require('../../lib/getFilesList');
 let lessonsConfig = {};
 
 
-function editLessonView (itemObj, naviObj, myGroup, user) {
+function editLessonView (itemObj, myGroup, user) {
   lessonsConfig = require(path.join('../../data/classes/', myGroup,'/config.json'));
   let body = `
       <div class="container h-100 border py-2 px-3 my-3">
@@ -54,7 +53,7 @@ function editLessonView (itemObj, naviObj, myGroup, user) {
       </form>
       </div>
   `;
-  return view('', naviObj, body, {});
+  return body;
 }
 
 
