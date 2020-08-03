@@ -23,13 +23,7 @@ function getPrivateMessages (userId) {
     return messages;
   } catch (e) {
     console.log('- ERROR reading private messages file: '+e);
-    return [
-      {
-        "chaterId": 0,
-        "timeStamp": new Date(),
-        "chat": "Error, message not available at the moment..."
-      }
-    ];
+    return [];
   }
 }
 
@@ -47,7 +41,7 @@ function getLatestMessages (userId) {
     return allMessages;
   } catch (e) {
     console.log('- ERROR reading private messages file: '+e);
-    return '';
+    return [];
   }
 }
 
@@ -75,7 +69,6 @@ function addPrivateMessage (allMessages, fields) {
     chat: fields.userchat
   }
   try {
-    //let allMessages = loadPrivateMessages();
     allMessages.filter( item => item.id === fields.privateMessageId)[0].messages.push(newMessage);
     allMessages.filter( item => item.id === fields.privateMessageId)[0].updated = new Date();
     fs.writeFileSync(path.join(__dirname, '../data/school', 'private-messages.json'), JSON.stringify(allMessages));
