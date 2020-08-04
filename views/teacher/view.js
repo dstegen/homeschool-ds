@@ -8,11 +8,15 @@
 'use strict';
 
 const path = require('path');
-const { formatDay, dateIsRecent } = require('../../lib/dateJuggler');
+const locale = require('../../lib/locale');
+const config = require('../../models/model-config')();
+const { formatDay, dateIsRecent, getDaytime } = require('../../lib/dateJuggler');
 const { getAllUsers, usersOnline, getUserById, getTitleNameById } = require('../../models/model-user');
 const { getLatestMessages } = require('../../models/model-messages');
 const getRER = require('../../lib/getRecentExerciseReturns');
 const classChat = require('../templates/chat');
+
+const lang = config.lang;
 
 
 function teacherView (teacher, wsport) {
@@ -25,15 +29,15 @@ function teacherView (teacher, wsport) {
     <div class="row">
       <div class="col-12 col-md-6">
         <div class="border py-2 px-3 mb-3">
-          <h4>Guten Tag ${getTitleNameById(teacher.id)},</h4>
+          <h4>${helperWelcome(lang)} ${getTitleNameById(teacher.id)},</h4>
           <p>
-            heute ist ${formatDay()} ${getLatestMessages(teacher.id).length > 0 ? ' und Sie haben <strong>'+getLatestMessages(teacher.id).length+'</strong> neue Nachrichten:' : ''}
+            ${locale.teacher.today_is[lang]} ${formatDay()} ${getLatestMessages(teacher.id).length > 0 ? ' '+locale.teacher.you_have[lang]+' <strong>'+getLatestMessages(teacher.id).length+'</strong> '+locale.teacher.new_messages[lang]+':' : ''}
           </p>
           ${helperRecentMessages(teacher.id)}
           <br />
         </div>
         <div class="border py-2 px-3 mb-3">
-          <h4>Returned homework:</h4>
+          <h4>${locale.headlines.returned_homework[lang]}:</h4>
           <hr />
           ${returnedExercises(teacher.group, teacher.courses)}
           <br />
@@ -42,7 +46,7 @@ function teacherView (teacher, wsport) {
       <div class="col-12 col-md-6">
         ${classChat(teacher.group, teacher)}
         <div class="border py-2 px-3 mb-3">
-          <h4>Students online:</h4>
+          <h4>${locale.headlines.students_online[lang]}:</h4>
           <hr />
           ${studentsOnline(teacher.group)}
         </div>
@@ -67,7 +71,7 @@ function teacherView (teacher, wsport) {
 function studentsOnline (allGroups) {
   let returnHtml = '';
   allGroups.forEach( group => {
-    returnHtml += `<h5>Class ${group}:</h5><ul>`;
+    returnHtml += `<h5>${locale.headlines.class[lang]} ${group}:</h5><ul>`;
     usersOnline(group).forEach( user => {
       returnHtml += `<li>${user}</li>`
     });
@@ -80,7 +84,7 @@ function returnedExercises (allGroups, courses) {
   let returnHtml = '';
   allGroups.forEach( group => {
     try {
-      returnHtml += `<h5>Class ${group}:</h5><ul>`;
+      returnHtml += `<h5>${locale.headlines.class[lang]} ${group}:</h5><ul>`;
       returnHtml += getRER(group, courses).filter( item => dateIsRecent(item.birthtime, 3)).map( item => helperListitem(item, group)).join('');
       returnHtml += `</ul>`;
     } catch (e) {
@@ -111,6 +115,19 @@ function helperRecentMessages (userId) {
   });
   returnHtml += '</ul>';
   return returnHtml;
+}
+
+function helperWelcome (lang) {
+  switch (getDaytime()) {
+    case 'AM':
+      return locale.teacher.welcome_morning[lang];
+    case 'PM':
+      return locale.teacher.welcome_afternoon[lang];
+    case 'NIGHT':
+      return locale.teacher.welcome_evening[lang];
+    default:
+      return locale.teacher.welcome_afternoon[lang];
+  }
 }
 
 

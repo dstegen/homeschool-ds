@@ -1,0 +1,50 @@
+{
+  "headlines": {
+    "class": {
+      "en": "Class",
+      "de": "Klasse"
+    },
+    "group_chat": {
+      "en": "Group chat",
+      "de": "Klassen Chat"
+    },
+    "private_chat_with": {
+      "en": "Private chat with",
+      "de": "Unterhaltung mit"
+    },
+    "returned_homework": {
+      "en": "Returned homework",
+      "de": "Abgegebene Hausaufgaben"
+    },
+    "students_online": {
+      "en": "Students online",
+      "de": "Schüler online"
+    }
+  },
+  "teacher": {
+    "welcome_morning": {
+      "en": "Good morning",
+      "de": "Guten Morgen"
+    },
+    "welcome_afternoon": {
+      "en": "Good day",
+      "de": "Guten Tag"
+    },
+    "welcome_evening": {
+      "en": "Good evening",
+      "de": "Guten Abend"
+    },
+    "today_is": {
+      "en": "today is",
+      "de": "heute ist"
+    },
+    "you_have": {
+      "en": "and you have",
+      "de": "und Sie haben"
+    },
+    "new_messages": {
+      "en": "new messages",
+      "de": "neue Nachrichten"
+    }
+  }
+}
