@@ -26,7 +26,7 @@ function privateMessages (userId) {
       returnHtml += `
         <div class="border py-2 px-3 mb-3">
           <div class="d-flex justify-content-between">
-            <h4>Unterhaltung mit ${helperTitle(chatMate)}</h4>
+            <h4>Private chat with ${helperTitle(chatMate)}</h4>
             <span>
               <button type="button" class="btn btn-sm btn-outline-info" id="toggle-button-${myGroup}" onclick="toggleChat('chat-window-${myGroup}')"> - </button>
             </span>

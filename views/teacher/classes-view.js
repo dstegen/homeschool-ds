@@ -17,7 +17,7 @@ function teacherClassesView (teacher, group, wsport) {
     <div id="class" class="container">
       <div class="mb-5">
         <div class="d-flex justify-content-between py-2 px-3 my-3 border align-items-center">
-          <h2 class="mb-0">Klasse ${group}</h2>
+          <h2 class="mb-0">Class ${group}</h2>
           <span>
           <a href="#" onclick="$('#class-${group}-chat').collapse('toggle')" class="d-none d-md-inline">Group chat</a>
            |

@@ -26,7 +26,7 @@ function newPrivateMessage (userId='', chatMateId='') {
       <form id="newMessage-form" action="/message" method="post">
         <input type="text" name="chatterId" class="d-none" hidden value="${userId}" />
         <div class="form-group form-inline justify-content-between">
-          <h4>Neue Unterhaltung mit</h4>
+          <h4>Send private message to</h4>
           <select class="form-control" id="chatMate" name="chatMate">
             <option></option>
             ${allOptions}
@@ -34,7 +34,7 @@ function newPrivateMessage (userId='', chatMateId='') {
         </div>
         <hr />
         <div class="d-flex justify-content-between">
-          <input type="texte" class="form-control mr-2" id="userchat" name="userchat" placeholder="Write something..." value="" />
+          <input type="texte" class="form-control mr-2" id="userchat" name="userchat" placeholder="Write message..." value="" />
           <button type="submit" class="btn btn-sm btn-primary">Send</button>
         </div>
       </form>

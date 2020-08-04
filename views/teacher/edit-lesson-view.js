@@ -17,15 +17,15 @@ function editLessonView (itemObj, myGroup, user) {
   lessonsConfig = require(path.join('../../data/classes/', myGroup,'/config.json'));
   let body = `
       <div class="container h-100 border py-2 px-3 my-3">
-        <h2>Edit/add lesson for class ${myGroup}</h2>
+        <h2>Add/edit lesson for class ${myGroup}</h2>
         <form id="edit-form-${myGroup}-${itemObj.id}" name="edit-form-${myGroup}-${itemObj.id}" action="/update" method="post">
           <input type="text" name="id" class="d-none" hidden value="${itemObj.id}" />
           <input type="text" name="group" class="d-none" hidden value="${myGroup}" />
           ${formInputs(itemObj, user.courses)}
           <div class="d-flex justify-content-end mb-3">
-            <button type="button" class="btn btn-sm btn-danger ${itemObj.id === '' ? 'd-none' : ''}" onclick="confirmDelete(this.form.name, \'/delete\')">Delete</button>
-            <button type="button" class="btn btn-sm btn-info ml-3" onclick="window.open('/teacher/lessons', '_top', '');">cancle</a>
-            <button type="submit" class="btn btn-sm btn-primary ml-3">add/update</button>
+            <button type="button" class="btn btn-danger ${itemObj.id === '' ? 'd-none' : ''}" onclick="confirmDelete(this.form.name, \'/delete\')">Delete</button>
+            <button type="button" class="btn btn-info ml-3" onclick="window.open('/teacher/lessons', '_top', '');">cancle</a>
+            <button type="submit" class="btn btn-primary ml-3">add/update</button>
           </div>
         </form>
       </div>

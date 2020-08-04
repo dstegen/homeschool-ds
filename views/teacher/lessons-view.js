@@ -8,6 +8,7 @@
 'use strict';
 
 const path = require('path');
+const moment = require('moment');
 const { notValid } = require('../../lib/dateJuggler');
 const { getAllUsers } = require('../../models/model-user');
 const { getLessons } = require('../../models/model-lessons');
@@ -17,7 +18,7 @@ const getRER = require('../../lib/getRecentExerciseReturns');
 function lessonsView (teacher) {
   return `
     <div id="lessons" class="container my-3 p-3 border collapse show" data-parent="#homeschool-ds">
-      <h2>Stunden</h2>
+      <h2>Lessons</h2>
       <hr />
       ${teacher.group.map( group => displayLessons(group, teacher.courses)).join('')}
     </div>
@@ -31,7 +32,7 @@ function displayLessons (group, courses) {
   return `
     <div class="mb-5">
       <div class="d-flex justify-content-between">
-        <h4>Klasse ${group}</h4>
+        <h4>Class ${group}</h4>
         <span>
           <a href="#" onclick="$('.details-box-${group}').toggle();">Archived lessons</a>
            |
@@ -51,7 +52,7 @@ function helperLesson (item, group, courses) {
     return `
       <div class="border p-2 mb-2 ${notValid(item.validUntil) ? 'details-box-'+group+'" style="display: none;"' : ''}">
         <div class="d-flex justify-content-between">
-          <div><strong>${item.lesson}</strong>: ${item.chapter} <span class="text-muted">(${item.validFrom} – ${item.validUntil})</span></div>
+          <div><strong>${item.lesson}</strong>: ${item.chapter} <span class="text-muted">(${moment(item.validFrom).format('LL')} – ${moment(item.validUntil).format('LL')})</span></div>
           <div class="d-flex justify-content-end">
             <a href="/edit/${group}/${item.id}" class="btn btn-sm bg-grey ml-3 ${notValid(item.validUntil) ? 'd-none' : ''}">Edit</a>
             <a data-toggle="collapse" href="#lesson-homework-${group}-${item.id}" class="btn btn-sm btn-primary ml-3">Homework</a>

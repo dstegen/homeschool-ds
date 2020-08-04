@@ -27,13 +27,13 @@ function teacherView (teacher, wsport) {
         <div class="border py-2 px-3 mb-3">
           <h4>Guten Tag ${getTitleNameById(teacher.id)},</h4>
           <p>
-            heute is ${formatDay()} ${getLatestMessages(teacher.id).length > 0 ? ' und Sie haben <strong>'+getLatestMessages(teacher.id).length+'</strong> neue Nachrichten:' : ''}
+            heute ist ${formatDay()} ${getLatestMessages(teacher.id).length > 0 ? ' und Sie haben <strong>'+getLatestMessages(teacher.id).length+'</strong> neue Nachrichten:' : ''}
           </p>
           ${helperRecentMessages(teacher.id)}
           <br />
         </div>
         <div class="border py-2 px-3 mb-3">
-          <h4>Abgegebene Aufgaben:</h4>
+          <h4>Returned homework:</h4>
           <hr />
           ${returnedExercises(teacher.group, teacher.courses)}
           <br />
@@ -42,7 +42,7 @@ function teacherView (teacher, wsport) {
       <div class="col-12 col-md-6">
         ${classChat(teacher.group, teacher)}
         <div class="border py-2 px-3 mb-3">
-          <h4>Schüler online:</h4>
+          <h4>Students online:</h4>
           <hr />
           ${studentsOnline(teacher.group)}
         </div>
@@ -67,7 +67,7 @@ function teacherView (teacher, wsport) {
 function studentsOnline (allGroups) {
   let returnHtml = '';
   allGroups.forEach( group => {
-    returnHtml += `<h5>Klasse: ${group}:</h5><ul>`;
+    returnHtml += `<h5>Class ${group}:</h5><ul>`;
     usersOnline(group).forEach( user => {
       returnHtml += `<li>${user}</li>`
     });
@@ -80,7 +80,7 @@ function returnedExercises (allGroups, courses) {
   let returnHtml = '';
   allGroups.forEach( group => {
     try {
-      returnHtml += `<h5>Klasse: ${group}:</h5><ul>`;
+      returnHtml += `<h5>Class ${group}:</h5><ul>`;
       returnHtml += getRER(group, courses).filter( item => dateIsRecent(item.birthtime, 3)).map( item => helperListitem(item, group)).join('');
       returnHtml += `</ul>`;
     } catch (e) {
