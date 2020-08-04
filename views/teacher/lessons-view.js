@@ -33,7 +33,8 @@ function displayLessons (group, courses) {
       <div class="d-flex justify-content-between">
         <h4>Klasse ${group}</h4>
         <span>
-          <a href="#" onclick="$('.details-box').removeClass('d-none');">Show archived lessons</a>
+          <a href="#" onclick="$('.details-box-${group}').toggle();">Archived lessons</a>
+           |
           <a href="/timetable/${group}">Timetable</a>
         </span>
       </div>
@@ -48,7 +49,7 @@ function displayLessons (group, courses) {
 function helperLesson (item, group, courses) {
   if (courses.includes(item.lesson) || courses[0] === 'all') {
     return `
-      <div class="border p-2 mb-2 ${notValid(item.validUntil) ? 'details-box d-none' : ''}">
+      <div class="border p-2 mb-2 ${notValid(item.validUntil) ? 'details-box-'+group+'" style="display: none;"' : ''}">
         <div class="d-flex justify-content-between">
           <div><strong>${item.lesson}</strong>: ${item.chapter} <span class="text-muted">(${item.validFrom} – ${item.validUntil})</span></div>
           <div class="d-flex justify-content-end">

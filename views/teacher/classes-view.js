@@ -19,17 +19,18 @@ function teacherClassesView (teacher, group, wsport) {
         <div class="d-flex justify-content-between py-2 px-3 my-3 border align-items-center">
           <h2 class="mb-0">Klasse ${group}</h2>
           <span>
-          <a href="#" onclick="$('#class-${group}-chat').collapse('toggle')" class="d-none d-md-inline">Klassen-Chat</a>
-          <a href="/timetable/${group}" class="ml-2">Timetable</a>
+          <a href="#" onclick="$('#class-${group}-chat').collapse('toggle')" class="d-none d-md-inline">Group chat</a>
+           |
+          <a href="/timetable/${group}">Timetable</a>
           </span>
         </div>
         <div class="row" id="classParent">
           <div class="col-12 col-lg collapse show">
             <table class="table border">
               <tr>
-                <th>Nr.</th>
-                <th>Vorname</th>
-                <th>Nachname</th>
+                <th>No.</th>
+                <th>First name</th>
+                <th>Last name</th>
               </tr>
               ${getAllUsers(group).filter( person => person.role === 'student').map( (item, i) => helperClassTable(item, i, group)).join('')}
             </table>
@@ -66,7 +67,7 @@ function helperClassTable (item, index, group) {
       <td>${item.lname}</td>
       <td class="d-flex justify-content-end">
         <button class="d-none btn btn-sm btn-secondary ml-2" onclick="sendEmail('${item.email}');">E-Mail</button>
-        <button class="btn btn-sm btn-success ml-2" onclick="showNewPrivateMessage('${group}','${item.id}')">Nachricht</button>
+        <button class="btn btn-sm btn-success ml-2" onclick="showNewPrivateMessage('${group}','${item.id}')">Send message</button>
       </td>
     </tr>
   `;
