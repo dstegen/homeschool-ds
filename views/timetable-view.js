@@ -19,7 +19,7 @@ function timetableView (myLessons, myGroup, curWeek=thisWeek()) {
   lessonsConfig = require(path.join('../data/classes/', myGroup,'/config.json'));
   return `
   <div class="container mt-3 p-3">
-    <h4>${locale.headlines.class[config.lang]} ${myGroup}</h4>
+    <h4>${locale.headlines.timetable[config.lang]} ${myGroup}</h4>
   </div>
   <div id="week" class="container mb-3 p-3 border collapse show" data-parent="#homeschool-ds">
     <div class="d-flex justify-content-between">
