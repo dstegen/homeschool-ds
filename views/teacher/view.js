@@ -7,6 +7,7 @@
 
 'use strict';
 
+// Required modules
 const path = require('path');
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config')();

@@ -7,6 +7,9 @@
 
 'use strict';
 
+// Required modules
+const locale = require('../../lib/locale');
+const config = require('../../models/model-config')();
 const { getAllUsers } = require('../../models/model-user');
 const classChat = require('../templates/chat');
 const newPrivateMessage = require('../templates/new-private-message');
@@ -17,20 +20,20 @@ function teacherClassesView (teacher, group, wsport) {
     <div id="class" class="container">
       <div class="mb-5">
         <div class="d-flex justify-content-between py-2 px-3 my-3 border align-items-center">
-          <h2 class="mb-0">Class ${group}</h2>
+          <h2 class="mb-0">${locale.headlines.class[config.lang]} ${group}</h2>
           <span>
-          <a href="#" onclick="$('#class-${group}-chat').collapse('toggle')" class="d-none d-md-inline">Group chat</a>
+          <a href="#" onclick="$('#class-${group}-chat').collapse('toggle')" class="d-none d-md-inline">${locale.headlines.group_chat[config.lang]}</a>
            |
-          <a href="/timetable/${group}">Timetable</a>
+          <a href="/timetable/${group}">${locale.headlines.timetable[config.lang]}</a>
           </span>
         </div>
         <div class="row" id="classParent">
           <div class="col-12 col-lg collapse show">
             <table class="table border">
               <tr>
-                <th>No.</th>
-                <th>First name</th>
-                <th>Last name</th>
+                <th>${locale.headlines.th_no[config.lang]}</th>
+                <th>${locale.headlines.th_fname[config.lang]}</th>
+                <th>${locale.headlines.th_lname[config.lang]}</th>
               </tr>
               ${getAllUsers(group).filter( person => person.role === 'student').map( (item, i) => helperClassTable(item, i, group)).join('')}
             </table>
@@ -67,7 +70,7 @@ function helperClassTable (item, index, group) {
       <td>${item.lname}</td>
       <td class="d-flex justify-content-end">
         <button class="d-none btn btn-sm btn-secondary ml-2" onclick="sendEmail('${item.email}');">E-Mail</button>
-        <button class="btn btn-sm btn-success ml-2" onclick="showNewPrivateMessage('${group}','${item.id}')">Send message</button>
+        <button class="btn btn-sm btn-success ml-2" onclick="showNewPrivateMessage('${group}','${item.id}')">${locale.buttons.send_message[config.lang]}</button>
       </td>
     </tr>
   `;

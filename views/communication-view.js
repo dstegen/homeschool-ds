@@ -7,6 +7,9 @@
 
 'use strict';
 
+// Required modules
+const locale = require('../lib/locale');
+const config = require('../models/model-config')();
 const classChat = require('./templates/chat');
 const privateMessages = require('./templates/private-messages');
 const newPrivateMessage = require('./templates/new-private-message');
@@ -16,7 +19,7 @@ function communicationView (user, wsport) {
   return `
     <div id="dashboard" class="container">
       <h2 class="d-flex justify-content-between py-2 px-3 my-3 border">
-        Communication
+        ${locale.headlines.navi_communication[config.lang]}
         <span id="clock" class="d-none d-md-block">&nbsp;</span>
       </h2>
     <div class="row">

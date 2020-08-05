@@ -7,6 +7,9 @@
 
 'use strict';
 
+// Required modules
+const locale = require('../../lib/locale');
+const config = require('../../models/model-config')();
 const { getLatestMessages } = require('../../models/model-messages');
 const { getTitleNameById } = require('../../models/model-user');
 const school = require('../../data/school/config.json');
@@ -30,17 +33,17 @@ function getNaviObj (user) {
       },
       menuItems: [
         {
-          name: 'today',
+          name: locale.headlines.navi_today[config.lang],
           link: '/student/day',
           dropdown: false
         },
         {
-          name: 'this week',
+          name: locale.headlines.navi_this_week[config.lang],
           link: '/timetable',
           dropdown: false
         },
         {
-          name: 'communication',
+          name: locale.headlines.navi_communication[config.lang],
           link: '/communication',
           dropdown: false
         }
@@ -51,14 +54,14 @@ function getNaviObj (user) {
     myGroup = user.group;
     lessonsDropdown = [
       {
-        name: 'Overview',
+        name: locale.headlines.navi_overview[config.lang],
         link: '/teacher/lessons'
       }
     ]
     for (let i=0; i<myGroup.length; i++) {
       lessonsDropdown.push(
         {
-          name: '+ New Lesson '+myGroup[i],
+          name: '+ '+locale.headlines.navi_new_class[config.lang]+' '+myGroup[i],
           link: '/edit/'+myGroup[i]
         }
       )
@@ -66,7 +69,7 @@ function getNaviObj (user) {
     for (let i=0; i<myGroup.length; i++) {
       classesDropdown.push(
         {
-          name: 'Class '+myGroup[i],
+          name: locale.headlines.class[config.lang]+' '+myGroup[i],
           link: '/teacher/classes/'+myGroup[i]
         }
       )
@@ -81,18 +84,18 @@ function getNaviObj (user) {
       },
       menuItems: [
         {
-          name: 'communication',
+          name: locale.headlines.navi_communication[config.lang],
           link: '/communication',
           dropdown: false
         },
         {
-          name: 'my classes',
+          name: locale.headlines.navi_classes[config.lang],
           link: '#',
           dropdown: true,
           dropdownItems: classesDropdown
         },
         {
-          name: 'lessons',
+          name: locale.headlines.navi_lessons[config.lang],
           link: '#',
           dropdown: true,
           dropdownItems: lessonsDropdown

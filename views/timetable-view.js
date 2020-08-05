@@ -7,7 +7,10 @@
 
 'use strict';
 
+// Required modules
 const path = require('path');
+const locale = require('../lib/locale');
+const config = require('../models/model-config')();
 const { thisWeek, weekDates, formatDate, weekDay, beforeToday, isActualWeek } = require('../lib/dateJuggler');
 let lessonsConfig = {};
 
@@ -16,12 +19,12 @@ function timetableView (myLessons, myGroup, curWeek=thisWeek()) {
   lessonsConfig = require(path.join('../data/classes/', myGroup,'/config.json'));
   return `
   <div class="container mt-3 p-3">
-    <h4>Class ${myGroup}</h4>
+    <h4>${locale.headlines.class[config.lang]} ${myGroup}</h4>
   </div>
   <div id="week" class="container mb-3 p-3 border collapse show" data-parent="#homeschool-ds">
     <div class="d-flex justify-content-between">
       <div class="d-md-flex">
-        <h2>Week ${curWeek}</h2>
+        <h2>${locale.headlines.week[config.lang]} ${curWeek}</h2>
         <span class="ml-md-3 mt-md-2">(${weekDates(curWeek)})</span>
       </div>
       <div class="mt-1">

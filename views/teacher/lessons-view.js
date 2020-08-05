@@ -50,7 +50,7 @@ function displayLessons (group, courses) {
 function helperLesson (item, group, courses) {
   if (courses.includes(item.lesson) || courses[0] === 'all') {
     return `
-      <div class="border p-2 mb-2 ${notValid(item.validUntil) ? 'details-box-'+group+'" style="display: none;"' : ''}">
+      <div class="border p-2 mb-2 ${notValid(item.validUntil) ? 'details-box details-box-'+group+'" style="display: none;"' : ''}">
         <div class="d-flex justify-content-between">
           <div><strong>${item.lesson}</strong>: ${item.chapter} <span class="text-muted">(${moment(item.validFrom).format('LL')} – ${moment(item.validUntil).format('LL')})</span></div>
           <div class="d-flex justify-content-end">

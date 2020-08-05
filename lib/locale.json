@@ -1,5 +1,33 @@
 {
   "headlines": {
+    "navi_communication": {
+      "en": "Communication",
+      "de": "Chat & Nachrichten"
+    },
+    "navi_classes": {
+      "en": "My classes",
+      "de": "Klassen"
+    },
+    "navi_lessons": {
+      "en": "Lessons",
+      "de": "Stunden"
+    },
+    "navi_overview": {
+      "en": "Overview",
+      "de": "Alle Stunden"
+    },
+    "navi_new_class": {
+      "en": "New lesson",
+      "de": "neue Stunde"
+    },
+    "navi_today": {
+      "en": "Today",
+      "de": "Heute"
+    },
+    "navi_this_week": {
+      "en": "This week",
+      "de": "Diese Woche"
+    },
     "class": {
       "en": "Class",
       "de": "Klasse"
@@ -12,6 +40,10 @@
       "en": "Private chat with",
       "de": "Unterhaltung mit"
     },
+    "send_message_to": {
+      "en": "Send private message to",
+      "de": "Neue Unterhaltung mit"
+    },
     "returned_homework": {
       "en": "Returned homework",
       "de": "Abgegebene Hausaufgaben"
@@ -19,6 +51,46 @@
     "students_online": {
       "en": "Students online",
       "de": "Schüler online"
+    },
+    "timetable": {
+      "en": "Timetable",
+      "de": "Stundenplan"
+    },
+    "th_no": {
+      "en": "No.",
+      "de": "Nr."
+    },
+    "th_fname": {
+      "en": "First name",
+      "de": "Vorname"
+    },
+    "th_lname": {
+      "en": "Last name",
+      "de": "Nachname"
+    },
+    "week": {
+      "en": "Week",
+      "de": "Woche"
+    }
+  },
+  "buttons": {
+    "send": {
+      "en": "Send",
+      "de": "Senden"
+    },
+    "send_message": {
+      "en": "Send message",
+      "de": "Nachricht"
+    }
+  },
+  "placeholder": {
+    "write_message": {
+      "en": "Write message...",
+      "de": "Schreib etwas..."
+    },
+    "write_something": {
+      "en": "write something...",
+      "de": "schreib etwas..."
     }
   },
   "teacher": {

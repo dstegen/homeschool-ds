@@ -16,8 +16,6 @@ const config = require('../../models/model-config')();
 const { getChat } = require('../../models/model-chat');
 const { getUserById } = require('../../models/model-user');
 
-const lang = config.lang;
-
 
 function classChat (groupsList, user, windowLength=250) {
   let returnHtml = '';
@@ -26,7 +24,7 @@ function classChat (groupsList, user, windowLength=250) {
     returnHtml += `
       <div class="border py-2 px-3 mb-3">
         <div class="d-flex justify-content-between">
-          <h4>${locale.headlines.group_chat[lang]} ${myGroup}</h4>
+          <h4>${locale.headlines.group_chat[config.lang]} ${myGroup}</h4>
           <span>
             <button type="button" class="btn btn-sm btn-outline-info" id="toggle-button-${myGroup}" onclick="toggleChat('chat-window-${myGroup}')"> - </button>
           </span>
@@ -40,8 +38,8 @@ function classChat (groupsList, user, windowLength=250) {
           <form id="classChat-form" action="/chat" class="d-flex justify-content-between" method="post">
             <input type="text" name="chatterId" class="d-none" hidden value="${user.id}" />
             <input type="text" name="group" class="d-none" hidden value="${myGroup}" />
-            <input type="texte" class="form-control mr-2" id="userchat" name="userchat" maxlength="128" placeholder="${user.fname}, write something..." value="" />
-            <button type="submit" class="btn btn-sm btn-primary">Send</button>
+            <input type="texte" class="form-control mr-2" id="userchat" name="userchat" maxlength="128" placeholder="${user.fname}, ${locale.placeholder.write_something[config.lang]}" value="" />
+            <button type="submit" class="btn btn-sm btn-primary">${locale.buttons.send[config.lang]}</button>
           </form>
         </div>
       </div>

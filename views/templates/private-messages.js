@@ -11,6 +11,8 @@
 const fs = require('fs');
 const path = require('path');
 const moment = require('moment');
+const locale = require('../../lib/locale');
+const config = require('../../models/model-config')();
 const { getPrivateMessages } = require('../../models/model-messages');
 const { getUserById } = require('../../models/model-user');
 
@@ -26,7 +28,7 @@ function privateMessages (userId) {
       returnHtml += `
         <div class="border py-2 px-3 mb-3">
           <div class="d-flex justify-content-between">
-            <h4>Private chat with ${helperTitle(chatMate)}</h4>
+            <h4>${locale.headlines.private_chat_with[config.lang]} ${helperTitle(chatMate)}</h4>
             <span>
               <button type="button" class="btn btn-sm btn-outline-info" id="toggle-button-${myGroup}" onclick="toggleChat('chat-window-${myGroup}')"> - </button>
             </span>
@@ -41,8 +43,8 @@ function privateMessages (userId) {
               <input type="text" name="chatterId" class="d-none" hidden value="${userId}" />
               <input type="text" name="chatMate" class="d-none" hidden value="${chatMateId}" />
               <input type="text" name="privateMessageId" class="d-none" hidden value="${msg.id}" />
-              <input type="texte" class="form-control mr-2" id="userchat" name="userchat" placeholder="${getUserById(userId).fname}, write something..." value="" />
-              <button type="submit" class="btn btn-sm btn-primary">Send</button>
+              <input type="texte" class="form-control mr-2" id="userchat" name="userchat" placeholder="${getUserById(userId).fname}, ${locale.placeholder.write_something[config.lang]}" value="" />
+              <button type="submit" class="btn btn-sm btn-primary">${locale.buttons.send[config.lang]}</button>
             </form>
           </div>
         </div>
