@@ -56,6 +56,10 @@
       "en": "Timetable",
       "de": "Stundenplan"
     },
+    "archived_lessons": {
+      "en": "Archived lessons",
+      "de": "Abgelaufene Stunden"
+    },
     "th_no": {
       "en": "No.",
       "de": "Nr."
@@ -68,9 +72,25 @@
       "en": "Last name",
       "de": "Nachname"
     },
+    "th_name": {
+      "en": "Name",
+      "de": "Name"
+    },
+    "th_uploads": {
+      "en": "Uploads",
+      "de": "Hochgeladene Dateien"
+    },
+    "th_finished": {
+      "en": "Finished",
+      "de": "Beendet  "
+    },
     "week": {
       "en": "Week",
       "de": "Woche"
+    },
+    "add_edit_lesson": {
+      "en": "Add/edit lesson for class",
+      "de": "Hinzufügen/Bearbeiten von einer Stunde für die Klasse"
     }
   },
   "buttons": {
@@ -81,6 +101,38 @@
     "send_message": {
       "en": "Send message",
       "de": "Nachricht"
+    },
+    "edit": {
+      "en": "Edit",
+      "de": "Bearbeiten"
+    },
+    "homework": {
+      "en": "Homework",
+      "de": "Hausaufgaben"
+    },
+    "details": {
+      "en": "Details",
+      "de": "Details"
+    },
+    "add_lesson": {
+      "en": "Add lesson",
+      "de": "Stunde hinzufügen"
+    },
+    "delete": {
+      "en": "Delete",
+      "de": "Löschen"
+    },
+    "cancle": {
+      "en": "Cancle",
+      "de": "Abbrechen"
+    },
+    "add_update": {
+      "en": "Add/Update",
+      "de": "Hinzufügen/Ändern"
+    },
+    "upload": {
+      "en": "Upload",
+      "de": "Hochladen"
     }
   },
   "placeholder": {
@@ -117,6 +169,16 @@
     "new_messages": {
       "en": "new messages",
       "de": "neue Nachrichten"
+    }
+  },
+  "lessons": {
+    "amount": {
+      "en": "Amount",
+      "de": "Umfang"
+    },
+    "hours": {
+      "en": "hours",
+      "de": "Stunden"
     }
   }
 }

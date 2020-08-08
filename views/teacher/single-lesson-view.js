@@ -7,9 +7,12 @@
 
 'use strict';
 
+// Required modules
 const path = require('path');
 const fs = require('fs');
 const moment = require('moment');
+const locale = require('../../lib/locale');
+const config = require('../../models/model-config')();
 const { getAllUsers } = require('../../models/model-user');
 const { getLessons } = require('../../models/model-lessons');
 const { workdaysBetween } = require('../../lib/dateJuggler');
@@ -25,8 +28,8 @@ function singleLessonView (teacher, urlPath) {
       <div id="lesson" class="container my-3 p-3 border collapse show" data-parent="#homeschool-ds">
         <h2 class="d-flex justify-content-between"><span>${myLesson.lesson}: ${myLesson.chapter}</span><span>${group}</span></h2>
         <div class="d-flex justify-content-between">
-          <span class="text-muted">Amount ${workdaysBetween(myLesson.validFrom, myLesson.validUntil, myLesson.weekdays)} hours (${moment(myLesson.validFrom).format('LL')} – ${moment(myLesson.validUntil).format('LL')})</span>
-          <a href="/edit/${group}/${myLesson.id}" class="btn btn-sm bg-grey ml-3">Edit</a>
+          <span class="text-muted">${locale.lessons.amount[config.lang]} ${workdaysBetween(myLesson.validFrom, myLesson.validUntil, myLesson.weekdays)} ${locale.lessons.hours[config.lang]} (${moment(myLesson.validFrom).format('LL')} – ${moment(myLesson.validUntil).format('LL')})</span>
+          <a href="/edit/${group}/${myLesson.id}" class="btn btn-sm bg-grey ml-3">${locale.buttons.edit[config.lang]}</a>
         </div>
         <hr />
         <div class="mb-3">
@@ -53,10 +56,10 @@ function groupHomework (group, myLesson) {
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">#</th>
-          <th scope="col">Name</th>
-          <th scope="col">Uploads</th>
-          <th scope="col">finished</th>
+          <th scope="col">${locale.headlines.th_no[config.lang]}</th>
+          <th scope="col">${locale.headlines.th_name[config.lang]}</th>
+          <th scope="col">${locale.headlines.th_uploads[config.lang]}</th>
+          <th scope="col">${locale.headlines.th_finished[config.lang]}</th>
         </tr>
       </thead>
       <tbody>

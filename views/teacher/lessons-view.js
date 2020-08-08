@@ -7,8 +7,11 @@
 
 'use strict';
 
+// Required modules
 const path = require('path');
 const moment = require('moment');
+const locale = require('../../lib/locale');
+const config = require('../../models/model-config')();
 const { notValid } = require('../../lib/dateJuggler');
 const { getAllUsers } = require('../../models/model-user');
 const { getLessons } = require('../../models/model-lessons');
@@ -18,7 +21,7 @@ const getRER = require('../../lib/getRecentExerciseReturns');
 function lessonsView (teacher) {
   return `
     <div id="lessons" class="container my-3 p-3 border collapse show" data-parent="#homeschool-ds">
-      <h2>Lessons</h2>
+      <h2>${locale.headlines.navi_lessons[config.lang]}</h2>
       <hr />
       ${teacher.group.map( group => displayLessons(group, teacher.courses)).join('')}
     </div>
@@ -32,16 +35,16 @@ function displayLessons (group, courses) {
   return `
     <div class="mb-5">
       <div class="d-flex justify-content-between">
-        <h4>Class ${group}</h4>
+        <h4>${locale.headlines.class[config.lang]} ${group}</h4>
         <span>
-          <a href="#" onclick="$('.details-box-${group}').toggle();">Archived lessons</a>
+          <a href="#" onclick="$('.details-box-${group}').toggle();">${locale.headlines.archived_lessons[config.lang]}</a>
            |
-          <a href="/timetable/${group}">Timetable</a>
+          <a href="/timetable/${group}">${locale.headlines.timetable[config.lang]}</a>
         </span>
       </div>
       ${getLessons(group).map( item => helperLesson(item, group, courses)).join('')}
       <div class="d-flex justify-content-end p-2 mb-">
-        <a href="/edit/${group}" class="btn-sm btn-primary" data-toggle="tooltip" data-placement="left" title="Add lesson"> + </a>
+        <a href="/edit/${group}" class="btn-sm btn-primary" data-toggle="tooltip" data-placement="left" title="${locale.buttons.add_lesson[config.lang]}"> + </a>
       </div>
     </div>
   `;
@@ -54,14 +57,14 @@ function helperLesson (item, group, courses) {
         <div class="d-flex justify-content-between">
           <div><strong>${item.lesson}</strong>: ${item.chapter} <span class="text-muted">(${moment(item.validFrom).format('LL')} – ${moment(item.validUntil).format('LL')})</span></div>
           <div class="d-flex justify-content-end">
-            <a href="/edit/${group}/${item.id}" class="btn btn-sm bg-grey ml-3 ${notValid(item.validUntil) ? 'd-none' : ''}">Edit</a>
-            <a data-toggle="collapse" href="#lesson-homework-${group}-${item.id}" class="btn btn-sm btn-primary ml-3">Homework</a>
-            <a href="/teacher/lessons/${group}/${item.id}" class="btn btn-sm btn-secondary ml-3">Details</a>
+            <a href="/edit/${group}/${item.id}" class="btn btn-sm bg-grey ml-3 ${notValid(item.validUntil) ? 'd-none' : ''}">${locale.buttons.edit[config.lang]}</a>
+            <a data-toggle="collapse" href="#lesson-homework-${group}-${item.id}" class="btn btn-sm btn-primary ml-3">${locale.buttons.homework[config.lang]}</a>
+            <a href="/teacher/lessons/${group}/${item.id}" class="btn btn-sm btn-secondary ml-3">${locale.buttons.details[config.lang]}</a>
           </div>
         </div>
         <div class="collapse" id="lesson-homework-${group}-${item.id}" data-parent="#lessons">
           <hr />
-          <strong>Abgegeben Aufgaben:</strong>
+          <strong>${locale.headlines.returned_homework[config.lang]}:</strong>
           <ul>
             ${getRER(group, [item.lesson]).filter( file => Number(file.lessonId) === Number(item.id) ).map( lesson => helperListitem(lesson, group)).join('')}
           </ul>

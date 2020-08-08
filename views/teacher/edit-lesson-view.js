@@ -7,7 +7,10 @@
 
 'use strict';
 
+// Required modules
 const path = require('path');
+const locale = require('../../lib/locale');
+const config = require('../../models/model-config')();
 const { weekDay } = require('../../lib/dateJuggler');
 const getFilesList = require('../../lib/getFilesList');
 let lessonsConfig = {};
@@ -17,20 +20,20 @@ function editLessonView (itemObj, myGroup, user) {
   lessonsConfig = require(path.join('../../data/classes/', myGroup,'/config.json'));
   let body = `
       <div class="container h-100 border py-2 px-3 my-3">
-        <h2>Add/edit lesson for class ${myGroup}</h2>
+        <h2>${locale.headlines.add_edit_lesson[config.lang]} ${myGroup}</h2>
         <form id="edit-form-${myGroup}-${itemObj.id}" name="edit-form-${myGroup}-${itemObj.id}" action="/update" method="post">
           <input type="text" name="id" class="d-none" hidden value="${itemObj.id}" />
           <input type="text" name="group" class="d-none" hidden value="${myGroup}" />
           ${formInputs(itemObj, user.courses)}
           <div class="d-flex justify-content-end mb-3">
-            <button type="button" class="btn btn-danger ${itemObj.id === '' ? 'd-none' : ''}" onclick="confirmDelete(this.form.name, \'/delete\')">Delete</button>
-            <button type="button" class="btn btn-info ml-3" onclick="window.open('/teacher/lessons', '_top', '');">cancle</a>
-            <button type="submit" class="btn btn-primary ml-3">add/update</button>
+            <button type="button" class="btn btn-danger ${itemObj.id === '' ? 'd-none' : ''}" onclick="confirmDelete(this.form.name, \'/delete\')">${locale.buttons.delete[config.lang]}</button>
+            <button type="button" class="btn btn-info ml-3" onclick="window.open('/teacher/lessons', '_top', '');">${locale.buttons.cancle[config.lang]}</a>
+            <button type="submit" class="btn btn-primary ml-3">${locale.buttons.add_update[config.lang]}</button>
           </div>
         </form>
       </div>
       <div class="container h-100 border py-2 px-3 mb-3">
-      <h4>Uploads:</h4>
+      <h4>${locale.headlines.th_uploads[config.lang]}:</h4>
       <div class="row">
         <div class="col-sm-10 offset-lg-2">
         <ul class="text-truncate pl-3 w-75">
@@ -47,7 +50,7 @@ function editLessonView (itemObj, myGroup, user) {
             <div class="invalid-feedback">Ups, da gab es einen Fehler</div>
           </div>
           <div class="col-sm-3 mt-2 mt-sm-0">
-            <button type="submit" class="btn btn-primary">Upload</button>
+            <button type="submit" class="btn btn-primary">${locale.buttons.upload[config.lang]}</button>
           </div>
         </div>
       </form>
