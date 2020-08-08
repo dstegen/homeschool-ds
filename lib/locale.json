@@ -91,6 +91,10 @@
     "add_edit_lesson": {
       "en": "Add/edit lesson for class",
       "de": "Hinzufügen/Bearbeiten von einer Stunde für die Klasse"
+    },
+    "please_login": {
+      "en": "Please login",
+      "de": "Bitte anmelden"
     }
   },
   "buttons": {
@@ -133,6 +137,10 @@
     "upload": {
       "en": "Upload",
       "de": "Hochladen"
+    },
+    "login": {
+      "en": "Login",
+      "de": "Einloggen"
     }
   },
   "placeholder": {
@@ -143,6 +151,14 @@
     "write_something": {
       "en": "write something...",
       "de": "schreib etwas..."
+    },
+    "email": {
+      "en": "Email",
+      "de": "E-Mail"
+    },
+    "password": {
+      "en": "Password",
+      "de": "Passwort"
     }
   },
   "teacher": {
@@ -179,6 +195,16 @@
     "hours": {
       "en": "hours",
       "de": "Stunden"
+    }
+  },
+  "login": {
+    "email_address": {
+      "en": "Your email address",
+      "de": "E-Mail-Adresse"
+    },
+    "password": {
+      "en": "Your Password",
+      "de": "Passwort"
     }
   }
 }
