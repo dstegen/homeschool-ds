@@ -179,7 +179,7 @@
       "de": "heute ist"
     },
     "you_have": {
-      "en": "and you have",
+      "en": "and you've got",
       "de": "und Sie haben"
     },
     "new_messages": {
@@ -195,6 +195,36 @@
     "hours": {
       "en": "hours",
       "de": "Stunden"
+    }
+  },
+  "student": {
+    "welcome": {
+      "en": "Hello",
+      "de": "Hallo"
+    },
+    "today_is": {
+      "en": "today is",
+      "de": "heute ist"
+    },
+    "and_you_have": {
+      "en": "and you've got",
+      "de": "und du hast"
+    },
+    "lessons": {
+      "en": "lesson/s",
+      "de": "Stunde/n"
+    },
+    "you_have": {
+      "en": "You've got",
+      "de": "Du hast"
+    },
+    "lessons_not_finished": {
+      "en": "lesson/s not yet finished",
+      "de": "Stunde/n noch nicht abgeschlossen"
+    },
+    "return_date": {
+      "en": "Return date",
+      "de": "Abgabe"
     }
   },
   "login": {

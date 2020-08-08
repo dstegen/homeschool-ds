@@ -7,6 +7,9 @@
 
 'use strict';
 
+// Required modules
+const locale = require('../../lib/locale');
+const config = require('../../models/model-config')();
 const { thisWeek, thisDay, weekDayNumber, formatDay } = require('../../lib/dateJuggler');
 const { lessonsToday, lessonsNotFinished } = require('../../models/model-lessons');
 const { usersOnline } = require('../../models/model-user');
@@ -23,9 +26,9 @@ function studentView (myLessons, myGroup, curWeek=thisWeek(), user={}, wsport) {
       <div class="row">
         <div class="col-12 col-md-6">
           <div class="border py-2 px-3 mb-3">
-            <h4>Hallo ${user.fname},</h4>
+            <h4>${locale.student.welcome[config.lang]} ${user.fname},</h4>
             <p>
-              heute ist ${formatDay()} ${lessonsToday(myGroup, weekDayNumber(), curWeek).length > 0 ? 'und du hast <strong>'+lessonsToday(myGroup, weekDayNumber(), curWeek).length+' Stunde/n</strong>:' : ''}
+              ${locale.student.today_is[config.lang]} ${formatDay()} ${lessonsToday(myGroup, weekDayNumber(), curWeek).length > 0 ? locale.student.and_you_have[config.lang]+' <strong>'+lessonsToday(myGroup, weekDayNumber(), curWeek).length+' '+locale.student.lessons[config.lang]+'</strong>:' : ''}
             </p>
             <ul>
               ${lessonsToday(myGroup, weekDayNumber(), curWeek).map(helperLessonsToday).join('')}
@@ -37,7 +40,7 @@ function studentView (myLessons, myGroup, curWeek=thisWeek(), user={}, wsport) {
         <div class="col-12 col-md-6">
           ${classChat([myGroup], user)}
           <div class="border py-2 px-3 mb-3">
-            <h4>Schüler online:</h4>
+            <h4>${locale.headlines.students_online[config.lang]}:</h4>
             <hr />
             <ul>
               ${usersOnline(myGroup).map( user => { return '<li>'+user+'</li>'; } ).join('')}
@@ -70,11 +73,11 @@ function helperLessonsNotFinished (user) {
   let lessonsNotFinishedToday = lessonsNotFinished(user);
   if (lessonsNotFinishedToday.length > 0) {
     lessonsNotFinishedToday.forEach( lessonObj => {
-      returnHtml += `<li><a href="/student/day">${lessonObj.lesson}: ${lessonObj.chapter} (Abgabe: ${formatDay(thisDay(lessonObj.validUntil))})</a></li>`;
+      returnHtml += `<li><a href="/student/day">${lessonObj.lesson}: ${lessonObj.chapter} (${locale.student.return_date[config.lang]}: ${formatDay(thisDay(lessonObj.validUntil))})</a></li>`;
     });
     return `
       <p class="text-danger">
-        Du hast <strong>${lessonsNotFinishedToday.length}</strong> Stunde/n <strong>noch nicht</strong> abgeschlossen:
+        ${locale.student.you_have[config.lang]} <strong>${lessonsNotFinishedToday.length}</strong> ${locale.student.lessons_not_finished[config.lang]}:
       </p>
       <ul>
         ${returnHtml}
