@@ -42,7 +42,7 @@ function privateMessages (userId) {
               <input type="text" name="chatterId" class="d-none" hidden value="${userId}" />
               <input type="text" name="chatMate" class="d-none" hidden value="${chatMateId}" />
               <input type="text" name="privateMessageId" class="d-none" hidden value="${msg.id}" />
-              <input type="texte" class="form-control mr-2" id="userchat" name="userchat" placeholder="${getUserById(userId).fname}, ${locale.placeholder.write_something[config.lang]}" value="" />
+              <input type="texte" class="form-control mr-2" id="userchat" name="userchat" maxlength="128" placeholder="${getUserById(userId).fname}, ${locale.placeholder.write_something[config.lang]}" value="" />
               <button type="submit" class="btn btn-sm btn-primary">${locale.buttons.send[config.lang]}</button>
             </form>
           </div>

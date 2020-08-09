@@ -37,7 +37,7 @@ function newPrivateMessage (userId='', chatMateId='') {
         </div>
         <hr />
         <div class="d-flex justify-content-between">
-          <input type="texte" class="form-control mr-2" id="userchat" name="userchat" placeholder="${locale.placeholder.write_message[config.lang]}" value="" />
+          <input type="texte" class="form-control mr-2" id="userchat" name="userchat" maxlength="128" placeholder="${locale.placeholder.write_message[config.lang]}" value="" />
           <button type="submit" class="btn btn-sm btn-primary">${locale.buttons.send[config.lang]}</button>
         </div>
       </form>

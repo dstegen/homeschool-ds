@@ -1,9 +1,13 @@
 # HomeSchool-DS #
-#### simple homeschool web app by Daniel Stegen ####
+#### Simple HomeSchool web app by Daniel Stegen ####
 
 ## Introduction ##
 
-...will follow...
+A simple HomeSchool server for teachers and students to have a better overview of what is to do and what is already done in a homeschool environment during Covid-19 lockdown situations.
+
+- Teachers can setup lessons, provide download material and receive returned homework uploads from the students.
+- Students get a weekly and daily overview of what to do, can finish a lesson by clicking a button and can upload homework.
+- HomeSchool-DS includes a basic class/group-chat, as well as a private message from teachers to students and students to teachers.
 
 ## Installation ##
 
@@ -27,6 +31,14 @@
    ```
    npm start
    ```
+
+
+## Changelog ##
+
+
+#### v0.3.4 ####
+- added locale for en + de
+- major refactoring and code cleanup
 
 
 ## License ##
