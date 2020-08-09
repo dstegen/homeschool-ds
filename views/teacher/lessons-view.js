@@ -81,7 +81,7 @@ function helperListitem (item, group) {
     let filePath = path.join(group, 'courses', item.course, item.lessonId, 'homework', item.studentId);
     let curStudent = getAllUsers(group).filter( user => user.id === Number(item.studentId)).map( user => { return user.fname+' '+user.lname} );
     return `
-      <li><div class="d-flex justify-content-between text-truncate"><a href="${path.join('/data/classes/', filePath, item.files[0])}" target="_blank">${curStudent}: ${item.files[0]}</a></li>
+      <li><div class="d-flex justify-content-between text-truncate"><a href="${path.join('/data/classes/', filePath, item.files[0])}" target="_blank">${curStudent}: ${item.files[item.files.length-1]}</a></li>
     `;
   } else {
     return '';

@@ -85,9 +85,12 @@ function returnedExercises (allGroups, courses) {
   let returnHtml = '';
   allGroups.forEach( group => {
     try {
-      returnHtml += `<h5>${locale.headlines.class[lang]} ${group}:</h5><ul>`;
-      returnHtml += getRER(group, courses).filter( item => dateIsRecent(item.birthtime, 3)).map( item => helperListitem(item, group)).join('');
-      returnHtml += `</ul>`;
+      let recentHomeworkList = getRER(group, courses).filter( item => dateIsRecent(item.birthtime, 5));
+      if (recentHomeworkList.length > 0) {
+        returnHtml += `<h5>${locale.headlines.class[lang]} ${group}:</h5><ul>`;
+        returnHtml += recentHomeworkList.map( item => helperListitem(item, group)).join('');
+        returnHtml += `</ul>`;
+      }
     } catch (e) {
       console.log('- ERROR getting lates returned homeworks: '+e);
     }
