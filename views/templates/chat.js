@@ -14,7 +14,7 @@ const moment = require('moment');
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config')();
 const { getChat } = require('../../models/model-chat');
-const { getUserById } = require('../../models/model-user');
+const { getUserById, getTitleNameById } = require('../../models/model-user');
 
 
 function classChat (groupsList, user, windowLength=250) {
@@ -55,16 +55,7 @@ function chatterEntry (myGroup, user) {
   let returnHtml = '';
   getChat(myGroup).forEach( item => {
     let chatUser = getUserById(item.chaterId);
-    let chatUserName = chatUser.fname + ' ' + chatUser.lname;
-    if (chatUser.role === 'teacher') {
-      if (chatUser.gender && chatUser.gender === 'male') {
-        chatUserName = 'Mr. ' + chatUser.lname;
-      } else if (chatUser.gender && chatUser.gender === 'female') {
-        chatUserName = 'Ms. ' + chatUser.lname;
-      } else {
-        chatUserName = 'Mr./Ms. ' + chatUser.lname;
-      }
-    }
+    let chatUserName = getTitleNameById(item.chaterId);
     let cssInline = 'd-inline';
     if (item.chat.split('').length > 46) cssInline = '';
     let chatterImage = '<span class="p-2 small border rounded-circle">' + chatUser.fname.split('')[0] + chatUser.lname.split('')[0] + '</span>';

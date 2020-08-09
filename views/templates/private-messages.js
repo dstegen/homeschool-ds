@@ -14,7 +14,7 @@ const moment = require('moment');
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config')();
 const { getPrivateMessages } = require('../../models/model-messages');
-const { getUserById } = require('../../models/model-user');
+const { getUserById, getTitleNameById } = require('../../models/model-user');
 
 
 function privateMessages (userId) {
@@ -24,11 +24,10 @@ function privateMessages (userId) {
     let myGroup = userId+'_'+i;
     let chatMateId = msg.chatMates.filter( id => id !== userId)[0];
     if (chatMateId > 99999) {
-      let chatMate = getUserById(chatMateId);
       returnHtml += `
         <div class="border py-2 px-3 mb-3">
           <div class="d-flex justify-content-between">
-            <h4>${locale.headlines.private_chat_with[config.lang]} ${helperTitle(chatMate)}</h4>
+            <h4>${locale.headlines.private_chat_with[config.lang]} ${getTitleNameById(chatMateId, true)}</h4>
             <span>
               <button type="button" class="btn btn-sm btn-outline-info" id="toggle-button-${myGroup}" onclick="toggleChat('chat-window-${myGroup}')"> - </button>
             </span>
@@ -102,18 +101,6 @@ function chatterEntry (messages, userId) {
     lastMoment = moment(item.timeStamp).day();
   });
   return returnHtml;
-}
-
-function helperTitle (chatUser) {
-  if (chatUser.role === 'student') {
-    return chatUser.fname + ' ' + chatUser.lname + ', ' + chatUser.group;
-  } else if (chatUser.gender && chatUser.gender === 'male') {
-    return 'Mr. ' + chatUser.lname;
-  } else if (chatUser.gender && chatUser.gender === 'female') {
-    return 'Ms. ' + chatUser.lname;
-  } else {
-    return 'Mr./Ms. ' + chatUser.lname;
-  }
 }
 
 

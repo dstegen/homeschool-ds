@@ -10,7 +10,7 @@
 // Required modules
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config')();
-const { getAllUsers, getUserById } = require('../../models/model-user');
+const { getAllUsers, getUserById, getTitleNameById } = require('../../models/model-user');
 
 
 function newPrivateMessage (userId='', chatMateId='') {
@@ -19,10 +19,10 @@ function newPrivateMessage (userId='', chatMateId='') {
   let allOptions = '';
   if (user.role === 'teacher') {
     allUsers = getAllUsers().filter( item => user.group.includes(item.group));
-    allOptions = allUsers.map( item => { return `<option value="${item.id}" ${item.id === Number(chatMateId) ? 'selected' : ''}>${item.fname} ${item.lname} (${item.group})</option>` }).join('');
+    allOptions = allUsers.map( item => { return `<option value="${item.id}" ${item.id === Number(chatMateId) ? 'selected' : ''}>${getTitleNameById(item.id)}</option>` }).join('');
   } else if (user.role === 'student') {
     allUsers = getAllUsers().filter( item => (item.group.includes(user.group) && item.role === 'teacher'));
-    allOptions = allUsers.map( item => { return '<option value="'+item.id+'">Mr/Ms '+item.lname+'</option>' }).join('');
+    allOptions = allUsers.map( item => { return '<option value="'+item.id+'">'+getTitleNameById(item.id, true)+'</option>' }).join('');
   }
   return `
     <div class="border py-2 px-3 mb-3">

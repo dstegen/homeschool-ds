@@ -68,11 +68,13 @@ function getUserById (id) {
   }
 }
 
-function getTitleNameById (id) {
+function getTitleNameById (id, n=false) {
   if (id !== '' && typeof(id) === 'number') {
     let user = users.filter( user => user.id === id)[0];
     if (user.role === 'student') {
       return user.fname + ' ' + user.lname + ', ' + user.group;
+    } else if (user.gender && user.gender === 'male' && n) {
+      return locale.headlines.title_mr_n[config.lang]+' ' + user.lname;
     } else if (user.gender && user.gender === 'male') {
       return locale.headlines.title_mr[config.lang]+' ' + user.lname;
     } else if (user.gender && user.gender === 'female') {
