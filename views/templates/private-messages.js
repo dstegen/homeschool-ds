@@ -77,7 +77,7 @@ function chatterEntry (messages, userId) {
             ${chatterImage}
           </div>
           <div class="col-9 pl-2">
-            <div class="${cssInline} px-1 border2 rounded">${item.chat}</div>
+            <div class="${cssInline} px-1 border2 rounded text-break">${item.chat}</div>
             <div class="d-none supersmall text-muted">${moment(item.timeStamp).format('dddd[, ] HH:MM')}</div>
           </div>
           <div class="col-2"></div>
@@ -88,7 +88,7 @@ function chatterEntry (messages, userId) {
         <div class="row no-gutters mb-2">
           <div class="col-2"></div>
           <div class="col-9 pr-2 text-right">
-            <div class="${cssInline} px-1 border2 rounded text-left">${item.chat}</div>
+            <div class="${cssInline} px-1 border2 rounded text-left text-break">${item.chat}</div>
             <div class="d-none supersmall text-muted">${moment(item.timeStamp).format('dddd[, ] HH:MM')}</div>
           </div>
           <div class="col-1">
