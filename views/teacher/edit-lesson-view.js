@@ -46,8 +46,8 @@ function editLessonView (itemObj, myGroup, user) {
           <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/edit/${myGroup}/${itemObj.id}">
           <div class="custom-file col-sm-7">
             <input type="file" class="custom-file-input" id="filetoupload-${itemObj.id}" name="filetoupload">
-            <label class="custom-file-label" for="filetoupload-${itemObj.id}">Datei wählen...</label>
-            <div class="invalid-feedback">Ups, da gab es einen Fehler</div>
+            <label class="custom-file-label" for="filetoupload-${itemObj.id}">${locale.placeholder.choose_file[config.lang]}...</label>
+            <div class="invalid-feedback">${locale.placeholder.invalid_feedback[config.lang]}</div>
           </div>
           <div class="col-sm-3 mt-2 mt-sm-0">
             <button type="submit" class="btn btn-primary">${locale.buttons.upload[config.lang]}</button>

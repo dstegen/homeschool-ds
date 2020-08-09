@@ -10,6 +10,8 @@
 // Required Modules
 const path = require('path');
 const fs = require('fs');
+const locale = require('../lib/locale');
+const config = require('../models/model-config')();
 
 let users = [];
 
@@ -72,11 +74,11 @@ function getTitleNameById (id) {
     if (user.role === 'student') {
       return user.fname + ' ' + user.lname + ', ' + user.group;
     } else if (user.gender && user.gender === 'male') {
-      return 'Mr. ' + user.lname;
+      return locale.headlines.title_mr[config.lang]+' ' + user.lname;
     } else if (user.gender && user.gender === 'female') {
-      return 'Ms. ' + user.lname;
+      return locale.headlines.title_ms[config.lang]+' ' + user.lname;
     } else {
-      return 'Mr./Ms. ' + user.lname;
+      return locale.headlines.title_div[config.lang]+' ' + user.lname;
     }
   } else {
     return {}

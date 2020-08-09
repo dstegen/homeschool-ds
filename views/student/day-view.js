@@ -7,7 +7,10 @@
 
 'use strict';
 
+// Required modules
 const path = require('path');
+const locale = require('../../lib/locale');
+const config = require('../../models/model-config')();
 const { thisWeek, thisDay, weekDayNumber, formatDay, momentFromDay, workdaysBetween, notValid } = require('../../lib/dateJuggler');
 const { lessonsToday, lessonsNotFinished } = require('../../models/model-lessons');
 const getFilesList = require('../../lib/getFilesList');
@@ -30,7 +33,7 @@ function studentDayView (myLessons, myGroup, curDay=thisDay(), user) {
       <div class="row">
         <div class="col-12 col-md-6 border-right">
           ${myLessonsToday.map(lesson => helperLessonBig(lesson, weekDayNumber(curDay), curDay, myGroup, user.id)).join('')}
-          ${myLessonsToday.length === 0 ? '<div class="text-muted w-100 text-center mt-4">- kein Unterricht -</div>' : ''}
+          ${myLessonsToday.length === 0 ? '<div class="text-muted w-100 text-center mt-4">- '+locale.student.no_lessons[config.lang]+' -</div>' : ''}
         </div>
         <div class="col-12 col-md-6">
           ${helperLessonsNotFinished(weekDayNumber(curDay), curDay, myGroup, user)}
@@ -47,7 +50,7 @@ function helperLessonsNotFinished (curWeekDay, curDay, myGroup, user) {
   let returnHtml = '';
   let lessonsNotFinishedToday = lessonsNotFinished(user, momentFromDay(curDay));
   if (lessonsNotFinishedToday.length > 0) {
-    returnHtml += '<h6 class="text-center text-danger my-4">Noch nicht abgeschlossene Stunden:</h6>'
+    returnHtml += '<h6 class="text-center text-danger my-4">'+locale.student.not_finished_lessons[config.lang]+':</h6>'
     returnHtml += lessonsNotFinishedToday.map( lessonObj => helperLessonBig(lessonObj, curWeekDay, curDay, myGroup, user.id)).join('');
   }
   return returnHtml;
@@ -65,17 +68,27 @@ function helperLessonBig (lessonObj, curWeekDay, curDay, myGroup, studentId) {
         ${lessonIndicator(myGroup, lessonObj, studentId, curDay)}
       </div>
       <div id="lessonbig-details-${lessonObj.id}${curWeekDay}" class="card-body collapse" data-parent="#today">
-        <strong class="card-title">Aufgabe:</strong>
-        <p class="card-text">${lessonObj.details}</p>
-        <strong class="card-title">Downloads:</strong>
-        <ul class="text-truncate">
-          ${getFilesList(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString(), 'material')).map(item => helperListitem(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString(), 'material'), item)).join('')}
-        </ul>
+        ${lessonObj.details != '' ? `<strong class="card-title">${locale.student.exercise[config.lang]}:</strong><p class="card-text">${lessonObj.details}</p>` : ''}
+        ${helperDownloads(myGroup, lessonObj)}
         ${helperUpload(myGroup, lessonObj, studentId, curDay)}
         ${helperFinishButton(myGroup, lessonObj,studentId, curDay)}
       </div>
     </div>
   `;
+}
+
+function helperDownloads (myGroup, lessonObj) {
+  let downloadsList = getFilesList(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString(), 'material'));
+  if (downloadsList.length > 0) {
+    return `
+      <strong class="card-title">${locale.student.downloads[config.lang]}:</strong>
+      <ul class="text-truncate">
+        ${downloadsList.map(item => helperListitem(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString(), 'material'), item)).join('')}
+      </ul>
+    `;
+  } else {
+    return '';
+  }
 }
 
 function helperListitem (filePath, item, deleteable=false, curDay='') {
@@ -99,7 +112,7 @@ function helperUpload (myGroup, lessonObj, studentId, curDay) {
   if (lessonObj.returnHomework === 'true') {
     return `
       <hr />
-      <strong class="card-title">Uploads:</strong>
+      <strong class="card-title">${locale.student.uploads[config.lang]}:</strong>
       <ul class="text-truncate">
         ${getFilesList(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString(), 'homework', studentId.toString())).map(item => helperListitem(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString(), 'homework', studentId.toString()), item, true, curDay)).join('')}
       </ul>
@@ -110,11 +123,11 @@ function helperUpload (myGroup, lessonObj, studentId, curDay) {
         <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/student/day/${curDay}">
         <div class="custom-file col-sm-9">
           <input type="file" class="custom-file-input" id="filetoupload-${lessonObj.id}" name="filetoupload">
-          <label class="custom-file-label" for="filetoupload-${lessonObj.id}">Datei wählen...</label>
-          <div class="invalid-feedback">Ups, da gab es einen Fehler</div>
+          <label class="custom-file-label" for="filetoupload-${lessonObj.id}">${locale.placeholder.choose_file[config.lang]}...</label>
+          <div class="invalid-feedback">${locale.placeholder.invalid_feedback[config.lang]}</div>
         </div>
         <div class="col-sm-3 px-0 text-right">
-          <button type="submit" class="btn btn-primary">Upload</button>
+          <button type="submit" class="btn btn-primary">${locale.buttons.upload[config.lang]}</button>
         </div>
       </form>
     `;
@@ -134,7 +147,7 @@ function helperFinishButton (myGroup, lessonObj, studentId, curDay) {
         <input type="text" readonly class="d-none" id="courseId" name="courseId" value="${lessonObj.id}">
         <input type="text" readonly class="d-none" id="studentId" name="studentId" value="${studentId}">
         <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/student/day/${curDay}">
-        <button type="submit" class="btn btn-success">Finished</button>
+        <button type="submit" class="btn btn-success">${locale.buttons.finish_lesson[config.lang]}</button>
       </form>
     `;
   }
@@ -144,7 +157,7 @@ function lessonIndicator (myGroup, lessonObj, studentId, curDay) {
   if (lessonObj.lessonFinished.includes(studentId)) {
     return '<span class="checkmark-ok-grey">&#10003;</span>';
   } else if (notValid(lessonObj.validUntil, momentFromDay(curDay))) {
-    return `Abgabe: ${formatDay(thisDay(lessonObj.validUntil))}`;
+    return `${locale.student.return_date[config.lang]}: ${formatDay(thisDay(lessonObj.validUntil))}`;
   } else {
     let lessonsTotal = workdaysBetween(lessonObj.validFrom, lessonObj.validUntil, lessonObj.weekdays);
     let lessonsLeft = lessonsTotal + 1 - workdaysBetween(momentFromDay(curDay), lessonObj.validUntil, lessonObj.weekdays);

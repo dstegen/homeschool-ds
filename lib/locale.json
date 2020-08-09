@@ -28,6 +28,14 @@
       "en": "This week",
       "de": "Diese Woche"
     },
+    "navi_teacher": {
+      "en": "Teacher",
+      "de": "Lehrer/in"
+    },
+    "navi_student": {
+      "en": "Student",
+      "de": "Schüler/in"
+    },
     "class": {
       "en": "Class",
       "de": "Klasse"
@@ -95,6 +103,18 @@
     "please_login": {
       "en": "Please login",
       "de": "Bitte anmelden"
+    },
+    "title_mr": {
+      "en": "Mr.",
+      "de": "Herr"
+    },
+    "title_ms": {
+      "en": "Ms.",
+      "de": "Frau"
+    },
+    "title_div": {
+      "en": "Mr./Ms.",
+      "de": "Herr/Frau"
     }
   },
   "buttons": {
@@ -141,6 +161,10 @@
     "login": {
       "en": "Login",
       "de": "Einloggen"
+    },
+    "finish_lesson": {
+      "en": "Lesson finished",
+      "de": "Fertig"
     }
   },
   "placeholder": {
@@ -159,6 +183,14 @@
     "password": {
       "en": "Password",
       "de": "Passwort"
+    },
+    "choose_file": {
+      "en": "Choose file",
+      "de": "Datei wählen"
+    },
+    "invalid_feedback": {
+      "en": "Oops, an error occured",
+      "de": "Ups, da gab es einen Fehler"
     }
   },
   "teacher": {
@@ -225,6 +257,26 @@
     "return_date": {
       "en": "Return date",
       "de": "Abgabe"
+    },
+    "no_lessons": {
+      "en": "no lessons",
+      "de": "kein Unterricht"
+    },
+    "not_finished_lessons": {
+      "en": "Lessons not finished yet",
+      "de": "Noch nicht abgeschlossene Stunden"
+    },
+    "exercise": {
+      "en": "Exercise details",
+      "de": "Aufgabe"
+    },
+    "downloads": {
+      "en": "Downloads",
+      "de": "Materialien"
+    },
+    "uploads": {
+      "en": "Uploads",
+      "de": "Hochgeladene Dateien"
     }
   },
   "login": {

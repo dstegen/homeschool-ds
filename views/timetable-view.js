@@ -49,7 +49,7 @@ function helperWeekday (day, curWeek, myLessons) {
       <h5 class="mb-0 ${beforeToday(day, curWeek)?'text-black-50':''}">${weekDay(day)}</h5>
       <small class="text-muted">${formatDate(day, curWeek)}</small>
       ${myLessons.map(lesson => helperLesson(lesson, day, curWeek)).join('')}
-      ${myLessons.filter( item => item.weekdays.includes(day) && isActualWeek(item.validFrom, item.validUntil, curWeek)).length < 1 ?'<p class="text-muted mt-2">- kein Unterricht -</p>':''}
+      ${myLessons.filter( item => item.weekdays.includes(day) && isActualWeek(item.validFrom, item.validUntil, curWeek)).length < 1 ?'<p class="text-muted mt-2">- '+locale.student.no_lessons[config.lang]+' -</p>':''}
     </div>
   `;
 }
@@ -66,7 +66,7 @@ function helperLesson (lessonObj, curDay, curWeek) {
           ${lessonObj.lesson}: ${lessonObj.chapter}
         </div>
         <div id="lesson-details-${lessonObj.id}${curDay}" class="card-body collapse px-2 py-1" data-parent="#week">
-          <strong class="card-title">Aufgabe:</strong>
+          <strong class="card-title">${locale.student.exercise[config.lang]}:</strong>
           <p class="card-text">${lessonObj.details}</p>
         </div>
       </div>

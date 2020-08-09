@@ -25,7 +25,7 @@ function getNaviObj (user) {
     case 'student':
     return {
       school: school.name,
-      loginname: 'Student: '+getTitleNameById(user.id),
+      loginname: locale.headlines.navi_student[config.lang]+': '+getTitleNameById(user.id),
       loggedin: true,
       home: {
         name: 'HomeSchool-DS',
@@ -76,7 +76,7 @@ function getNaviObj (user) {
     }
     return {
       school: school.name,
-      loginname: 'Teacher: '+getTitleNameById(user.id),
+      loginname: locale.headlines.navi_teacher[config.lang]+': '+getTitleNameById(user.id),
       loggedin: true,
       home: {
         name: 'HomeSchool-DS',
