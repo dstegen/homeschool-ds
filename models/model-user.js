@@ -87,6 +87,36 @@ function getTitleNameById (id, n=false) {
   }
 }
 
+function updateUser (fields, filePath=path.join(__dirname, '../data/school/users.json')) {
+  let usersTmp = users;
+  if (fields.id !== '' && fields.userId !== '') {
+    // update user
+    let tmpObj = users.filter( user => user.id = Number(fields.id))[0];
+    Object.keys(fields).forEach( key => {
+      if (key !== 'id' && fields[key] !== '') {
+        tmpObj[key] = fields[key];
+      }
+    });
+  } else if (fields.userId !== '') {
+    // add user
+    users.push({
+      userId: fields.userId,
+      id: getNewId(users),
+      password: '$2a$10$Lcj1Cq9ldWV4bKrnxzVHqe1uDQwvleEQi1V5pHBcWJqRQDulOFtFa',
+      role: fields.role,
+      group: fields.group.split(','),
+      courses: fields.courses.split(','),
+      fname: fields.fname,
+      lname: fields.lname,
+      email: fields.email,
+      phone: fields.phone,
+      gender: fields.gender
+    });
+  }
+  saveUsers(usersTmp, filePath);
+}
+
+
 // Additional functions
 
 function loadUsers (filePath) {
@@ -99,5 +129,18 @@ function loadUsers (filePath) {
   return usersLocal;
 }
 
+function getNewId (users) {
+  return Math.max(...users.map( item => item.id)) + 1;
+}
 
-module.exports = { initUsers, getPasswdObj, getUserDetails, getAllUsers, usersOnline, getUserById, getTitleNameById };
+function saveUsers (usersIn,filePath) {
+  try {
+    fs.writeFileSync(filePath, JSON.stringify(usersIn));
+    initUsers(filePath);
+  } catch (e) {
+    console.log('ERROR saving new ./data/school/users.json: '+e);
+  }
+}
+
+
+module.exports = { initUsers, getPasswdObj, getUserDetails, getAllUsers, usersOnline, getUserById, getTitleNameById, updateUser };

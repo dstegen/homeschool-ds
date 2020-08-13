@@ -105,16 +105,21 @@ function getNaviObj (user) {
     case 'admin':
       return {
         school: config.schoolName,
-        loginname: '',
-        loggedin: false,
+        loginname: 'Admin: '+getTitleNameById(user.id),
+        loggedin: true,
         home: {
           name: 'HomeSchool-DS',
-          link: '#dashboard'
+          link: '/admin'
         },
         menuItems: [
           {
-            name: 'support',
-            link: 'mailto:'+config.supportEmail,
+            name: 'Users',
+            link: '/admin/users',
+            dropdown: false
+          },
+          {
+            name: 'Settings',
+            link: '/admin/settings',
             dropdown: false
           }
         ]
