@@ -25,8 +25,7 @@ const schoolConfig = {
   "classes": ["7A1"]
 };
 
-let users = {
-  "users": [
+let users = [
     {
       "id": 100000,
       "userId": "ds@me.com",
@@ -65,8 +64,7 @@ let users = {
       "phone": "+49 2960823294",
       "gender": "male"
     }
-  ]
-}
+  ];
 
 try {
   let namesList = fs.readFileSync(path.join(__dirname, '../helper/names_int.csv')).toString().split('\n');

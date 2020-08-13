@@ -63,7 +63,7 @@ function adminView (user) {
 function helperInputs (value, prop) {
   if ( prop !== 'id' && prop !== 'password') {
     let required = 'required';
-    if ( prop === 'phone' || prop === 'email') required = '';
+    if ( prop === 'phone' || prop === 'email'|| prop === 'courses') required = '';
     switch (prop) {
       case 'role':
         return `

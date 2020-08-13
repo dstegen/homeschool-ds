@@ -88,7 +88,6 @@ function getTitleNameById (id, n=false) {
 }
 
 function updateUser (fields, filePath=path.join(__dirname, '../data/school/users.json')) {
-  let usersTmp = users;
   if (fields.id !== '' && fields.userId !== '') {
     // update user
     let tmpObj = users.filter( user => user.id = Number(fields.id))[0];
@@ -104,8 +103,8 @@ function updateUser (fields, filePath=path.join(__dirname, '../data/school/users
       id: getNewId(users),
       password: '$2a$10$Lcj1Cq9ldWV4bKrnxzVHqe1uDQwvleEQi1V5pHBcWJqRQDulOFtFa',
       role: fields.role,
-      group: fields.group.split(','),
-      courses: fields.courses.split(','),
+      group: fields.role === 'teacher' ? fields.group.split(',') : fields.group,
+      courses: fields.role === 'teacher' ? fields.courses.split(',') : '',
       fname: fields.fname,
       lname: fields.lname,
       email: fields.email,
@@ -113,7 +112,8 @@ function updateUser (fields, filePath=path.join(__dirname, '../data/school/users
       gender: fields.gender
     });
   }
-  saveUsers(usersTmp, filePath);
+  console.log(users);
+  saveUsers(users, filePath);
 }
 
 
@@ -122,7 +122,7 @@ function updateUser (fields, filePath=path.join(__dirname, '../data/school/users
 function loadUsers (filePath) {
   let usersLocal = [];
   try {
-    usersLocal = require(filePath).users;
+    usersLocal = require(filePath);
   } catch (e) {
     console.log('- ERROR reading ./data/school/users.json: '+e);
   }
