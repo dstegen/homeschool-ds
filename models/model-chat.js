@@ -46,4 +46,5 @@ function updateChat (fields) {
   }
 }
 
+
 module.exports = { getChat, updateChat };

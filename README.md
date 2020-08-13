@@ -35,6 +35,8 @@ A simple HomeSchool server for teachers and students to have a better overview o
 
 ## Changelog ##
 
+#### v0.3.5 ####
+- several bug fixes and improvements
 
 #### v0.3.4 ####
 - added locale for en + de
