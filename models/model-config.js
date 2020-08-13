@@ -8,13 +8,15 @@
 'use strict';
 
 // Required modules
-//const fs = require('fs');
-//const path = require('path');
+const config = require('../data/school/config.json');
 
 
 function getConfig () {
   return {
-    lang: 'de'
+    lang: 'de',
+    schoolName: config.name,
+    supportEmail: config.support_email,
+    classes: config.classes
   }
 }
 

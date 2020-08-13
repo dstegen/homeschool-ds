@@ -12,7 +12,6 @@ const locale = require('../../lib/locale');
 const config = require('../../models/model-config')();
 const { getLatestMessages } = require('../../models/model-messages');
 const { getTitleNameById } = require('../../models/model-user');
-const school = require('../../data/school/config.json');
 
 
 function getNaviObj (user) {
@@ -23,89 +22,89 @@ function getNaviObj (user) {
   let classesDropdown = [];
   switch (role) {
     case 'student':
-    return {
-      school: school.name,
-      loginname: locale.headlines.navi_student[config.lang]+': '+getTitleNameById(user.id),
-      loggedin: true,
-      home: {
-        name: 'HomeSchool-DS',
-        link: '/student'
-      },
-      menuItems: [
-        {
-          name: locale.headlines.navi_today[config.lang],
-          link: '/student/day',
-          dropdown: false
-        },
-        {
-          name: locale.headlines.navi_this_week[config.lang],
-          link: '/timetable',
-          dropdown: false
-        },
-        {
-          name: locale.headlines.navi_communication[config.lang],
-          link: '/communication',
-          dropdown: false
-        }
-      ],
-      newMessages: getLatestMessages(user.id).length
-    };
-    case 'teacher':
-    myGroup = user.group;
-    lessonsDropdown = [
-      {
-        name: locale.headlines.navi_overview[config.lang],
-        link: '/teacher/lessons'
-      }
-    ]
-    for (let i=0; i<myGroup.length; i++) {
-      lessonsDropdown.push(
-        {
-          name: '+ '+locale.headlines.navi_new_class[config.lang]+' '+myGroup[i],
-          link: '/edit/'+myGroup[i]
-        }
-      )
-    }
-    for (let i=0; i<myGroup.length; i++) {
-      classesDropdown.push(
-        {
-          name: locale.headlines.class[config.lang]+' '+myGroup[i],
-          link: '/teacher/classes/'+myGroup[i]
-        }
-      )
-    }
-    return {
-      school: school.name,
-      loginname: locale.headlines.navi_teacher[config.lang]+': '+getTitleNameById(user.id),
-      loggedin: true,
-      home: {
-        name: 'HomeSchool-DS',
-        link: '/teacher'
-      },
-      menuItems: [
-        {
-          name: locale.headlines.navi_communication[config.lang],
-          link: '/communication',
-          dropdown: false
-        },
-        {
-          name: locale.headlines.navi_classes[config.lang],
-          link: '#',
-          dropdown: true,
-          dropdownItems: classesDropdown
-        },
-        {
-          name: locale.headlines.navi_lessons[config.lang],
-          link: '#',
-          dropdown: true,
-          dropdownItems: lessonsDropdown
-        }
-      ],
-      newMessages: getLatestMessages(user.id).length
-    };
-    default:
       return {
-        school: school.name,
+        school: config.schoolName,
+        loginname: locale.headlines.navi_student[config.lang]+': '+getTitleNameById(user.id),
+        loggedin: true,
+        home: {
+          name: 'HomeSchool-DS',
+          link: '/student'
+        },
+        menuItems: [
+          {
+            name: locale.headlines.navi_today[config.lang],
+            link: '/student/day',
+            dropdown: false
+          },
+          {
+            name: locale.headlines.navi_this_week[config.lang],
+            link: '/timetable',
+            dropdown: false
+          },
+          {
+            name: locale.headlines.navi_communication[config.lang],
+            link: '/communication',
+            dropdown: false
+          }
+        ],
+        newMessages: getLatestMessages(user.id).length
+      };
+    case 'teacher':
+      myGroup = user.group;
+      lessonsDropdown = [
+        {
+          name: locale.headlines.navi_overview[config.lang],
+          link: '/teacher/lessons'
+        }
+      ]
+      for (let i=0; i<myGroup.length; i++) {
+        lessonsDropdown.push(
+          {
+            name: '+ '+locale.headlines.navi_new_class[config.lang]+' '+myGroup[i],
+            link: '/edit/'+myGroup[i]
+          }
+        )
+      }
+      for (let i=0; i<myGroup.length; i++) {
+        classesDropdown.push(
+          {
+            name: locale.headlines.class[config.lang]+' '+myGroup[i],
+            link: '/teacher/classes/'+myGroup[i]
+          }
+        )
+      }
+      return {
+        school: config.schoolName,
+        loginname: locale.headlines.navi_teacher[config.lang]+': '+getTitleNameById(user.id),
+        loggedin: true,
+        home: {
+          name: 'HomeSchool-DS',
+          link: '/teacher'
+        },
+        menuItems: [
+          {
+            name: locale.headlines.navi_communication[config.lang],
+            link: '/communication',
+            dropdown: false
+          },
+          {
+            name: locale.headlines.navi_classes[config.lang],
+            link: '#',
+            dropdown: true,
+            dropdownItems: classesDropdown
+          },
+          {
+            name: locale.headlines.navi_lessons[config.lang],
+            link: '#',
+            dropdown: true,
+            dropdownItems: lessonsDropdown
+          }
+        ],
+        newMessages: getLatestMessages(user.id).length
+      };
+    case 'admin':
+      return {
+        school: config.schoolName,
         loginname: '',
         loggedin: false,
         home: {
@@ -115,7 +114,24 @@ function getNaviObj (user) {
         menuItems: [
           {
             name: 'support',
-            link: 'mailto:info@myschool.com',
+            link: 'mailto:'+config.supportEmail,
+            dropdown: false
+          }
+        ]
+      };
+    default:
+      return {
+        school: config.schoolName,
+        loginname: '',
+        loggedin: false,
+        home: {
+          name: 'HomeSchool-DS',
+          link: '#dashboard'
+        },
+        menuItems: [
+          {
+            name: 'support',
+            link: 'mailto:'+config.supportEmail,
             dropdown: false
           }
         ]
