@@ -21,7 +21,7 @@ let rl = readline.createInterface({
 
 const schoolConfig = {
   "name": "My School",
-  "language": "de",
+  "language": "en",
   "classes": ["7A1"]
 };
 

@@ -13,7 +13,7 @@ const config = require('../data/school/config.json');
 
 function getConfig () {
   return {
-    lang: 'de',
+    lang: config.language,
     schoolName: config.name,
     supportEmail: config.support_email,
     classes: config.classes
