@@ -93,16 +93,20 @@ function updateUser (fields, filePath=path.join(__dirname, '../data/school/users
     // update user
     let tmpObj = users.filter( user => user.id = Number(fields.id))[0];
     Object.keys(fields).forEach( key => {
-      if (key !== 'id' && fields[key] !== '') {
+      if (key !== 'id' && key !== 'password' && fields[key] !== '') {
         tmpObj[key] = fields[key];
       }
     });
   } else if (fields.userId !== '') {
     // add user
+    let myPassword = '123';
+    if (fields.password != '' && typeof(fields.password) === 'string') {
+      myPassword = fields.password;
+    }
     users.push({
       userId: fields.userId,
       id: getNewId(users),
-      password: bcrypt.hashSync('123'),
+      password: bcrypt.hashSync(myPassword),
       role: fields.role,
       group: fields.role === 'teacher' ? fields.group.split(',') : fields.group,
       courses: fields.role === 'teacher' ? fields.courses.split(',') : '',

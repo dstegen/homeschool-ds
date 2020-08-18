@@ -9,7 +9,7 @@
 
 // Required modules
 const locale = require('../../lib/locale');
-//const config = require('../../models/model-config')();
+const config = require('../../models/model-config')();
 
 
 function adminView (user) {
@@ -46,7 +46,7 @@ function adminView (user) {
               <div class="form-group row mb-1">
                 ${Object.keys(user).map( key => helperInputs(user[key], key)).join('')}
               </div>
-              <div class="d-flex justify-content-end">
+              <div class="d-flex justify-content-end mb-2">
                 <button type="button" class="btn btn-info ml-3" onclick="window.open('/admin', '_top', '');">${locale.buttons.cancle['en']}</a>
                 <button type="submit" class="btn btn-primary ml-3">${locale.buttons.add_update['en']}</button>
               </div>
@@ -61,9 +61,10 @@ function adminView (user) {
 // Additional functions
 
 function helperInputs (value, prop) {
-  if ( prop !== 'id' && prop !== 'password') {
+  if (prop !== 'id') {
     let required = 'required';
-    if ( prop === 'phone' || prop === 'email'|| prop === 'courses') required = '';
+    if (prop === 'phone' || prop === 'email'|| prop === 'courses' || prop === 'password') required = '';
+    if (prop === 'password') value = '';
     switch (prop) {
       case 'role':
         return `
@@ -83,6 +84,15 @@ function helperInputs (value, prop) {
             </select>
           </div>
         `;
+      case 'group':
+        return `
+          <label for="${prop}-field" class="col-sm-3 col-form-label text-right">${prop}</label>
+          <div class="col-sm-9 my-2">
+            <select multiple class="form-control form-control-sm" id="${prop}-field" name="${prop}" required>
+              ${config.classes.map( item => helperSelectOption(item, value) ).join('')}
+            </select>
+          </div>
+        `;
       default:
         return `
           <label for="${prop}-field" class="col-sm-3 col-form-label text-right mb-2">${prop}</label>
@@ -97,8 +107,10 @@ function helperInputs (value, prop) {
 }
 
 function helperSelectOption (item, value) {
+  let selected = '';
+  if (value.includes(item)) selected = 'selected'
   return `
-    <option ${value === item?'selected':''}>${item}</option>
+    <option ${selected} value="${item}">${item}</option>
   `;
 }
 
