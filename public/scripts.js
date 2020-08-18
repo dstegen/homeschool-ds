@@ -87,3 +87,9 @@ function fileDelete (formId) {
     $('#'+formId).submit();
   }
 }
+
+
+// Check if new password and retype match
+$(document).ready(function () {
+    $("#txtConfirmPassword").keyup(isPasswordMatch);
+});

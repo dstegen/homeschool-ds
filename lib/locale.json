@@ -119,6 +119,10 @@
     "title_div": {
       "en": "Mr./Ms.",
       "de": "Herr/Frau"
+    },
+    "set_new_password": {
+      "en": "Set new password",
+      "de": "Neues Passwort vergeben"
     }
   },
   "buttons": {
@@ -158,6 +162,10 @@
       "en": "Add/Update",
       "de": "Hinzufügen/Ändern"
     },
+    "update": {
+      "en": "Update",
+      "de": "Ändern"
+    },
     "upload": {
       "en": "Upload",
       "de": "Hochladen"
@@ -187,6 +195,18 @@
     "password": {
       "en": "Password",
       "de": "Passwort"
+    },
+    "old_password": {
+      "en": "Old password",
+      "de": "Altes Passwort"
+    },
+    "new_password": {
+      "en": "New password",
+      "de": "Neues Passwort"
+    },
+    "retype_password": {
+      "en": "Repeat new password",
+      "de": "Neues Passwort wiederholen"
     },
     "choose_file": {
       "en": "Choose file",
@@ -291,6 +311,12 @@
     "password": {
       "en": "Your Password",
       "de": "Passwort"
+    }
+  },
+  "errors": {
+    "passwords_not_match": {
+      "en": "Passwords doesn't match!",
+      "de": "Das neue Passworter und die Wiederholung sind nicht gleich!"
     }
   }
 }
