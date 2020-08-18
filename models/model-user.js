@@ -10,6 +10,7 @@
 // Required Modules
 const path = require('path');
 const fs = require('fs');
+const bcrypt = require('bcryptjs');
 const locale = require('../lib/locale');
 const config = require('../models/model-config')();
 
@@ -101,7 +102,7 @@ function updateUser (fields, filePath=path.join(__dirname, '../data/school/users
     users.push({
       userId: fields.userId,
       id: getNewId(users),
-      password: '$2a$10$Lcj1Cq9ldWV4bKrnxzVHqe1uDQwvleEQi1V5pHBcWJqRQDulOFtFa',
+      password: bcrypt.hashSync('123'),
       role: fields.role,
       group: fields.role === 'teacher' ? fields.group.split(',') : fields.group,
       courses: fields.role === 'teacher' ? fields.courses.split(',') : '',
@@ -116,6 +117,14 @@ function updateUser (fields, filePath=path.join(__dirname, '../data/school/users
   saveUsers(users, filePath);
 }
 
+function updatePassword (fields, filePath=path.join(__dirname, '../data/school/users.json')) {
+  let curUser = users.filter( user => user.userId === fields.userId)[0];
+  if (curUser !== undefined) {
+    curUser.password = bcrypt.hashSync(fields.new_password);
+    saveUsers(users, filePath)
+    console.log('+ Password sucessfully update for userId: '+fields.userId);
+  }
+}
 
 // Additional functions
 
@@ -133,7 +142,7 @@ function getNewId (users) {
   return Math.max(...users.map( item => item.id)) + 1;
 }
 
-function saveUsers (usersIn,filePath) {
+function saveUsers (usersIn, filePath) {
   try {
     fs.writeFileSync(filePath, JSON.stringify(usersIn));
     initUsers(filePath);
@@ -143,4 +152,4 @@ function saveUsers (usersIn,filePath) {
 }
 
 
-module.exports = { initUsers, getPasswdObj, getUserDetails, getAllUsers, usersOnline, getUserById, getTitleNameById, updateUser };
+module.exports = { initUsers, getPasswdObj, getUserDetails, getAllUsers, usersOnline, getUserById, getTitleNameById, updateUser, updatePassword };

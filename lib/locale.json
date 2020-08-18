@@ -311,12 +311,20 @@
     "password": {
       "en": "Your Password",
       "de": "Passwort"
+    },
+    "update_password_sucessfully": {
+      "en": "Password updated sucessfully!",
+      "de": "Passwort wurde aktualisiert!"
     }
   },
   "errors": {
     "passwords_not_match": {
       "en": "Passwords doesn't match!",
       "de": "Das neue Passworter und die Wiederholung sind nicht gleich!"
+    },
+    "old_password_wrong": {
+      "en": "Wrong password!",
+      "de": "Das Passwort ist falsch!"
     }
   }
 }
