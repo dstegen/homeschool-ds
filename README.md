@@ -36,6 +36,8 @@ A simple HomeSchool server for teachers and students to have a better overview o
 ## Changelog ##
 
 #### v0.3.5 ####
+- introduced admin mode
+- added update password for useres
 - several bug fixes and improvements
 
 #### v0.3.4 ####
