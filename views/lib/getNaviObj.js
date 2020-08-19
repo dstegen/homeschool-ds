@@ -114,7 +114,7 @@ function getNaviObj (user) {
         menuItems: [
           {
             name: 'Users',
-            link: '/admin/users',
+            link: '/admin/edituser',
             dropdown: false
           },
           {
