@@ -68,7 +68,7 @@ let users = [
 
 try {
   let namesList = fs.readFileSync(path.join(__dirname, '../helper/names_int.csv')).toString().split('\n');
-  users.users = cl(namesList, users.users, '7A');
+  users = cl(namesList, users, '7A');
 } catch (e) {
   console.log('- ERROR couldn\'t extend users: '+e);
 }
