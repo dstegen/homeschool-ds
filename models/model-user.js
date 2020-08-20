@@ -91,7 +91,7 @@ function getTitleNameById (id, n=false) {
 function updateUser (fields, filePath=path.join(__dirname, '../data/school/users.json')) {
   if (fields.id !== '' && fields.userId !== '') {
     // update user
-    let tmpObj = users.filter( user => user.id = Number(fields.id))[0];
+    let tmpObj = users.filter( user => user.id === Number(fields.id))[0];
     Object.keys(fields).forEach( key => {
       if (key !== 'id' && key !== 'password' && fields[key] !== '') {
         tmpObj[key] = fields[key];
@@ -117,7 +117,6 @@ function updateUser (fields, filePath=path.join(__dirname, '../data/school/users
       gender: fields.gender
     });
   }
-  console.log(users);
   saveUsers(users, filePath);
 }
 
@@ -148,8 +147,9 @@ function getNewId (users) {
 
 function saveUsers (usersIn, filePath) {
   try {
-    //fs.writeFileSync(filePath, JSON.stringify(usersIn));
-    //initUsers(filePath);
+    // TODO: Better first BACKUP!!!
+    fs.writeFileSync(filePath, JSON.stringify(usersIn));
+    initUsers(filePath);
   } catch (e) {
     console.log('ERROR saving new ./data/school/users.json: '+e);
   }
