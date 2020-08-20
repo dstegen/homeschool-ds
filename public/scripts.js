@@ -90,7 +90,9 @@ function fileDelete (formId) {
 
 // Check if new password and retype match
 $(document).ready(function () {
-    $("#txtConfirmPassword").keyup(isPasswordMatch);
+  if (window.location.pathname === '/setpassword') {
+    $("#txtConfirmPassword").keyup(isPasswordMatch());
+  }
 });
 
 // Edit user functions
