@@ -10,9 +10,9 @@
 // Required modules
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config')();
+const { getAllUsers } = require('../../models/model-user');
 
-
-function editUserView (user) {
+function editUserView (group, user) {
   if (user === undefined) {
     user = {
       userId: '',
@@ -28,6 +28,11 @@ function editUserView (user) {
       gender: ''
     };
   }
+  let allUsers = getAllUsers();
+  if (group !== undefined) {
+    allUsers = allUsers.filter( item => item.group.includes(group) );
+  }
+  let allUserIds = allUsers.map( item => { return [item.id, item.fname+' '+item.lname+', '+item.group] } );
   return `
     <div id="dashboard" class="container">
       <h2 class="d-flex justify-content-between py-2 px-3 my-3 border">
@@ -36,19 +41,33 @@ function editUserView (user) {
       </h2>
       <div class="row">
         <div class="col-12 col-md-6">
-        <div class="border py-2 px-3 mb-3">
-          <form action="/admin/edituser" method="post">
-            <div class="form-group row mb-1">
-              <label for="choosegroup-field" class="col-sm-3 col-form-label text-right">choose group</label>
-              <div class="col-sm-9 my-2">
-                <select class="form-control form-control-sm" id="choosegroup-field" name="choosegroup" onchange="selectGroup()">
-                  <option></option>
-                  ${config.classes.map( item => helperSelectOption(item, '') ).join('')}
-                </select>
+          <div class="border py-2 px-3 mb-3">
+            <form action="/admin/edituser" method="post">
+              <div class="form-group row mb-1">
+                <label for="choosegroup-field" class="col-sm-3 col-form-label text-right">filter group</label>
+                <div class="col-sm-9 my-2">
+                  <select class="form-control form-control-sm" id="choosegroup-field" name="choosegroup" onchange="selectGroup(this.value)">
+                    <option></option>
+                    ${config.classes.map( item => helperSelectOption(item, '') ).join('')}
+                  </select>
+                </div>
               </div>
-            </div>
-          </form>
-        </div>
+            </form>
+          </div>
+          <div class="border py-2 px-3 mb-3">
+            <form action="/admin/edituser" method="post">
+              <div class="form-group row mb-1">
+                <label for="chooseuser-field" class="col-sm-3 col-form-label text-right">choose user</label>
+                <div class="col-sm-9 my-2">
+                  <select class="form-control form-control-sm" id="choosegroup-field" name="chooseuser" onchange="selectUser(this.value)">
+                    <option></option>
+                    ${allUserIds.map( item => helperSelectOption(item, '') ).join('')}
+                  </select>
+                </div>
+              </div>
+            </form>
+          </div>
+
         </div>
         <div class="col-12 col-md-6">
           <div class="border py-2 px-3 mb-3">
@@ -120,10 +139,15 @@ function helperInputs (value, prop) {
 }
 
 function helperSelectOption (item, value) {
+  let myValue = item;
+  if (typeof(item) === 'object') {
+    myValue = item[0];
+    item = item[1];
+  }
   let selected = '';
   if (value.includes(item)) selected = 'selected'
   return `
-    <option ${selected} value="${item}">${item}</option>
+    <option ${selected} value="${myValue}">${item}</option>
   `;
 }
 

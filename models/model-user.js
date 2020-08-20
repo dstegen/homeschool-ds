@@ -148,8 +148,8 @@ function getNewId (users) {
 
 function saveUsers (usersIn, filePath) {
   try {
-    fs.writeFileSync(filePath, JSON.stringify(usersIn));
-    initUsers(filePath);
+    //fs.writeFileSync(filePath, JSON.stringify(usersIn));
+    //initUsers(filePath);
   } catch (e) {
     console.log('ERROR saving new ./data/school/users.json: '+e);
   }

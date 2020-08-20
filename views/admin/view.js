@@ -10,9 +10,11 @@
 // Required modules
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config')();
+const { formatDay, getDaytime } = require('../../lib/dateJuggler');
+const { getTitleNameById } = require('../../models/model-user');
 
 
-function adminView () {
+function adminView (user) {
   return `
     <div id="dashboard" class="container">
       <h2 class="d-flex justify-content-between py-2 px-3 my-3 border">
@@ -21,16 +23,37 @@ function adminView () {
       </h2>
       <div class="row">
         <div class="col-12 col-md-6">
-          <br /><br /><br /><br />
-
+        <div class="border py-2 px-3 mb-3">
+            <h4>${helperWelcome(config.lang)} ${getTitleNameById(user.id)},</h4>
+            <p>
+              ${locale.teacher.today_is[config.lang]} ${formatDay()}.
+            </p>
+            <br />
+          </div>
         </div>
         <div class="col-12 col-md-6">
           <br /><br /><br /><br />
-          
+
         </div>
       </div>
     </div>
   `;
+}
+
+
+// Additional functions
+
+function helperWelcome (lang) {
+  switch (getDaytime()) {
+    case 'AM':
+      return locale.teacher.welcome_morning[lang];
+    case 'PM':
+      return locale.teacher.welcome_afternoon[lang];
+    case 'NIGHT':
+      return locale.teacher.welcome_evening[lang];
+    default:
+      return locale.teacher.welcome_afternoon[lang];
+  }
 }
 
 

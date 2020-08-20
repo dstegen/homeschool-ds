@@ -88,8 +88,18 @@ function fileDelete (formId) {
   }
 }
 
-
 // Check if new password and retype match
 $(document).ready(function () {
     $("#txtConfirmPassword").keyup(isPasswordMatch);
 });
+
+// Edit user functions
+
+function selectGroup (group) {
+  console.log(group);
+  window.location = "/admin/edituser?"+group;
+}
+
+function selectUser (userId) {
+  window.location = "/admin/edituser/"+userId;
+}
