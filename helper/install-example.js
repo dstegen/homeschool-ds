@@ -22,7 +22,7 @@ let rl = readline.createInterface({
 const schoolConfig = {
   "name": "My School",
   "language": "en",
-  "classes": ["7A1"]
+  "classes": ["7A"]
 };
 
 let users = [
