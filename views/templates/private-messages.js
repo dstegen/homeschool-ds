@@ -12,7 +12,7 @@ const fs = require('fs');
 const path = require('path');
 const moment = require('moment');
 const locale = require('../../lib/locale');
-const config = require('../../models/model-config')();
+const config = require('../../models/model-config').getConfig();
 const { getPrivateMessages } = require('../../models/model-messages');
 const { getUserById, getTitleNameById } = require('../../models/model-user');
 

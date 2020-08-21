@@ -10,7 +10,7 @@
 // Required modules
 const path = require('path');
 const locale = require('../../lib/locale');
-const config = require('../../models/model-config')();
+const config = require('../../models/model-config').getConfig();
 const { formatDay, dateIsRecent, getDaytime } = require('../../lib/dateJuggler');
 const { getAllUsers, usersOnline, getUserById, getTitleNameById } = require('../../models/model-user');
 const { getLatestMessages } = require('../../models/model-messages');

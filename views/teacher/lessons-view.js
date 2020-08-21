@@ -11,7 +11,7 @@
 const path = require('path');
 const moment = require('moment');
 const locale = require('../../lib/locale');
-const config = require('../../models/model-config')();
+const config = require('../../models/model-config').getConfig();
 const { notValid } = require('../../lib/dateJuggler');
 const { getAllUsers } = require('../../models/model-user');
 const { getLessons } = require('../../models/model-lessons');

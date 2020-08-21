@@ -9,16 +9,20 @@
 
 // Required modules
 const config = require('../data/school/config.json');
-
+let myConfig = {};
 
 function getConfig () {
-  return {
+  myConfig = {
     lang: config.language,
     schoolName: config.name,
     supportEmail: config.support_email,
     classes: config.classes
   }
+  return myConfig;
 }
 
+function updateSettings (fields) {
+  console.log(fields);
+}
 
-module.exports = getConfig;
+module.exports = { getConfig, updateSettings };

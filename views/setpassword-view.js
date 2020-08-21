@@ -9,7 +9,7 @@
 
 // Required modules
 const locale = require('../lib/locale');
-const config = require('../models/model-config')();
+const config = require('../models/model-config').getConfig();
 
 
 function setpasswordView (userId, message='') {

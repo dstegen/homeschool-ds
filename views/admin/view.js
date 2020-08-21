@@ -9,7 +9,7 @@
 
 // Required modules
 const locale = require('../../lib/locale');
-const config = require('../../models/model-config')();
+const config = require('../../models/model-config').getConfig();
 const { formatDay, getDaytime } = require('../../lib/dateJuggler');
 const { getTitleNameById } = require('../../models/model-user');
 

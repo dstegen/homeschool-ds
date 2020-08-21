@@ -12,7 +12,7 @@ const path = require('path');
 const fs = require('fs');
 const bcrypt = require('bcryptjs');
 const locale = require('../lib/locale');
-const config = require('../models/model-config')();
+const config = require('../models/model-config').getConfig();
 
 let users = [];
 

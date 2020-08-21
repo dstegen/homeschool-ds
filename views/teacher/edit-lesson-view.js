@@ -10,7 +10,7 @@
 // Required modules
 const path = require('path');
 const locale = require('../../lib/locale');
-const config = require('../../models/model-config')();
+const config = require('../../models/model-config').getConfig();
 const { weekDay } = require('../../lib/dateJuggler');
 const getFilesList = require('../../lib/getFilesList');
 let lessonsConfig = {};
