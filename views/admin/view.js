@@ -11,10 +11,17 @@
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
 const { formatDay, getDaytime } = require('../../lib/dateJuggler');
-const { getTitleNameById } = require('../../models/model-user');
+const { getTitleNameById, usersOnline } = require('../../models/model-user');
+const { getMessagesCount } = require('../../models/model-messages');
+const { getChat } = require('../../models/model-chat');
 
 
 function adminView (user) {
+  let chatMessagesCount = 0;
+  config.classes.forEach( group => {
+    chatMessagesCount += getChat(group).length;
+  });
+
   return `
     <div id="dashboard" class="container">
       <h2 class="d-flex justify-content-between py-2 px-3 my-3 border">
@@ -29,11 +36,23 @@ function adminView (user) {
               ${locale.teacher.today_is[config.lang]} ${formatDay()}.
             </p>
             <br />
+
           </div>
         </div>
         <div class="col-12 col-md-6">
-          <br /><br /><br /><br />
-
+          <div class="border py-2 px-3 mb-3">
+            <h4>Statistics:</h4>
+            <p>
+              Messages count: <strong>${getMessagesCount()}</strong>
+            </p>
+            <p>
+              Chat count: <strong>${chatMessagesCount}</strong>
+            </p>
+            <p>
+              Users online: <strong>${usersOnline()}</strong>
+            </p>
+            <br />
+          </div>
         </div>
       </div>
     </div>

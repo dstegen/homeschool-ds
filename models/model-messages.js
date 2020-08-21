@@ -45,6 +45,10 @@ function getLatestMessages (userId) {
   }
 }
 
+function getMessagesCount () {
+  return loadPrivateMessages().length;
+}
+
 function updatePrivateMessages (fields) {
   let allMessages = loadPrivateMessages();
   if (fields.privateMessageId === '' || fields.privateMessageId === undefined) {
@@ -120,4 +124,4 @@ function reorderPrivateMessages (msgA, msgB) {
 }
 
 
-module.exports = { getPrivateMessages, getLatestMessages, updatePrivateMessages };
+module.exports = { getPrivateMessages, getLatestMessages, updatePrivateMessages, getMessagesCount };

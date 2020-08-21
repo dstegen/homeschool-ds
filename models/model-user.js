@@ -51,10 +51,14 @@ function usersOnline (group) {
   try {
     let sessionIds = JSON.parse(fs.readFileSync(path.join(__dirname, '../sessionids.json')));
     let userIds = sessionIds.ids.map( user => { return Object.values(user)[0]; } )
-    let allUsers = getAllUsers(group).filter( user => (user.role === 'student' && userIds.includes(user.userId)) );
-    allUsers.forEach(user => {
-      onlineUsers.push(user.fname+' '+user.lname);
-    });
+    if ( group !== undefined && group !== '') {
+      let allUsers = getAllUsers(group).filter( user => (user.role === 'student' && userIds.includes(user.userId)) );
+      allUsers.forEach(user => {
+        onlineUsers.push(user.fname+' '+user.lname);
+      });
+    } else {
+      onlineUsers = userIds.length;
+    }
   } catch (e) {
     console.log('- ERROR reading determing online students: '+e);
   }
