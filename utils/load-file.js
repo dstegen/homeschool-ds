@@ -19,7 +19,8 @@ function loadFile (filePath, reqMode=false, raw=false) {
     } else if (raw) {
       returnObj = fs.readFileSync(filePath);
     } else {
-      returnObj = JSON.parse(fs.readFileSync(filePath));
+      let tmpObj = fs.readFileSync(filePath);
+      returnObj = JSON.parse(tmpObj);
     }
   } catch (e) {
     console.log('- ERROR reading file: '+e);

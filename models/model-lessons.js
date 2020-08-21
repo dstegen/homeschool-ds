@@ -9,12 +9,13 @@
 
 // Required Modules
 const path = require('path');
-const fs = require('fs');
 const { isActualWeek, notValid } = require('../lib/dateJuggler');
+const loadFile = require('../utils/load-file');
+const saveFile = require('../utils/save-file');
 
 
 function getLessons(myGroup) {
-  return loadFile(myGroup);
+  return loadFile(path.join(__dirname, '../data/classes', myGroup, 'lessons.json')).lessons;
 }
 
 function updateLesson(fields) {
@@ -33,7 +34,7 @@ function updateLesson(fields) {
         }
       }
     });
-    saveFile(myLessons, fields.group);
+    saveFile(path.join(__dirname, '../data/classes', myGroup), 'lessons.json', { lessons: myLessons});
     return myLessons;
   } else {
     // add
@@ -51,7 +52,7 @@ function updateLesson(fields) {
       }
     });
     myLessons.push(newItem);
-    saveFile(myLessons, fields.group);
+    saveFile(path.join(__dirname, '../data/classes', myGroup), 'lessons.json', { lessons: myLessons});
     return myLessons;
   }
 }
@@ -60,7 +61,7 @@ function deleteLesson (fields) {
   let myLessons = getLessons(fields.group);
   console.log(fields);
   myLessons = myLessons.filter( item => item.id != fields.id);
-  saveFile(myLessons, fields.group);
+  saveFile(path.join(__dirname, '../data/classes', fields.group), 'lessons.json', { lessons: myLessons});
   return myLessons;
 }
 
@@ -69,7 +70,7 @@ function finishLesson (fields) {
   let tmpList = myLessons.filter( item => item.id === Number(fields.courseId))[0].lessonFinished;
   tmpList.push(Number(fields.studentId));
   myLessons.filter( item => item.id === Number(fields.courseId))[0].lessonFinished = tmpList;
-  saveFile(myLessons, fields.group);
+  saveFile(path.join(__dirname, '../data/classes', fields.group), 'lessons.json', { lessons: myLessons});
   return myLessons;
 }
 
@@ -83,31 +84,6 @@ function lessonsNotFinished (user, inDay) {
 
 
 // Additional functions
-
-function loadFile (myGroup) {
-  let myLessons = [];
-  let filePath = path.join(__dirname, '../data/classes', myGroup, 'lessons.json');
-  try {
-    myLessons = fs.readFileSync(filePath);
-    myLessons = JSON.parse(myLessons).lessons;
-  } catch (e) {
-    console.log('- ERROR loading file: '+e);
-  }
-  return myLessons;
-}
-
-function saveFile (myLessons, myGroup) {
-  let filePath = path.join(__dirname, '../data/classes', myGroup, 'lessons.json');
-  try {
-    if (!fs.existsSync(path.join(__dirname, '../data/classes', myGroup, 'backup'))) {
-      fs.mkdirSync(path.join(__dirname, '../data/classes', myGroup, 'backup'));
-    }
-    fs.copyFileSync(filePath, path.join(__dirname, '../data/classes', myGroup, 'backup', 'lessons-backup_'+new Date()));
-    fs.writeFileSync(filePath, JSON.stringify({ lessons: myLessons}));
-  } catch (e) {
-    console.log('- ERROR backuping and saving file: '+e);
-  }
-}
 
 function getNewId (lessons) {
   return Math.max(...lessons.map( item => item.id)) + 1;
