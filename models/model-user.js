@@ -13,12 +13,14 @@ const fs = require('fs');
 const bcrypt = require('bcryptjs');
 const locale = require('../lib/locale');
 const config = require('../models/model-config').getConfig();
+const loadFile = require('../utils/load-file');
+const saveFile = require('../utils/save-file');
 
 let users = [];
 
 
-function initUsers (filePath=path.join(__dirname, '../data/school/users.json')) {
-  users = loadUsers(filePath);
+function initUsers () {
+  users = loadFile(path.join(__dirname, '../data/school/users.json'), true);
 }
 
 function getPasswdObj () {
@@ -92,7 +94,7 @@ function getTitleNameById (id, n=false) {
   }
 }
 
-function updateUser (fields, filePath=path.join(__dirname, '../data/school/users.json')) {
+function updateUser (fields) {
   if (fields.id !== '' && fields.userId !== '') {
     // update user
     let tmpObj = users.filter( user => user.id === Number(fields.id))[0];
@@ -121,42 +123,24 @@ function updateUser (fields, filePath=path.join(__dirname, '../data/school/users
       gender: fields.gender
     });
   }
-  saveUsers(users, filePath);
+  saveFile(path.join(__dirname, '../data/school'), 'users.json', users);
+  console.log('+ User sucessfully added/updated: '+fields.userId);
 }
 
-function updatePassword (fields, filePath=path.join(__dirname, '../data/school/users.json')) {
+function updatePassword (fields) {
   let curUser = users.filter( user => user.userId === fields.userId)[0];
   if (curUser !== undefined) {
     curUser.password = bcrypt.hashSync(fields.new_password);
-    saveUsers(users, filePath)
-    console.log('+ Password sucessfully update for userId: '+fields.userId);
+    saveFile(path.join(__dirname, '../data/school'), 'users.json', users);
+    console.log('+ Password sucessfully updated for userId: '+fields.userId);
   }
 }
+
 
 // Additional functions
 
-function loadUsers (filePath) {
-  let usersLocal = [];
-  try {
-    usersLocal = require(filePath);
-  } catch (e) {
-    console.log('- ERROR reading ./data/school/users.json: '+e);
-  }
-  return usersLocal;
-}
-
 function getNewId (users) {
   return Math.max(...users.map( item => item.id)) + 1;
-}
-
-function saveUsers (usersIn, filePath) {
-  try {
-    // TODO: Better first BACKUP!!!
-    fs.writeFileSync(filePath, JSON.stringify(usersIn));
-    initUsers(filePath);
-  } catch (e) {
-    console.log('ERROR saving new ./data/school/users.json: '+e);
-  }
 }
 
 

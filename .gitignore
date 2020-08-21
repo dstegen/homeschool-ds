@@ -1,5 +1,6 @@
 # server config and user data
 data*
+*backup*
 
 # macOS files
 .DS_Store
