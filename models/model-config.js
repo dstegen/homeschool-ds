@@ -8,7 +8,12 @@
 'use strict';
 
 // Required modules
-const config = require('../data/school/config.json');
+const path = require('path');
+const loadFile = require('../utils/load-file');
+const saveFile = require('../utils/save-file');
+
+
+const config = loadFile(path.join(__dirname, '../data/school/config.json'), true);
 let myConfig = {
   lang: config.lang,
   schoolName: config.schoolName,
@@ -21,7 +26,6 @@ function getConfig () {
 }
 
 function updateSettings (fields) {
-  //console.log(fields);
   Object.keys(myConfig).forEach( key => {
     if (fields[key] && fields[key] !== '') {
       if (key === 'classes') {
@@ -32,6 +36,9 @@ function updateSettings (fields) {
     }
   });
   //console.log(myConfig);
+  saveFile(path.join(__dirname, '../data/school'), 'config.json', myConfig);
+  console.log('+ Updated schools config sucessfully!');
 }
+
 
 module.exports = { getConfig, updateSettings };
