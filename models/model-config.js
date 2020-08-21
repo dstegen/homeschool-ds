@@ -9,20 +9,29 @@
 
 // Required modules
 const config = require('../data/school/config.json');
-let myConfig = {};
+let myConfig = {
+  lang: config.lang,
+  schoolName: config.schoolName,
+  supportEmail: config.supportEmail,
+  classes: config.classes
+};
 
 function getConfig () {
-  myConfig = {
-    lang: config.language,
-    schoolName: config.name,
-    supportEmail: config.support_email,
-    classes: config.classes
-  }
   return myConfig;
 }
 
 function updateSettings (fields) {
-  console.log(fields);
+  //console.log(fields);
+  Object.keys(myConfig).forEach( key => {
+    if (fields[key] && fields[key] !== '') {
+      if (key === 'classes') {
+        myConfig[key] = fields[key].split(',');
+      } else {
+        myConfig[key] = fields[key];
+      }
+    }
+  });
+  //console.log(myConfig);
 }
 
 module.exports = { getConfig, updateSettings };
