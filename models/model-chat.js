@@ -8,14 +8,15 @@
 'use strict';
 
 // Required modules
-const fs = require('fs');
 const path = require('path');
+const loadFile = require('../utils/load-file');
+const saveFile = require('../utils/save-file');
 
 
 function getChat (myGroup) {
   let returnChat = [];
   try {
-    returnChat = require(path.join(__dirname, '../data/classes', myGroup, 'chat.json'));
+    returnChat = loadFile(path.join(__dirname, '../data/classes', myGroup, 'chat.json'), true);
     return returnChat;
   } catch (e) {
     console.log('- ERROR reading chat file: '+e);
@@ -39,7 +40,7 @@ function updateChat (fields) {
     let myChat = getChat(fields.group);
     try {
       myChat.push(newChat);
-      fs.writeFileSync(path.join(__dirname, '../data/classes', fields.group, 'chat.json'), JSON.stringify(myChat));
+      saveFile(path.join(__dirname, '../data/classes', fields.group), 'chat.json', myChat);
     } catch (e) {
       console.log('- ERROR writing chat to disk: '+e);
     }
