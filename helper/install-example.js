@@ -20,9 +20,12 @@ let rl = readline.createInterface({
 });
 
 const schoolConfig = {
-  "name": "My School",
-  "language": "en",
-  "classes": ["7A"]
+  "lang": "en",
+  "schoolName": "My School",
+  "supportEmail": "",
+  "classes": ["7A"],
+  "delMessagesAfter": "30",
+  "delChatsAfter": "15"
 };
 
 let users = [

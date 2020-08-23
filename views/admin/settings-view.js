@@ -13,12 +13,6 @@ const config = require('../../models/model-config').getConfig();
 
 
 function settingsView () {
-  let settingsObj = {
-    lang: config.lang,
-    schoolName: config.schoolName,
-    supportEmail: config.supportEmail,
-    classes: config.classes
-  }
   return `
     <div id="dashboard" class="container">
       <h2 class="d-flex justify-content-between py-2 px-3 my-3 border">
@@ -36,11 +30,26 @@ function settingsView () {
             <form action="/admin/settings" method="post">
               <input type="text" name="action" class="d-none" hidden value="updatesettings" />
               <div class="form-group row mb-1">
-                ${Object.keys(settingsObj).map( key => helperInputs(settingsObj[key], key)).join('')}
+                ${Object.keys(config).map( key => helperInputs(config[key], key)).join('')}
               </div>
               <div class="d-flex justify-content-end mb-2">
                 <button type="button" class="btn btn-info ml-3" onclick="window.open('/admin', '_top', '');">${locale.buttons.cancle['en']}</a>
                 <button type="submit" class="btn btn-primary ml-3">${locale.buttons.update['en']}</button>
+              </div>
+            </form>
+          </div>
+          <div class="border py-2 px-3 mb-3">
+            <h3>Add class</h3>
+            <form action="/admin/settings" method="post">
+              <input type="text" name="action" class="d-none" hidden value="addgroup" />
+              <div class="form-group row mb-1">
+                <label for="newGroup-field" class="col-sm-3 col-form-label text-right mb-2">newGroup</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="newGroup-field" name="newGroup" value="" required>
+                </div>
+              </div>
+              <div class="d-flex justify-content-end mb-2">
+                <button type="submit" class="btn btn-primary ml-3">Add new class</button>
               </div>
             </form>
           </div>
@@ -54,10 +63,8 @@ function settingsView () {
 // Additional functions
 
 function helperInputs (value, prop) {
-  if (prop !== 'id') {
+  if (prop !== 'id' && prop !== 'classes') {
     let required = 'required';
-    if (prop === 'phone' || prop === 'email'|| prop === 'courses' || prop === 'password') required = '';
-    if (prop === 'password') value = '';
     switch (prop) {
       case 'lang':
         return `

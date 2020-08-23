@@ -13,13 +13,7 @@ const loadFile = require('../utils/load-file');
 const saveFile = require('../utils/save-file');
 
 
-const config = loadFile(path.join(__dirname, '../data/school/config.json'), true);
-let myConfig = {
-  lang: config.lang,
-  schoolName: config.schoolName,
-  supportEmail: config.supportEmail,
-  classes: config.classes
-};
+let myConfig = loadFile(path.join(__dirname, '../data/school/config.json'), true);
 
 function getConfig () {
   return myConfig;
