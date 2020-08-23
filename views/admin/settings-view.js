@@ -39,7 +39,7 @@ function settingsView () {
             </form>
           </div>
           <div class="border py-2 px-3 mb-3">
-            <h3>Add class</h3>
+            <h3>Add new class/group</h3>
             <form action="/admin/settings" method="post">
               <input type="text" name="action" class="d-none" hidden value="addgroup" />
               <div class="form-group row mb-1">
