@@ -13,6 +13,8 @@ const fs = require('fs');
 const moment = require('moment');
 const readline = require('readline');
 const cl = require('./user-importer');
+const saveFile = require('../utils/save-file');
+const createDir = require('../utils/create-dir');
 
 let rl = readline.createInterface({
   input: process.stdin,
@@ -177,17 +179,17 @@ console.log("\n- Do you want to install the demo? (Y/N) ");
 rl.on('line', function (input) {
   if (input === 'y' || input === 'Y') {
     console.log('\n+ Installing the demo...');
-    createDir('/data');
-    createDir('/data/school');
-    createDir('/data/school/pics');
-    createDir('/data/classes');
-    createDir('/data/classes/7A');
-    saveFile('/data/school/config.json', schoolConfig);
-    saveFile('/data/school/users.json', users);
-    saveFile('/data/school/private-messages.json', myPrivateMessages);
-    saveFile('/data/classes/7A/config.json', classConfig);
-    saveFile('/data/classes/7A/lessons.json', myLessons);
-    saveFile('/data/classes/7A/chat.json', myChat);
+    createDir(path.join(__dirname, '../data'));
+    createDir(path.join(__dirname, '../data/school'));
+    createDir(path.join(__dirname, '../data/school/pics'));
+    createDir(path.join(__dirname, '../data/classes'));
+    createDir(path.join(__dirname, '../data/classes/7A'));
+    saveFile(path.join(__dirname, '../data/school'), 'config.json', schoolConfig);
+    saveFile(path.join(__dirname, '../data/school'), 'users.json', users);
+    saveFile(path.join(__dirname, '../data/school'), 'private-messages.json', myPrivateMessages);
+    saveFile(path.join(__dirname, '../data/classes/7A'), 'config.json', classConfig);
+    saveFile(path.join(__dirname, '../data/classes/7A'), 'lessons.json', myLessons);
+    saveFile(path.join(__dirname, '../data/classes/7A'), 'chat.json', myChat);
     console.log('\nDemo is installed! \n\nPls login \n - as class teacher with: ds@me.com password: 123 \n - as English teacher with: ms@me.com password: 123 \n - as student with: dm@me.com password: 123\n');
     console.log('Start the HomeSchoo-DS server with "npm start" \n');
     process.exit(0);
@@ -195,24 +197,3 @@ rl.on('line', function (input) {
     process.exit(0);
   }
 });
-
-
-// Additional functions
-
-function createDir (filePath) {
-  if (!fs.existsSync(path.join(__dirname, '../', filePath))) {
-    console.log('* Creating directory: '+filePath);
-    fs.mkdirSync(path.join(__dirname, '../', filePath));
-  } else {
-    console.log('- directory already exists: '+filePath);
-  }
-}
-
-function saveFile (filePath, file) {
-  if (!fs.existsSync(path.join(__dirname, '../', filePath))) {
-    console.log('* Creating file: '+filePath);
-    fs.writeFileSync(path.join(__dirname, '../', filePath), JSON.stringify(file));
-  } else {
-    console.log('- file already exists: '+filePath);
-  }
-}
