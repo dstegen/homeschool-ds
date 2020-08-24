@@ -11,6 +11,7 @@
 const path = require('path');
 const loadFile = require('../utils/load-file');
 const saveFile = require('../utils/save-file');
+const createDir = require('../utils/create-dir');
 
 
 let myConfig = loadFile(path.join(__dirname, '../data/school/config.json'), true);
@@ -34,5 +35,19 @@ function updateSettings (fields) {
   console.log('+ Updated schools config sucessfully!');
 }
 
+function addNewGroup (fields) {
+  if (fields.newGroup !== '') {
+    try {
+      myConfig.classes.push(fields.newGroup);
+      createDir(path.join('data/classes', fields.newGroup));
+      saveFile(path.join(__dirname, '../data/classes', fields.newGroup), 'chat.json', []);
+      saveFile(path.join(__dirname, '../data/classes', fields.newGroup), 'config.json', { courses: [] });
+      saveFile(path.join(__dirname, '../data/classes', fields.newGroup), 'lessons.json', { lessons: [] });
+      console.log('+ Added new class/group: '+fields.newGroup);
+    } catch (e) {
+      console.log('- ERROR couldn\'t add class/group:'+e );
+    }
+  }
+}
 
-module.exports = { getConfig, updateSettings };
+module.exports = { getConfig, updateSettings, addNewGroup };
