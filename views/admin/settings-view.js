@@ -126,7 +126,7 @@ function helperSelects (optionsList, value, prop) {
 }
 
 function helperInputs (value, prop) {
-  if (prop !== 'id' && prop !== 'classes') {
+  if (prop !== 'id' && prop !== 'classes' && prop !== 'courseColors') {
     let required = 'required';
     switch (prop) {
       case 'lang':
