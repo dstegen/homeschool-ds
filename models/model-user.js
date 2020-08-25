@@ -100,7 +100,11 @@ function updateUser (fields) {
     let tmpObj = users.filter( user => user.id === Number(fields.id))[0];
     Object.keys(fields).forEach( key => {
       if (key !== 'id' && key !== 'password' && fields[key] !== '') {
-        tmpObj[key] = fields[key];
+        if (key === 'group' && fields.role === 'teacher' && typeof(fields.group) === 'string') {
+          tmpObj.group = [fields.group];
+        } else {
+          tmpObj[key] = fields[key];
+        }
       }
     });
   } else if (fields.userId !== '') {
@@ -115,7 +119,7 @@ function updateUser (fields) {
       password: bcrypt.hashSync(myPassword),
       role: fields.role,
       group: fields.role === 'teacher' ? fields.group.split(',') : fields.group,
-      courses: fields.role === 'teacher' ? fields.courses.split(',') : '',
+      courses: fields.role === 'teacher' ? fields.courses : '',
       fname: fields.fname,
       lname: fields.lname,
       email: fields.email,
