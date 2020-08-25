@@ -80,7 +80,7 @@ function updateGroupConfig (fields) {
     }
     //console.log(groupConfig);
     saveFile(path.join(__dirname, '../data/classes', fields.group), 'config.json', groupConfig);
-    console.log('+ Course config for  class/group '+fields.group+' sucessfully updated!');
+    console.log('+ Course config for class/group '+fields.group+' sucessfully updated!');
   }
 }
 
