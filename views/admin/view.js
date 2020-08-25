@@ -11,7 +11,7 @@
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
 const { formatDay, getDaytime } = require('../../lib/dateJuggler');
-const { getTitleNameById, usersOnline } = require('../../models/model-user');
+const { getAllUsers, getTitleNameById, usersOnline } = require('../../models/model-user');
 const { getMessagesCount } = require('../../models/model-messages');
 const { getChat } = require('../../models/model-chat');
 
@@ -43,11 +43,22 @@ function adminView (user) {
           <div class="border py-2 px-3 mb-3">
             <h4>Statistics:</h4>
             <p>
+              Teachers: <strong>${getAllUsers().filter( item => item.role === 'teacher' ).length}</strong>
+            </p>
+            <p>
+              Students: <strong>${getAllUsers().filter( item => item.role === 'student' ).length}</strong>
+            </p>
+            <p>
+              Classes: <strong>${config.classes.length}</strong>
+            </p>
+            <hr />
+            <p>
               Messages count: <strong>${getMessagesCount()}</strong>
             </p>
             <p>
               Chat count: <strong>${chatMessagesCount}</strong>
             </p>
+            <hr />
             <p>
               Users online: <strong>${usersOnline()}</strong>
             </p>
