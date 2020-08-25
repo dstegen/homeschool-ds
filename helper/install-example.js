@@ -26,6 +26,16 @@ const schoolConfig = {
   "schoolName": "My School",
   "supportEmail": "",
   "classes": ["7A"],
+  "courseColors": [
+    "bg-green",
+    "bg-blue",
+    "bg-red",
+    "bg-yellow",
+    "bg-brown",
+    "bg-grey",
+    "bg-teal",
+    "bg-purple"
+  ],
   "delMessagesAfter": "30",
   "delChatsAfter": "15"
 };

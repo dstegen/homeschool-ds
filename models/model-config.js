@@ -50,4 +50,38 @@ function addNewGroup (fields) {
   }
 }
 
-module.exports = { getConfig, updateSettings, addNewGroup };
+function getGroupConfig (group='') {
+  if (group && group !== '') {
+    return loadFile(path.join(__dirname, '../data/classes', group, 'config.json'));
+  } else {
+    return {};
+  }
+}
+
+function updateGroupConfig (fields) {
+  //console.log(fields);
+  if (fields.group !== '') {
+    let groupConfig = getGroupConfig(fields.group);
+    if (fields.newCourse && fields.newCourse !== '') {
+      // Add new course
+      let tmpObj = {};
+      tmpObj.name = fields.newCourse;
+      tmpObj.color = fields.color;
+      tmpObj.lpw = 2;
+      groupConfig.courses.push(tmpObj);
+    } else {
+      // Update course settings
+      Object.keys(fields).forEach( key => {
+        if (key !== 'action' && key !== 'group') {
+          groupConfig.courses.filter( item => item.name === key)[0].color = fields[key];
+        }
+      });
+    }
+    //console.log(groupConfig);
+    saveFile(path.join(__dirname, '../data/classes', fields.group), 'config.json', groupConfig);
+    console.log('+ Course config for  class/group '+fields.group+' sucessfully updated!');
+  }
+}
+
+
+module.exports = { getConfig, updateSettings, addNewGroup, getGroupConfig, updateGroupConfig };

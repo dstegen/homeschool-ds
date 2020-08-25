@@ -9,10 +9,11 @@
 
 // Required modules
 const locale = require('../../lib/locale');
+const { getGroupConfig } = require('../../models/model-config');
 const config = require('../../models/model-config').getConfig();
 
 
-function settingsView () {
+function settingsView (group='') {
   return `
     <div id="dashboard" class="container">
       <h2 class="d-flex justify-content-between py-2 px-3 my-3 border">
@@ -21,19 +22,14 @@ function settingsView () {
       </h2>
       <div class="row">
         <div class="col-12 col-md-6">
-          <br /><br />
-
-        </div>
-        <div class="col-12 col-md-6">
           <div class="border py-2 px-3 mb-3">
-            <h3>Config</h3>
+            <h3>School-Config</h3>
             <form action="/admin/settings" method="post">
               <input type="text" name="action" class="d-none" hidden value="updatesettings" />
               <div class="form-group row mb-1">
                 ${Object.keys(config).map( key => helperInputs(config[key], key)).join('')}
               </div>
               <div class="d-flex justify-content-end mb-2">
-                <button type="button" class="btn btn-info ml-3" onclick="window.open('/admin', '_top', '');">${locale.buttons.cancle['en']}</a>
                 <button type="submit" class="btn btn-primary ml-3">${locale.buttons.update['en']}</button>
               </div>
             </form>
@@ -54,6 +50,23 @@ function settingsView () {
             </form>
           </div>
         </div>
+        <div class="col-12 col-md-6">
+          <div class="border py-2 px-3 mb-3">
+            <h3>Edit class/group settings</h3>
+            <form action="/admin/edituser" method="post">
+              <div class="form-group row mb-1">
+                <label for="choosegroup-field" class="col-sm-3 col-form-label text-right">seletc group</label>
+                <div class="col-sm-9 my-2">
+                  <select class="form-control form-control-sm" id="choosegroup-field" name="choosegroup" onchange="selectGroupSettings(this.value)">
+                    <option></option>
+                    ${config.classes.map( item => helperSelectOption(item, '') ).join('')}
+                  </select>
+                </div>
+              </div>
+            </form>
+          </div>
+          ${group !== '' ? helperGroupSettings(group) : ''}
+        </div>
       </div>
     </div>
   `;
@@ -61,6 +74,56 @@ function settingsView () {
 
 
 // Additional functions
+
+function helperGroupSettings (group) {
+  if (group && group !== '') {
+    return `
+      <div class="border py-2 px-3 mb-3">
+        <h5>Course-Config for class/group ${group}</h5>
+        <form action="/admin/settings" method="post">
+          <input type="text" name="action" class="d-none" hidden value="updategroupsettings" />
+          <input type="text" name="group" class="d-none" hidden value="${group}" />
+          <div class="form-group row mb-1">
+          ${getGroupConfig(group).courses.map( item => helperSelects(config.courseColors, item.color, item.name)).join('')}
+          </div>
+          <div class="d-flex justify-content-end mb-2">
+            <button type="submit" class="btn btn-primary ml-3">${locale.buttons.update['en']}</button>
+          </div>
+        </form>
+      </div>
+      <div class="border py-2 px-3 mb-3">
+        <h5>Add new course to class/group ${group}</h5>
+        <form action="/admin/settings" method="post">
+          <input type="text" name="action" class="d-none" hidden value="updategroupsettings" />
+          <input type="text" name="group" class="d-none" hidden value="${group}" />
+          <div class="form-group row mb-1">
+            <label for="newCourse-field" class="col-sm-3 col-form-label text-right mb-2">newCourse</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="newCourse-field" name="newCourse" value="" required>
+            </div>
+            ${helperSelects(config.courseColors, '', 'color')}
+          </div>
+          <div class="d-flex justify-content-end mb-2">
+            <button type="submit" class="btn btn-primary ml-3">Add new course</button>
+          </div>
+        </form>
+      </div>
+    `;
+  } else {
+    return '';
+  }
+}
+
+function helperSelects (optionsList, value, prop) {
+  return `
+    <label for="${prop}-field" class="col-sm-3 col-form-label text-right">${prop}</label>
+    <div class="col-sm-9 mb-2">
+      <select class="form-control form-control-sm" id="${prop}-field" name="${prop}" required>
+        ${optionsList.map( item => helperSelectOption(item, value) ).join('')}
+      </select>
+    </div>
+  `;
+}
 
 function helperInputs (value, prop) {
   if (prop !== 'id' && prop !== 'classes') {

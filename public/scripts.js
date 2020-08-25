@@ -102,6 +102,11 @@ function selectGroup (group) {
   window.location = "/admin/edituser?"+group;
 }
 
+function selectGroupSettings (group) {
+  console.log(group);
+  window.location = "/admin/settings?"+group;
+}
+
 function selectUser (userId) {
   window.location = "/admin/edituser/"+userId;
 }
