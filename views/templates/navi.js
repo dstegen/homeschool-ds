@@ -24,7 +24,7 @@ function navi (naviObj, loggedIn, history) {
           <button type="submit" class="nav-link navi-onoff">
             <svg width="20" height="20">
               <circle cx="10" cy="10" r="6" stroke="rgba(255,255,255,0.8)" stroke-width="2" fill="none" />
-              <rect x="8" y="0" width="4" height="10" style="fill:rgba(255,255,255,0.8);stroke-width:2;stroke:#f96332" />
+              <rect x="8" y="0" width="4" height="10" style="fill:rgba(255,255,255,0.8);stroke-width:2;stroke:teal" />
             </svg>
           </button>
           </form>
