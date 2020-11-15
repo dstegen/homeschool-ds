@@ -20,7 +20,7 @@ function boardView (group) {
   let myBoard = getBoard(group);
   if (myBoard.topics !== undefined) {
     return `
-      <div style="background: url('/public/autumnleaves_light_ds.jpg') no-repeat; background-size: cover;">
+      <div style="background: url('/public/autumnleaves_light_ds.jpg') no-repeat; background-size: cover; margin-bottom: -1rem;">
         <div class="container p-3">
           <h2>${locale.headlines.board[config.lang]} ${group}</h2>
         </div>
@@ -66,7 +66,7 @@ function helperCreateCards (card, topicColor) {
           <p class="small py-2 px-3">
             ${card.details}
           </p>
-          <div class="py-2 px-3">
+          <div class="py-2 px-3 text-truncate">
             ${linkNFile}
           </div>
         </div>
