@@ -175,6 +175,121 @@ const myLessons = {
   ]
 }
 
+const myBoard = {
+  "topics": [
+    {
+      "id": 1,
+      "order": 1,
+      "topic": "Videomeeting",
+      "color": "bg-purple"
+    },
+    {
+      "id": 2,
+      "order": 2,
+      "topic": "Math",
+      "color": "bg-yellow"
+    },
+    {
+      "id": 3,
+      "order": 3,
+      "topic": "English",
+      "color": "bg-red"
+    },
+    {
+      "id": 4,
+      "order": 4,
+      "topic": "History",
+      "color": "bg-grey"
+    },
+    {
+      "id": 5,
+      "order": 5,
+      "topic": "Infos",
+      "color": "bg-purple"
+    },
+    {
+      "id": 6,
+      "order": 6,
+      "topic": "Parents",
+      "color": "bg-purple"
+    }
+  ],
+  "cards": [
+    {
+      "id": 1,
+      "topicId": 1,
+      "title": "Class meeting",
+      "details": "When in quarantine, we  meet here!",
+      "file": "",
+      "link": "https://zoom.us/123"
+    },
+    {
+      "id": 2,
+      "topicId": 1,
+      "title": "Homework online",
+      "details": "with teacher Ms. Smith",
+      "file": "",
+      "link": "https://zoom.us/456"
+    },
+    {
+      "id": 3,
+      "topicId": 2,
+      "title": "Math plan 1",
+      "details": "This weeks Math exercises",
+      "file": "",
+      "link": ""
+    },
+    {
+      "id": 4,
+      "topicId": 2,
+      "title": "Math plan 2",
+      "details": "Next weeks Math exercises",
+      "file": "",
+      "link": ""
+    },
+    {
+      "id": 5,
+      "topicId": 3,
+      "title": "English reading",
+      "details": "Read Shakesbeer",
+      "file": "",
+      "link": ""
+    },
+    {
+      "id": 6,
+      "topicId": 4,
+      "title": "The Romans",
+      "details": "Watch the video and write a conclusion",
+      "file": "",
+      "link": "https://youtu.be/VI-jg3KMrSU"
+    },
+    {
+      "id": 7,
+      "topicId": 5,
+      "title": "Anton App",
+      "details": "Download the Anton App",
+      "file": "",
+      "link": "https://anton.app/en_us/"
+    },
+    {
+      "id": 8,
+      "topicId": 6,
+      "title": "Teachers contact",
+      "details": "If you need to contact the teachers, pls use email!",
+      "file": "",
+      "link": ""
+    },
+    {
+      "id": 8,
+      "topicId": 3,
+      "title": "Places in town",
+      "details": "Learn online",
+      "file": "",
+      "link": "https://learnenglishteens.britishcouncil.org/vocabulary/beginner-vocabulary/places-town"
+    }
+  ]
+};
+
 const myChat = [
     {
       "chaterId": 100000,
@@ -199,6 +314,7 @@ rl.on('line', function (input) {
     saveFile(path.join(__dirname, '../data/school'), 'private-messages.json', myPrivateMessages);
     saveFile(path.join(__dirname, '../data/classes/7A'), 'config.json', classConfig);
     saveFile(path.join(__dirname, '../data/classes/7A'), 'lessons.json', myLessons);
+    saveFile(path.join(__dirname, '../data/classes/7A'), 'board.json', myBoard);
     saveFile(path.join(__dirname, '../data/classes/7A'), 'chat.json', myChat);
     console.log('\nDemo is installed! \n\nPls login \n - as class teacher with: ds@me.com password: 123 \n - as English teacher with: ms@me.com password: 123 \n - as student with: dm@me.com password: 123\n');
     console.log('Start the HomeSchoo-DS server with "npm start" \n');

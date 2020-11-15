@@ -123,6 +123,10 @@
     "set_new_password": {
       "en": "Set new password",
       "de": "Neues Passwort vergeben"
+    },
+    "board": {
+      "en": "Class board",
+      "de": "Klassen Board"
     }
   },
   "buttons": {
