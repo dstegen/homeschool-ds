@@ -24,18 +24,36 @@ function getBoard (group) {
   }
 }
 
-function updateBoard (fields) {
+function updateTopic (fields) {
+  let tmpBoard = getBoard(fields.group);
+  let newCard = {
+    "id": getNewId(tmpBoard.topics),
+    "order": getNewId(tmpBoard.topics),
+    "topic": fields.topic,
+    "color": fields.color,
+    "autofill": fields.autofill === 'on' ? true : false,
+    "autofillWith": fields.with
+  }
+  try {
+    tmpBoard.topics.push(newCard);
+    saveFile(path.join(__dirname, '../data/classes', fields.group), 'board.json', tmpBoard);
+  } catch (e) {
+    console.log('- ERROR updating/saving board: '+e);
+  }
+}
+
+function updateCard (fields) {
   let tmpBoard = getBoard(fields.group);
   let newCard = {
     "id": getNewId(tmpBoard.cards),
     "topic": fields.topic,
-    "title": fields.title,
+    "chapter": fields.chapter,
     "details": fields.details,
     "link": fields.link
   }
   try {
-    tmpBoard.push(newCard);
-    saveFile(path.join(__dirname, '../data/classes', fields.group, 'board.json'), tmpBoard);
+    tmpBoard.cards.push(newCard);
+    saveFile(path.join(__dirname, '../data/classes', fields.group), 'board.json', tmpBoard);
   } catch (e) {
     console.log('- ERROR updating/saving board: '+e);
   }
@@ -49,4 +67,4 @@ function getNewId (cards) {
 }
 
 
-module.exports = { getBoard, updateBoard };
+module.exports = { getBoard, updateCard, updateTopic };

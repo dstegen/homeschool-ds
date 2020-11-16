@@ -110,3 +110,13 @@ function selectGroupSettings (group) {
 function selectUser (userId) {
   window.location = "/admin/edituser/"+userId;
 }
+
+// Edit boards
+
+function enableDisableInput (checkbox, enableElement) {
+  if(checkbox.checked == true) {
+    $(enableElement).prop('disabled', false);
+  } else {
+    $(enableElement).prop('disabled', 'disabled');
+  }
+}

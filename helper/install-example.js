@@ -218,7 +218,7 @@ const myBoard = {
     {
       "id": 1,
       "topicId": 1,
-      "title": "Class meeting",
+      "chapter": "Class meeting",
       "details": "When in quarantine, we  meet here!",
       "file": "",
       "link": "https://zoom.us/123"
@@ -226,7 +226,7 @@ const myBoard = {
     {
       "id": 2,
       "topicId": 1,
-      "title": "Homework online",
+      "chapter": "Homework online",
       "details": "with teacher Ms. Smith",
       "file": "",
       "link": "https://zoom.us/456"
@@ -234,7 +234,7 @@ const myBoard = {
     {
       "id": 3,
       "topicId": 2,
-      "title": "Math plan 1",
+      "chapter": "Math plan 1",
       "details": "This weeks Math exercises",
       "file": "",
       "link": ""
@@ -242,7 +242,7 @@ const myBoard = {
     {
       "id": 4,
       "topicId": 2,
-      "title": "Math plan 2",
+      "chapter": "Math plan 2",
       "details": "Next weeks Math exercises",
       "file": "",
       "link": ""
@@ -250,7 +250,7 @@ const myBoard = {
     {
       "id": 5,
       "topicId": 3,
-      "title": "English reading",
+      "chapter": "English reading",
       "details": "Read Shakesbeer",
       "file": "",
       "link": ""
@@ -258,7 +258,7 @@ const myBoard = {
     {
       "id": 6,
       "topicId": 4,
-      "title": "The Romans",
+      "chapter": "The Romans",
       "details": "Watch the video and write a conclusion",
       "file": "",
       "link": "https://youtu.be/VI-jg3KMrSU"
@@ -266,7 +266,7 @@ const myBoard = {
     {
       "id": 7,
       "topicId": 5,
-      "title": "Anton App",
+      "chapter": "Anton App",
       "details": "Download the Anton App",
       "file": "",
       "link": "https://anton.app/en_us/"
@@ -274,7 +274,7 @@ const myBoard = {
     {
       "id": 8,
       "topicId": 6,
-      "title": "Teachers contact",
+      "chapter": "Teachers contact",
       "details": "If you need to contact the teachers, pls use email!",
       "file": "",
       "link": ""
@@ -282,7 +282,7 @@ const myBoard = {
     {
       "id": 8,
       "topicId": 3,
-      "title": "Places in town",
+      "chapter": "Places in town",
       "details": "Learn online",
       "file": "",
       "link": "https://learnenglishteens.britishcouncil.org/vocabulary/beginner-vocabulary/places-town"
