@@ -18,10 +18,9 @@ const { beforeFinishDate } = require('../lib/dateJuggler');
 
 function boardView (group, role='student') {
   let myBoard = getBoard(group);
+  let editButtons = '';
+  let addColumn = '';
   if (myBoard.topics !== undefined) {
-    let editButtons = '';
-    let addColumn = '';
-    let addCard = '';
     if (role === 'teacher') {
       editButtons = `
       <div class="d-flex align-items-center">
@@ -39,7 +38,7 @@ function boardView (group, role='student') {
               <input type="text" name="group" class="d-none" hidden value="${group}" />
               <input type="text" name="section" class="d-none" hidden value="topics" />
               <label for="topic-field">Title</label>
-              <input type="text" class="form-control form-control-sm" id="topic-field" name="topic" value="">
+              <input type="text" class="form-control board-form form-control-sm" id="topic-field" name="topic" value="">
               ${helperSelects(config.courseColors, '', 'color')}
               <div class="form-check form-check-inline mt-2">
                 <label class="form-check-label" for="autofill">Autofill</label>
@@ -53,6 +52,7 @@ function boardView (group, role='student') {
           </div>
         </div>
       `;
+
     }
     return `
       <div style="background: url('/public/autumnleaves_light_ds.jpg') no-repeat; background-size: cover; margin-bottom: -1rem;">
@@ -62,7 +62,7 @@ function boardView (group, role='student') {
         </div>
         <div class="container mb-3">
           <div class="d-flex" style="overflow-x: scroll;">
-              ${myBoard.topics.map( topics => helperCreateColumn(topics, myBoard, group)).join('')}
+              ${myBoard.topics.map( topics => helperCreateColumn(topics, myBoard, group, role)).join('')}
               ${addColumn}
           </div>
         </div>
@@ -80,7 +80,7 @@ function boardView (group, role='student') {
 
 // Additional functions
 
-function helperCreateColumn (myTopic, myBoard, group) {
+function helperCreateColumn (myTopic, myBoard, group, role) {
   let cardsArray = [];
   if (myTopic.autofill === true) {
     cardsArray = getLessons(group).filter( item => item.lesson === myTopic.autofillWith && beforeFinishDate(item.validUntil));
@@ -91,6 +91,32 @@ function helperCreateColumn (myTopic, myBoard, group) {
     <div class="mr-3">
       <h5 class="px-3 py-2 border bg-light mt-3" style="width: 200px; overflow: hidden;">${myTopic.topic}</h5>
       ${cardsArray.map( card => helperCreateCards(card, myTopic.color)).join('')}
+      ${role === 'teacher' ? helperAddCardForm(group, myTopic.id) : ''}
+    </div>
+  `;
+}
+
+function helperAddCardForm (group, myTopicId) {
+  return `
+    <div class="px-3 py-2 border text-muted bg-light text-center" style="width: 200px; overflow: hidden; cursor: pointer;" data-toggle="collapse" data-target="#addCardForm-${myTopicId}">
+      <strong>+</strong>
+    </div>
+    <div id="addCardForm-${myTopicId}" class="collapse px-3 py-2 border bg-light">
+      <form id="edit-column-form-${group}-${myTopicId}" name="edit-column-form-${group}-${myTopicId}" action="/board/${group}/update" method="post">
+        <input type="text" name="group" class="d-none" hidden value="${group}" />
+        <input type="text" name="topicId" class="d-none" hidden value="${myTopicId}" />
+        <input type="text" name="section" class="d-none" hidden value="cards" />
+        <label for="chapter-field">Chapter</label>
+        <input type="text" class="form-control board-form form-control-sm mb-2" id="chapter-field" name="chapter" value="">
+        <label for="details-field">Details</label>
+        <textarea class="form-control form-control-sm" id="details-field" rows="3" name="details"></textarea>
+        <hr />
+        <label for="link-field">Link</label>
+        <input type="text" class="form-control board-form form-control-sm" id="link-field" name="link" value="">
+        <div class="d-flex justify-content-end mt-3">
+          <button type="submit" class="btn btn-primary">${locale.buttons.add_update[config.lang]}</button>
+        </div>
+      </form>
     </div>
   `;
 }
@@ -121,7 +147,7 @@ function helperCreateCards (card, topicColor) {
 function helperSelects (optionsList, value, prop, disabled='') {
   return `
     <label for="${prop}-field" class="mt-2">${prop}</label>
-    <select class="form-control form-control-sm" id="${prop}-field" name="${prop}" ${disabled}>
+    <select class="custom-select custom-select-sm" id="${prop}-field" name="${prop}" ${disabled}>
       <option value="" selected></option>
       ${optionsList.map( item => helperSelectOption(item, value) ).join('')}
     </select>

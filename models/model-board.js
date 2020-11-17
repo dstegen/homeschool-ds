@@ -46,7 +46,7 @@ function updateCard (fields) {
   let tmpBoard = getBoard(fields.group);
   let newCard = {
     "id": getNewId(tmpBoard.cards),
-    "topic": fields.topic,
+    "topicId": Number(fields.topicId),
     "chapter": fields.chapter,
     "details": fields.details,
     "link": fields.link
