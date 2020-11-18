@@ -89,9 +89,12 @@ function helperCreateColumn (myTopic, myBoard, group, role) {
   }
   return `
     <div class="mr-3">
-      <h5 class="px-3 py-2 border bg-light mt-3" style="width: 200px; overflow: hidden;">${myTopic.topic}</h5>
-      ${cardsArray.map( card => helperCreateCards(card, myTopic.color)).join('')}
-      ${role === 'teacher' ? helperAddCardForm(group, myTopic.id) : ''}
+      <h5 class="px-3 py-2 border bg-light mt-3 d-flex justify-content-between" style="width: 200px; overflow: hidden;">
+        ${myTopic.topic}
+        ${role === 'teacher' ? helperEditColumnButton() : ''}
+      </h5>
+      ${cardsArray.map( card => helperCreateCards(card, myTopic, role)).join('')}
+      ${role === 'teacher' && myTopic.autofill !== true ? helperAddCardForm(group, myTopic.id) : ''}
     </div>
   `;
 }
@@ -121,7 +124,8 @@ function helperAddCardForm (group, myTopicId) {
   `;
 }
 
-function helperCreateCards (card, topicColor) {
+function helperCreateCards (card, myTopic, role) {
+  let topicColor = myTopic.color;
   let returnHtml = '';
   let linkNFile = '';
   if (card.file && card.file != '') linkNFile += `<hr class="my-1" /><a class="small" href="${card.file}" target="_blank">Download</a>`;
@@ -129,8 +133,9 @@ function helperCreateCards (card, topicColor) {
   if (card.chapter >= '') {
       returnHtml += `
         <div class="border mb-2 bg-light" style="width: 200px; overflow: hidden;">
-          <div class="py-2 px-3 h-100 w-100 ${topicColor}">
+          <div class="py-2 px-3 h-100 w-100 d-flex justify-content-between ${topicColor}">
             <strong>${card.chapter}</strong>
+            ${role === 'teacher' && myTopic.autofill !== true ? helperEditCardButton(topicColor) : ''}
           </div>
           <p class="small py-2 px-3">
             ${card.details}
@@ -142,6 +147,28 @@ function helperCreateCards (card, topicColor) {
       `;
   }
   return returnHtml;
+}
+
+function helperEditColumnButton () {
+  return `
+    <a href="#">
+      <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+      </svg>
+    </a>
+  `;
+}
+
+function helperEditCardButton (topicColor) {
+  return `
+    <a href="#" class="${topicColor}">
+      <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+      </svg>
+    </a>
+  `;
 }
 
 function helperSelects (optionsList, value, prop, disabled='') {
