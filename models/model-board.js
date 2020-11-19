@@ -26,16 +26,21 @@ function getBoard (group) {
 
 function updateTopic (fields) {
   let tmpBoard = getBoard(fields.group);
-  let newCard = {
-    "id": getNewId(tmpBoard.topics),
-    "order": getNewId(tmpBoard.topics),
-    "topic": fields.topic,
-    "color": fields.color,
-    "autofill": fields.autofill === 'on' ? true : false,
-    "autofillWith": fields.with
+  let newTopic = {};
+  if (fields.id !== 'null' && tmpBoard.topics.filter( item => item.id === Number(fields.id) ).length === 1) {
+    newTopic = tmpBoard.topics.filter( item => item.id === Number(fields.id) )[0];
+  } else {
+    newTopic.id = getNewId(tmpBoard.topics);
+    newTopic.order = newTopic.id;
   }
+  newTopic.topic = fields.topic,
+  newTopic.color = fields.color,
+  newTopic.autofill = fields.autofill === 'on' ? true : false,
+  newTopic.autofillWith = fields.with
   try {
-    tmpBoard.topics.push(newCard);
+    if (fields.id === 'null') {
+      tmpBoard.topics.push(newTopic);
+    }
     saveFile(path.join(__dirname, '../data/classes', fields.group), 'board.json', tmpBoard);
   } catch (e) {
     console.log('- ERROR updating/saving board: '+e);
@@ -59,6 +64,25 @@ function updateCard (fields) {
   }
 }
 
+function deleteFromBoard (fields) {
+  let tmpBoard = getBoard(fields.group);
+  if (fields.section === 'topics') {
+    tmpBoard.topics.splice(tmpBoard.topics.indexOf(tmpBoard.topics.filter( item => item.id === Number(fields.id) )[0]), 1);
+    if (tmpBoard.cards.filter( item => item.topicId === Number(fields.id) ).length > 0) {
+      tmpBoard.cards.filter( item => item.topicId === Number(fields.id) ).forEach( item => {
+        tmpBoard.cards.splice(tmpBoard.cards.indexOf(item), 1);
+      });
+    }
+  } else if (fields.section === 'cards') {
+    tmpBoard.cards.splice(tmpBoard.cards.indexOf(tmpBoard.cards.filter( item => item.id === Number(fields.id) )[0]), 1);
+  }
+  try {
+    saveFile(path.join(__dirname, '../data/classes', fields.group), 'board.json', tmpBoard);
+  } catch (e) {
+    console.log('- ERROR saving board after deletion: '+e);
+  }
+}
+
 
 // Additional functions
 
@@ -67,4 +91,4 @@ function getNewId (cards) {
 }
 
 
-module.exports = { getBoard, updateCard, updateTopic };
+module.exports = { getBoard, updateCard, updateTopic, deleteFromBoard };
