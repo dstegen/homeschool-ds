@@ -49,15 +49,21 @@ function updateTopic (fields) {
 
 function updateCard (fields) {
   let tmpBoard = getBoard(fields.group);
-  let newCard = {
-    "id": getNewId(tmpBoard.cards),
-    "topicId": Number(fields.topicId),
-    "chapter": fields.chapter,
-    "details": fields.details,
-    "link": fields.link
+  let newCard = {};
+  if (fields.id !== 'null' && tmpBoard.cards.filter( item => item.id === Number(fields.id) ).length === 1) {
+    newCard = tmpBoard.cards.filter( item => item.id === Number(fields.id) )[0];
+  } else {
+    newCard.id = getNewId(tmpBoard.cards);
   }
+  newCard.topicId = Number(fields.topicId);
+  newCard.chapter = fields.chapter;
+  newCard.details = fields.details;
+  newCard.link = fields.link;
   try {
-    tmpBoard.cards.push(newCard);
+    if (fields.id === 'null') {
+      tmpBoard.cards.push(newCard);
+    }
+    //console.log(tmpBoard.cards);
     saveFile(path.join(__dirname, '../data/classes', fields.group), 'board.json', tmpBoard);
   } catch (e) {
     console.log('- ERROR updating/saving board: '+e);

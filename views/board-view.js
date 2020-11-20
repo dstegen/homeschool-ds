@@ -26,8 +26,8 @@ function boardView (group, role='student') {
         </div>
         <div class="container mb-3">
           <div class="d-flex" style="overflow-x: scroll;">
-              ${myBoard.topics.map( topics => helperCreateColumn(topics, myBoard, group, role)).join('')}
-              ${role === 'teacher' ? helperAddColumnForm(group) : ''}
+            ${myBoard.topics.map( topics => helperCreateColumn(topics, myBoard, group, role)).join('')}
+            ${role === 'teacher' ? helperAddColumnForm(group) : ''}
           </div>
         </div>
       </div>
@@ -58,7 +58,7 @@ function helperCreateColumn (myTopic, myBoard, group, role) {
         ${role === 'teacher' ? helperEditColumnButton(myTopic.id) : ''}
       </h5>
       ${role === 'teacher' ? helperAddColumnForm(group, myTopic) : ''}
-      ${cardsArray.map( card => helperCreateCards(card, myTopic, role)).join('')}
+      ${cardsArray.map( card => helperCreateCards(card, myTopic, role, group)).join('')}
       ${role === 'teacher' && myTopic.autofill !== true ? helperAddCardForm(group, myTopic.id) : ''}
     </div>
   `;
@@ -116,32 +116,57 @@ function helperAddColumnForm (group, myTopic) {
   `;
 }
 
-function helperAddCardForm (group, myTopicId) {
+function helperAddCardForm (group, myTopicId, myCard) {
+  let addButton = '';
+  let delButton = `
+    <button type="button" class="btn btn-danger" onclick="confirmDelete(this.form.name, '/board/${group}/delete')">
+      <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+      </svg>
+    </button>
+  `;
+  if (myCard === undefined) {
+    myCard = {
+      id: 'null',
+      topicId: myTopicId,
+      chapter: '',
+      details: '',
+      file: '',
+      link: ''
+    }
+    delButton = '';
+    addButton = `
+      <div class="px-3 py-2 border mt-2 text-muted bg-light text-center" style="width: 200px; overflow: hidden; cursor: pointer;" data-toggle="collapse" data-target="#addCardForm-${myTopicId}-${myCard.id}">
+        <strong>+</strong>
+      </div>
+    `;
+  }
   return `
-    <div class="px-3 py-2 border mt-2 text-muted bg-light text-center" style="width: 200px; overflow: hidden; cursor: pointer;" data-toggle="collapse" data-target="#addCardForm-${myTopicId}">
-      <strong>+</strong>
-    </div>
-    <div id="addCardForm-${myTopicId}" class="collapse px-3 py-2 border bg-light">
-      <form id="edit-column-form-${group}-${myTopicId}" name="edit-column-form-${group}-${myTopicId}" action="/board/${group}/update" method="post">
+    ${addButton}
+    <div id="addCardForm-${myTopicId}-${myCard.id}" class="collapse px-3 py-2 border bg-light">
+      <form id="edit-column-form-${group}-${myCard.id}" name="edit-column-form-${group}-${myCard.id}" action="/board/${group}/update" method="post">
         <input type="text" name="group" class="d-none" hidden value="${group}" />
-        <input type="text" name="topicId" class="d-none" hidden value="${myTopicId}" />
+        <input type="text" name="id" class="d-none" hidden value="${myCard.id}" />
+        <input type="text" name="topicId" class="d-none" hidden value="${myCard.topicId}" />
         <input type="text" name="section" class="d-none" hidden value="cards" />
         <label for="chapter-field">Chapter</label>
-        <input type="text" class="form-control board-form form-control-sm mb-2" id="chapter-field" name="chapter" value="">
+        <input type="text" class="form-control board-form form-control-sm mb-2" id="chapter-field" name="chapter" value="${myCard.chapter}">
         <label for="details-field">Details</label>
-        <textarea class="form-control form-control-sm" id="details-field" rows="3" name="details"></textarea>
+        <textarea class="form-control form-control-sm" id="details-field" rows="3" name="details">${myCard.details}</textarea>
         <hr />
         <label for="link-field">Link</label>
-        <input type="text" class="form-control board-form form-control-sm" id="link-field" name="link" value="">
-        <div class="d-flex justify-content-end mt-3">
-          <button type="submit" class="btn btn-primary">${locale.buttons.add_update[config.lang]}</button>
+        <input type="text" class="form-control board-form form-control-sm" id="link-field" name="link" value="${myCard.link}">
+        <div class="d-flex justify-content-between mt-3">
+          ${delButton}
+          <button type="submit" class="btn btn-primary">update</button>
         </div>
       </form>
     </div>
   `;
 }
 
-function helperCreateCards (card, myTopic, role) {
+function helperCreateCards (card, myTopic, role, group) {
   let topicColor = myTopic.color;
   let returnHtml = '';
   let linkNFile = '';
@@ -167,21 +192,24 @@ function helperCreateCards (card, myTopic, role) {
         <span class="small">${card.link.split('//')[1]}
       </a>`;
   }
-  if (card.chapter >= '') {
+  if (card.chapter != '') {
       returnHtml += `
         <div class="border mt-2 bg-light" style="width: 200px; overflow: hidden;">
           <div class="py-2 px-3 h-100 w-100 d-flex justify-content-between ${topicColor}">
             <strong>${card.chapter}</strong>
-            ${role === 'teacher' && myTopic.autofill !== true ? helperEditCardButton(topicColor) : ''}
+            ${role === 'teacher' && myTopic.autofill !== true ? helperEditCardButton(myTopic, card.id) : ''}
             ${myTopic.autofill === true ? `<svg width="1em" height="1.5em" viewBox="0 0 16 16" class="bi bi-book" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path fill-rule="evenodd" d="M1 2.828v9.923c.918-.35 2.107-.692 3.287-.81 1.094-.111 2.278-.039 3.213.492V2.687c-.654-.689-1.782-.886-3.112-.752-1.234.124-2.503.523-3.388.893zm7.5-.141v9.746c.935-.53 2.12-.603 3.213-.493 1.18.12 2.37.461 3.287.811V2.828c-.885-.37-2.154-.769-3.388-.893-1.33-.134-2.458.063-3.112.752zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z"/>
 </svg>` : ''}
           </div>
-          <p class="small py-2 px-3">
-            ${card.details}
-          </p>
-          <div class="py-2 px-3 text-truncate">
-            ${linkNFile}
+          ${helperAddCardForm(group, myTopic.id, card)}
+          <div id="card-details-${card.id}" class="collapse show">
+            <p class="small py-2 px-3">
+              ${card.details}
+            </p>
+            <div class="py-2 px-3 text-truncate">
+              ${linkNFile}
+            </div>
           </div>
         </div>
       `;
@@ -200,9 +228,9 @@ function helperEditColumnButton (topicId) {
   `;
 }
 
-function helperEditCardButton (topicColor) {
+function helperEditCardButton (myTopic, myCardId) {
   return `
-    <a href="#" class="${topicColor}">
+    <a href="#" class="${myTopic.color}" data-toggle="collapse" data-target="#addCardForm-${myTopic.id}-${myCardId}" onclick="javascript: $('#card-details-${myCardId}').collapse('toggle')">
       <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
         <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
         <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
