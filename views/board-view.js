@@ -144,7 +144,7 @@ function helperAddCardForm (group, myTopicId, myCard) {
   }
   return `
     ${addButton}
-    <div id="addCardForm-${myTopicId}-${myCard.id}" class="collapse px-3 py-2 border bg-light">
+    <div id="addCardForm-${myTopicId}-${myCard.id}" class="collapse px-3 py-2 border bg-light" style="width: 200px; overflow: hidden;">
       <form id="edit-column-form-${group}-${myCard.id}" name="edit-column-form-${group}-${myCard.id}" action="/board/${group}/update" method="post">
         <input type="text" name="group" class="d-none" hidden value="${group}" />
         <input type="text" name="id" class="d-none" hidden value="${myCard.id}" />
