@@ -100,10 +100,10 @@ function helperAddColumnForm (group, myTopic) {
           <input type="text" name="section" class="d-none" hidden value="topics" />
           <label for="topic-field">Title</label>
           <input type="text" class="form-control board-form form-control-sm" id="topic-field" name="topic" value="${myTopic.topic}">
-          ${helperSelects(config.courseColors, myTopic.color, 'color')}
+          ${helperSelects(config.courseColors, myTopic.color, 'color', myTopic.autofill === true ? 'disabled' : '')}
           <div class="form-check form-check-inline mt-2">
             <label class="form-check-label" for="autofill">Autofill</label>
-            <input class="form-check-input ml-2" type="checkbox" id="autofill" name="autofill" onchange="enableDisableInput(this, '#edit-column-form-${myTopic.id} select#with-field')" ${myTopic.autofill === true ? 'checked' : ''}>
+            <input class="form-check-input ml-2" type="checkbox" id="autofill" name="autofill" onchange="enableDisableInput(this, '#edit-column-form-${myTopic.id} select#with-field', '#edit-column-form-${myTopic.id} select#color-field')" ${myTopic.autofill === true ? 'checked' : ''}>
           </div>
           ${helperSelects(getGroupConfig(group).courses.map( item => { return item.name; }), myTopic.autofillWith, 'with', myTopic.autofill === true ? '' : 'disabled')}
           <div class="d-flex justify-content-between mt-3">
@@ -168,6 +168,9 @@ function helperAddCardForm (group, myTopicId, myCard) {
 
 function helperCreateCards (card, myTopic, role, group) {
   let topicColor = myTopic.color;
+  if (myTopic.autofill == true) {
+    topicColor = getGroupConfig(group).courses.filter( item => item.name === myTopic.autofillWith)[0].color;
+  }
   let returnHtml = '';
   let linkNFile = '';
   if (card.file && card.file != '') {

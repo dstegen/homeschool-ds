@@ -113,10 +113,12 @@ function selectUser (userId) {
 
 // Edit boards
 
-function enableDisableInput (checkbox, enableElement) {
+function enableDisableInput (checkbox, enableElement, disableElement) {
   if(checkbox.checked == true) {
     $(enableElement).prop('disabled', false);
+    if (disableElement) $(disableElement).prop('disabled', 'disabled');
   } else {
     $(enableElement).prop('disabled', 'disabled');
+    if (disableElement) $(disableElement).prop('disabled', false);
   }
 }
