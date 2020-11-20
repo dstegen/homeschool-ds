@@ -15,12 +15,30 @@ const saveFile = require('../utils/save-file');
 
 function getBoard (group) {
   let returnBoard = {};
-  try {
-    returnBoard = loadFile(path.join(__dirname, '../data/classes', group, 'board.json'), false);
+  returnBoard = loadFile(path.join(__dirname, '../data/classes', group, 'board.json'), false);
+  if (returnBoard.topics !== undefined) {
     return returnBoard;
-  } catch (e) {
-    console.log('- ERROR reading board file: '+e);
-    return {};
+  } else {
+    return {
+      topics: [
+        {
+          id: 0,
+          order: 0,
+          topic: 'Info',
+          color: 'bg-blue',
+          autofill: false
+        }
+      ],
+      cards: [
+        {
+          id: 0,
+          topicId: 0,
+          chapter: 'Start your board',
+          details: 'Start adding content and lessons to your board!',
+          link: ''
+        }
+      ]
+    };
   }
 }
 
