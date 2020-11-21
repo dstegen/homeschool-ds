@@ -170,6 +170,14 @@
       "en": "Update",
       "de": "Ändern"
     },
+    "add": {
+      "en": "Add",
+      "de": "Hinzufügen"
+    },
+    "add_column": {
+      "en": "add column",
+      "de": "Spalte hinzufügen"
+    },
     "upload": {
       "en": "Upload",
       "de": "Hochladen"

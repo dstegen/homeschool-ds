@@ -85,7 +85,7 @@ function helperAddColumnForm (group, myTopic) {
     }
     addButton = `
       <div class="px-3 py-2 border bg-primary text-light text-center" style="width: 200px; overflow: hidden; cursor: pointer;" data-toggle="collapse" data-target="#addColumnForm-null">
-        <strong>+ add column</strong>
+        <strong>+ ${locale.buttons.add_column[config.lang]}</strong>
       </div>
     `;
     delButton = '';
@@ -108,7 +108,7 @@ function helperAddColumnForm (group, myTopic) {
           ${helperSelects(getGroupConfig(group).courses.map( item => { return item.name; }), myTopic.autofillWith, 'with', myTopic.autofill === true ? '' : 'disabled')}
           <div class="d-flex justify-content-between mt-3">
             ${delButton}
-            <button type="submit" class="btn btn-primary">update</button>
+            <button type="submit" class="btn btn-primary">${myTopic.id === 'null' ? locale.buttons.add[config.lang] : locale.buttons.update[config.lang]}</button>
           </div>
         </form>
       </div>
@@ -159,7 +159,7 @@ function helperAddCardForm (group, myTopicId, myCard) {
         <input type="text" class="form-control board-form form-control-sm" id="link-field" name="link" value="${myCard.link}">
         <div class="d-flex justify-content-between mt-3">
           ${delButton}
-          <button type="submit" class="btn btn-primary">update</button>
+          <button type="submit" class="btn btn-primary">${myCard.id === 'null' ? locale.buttons.add[config.lang] : locale.buttons.update[config.lang]}</button>
         </div>
       </form>
     </div>
