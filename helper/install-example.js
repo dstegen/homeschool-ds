@@ -187,19 +187,25 @@ const myBoard = {
       "id": 2,
       "order": 2,
       "topic": "Math",
-      "color": "bg-yellow"
+      "color": "",
+      "autofill": true,
+      "autofillWith": "Math"
     },
     {
       "id": 3,
       "order": 3,
       "topic": "English",
-      "color": "bg-red"
+      "color": "",
+      "autofill": true,
+      "autofillWith": "English"
     },
     {
       "id": 4,
       "order": 4,
       "topic": "History",
-      "color": "bg-grey"
+      "color": "",
+      "autofill": true,
+      "autofillWith": "History"
     },
     {
       "id": 5,
@@ -233,38 +239,6 @@ const myBoard = {
     },
     {
       "id": 3,
-      "topicId": 2,
-      "chapter": "Math plan 1",
-      "details": "This weeks Math exercises",
-      "file": "",
-      "link": ""
-    },
-    {
-      "id": 4,
-      "topicId": 2,
-      "chapter": "Math plan 2",
-      "details": "Next weeks Math exercises",
-      "file": "",
-      "link": ""
-    },
-    {
-      "id": 5,
-      "topicId": 3,
-      "chapter": "English reading",
-      "details": "Read Shakesbeer",
-      "file": "",
-      "link": ""
-    },
-    {
-      "id": 6,
-      "topicId": 4,
-      "chapter": "The Romans",
-      "details": "Watch the video and write a conclusion",
-      "file": "",
-      "link": "https://youtu.be/VI-jg3KMrSU"
-    },
-    {
-      "id": 7,
       "topicId": 5,
       "chapter": "Anton App",
       "details": "Download the Anton App",
@@ -272,7 +246,7 @@ const myBoard = {
       "link": "https://anton.app/en_us/"
     },
     {
-      "id": 8,
+      "id": 4,
       "topicId": 6,
       "chapter": "Teachers contact",
       "details": "If you need to contact the teachers, pls use email!",
@@ -280,7 +254,7 @@ const myBoard = {
       "link": ""
     },
     {
-      "id": 8,
+      "id": 5,
       "topicId": 3,
       "chapter": "Places in town",
       "details": "Learn online",
