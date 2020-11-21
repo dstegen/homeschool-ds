@@ -13,7 +13,7 @@ const { getGroupConfig, getConfig } = require('../models/model-config');
 const config = getConfig();
 const { getBoard } = require('../models/model-board');
 const { getLessons } = require('../models/model-lessons');
-const { beforeFinishDate } = require('../lib/dateJuggler');
+const { notValid } = require('../lib/dateJuggler');
 
 
 function boardView (group, role='student') {
@@ -47,7 +47,7 @@ function boardView (group, role='student') {
 function helperCreateColumn (myTopic, myBoard, group, role) {
   let cardsArray = [];
   if (myTopic.autofill === true) {
-    cardsArray = getLessons(group).filter( item => item.lesson === myTopic.autofillWith && beforeFinishDate(item.validUntil));
+    cardsArray = getLessons(group).filter( item => item.lesson === myTopic.autofillWith && !notValid(item.validUntil));
   } else {
     cardsArray = myBoard.cards.filter( item => item.topicId === myTopic.id);
   }
