@@ -69,21 +69,24 @@ function helperLessonBig (lessonObj, curWeekDay, curDay, myGroup, studentId) {
       </div>
       <div id="lessonbig-details-${lessonObj.id}${curWeekDay}" class="card-body collapse" data-parent="#today">
         ${lessonObj.details != '' ? `<strong class="card-title">${locale.student.exercise[config.lang]}:</strong><p class="card-text">${lessonObj.details}</p>` : ''}
-        ${helperDownloads(myGroup, lessonObj)}
-        ${helperUpload(myGroup, lessonObj, studentId, curDay)}
-        ${helperFinishButton(myGroup, lessonObj,studentId, curDay)}
+        ${helperDownloads(lessonObj, lessonColor)}
+        ${helperUpload(myGroup, lessonObj, studentId, curDay, lessonColor)}
+        ${helperFinishButton(myGroup, lessonObj, studentId, curDay)}
       </div>
     </div>
   `;
 }
 
-function helperDownloads (myGroup, lessonObj) {
-  let downloadsList = getFilesList(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString(), 'material'));
+function helperDownloads (lessonObj, lessonColor) {
+  let downloadsList = [];
+  if (lessonObj.files) downloadsList = lessonObj.files;
   if (downloadsList.length > 0) {
     return `
       <strong class="card-title">${locale.student.downloads[config.lang]}:</strong>
       <ul class="text-truncate">
-        ${downloadsList.map(item => helperListitem(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString(), 'material'), item)).join('')}
+        ${downloadsList.map(item => {
+          return `<li class="text-truncate"><a href="${item}" class="${lessonColor}" target="_blank">${item.split('/').pop()}</a></li>`;
+        }).join('')}
       </ul>
     `;
   } else {
@@ -91,7 +94,7 @@ function helperDownloads (myGroup, lessonObj) {
   }
 }
 
-function helperListitem (filePath, item, deleteable=false, curDay='') {
+function helperListitem (filePath, item, deleteable=false, curDay='', lessonColor) {
   let delButton = '';
   if (deleteable) {
     delButton = `
@@ -99,22 +102,22 @@ function helperListitem (filePath, item, deleteable=false, curDay='') {
         <input type="text" readonly class="d-none" id="filePath" name="filePath" value="${filePath}">
         <input type="text" readonly class="d-none" id="delfilename" name="delfilename" value="${item}">
         <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/student/day/${curDay}">
-        <a href="#" onclick="fileDelete('delform-${item.split('.')[0]}')"><strong>[ X ]</strong></a>
+        <a href="#" class="${lessonColor} onclick="fileDelete('delform-${item.split('.')[0]}')"><strong>[ X ]</strong></a>
       </form>
     `;
   }
   return `
-    <li><div class="d-flex justify-content-between text-truncate"><a href="${path.join('/data/classes/', filePath, item)}" target="_blank">${item}</a>${delButton}</div></li>
+    <li><div class="d-flex justify-content-between text-truncate"><a href="${path.join('/data/classes/', filePath, item)}" class="${lessonColor}" target="_blank">${item}</a>${delButton}</div></li>
   `;
 }
 
-function helperUpload (myGroup, lessonObj, studentId, curDay) {
+function helperUpload (myGroup, lessonObj, studentId, curDay, lessonColor) {
   if (lessonObj.returnHomework === 'true') {
     return `
       <hr />
       <strong class="card-title">${locale.student.uploads[config.lang]}:</strong>
       <ul class="text-truncate">
-        ${getFilesList(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString(), 'homework', studentId.toString())).map(item => helperListitem(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString(), 'homework', studentId.toString()), item, true, curDay)).join('')}
+        ${getFilesList(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString(), 'homework', studentId.toString())).map(item => helperListitem(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString(), 'homework', studentId.toString()), item, true, curDay, lessonColor)).join('')}
       </ul>
       <form class="row my-3 p-2 mx-0 align-item-center" action="/fileupload" method="post" enctype="multipart/form-data">
         <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">
