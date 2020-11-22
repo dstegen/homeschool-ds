@@ -20,15 +20,13 @@ function boardView (group, role='student') {
   let myBoard = getBoard(group);
   if (myBoard.topics !== undefined) {
     return `
-      <div style="background: url('/public/autumnleaves_light_ds.jpg') no-repeat; background-size: cover; margin-bottom: -1rem;">
+      <div style="background: url('/public/autumnleaves_light_ds.jpg');">
         <div class="container p-3 d-flex justify-content-between">
           <h2>${locale.headlines.board[config.lang]} ${group}</h2>
         </div>
-        <div class="container mb-3">
-          <div class="d-flex" style="overflow-x: scroll;">
-            ${myBoard.topics.map( topics => helperCreateColumn(topics, myBoard, group, role)).join('')}
-            ${role === 'teacher' ? helperAddColumnForm(group) : ''}
-          </div>
+        <div class="container px-0 pb-3 d-flex" style="overflow-x: scroll; min-height: 80vH;">
+          ${myBoard.topics.map( topics => helperCreateColumn(topics, myBoard, group, role)).join('')}
+          ${role === 'teacher' ? helperAddColumnForm(group) : ''}
         </div>
       </div>
     `;
