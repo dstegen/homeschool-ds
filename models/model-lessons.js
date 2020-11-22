@@ -29,6 +29,9 @@ function updateLesson(fields) {
         if (key === 'weekdays') {
           if (fields.weekdays.length < 2) fields.weekdays = [fields.weekdays];
           myLessons.filter(item => item.id == fields.id)[0][key] = fields[key].map( item => { return Number(item) } );
+        } else if (key === 'files') {
+          if (!myLessons.filter(item => item.id == fields.id)[0].files) myLessons.filter(item => item.id == fields.id)[0].files = [];
+          myLessons.filter(item => item.id == fields.id)[0].files.push(fields.files)
         } else {
           myLessons.filter(item => item.id == fields.id)[0][key] = fields[key];
         }
@@ -65,6 +68,17 @@ function deleteLesson (fields) {
   return myLessons;
 }
 
+function deleteFileFromLesson (group, courseId, filePath) {
+  let myLessons = getLessons(group);
+  if (myLessons.filter( item => item.id === courseId).length === 1) {
+    let myFiles = myLessons.filter( item => item.id === courseId)[0].files;
+    myLessons.filter( item => item.id === courseId)[0].files = myFiles.filter( item => item !== filePath);
+    saveFile(path.join(__dirname, '../data/classes', group), 'lessons.json', { lessons: myLessons});
+  } else {
+    console.log('- ERROR couldn\'t find courseId: '+courseId);
+  }
+}
+
 function finishLesson (fields) {
   let myLessons = getLessons(fields.group);
   let tmpList = myLessons.filter( item => item.id === Number(fields.courseId))[0].lessonFinished;
@@ -90,4 +104,4 @@ function getNewId (lessons) {
 }
 
 
-module.exports = { getLessons, updateLesson, deleteLesson, finishLesson, lessonsToday, lessonsNotFinished };
+module.exports = { getLessons, updateLesson, deleteLesson, finishLesson, lessonsToday, lessonsNotFinished, deleteFileFromLesson };

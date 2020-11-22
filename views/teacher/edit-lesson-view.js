@@ -74,7 +74,7 @@ function formInputs (itemObj, courses) {
   let returnHtml = '';
   if (Object.keys(itemObj).length > 0) {
     Object.keys(itemObj).forEach( key => {
-      if (key !== 'id' && key !== 'lessonFinished') {
+      if (key !== 'id' && key !== 'lessonFinished' && key !== 'files') {
         returnHtml += `<div class="form-group row mb-1">`;
         switch (fieldTypes[key]) {
           case 'checkbox':
@@ -158,6 +158,8 @@ function helperListitem (filePath, item, deleteable=false, myGroup='00', itemId)
         <input type="text" readonly class="d-none" id="filePath" name="filePath" value="${filePath}">
         <input type="text" readonly class="d-none" id="delfilename" name="delfilename" value="${item}">
         <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/edit/${myGroup}/${itemId}">
+        <input type="text" readonly class="d-none" id="urlPath" name="group" value="${myGroup}">
+        <input type="text" readonly class="d-none" id="urlPath" name="courseId" value="${itemId}">
         <a href="#" onclick="fileDelete('delform-${item.split('.')[0]}')"><strong>[ X ]</strong></a>
       </form>
     `;
