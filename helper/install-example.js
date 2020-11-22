@@ -226,7 +226,7 @@ const myBoard = {
       "topicId": 1,
       "chapter": "Class meeting",
       "details": "When in quarantine, we  meet here!",
-      "file": "",
+      "files": "",
       "link": "https://zoom.us/123"
     },
     {
@@ -234,7 +234,7 @@ const myBoard = {
       "topicId": 1,
       "chapter": "Homework online",
       "details": "with teacher Ms. Smith",
-      "file": "",
+      "files": "",
       "link": "https://zoom.us/456"
     },
     {
@@ -242,7 +242,7 @@ const myBoard = {
       "topicId": 5,
       "chapter": "Anton App",
       "details": "Download the Anton App",
-      "file": "",
+      "files": "",
       "link": "https://anton.app/en_us/"
     },
     {
@@ -250,7 +250,7 @@ const myBoard = {
       "topicId": 6,
       "chapter": "Teachers contact",
       "details": "If you need to contact the teachers, pls use email!",
-      "file": "",
+      "files": "",
       "link": ""
     },
     {
@@ -258,7 +258,7 @@ const myBoard = {
       "topicId": 3,
       "chapter": "Places in town",
       "details": "Learn online",
-      "file": "",
+      "files": "",
       "link": "https://learnenglishteens.britishcouncil.org/vocabulary/beginner-vocabulary/places-town"
     }
   ]
