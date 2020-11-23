@@ -127,6 +127,10 @@
     "board": {
       "en": "Class board",
       "de": "Klassen Board"
+    },
+    "attachment_files": {
+      "en": "Attachments",
+      "de": "Anhänge"
     }
   },
   "buttons": {
@@ -223,6 +227,10 @@
     "choose_file": {
       "en": "Choose file",
       "de": "Datei wählen"
+    },
+    "attachment": {
+      "en": "File",
+      "de": "Datei"
     },
     "invalid_feedback": {
       "en": "Oops, an error occured",

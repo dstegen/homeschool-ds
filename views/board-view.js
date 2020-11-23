@@ -8,6 +8,7 @@
 'use strict';
 
 // Required modules
+const path = require('path');
 const locale = require('../lib/locale');
 const { getGroupConfig, getConfig } = require('../models/model-config');
 const config = getConfig();
@@ -143,7 +144,7 @@ function helperAddCardForm (group, myTopicId, myCard) {
   return `
     ${addButton}
     <div id="addCardForm-${myTopicId}-${myCard.id}" class="collapse px-3 py-2 border bg-light" style="width: 200px; overflow: hidden;">
-      <form id="edit-column-form-${group}-${myCard.id}" name="edit-column-form-${group}-${myCard.id}" action="/board/${group}/update" method="post">
+      <form id="edit-column-form-${group}-${myCard.id}" name="edit-column-form-${group}-${myCard.id}" action="/board/${group}/update" method="post" enctype="multipart/form-data">
         <input type="text" name="group" class="d-none" hidden value="${group}" />
         <input type="text" name="id" class="d-none" hidden value="${myCard.id}" />
         <input type="text" name="topicId" class="d-none" hidden value="${myCard.topicId}" />
@@ -151,15 +152,25 @@ function helperAddCardForm (group, myTopicId, myCard) {
         <label for="chapter-field">Chapter</label>
         <input type="text" class="form-control board-form form-control-sm mb-2" id="chapter-field" name="chapter" value="${myCard.chapter}">
         <label for="details-field">Details</label>
-        <textarea class="form-control form-control-sm" id="details-field" rows="3" name="details">${myCard.details}</textarea>
-        <hr />
+        <textarea class="form-control form-control-sm  mb-2" id="details-field" rows="3" name="details">${myCard.details}</textarea>
         <label for="link-field">Link</label>
         <input type="text" class="form-control board-form form-control-sm" id="link-field" name="link" value="${myCard.link}">
         <div class="d-flex justify-content-between mt-3">
           ${delButton}
           <button type="submit" class="btn btn-primary">${myCard.id === 'null' ? locale.buttons.add[config.lang] : locale.buttons.update[config.lang]}</button>
         </div>
+
+        <hr />
+        <label class="mb-2">${locale.headlines.attachment_files[config.lang]}</label>
+        <div class="custom-file">
+          <input type="file" class="form-control form-control-sm custom-file-input" id="filetoupload-${myCard.id}" name="filetoupload">
+          <label class="form-control form-control-sm custom-file-label text-truncate" for="filetoupload-${myCard.id}">${locale.placeholder.attachment[config.lang]}...</label>
+          <div class="invalid-feedback">${locale.placeholder.invalid_feedback[config.lang]}</div>
+        </div>
       </form>
+      <ul class="small mt-2 pl-3">
+        ${myCard.files && myCard.files.length > 0 ? myCard.files.map( filePath => helperListitem (filePath, true, group, myCard.id)).join('') : ''}
+      </ul>
     </div>
   `;
 }
@@ -266,6 +277,26 @@ function helperSelectOption (item, value) {
   if (value && value.includes(item)) selected = 'selected'
   return `
     <option ${selected} value="${myValue}">${item}</option>
+  `;
+}
+
+function helperListitem (filePath, deleteable=false, myGroup='00', itemId) {
+  let delButton = '';
+  if (deleteable) {
+    delButton = `
+      <form id="delform-${filePath.split('/').pop().split('.')[0]}" action="/filedelete" method="post" enctype="multipart/form-data">
+        <input type="text" readonly class="d-none" id="filePath" name="filePath" value="${path.join(myGroup, 'board', itemId.toString())}">
+        <input type="text" readonly class="d-none" id="delfilename" name="delfilename" value="${filePath.split('/').pop()}">
+        <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/board/${myGroup}">
+        <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">
+        <input type="text" readonly class="d-none" id="id" name="id" value="${itemId}">
+        <input type="text" readonly class="d-none" id="section" name="section" value="cards">
+        <a href="#" onclick="fileDelete('delform-${filePath.split('/').pop().split('.')[0]}')"><strong>[ X ]</strong></a>
+      </form>
+    `;
+  }
+  return `
+    <li><div class="d-flex justify-content-between text-truncate"><a href="${filePath}" target="_blank">${filePath.split('/').pop()}</a>${delButton}</li>
   `;
 }
 
