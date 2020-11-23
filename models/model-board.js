@@ -80,7 +80,7 @@ function updateCard (fields, files) {
   newCard.link = fields.link;
   if (files.filetoupload.name !== '') {
     if (newCard.files === undefined || newCard.files === '') newCard.files = [];
-    newCard.files.push(fileUpload(fields, files));
+    newCard.files.push(fileUpload(fields.group, newCard.id, files));
   }
   try {
     if (fields.id === 'null') {
@@ -102,8 +102,19 @@ function deleteFromBoard (fields) {
         tmpBoard.cards.splice(tmpBoard.cards.indexOf(item), 1);
       });
     }
+    console.log('- Deleted topic successfully from board!');
   } else if (fields.section === 'cards') {
+    if (tmpBoard.cards.filter( item => item.id === Number(fields.id) )[0].files && tmpBoard.cards.filter( item => item.id === Number(fields.id) )[0].files.length > 0) {
+      tmpBoard.cards.filter( item => item.id === Number(fields.id) )[0].files.forEach( item => {
+        try {
+          fs.unlinkSync(path.join(__dirname, '../', item));
+        } catch (e) {
+          console.log('- ERROR can\'t delete files from card: '+e);
+        }
+      });
+    }
     tmpBoard.cards.splice(tmpBoard.cards.indexOf(tmpBoard.cards.filter( item => item.id === Number(fields.id) )[0]), 1);
+    console.log('- Deleted card successfully from board!');
   }
   try {
     saveFile(path.join(__dirname, '../data/classes', fields.group), 'board.json', tmpBoard);
@@ -131,18 +142,18 @@ function getNewId (cards) {
   return Math.max(...cards.map( item => item.id)) + 1;
 }
 
-function fileUpload (fields, files) {
+function fileUpload (myGroup, myCardId, files) {
   console.log('+ Upload file: '+files.filetoupload.name);
   let oldpath = files.filetoupload.path;
-  if (!fs.existsSync(path.join(__dirname, '../data/classes', fields.group, 'board', fields.id))) {
-    fs.mkdirSync(path.join(__dirname, '../data/classes', fields.group, 'board', fields.id), { recursive: true });
+  if (!fs.existsSync(path.join(__dirname, '../data/classes', myGroup, 'board', myCardId.toString()))) {
+    fs.mkdirSync(path.join(__dirname, '../data/classes', myGroup, 'board', myCardId.toString()), { recursive: true });
   }
-  let newpath = path.join(__dirname, '../data/classes', fields.group, 'board', fields.id, files.filetoupload.name);
+  let newpath = path.join(__dirname, '../data/classes', myGroup, 'board', myCardId.toString(), files.filetoupload.name);
   try {
     fs.renameSync(oldpath, newpath);
     fs.chmodSync(newpath, '0640');
     console.log('+ Saved successfully file: '+newpath);
-    return path.join('/data/classes', fields.group, 'board', fields.id, files.filetoupload.name);
+    return path.join('/data/classes', myGroup, 'board', myCardId.toString(), files.filetoupload.name);
   } catch (e) {
     console.log('- ERROR file upload, saving+changing file: ' + e);
     return '';
