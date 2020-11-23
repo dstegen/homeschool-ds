@@ -33,27 +33,27 @@ function editLessonView (itemObj, myGroup, user) {
         </form>
       </div>
       <div class="container h-100 border py-2 px-3 mb-3">
-      <h4>${locale.headlines.th_uploads[config.lang]}:</h4>
-      <div class="row">
-        <div class="col-sm-10 offset-lg-2">
-        <ul class="text-truncate pl-3 w-75">
-          ${getFilesList(path.join(myGroup, 'courses', itemObj.lesson, itemObj.id.toString(), 'material')).map(item => helperListitem(path.join(myGroup, 'courses', itemObj.lesson, itemObj.id.toString(), 'material'), item, true, myGroup, itemObj.id)).join('')}
-        </ul>
-        <form class="row my-3 py-2 mx-0 align-item-center" action="/fileupload" method="post" enctype="multipart/form-data">
-          <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">
-          <input type="text" readonly class="d-none" id="course" name="course" value="${itemObj.lesson}">
-          <input type="text" readonly class="d-none" id="course" name="courseId" value="${itemObj.id}">
-          <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/edit/${myGroup}/${itemObj.id}">
-          <div class="custom-file col-sm-7">
-            <input type="file" class="custom-file-input" id="filetoupload-${itemObj.id}" name="filetoupload">
-            <label class="custom-file-label" for="filetoupload-${itemObj.id}">${locale.placeholder.choose_file[config.lang]}...</label>
-            <div class="invalid-feedback">${locale.placeholder.invalid_feedback[config.lang]}</div>
-          </div>
-          <div class="col-sm-3 mt-2 mt-sm-0">
-            <button type="submit" class="btn btn-primary">${locale.buttons.upload[config.lang]}</button>
-          </div>
+        <h4>${locale.headlines.th_uploads[config.lang]}:</h4>
+        <div class="row">
+          <div class="col-sm-10 offset-lg-2">
+          <ul class="text-truncate pl-3 w-75">
+            ${getFilesList(path.join(myGroup, 'courses', itemObj.lesson, itemObj.id.toString(), 'material')).map(item => helperListitem(path.join(myGroup, 'courses', itemObj.lesson, itemObj.id.toString(), 'material'), item, true, myGroup, itemObj.id)).join('')}
+          </ul>
+          <form class="row my-3 py-2 mx-0 align-item-center" action="/fileupload" method="post" enctype="multipart/form-data">
+            <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">
+            <input type="text" readonly class="d-none" id="course" name="course" value="${itemObj.lesson}">
+            <input type="text" readonly class="d-none" id="course" name="courseId" value="${itemObj.id}">
+            <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/edit/${myGroup}/${itemObj.id}">
+            <div class="custom-file col-sm-7">
+              <input type="file" class="custom-file-input" id="filetoupload-${itemObj.id}" name="filetoupload">
+              <label class="custom-file-label" for="filetoupload-${itemObj.id}">${locale.placeholder.choose_file[config.lang]}...</label>
+              <div class="invalid-feedback">${locale.placeholder.invalid_feedback[config.lang]}</div>
+            </div>
+            <div class="col-sm-3 mt-2 mt-sm-0">
+              <button type="submit" class="btn btn-primary">${locale.buttons.upload[config.lang]}</button>
+            </div>
+          </form>
         </div>
-      </form>
       </div>
   `;
   return body;
