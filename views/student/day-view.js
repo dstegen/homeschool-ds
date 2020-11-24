@@ -140,7 +140,7 @@ function helperUpload (myGroup, lessonObj, studentId, curDay, lessonColor) {
 }
 
 function helperFinishButton (myGroup, lessonObj, studentId, curDay) {
-  if (lessonObj.lessonFinished.includes(studentId)) {
+  if (lessonObj.lessonFinished.map( item => { return item.studentId } ).includes(studentId)) {
     return '';
   } else {
     return `
@@ -157,7 +157,7 @@ function helperFinishButton (myGroup, lessonObj, studentId, curDay) {
 }
 
 function lessonIndicator (myGroup, lessonObj, studentId, curDay) {
-  if (lessonObj.lessonFinished.includes(studentId)) {
+  if (lessonObj.lessonFinished.map( item => { return item.studentId } ).includes(studentId)) {
     return '<span class="checkmark-ok-grey">&#10003;</span>';
   } else if (notValid(lessonObj.validUntil, momentFromDay(curDay))) {
     return `${locale.student.return_date[config.lang]}: ${formatDay(thisDay(lessonObj.validUntil))}`;

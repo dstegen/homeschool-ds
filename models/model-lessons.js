@@ -81,7 +81,7 @@ function deleteFileFromLesson (group, courseId, filePath) {
 function finishLesson (fields) {
   let myLessons = getLessons(fields.group);
   let tmpList = myLessons.filter( item => item.id === Number(fields.courseId))[0].lessonFinished;
-  tmpList.push(Number(fields.studentId));
+  tmpList.push({ studentId: Number(fields.studentId), files: []});
   myLessons.filter( item => item.id === Number(fields.courseId))[0].lessonFinished = tmpList;
   saveFile(path.join(__dirname, '../data/classes', fields.group), 'lessons.json', { lessons: myLessons});
   return myLessons;
@@ -92,7 +92,7 @@ function lessonsToday (myGroup, curWeekDay, curWeek) {
 }
 
 function lessonsNotFinished (user, inDay) {
-  return getLessons(user.group).filter( lesson => (!lesson.lessonFinished.includes(user.id) && notValid(lesson.validUntil, inDay)));
+  return getLessons(user.group).filter( lesson => (!lesson.lessonFinished.map( item => { return item.studentId } ).includes(user.id) && notValid(lesson.validUntil, inDay)));
 }
 
 
