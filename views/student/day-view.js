@@ -94,7 +94,7 @@ function helperDownloads (lessonObj, lessonColor) {
   }
 }
 
-function helperListitem (filePath, item, deleteable=false, curDay='', lessonColor) {
+function helperListitem (filePath, item, deleteable=false, curDay='', lessonColor, studentId, lessonId, group) {
   let delButton = '';
   if (deleteable) {
     delButton = `
@@ -102,7 +102,15 @@ function helperListitem (filePath, item, deleteable=false, curDay='', lessonColo
         <input type="text" readonly class="d-none" id="filePath" name="filePath" value="${filePath}">
         <input type="text" readonly class="d-none" id="delfilename" name="delfilename" value="${item}">
         <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/student/day/${curDay}">
-        <a href="#" class="${lessonColor} onclick="fileDelete('delform-${item.split('.')[0]}')"><strong>[ X ]</strong></a>
+        <input type="text" readonly class="d-none" id="group" name="group" value="${group}">
+        <input type="text" readonly class="d-none" id="studentId" name="studentId" value="${studentId}">
+        <input type="text" readonly class="d-none" id="lessonId" name="lessonId" value="${lessonId}">
+        <a href="#" class="${lessonColor} mr-2" onclick="fileDelete('delform-${item.split('.')[0]}')">
+          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+          </svg>
+        </a>
       </form>
     `;
   }
@@ -117,7 +125,7 @@ function helperUpload (myGroup, lessonObj, studentId, curDay, lessonColor) {
       <hr />
       <strong class="card-title">${locale.student.uploads[config.lang]}:</strong>
       <ul class="text-truncate">
-        ${getFilesList(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString(), 'homework', studentId.toString())).map(item => helperListitem(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString(), 'homework', studentId.toString()), item, true, curDay, lessonColor)).join('')}
+        ${getFilesList(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString(), 'homework', studentId.toString())).map(item => helperListitem(path.join(myGroup, 'courses', lessonObj.lesson, lessonObj.id.toString(), 'homework', studentId.toString()), item, true, curDay, lessonColor, studentId, lessonObj.id, myGroup)).join('')}
       </ul>
       <form class="row my-3 p-2 mx-0 align-item-center" action="/fileupload" method="post" enctype="multipart/form-data">
         <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">

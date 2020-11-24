@@ -78,10 +78,33 @@ function deleteFileFromLesson (group, courseId, filePath) {
   }
 }
 
+function deleteFileFromLessonFinished (group, lessonId, studentId, fileName) {
+  let myLessons = getLessons(group);
+  let tmpLessonFinished = myLessons.filter( lesson => lesson.id === lessonId)[0].lessonFinished;
+  try {
+    let filesList = tmpLessonFinished.filter( item => item.studentId === studentId)[0].files;
+    filesList.splice(filesList.indexOf(fileName),1);
+    tmpLessonFinished.filter( item => item.studentId === studentId)[0].files = filesList;
+    myLessons.filter( lesson => lesson.id === lessonId)[0].lessonFinished = tmpLessonFinished;
+  } catch (e) {
+    console.log('- ERROR couldn\'t find file in list:'+e);
+  }
+  saveFile(path.join(__dirname, '../data/classes', group), 'lessons.json', { lessons: myLessons});
+}
+
 function finishLesson (fields) {
   let myLessons = getLessons(fields.group);
   let tmpList = myLessons.filter( item => item.id === Number(fields.courseId))[0].lessonFinished;
-  tmpList.push({ studentId: Number(fields.studentId), files: []});
+  let tmpObj = { studentId: Number(fields.studentId), files: []}
+  if (tmpList.map( item => { return item.studentId } ).includes(fields.studentId)) {
+    // add file only
+    tmpList.filter( item => item.studentId === fields.studentId )[0].files.push(fields.file);
+  } else {
+    if (fields.file && fields.file !== '') {
+      tmpObj.files.push(fields.file);
+    }
+    tmpList.push(tmpObj);
+  }
   myLessons.filter( item => item.id === Number(fields.courseId))[0].lessonFinished = tmpList;
   saveFile(path.join(__dirname, '../data/classes', fields.group), 'lessons.json', { lessons: myLessons});
   return myLessons;
@@ -103,4 +126,4 @@ function getNewId (lessons) {
 }
 
 
-module.exports = { getLessons, updateLesson, deleteLesson, finishLesson, lessonsToday, lessonsNotFinished, deleteFileFromLesson };
+module.exports = { getLessons, updateLesson, deleteLesson, finishLesson, lessonsToday, lessonsNotFinished, deleteFileFromLesson, deleteFileFromLessonFinished };
