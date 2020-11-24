@@ -1,8 +1,8 @@
 /*!
  * example/views/edit-lesson-view.js
- * webapputils-ds (https://github.com/dstegen/webapputils-ds)
+ * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2020 Daniel Stegen <info@danielstegen.de>
- * Licensed under MIT (https://github.com/dstegen/webapputils-ds/blob/master/LICENSE)
+ * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
  */
 
 'use strict';
@@ -12,7 +12,6 @@ const path = require('path');
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
 const { weekDay } = require('../../lib/dateJuggler');
-const getFilesList = require('../../lib/getFilesList');
 let lessonsConfig = {};
 
 
@@ -37,7 +36,7 @@ function editLessonView (itemObj, myGroup, user) {
         <div class="row">
           <div class="col-sm-10 offset-lg-2">
           <ul class="text-truncate pl-3 w-75">
-            ${getFilesList(path.join(myGroup, 'courses', itemObj.lesson, itemObj.id.toString(), 'material')).map(item => helperListitem(path.join(myGroup, 'courses', itemObj.lesson, itemObj.id.toString(), 'material'), item, true, myGroup, itemObj.id)).join('')}
+            ${itemObj.files && itemObj.files.length > 0 ? itemObj.files.map(item => helperListitem(path.join(myGroup, 'courses', itemObj.lesson, itemObj.id.toString(), 'material'), item.split('/').pop(), true, myGroup, itemObj.id)).join('') : ''}
           </ul>
           <form class="row my-3 py-2 mx-0 align-item-center" action="/fileupload" method="post" enctype="multipart/form-data">
             <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">

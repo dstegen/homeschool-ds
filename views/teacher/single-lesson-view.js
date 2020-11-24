@@ -2,7 +2,7 @@
  * teacher/views/single-lesson-view.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2020 Daniel Stegen <info@danielstegen.de>
- * Licensed under MIT (https://github.com/dstegen/webapputils-ds/blob/master/LICENSE)
+ * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
  */
 
 'use strict';
@@ -16,7 +16,6 @@ const config = require('../../models/model-config').getConfig();
 const { getAllUsers } = require('../../models/model-user');
 const { getLessons } = require('../../models/model-lessons');
 const { workdaysBetween } = require('../../lib/dateJuggler');
-const getFilesList = require('../../lib/getFilesList');
 
 
 function singleLessonView (teacher, urlPath) {
@@ -36,7 +35,7 @@ function singleLessonView (teacher, urlPath) {
           <span class="details-box px-2 py-1">${myLesson.details}</span>
         </div>
         <ul>
-          ${getFilesList(path.join(group, 'courses', myLesson.lesson, myLessonId, 'material')).map(lesson  => helperDownloads(path.join(group, 'courses', myLesson.lesson, myLessonId, 'material'), lesson)).join('')}
+          ${myLesson.files && myLesson.files.length > 0 ? myLesson.files.map(lesson  => helperDownloads(path.join(group, 'courses', myLesson.lesson, myLessonId, 'material'), lesson.split('/').pop())).join('') : ''}
         </ul>
         <div class="mt-5">
           ${groupHomework(group, myLesson)}
