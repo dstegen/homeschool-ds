@@ -2,7 +2,7 @@
  * models/model-lessons.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2020 Daniel Stegen <info@danielstegen.de>
- * Licensed under MIT (https://github.com/dstegen/webapputils-ds/blob/master/LICENSE)
+ * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
  */
 
 'use strict';
@@ -19,7 +19,6 @@ function getLessons(myGroup) {
 }
 
 function updateLesson(fields) {
-  console.log(fields);
   let myGroup = fields.group;
   let myLessons = getLessons(myGroup);
   if (fields.id && fields.id != '') {

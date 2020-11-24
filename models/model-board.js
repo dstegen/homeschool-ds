@@ -2,7 +2,7 @@
  * models/model-boards.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2020 Daniel Stegen <info@danielstegen.de>
- * Licensed under MIT (https://github.com/dstegen/webapputils-ds/blob/master/LICENSE)
+ * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
  */
 
 'use strict';
@@ -12,6 +12,7 @@ const path = require('path');
 const fs = require('fs');
 const loadFile = require('../utils/load-file');
 const saveFile = require('../utils/save-file');
+const fileUpload = require('../lib/file-upload');
 
 
 function getBoard (group) {
@@ -56,14 +57,11 @@ function updateTopic (fields) {
   newTopic.color = fields.color,
   newTopic.autofill = fields.autofill === 'on' ? true : false,
   newTopic.autofillWith = fields.with
-  try {
-    if (fields.id === 'null') {
-      tmpBoard.topics.push(newTopic);
-    }
-    saveFile(path.join(__dirname, '../data/classes', fields.group), 'board.json', tmpBoard);
-  } catch (e) {
-    console.log('- ERROR updating/saving board: '+e);
+  if (fields.id === 'null') {
+    tmpBoard.topics.push(newTopic);
   }
+  saveFile(path.join(__dirname, '../data/classes', fields.group), 'board.json', tmpBoard);
+  console.log('+ Added/updated group board topic successfully!');
 }
 
 function updateCard (fields, files) {
@@ -80,17 +78,15 @@ function updateCard (fields, files) {
   newCard.link = fields.link;
   if (files.filetoupload.name !== '') {
     if (newCard.files === undefined || newCard.files === '') newCard.files = [];
-    newCard.files.push(fileUpload(fields.group, newCard.id, files));
-  }
-  try {
-    if (fields.id === 'null') {
-      tmpBoard.cards.push(newCard);
+    if (fileUpload(fields, files, path.join('board', newCard.id.toString()))) {
+      newCard.files.push(path.join('/data/classes', fields.group, 'board', newCard.id.toString(), files.filetoupload.name));
     }
-    //console.log(tmpBoard.cards);
-    saveFile(path.join(__dirname, '../data/classes', fields.group), 'board.json', tmpBoard);
-  } catch (e) {
-    console.log('- ERROR updating/saving board: '+e);
   }
+  if (fields.id === 'null') {
+    tmpBoard.cards.push(newCard);
+  }
+  saveFile(path.join(__dirname, '../data/classes', fields.group), 'board.json', tmpBoard);
+  console.log('+ Added/updated group board card successfully!');
 }
 
 function deleteFromBoard (fields) {
@@ -102,7 +98,7 @@ function deleteFromBoard (fields) {
         tmpBoard.cards.splice(tmpBoard.cards.indexOf(item), 1);
       });
     }
-    console.log('- Deleted topic successfully from board!');
+    console.log('- Deleted topic successfully from group board!');
   } else if (fields.section === 'cards') {
     if (tmpBoard.cards.filter( item => item.id === Number(fields.id) )[0].files && tmpBoard.cards.filter( item => item.id === Number(fields.id) )[0].files.length > 0) {
       tmpBoard.cards.filter( item => item.id === Number(fields.id) )[0].files.forEach( item => {
@@ -114,13 +110,9 @@ function deleteFromBoard (fields) {
       });
     }
     tmpBoard.cards.splice(tmpBoard.cards.indexOf(tmpBoard.cards.filter( item => item.id === Number(fields.id) )[0]), 1);
-    console.log('- Deleted card successfully from board!');
+    console.log('- Deleted card successfully from group board!');
   }
-  try {
-    saveFile(path.join(__dirname, '../data/classes', fields.group), 'board.json', tmpBoard);
-  } catch (e) {
-    console.log('- ERROR saving board after deletion: '+e);
-  }
+  saveFile(path.join(__dirname, '../data/classes', fields.group), 'board.json', tmpBoard);
 }
 
 function deleteFileFromCard (fields) {
@@ -128,11 +120,7 @@ function deleteFileFromCard (fields) {
   let myFiles = tmpBoard.cards.filter( item => item.id === Number(fields.id))[0].files;
   myFiles.splice(myFiles.indexOf('/data/classes/'+fields.group+'/board/'+fields.id+'/'+fields.delfilename));
   tmpBoard.cards.filter( item => item.id === Number(fields.id))[0].files = myFiles;
-  try {
-    saveFile(path.join(__dirname, '../data/classes', fields.group), 'board.json', tmpBoard);
-  } catch (e) {
-    console.log('- ERROR saving board after deletion of file: '+e);
-  }
+  saveFile(path.join(__dirname, '../data/classes', fields.group), 'board.json', tmpBoard);
 }
 
 
@@ -142,22 +130,5 @@ function getNewId (cards) {
   return Math.max(...cards.map( item => item.id)) + 1;
 }
 
-function fileUpload (myGroup, myCardId, files) {
-  console.log('+ Upload file: '+files.filetoupload.name);
-  let oldpath = files.filetoupload.path;
-  if (!fs.existsSync(path.join(__dirname, '../data/classes', myGroup, 'board', myCardId.toString()))) {
-    fs.mkdirSync(path.join(__dirname, '../data/classes', myGroup, 'board', myCardId.toString()), { recursive: true });
-  }
-  let newpath = path.join(__dirname, '../data/classes', myGroup, 'board', myCardId.toString(), files.filetoupload.name);
-  try {
-    fs.renameSync(oldpath, newpath);
-    fs.chmodSync(newpath, '0640');
-    console.log('+ Saved successfully file: '+newpath);
-    return path.join('/data/classes', myGroup, 'board', myCardId.toString(), files.filetoupload.name);
-  } catch (e) {
-    console.log('- ERROR file upload, saving+changing file: ' + e);
-    return '';
-  }
-}
 
 module.exports = { getBoard, updateCard, updateTopic, deleteFromBoard, deleteFileFromCard };
