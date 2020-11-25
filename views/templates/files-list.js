@@ -35,7 +35,7 @@ function filesList (files, urlPath='', group='', studentId='', lessonId='', less
       returnHtml += `
         ${deleteable ? '<li>' : ''}
           <div class="d-flex justify-content-between ${deleteable ? '' : 'text-truncate'}">
-            <a href="${filePath}" class="${lessonColor}" target="_blank">
+            <a href="${filePath}" class="text-truncate ${lessonColor}" target="_blank">
               ${deleteable ? '' : `
                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-download" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
