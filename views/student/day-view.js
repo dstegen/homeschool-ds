@@ -13,6 +13,7 @@ const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
 const { thisWeek, thisDay, weekDayNumber, formatDay, momentFromDay, workdaysBetween, notValid } = require('../../lib/dateJuggler');
 const { lessonsToday, lessonsNotFinished } = require('../../models/model-lessons');
+const filesList = require('../templates/files-list');
 let lessonsConfig = {};
 
 
@@ -68,7 +69,8 @@ function helperLessonBig (lessonObj, curWeekDay, curDay, myGroup, studentId) {
       </div>
       <div id="lessonbig-details-${lessonObj.id}${curWeekDay}" class="card-body collapse" data-parent="#today">
         ${lessonObj.details != '' ? `<strong class="card-title">${locale.student.exercise[config.lang]}:</strong><p class="card-text">${lessonObj.details}</p>` : ''}
-        ${helperDownloads(lessonObj, lessonColor)}
+        <strong class="card-title">${locale.student.downloads[config.lang]}:</strong>
+        ${lessonObj.files ? filesList(lessonObj.files, '/student/day/'+curDay, myGroup, studentId, lessonObj.id, lessonColor, false) : ''}
         ${helperUpload(myGroup, lessonObj, studentId, curDay, lessonColor)}
         ${helperFinishButton(myGroup, lessonObj, studentId, curDay)}
       </div>
@@ -76,6 +78,7 @@ function helperLessonBig (lessonObj, curWeekDay, curDay, myGroup, studentId) {
   `;
 }
 
+/*
 function helperDownloads (lessonObj, lessonColor) {
   let downloadsList = [];
   if (lessonObj.files) downloadsList = lessonObj.files;
@@ -84,7 +87,7 @@ function helperDownloads (lessonObj, lessonColor) {
       <strong class="card-title">${locale.student.downloads[config.lang]}:</strong>
       <ul class="text-truncate">
         ${downloadsList.map(item => {
-          return `<li class="text-truncate"><a href="${item}" class="${lessonColor}" target="_blank">${item.split('/').pop()}</a></li>`;
+          return `<li><a href="${item}" class="${lessonColor}" target="_blank">${item.split('/').pop()}</a></li>`;
         }).join('')}
       </ul>
     `;
@@ -117,15 +120,14 @@ function helperListitem (filePath, deleteable=false, curDay='', lessonColor, stu
     <li><div class="d-flex justify-content-between text-truncate"><a href="${filePath}" class="${lessonColor}" target="_blank">${tmpFile}</a>${delButton}</div></li>
   `;
 }
+*/
 
 function helperUpload (myGroup, lessonObj, studentId, curDay, lessonColor) {
   if (lessonObj.returnHomework === 'true') {
     return `
       <hr />
       <strong class="card-title">${locale.student.uploads[config.lang]}:</strong>
-      <ul class="text-truncate">
-        ${lessonObj.lessonFinished.filter( item => item.studentId = studentId)[0].files.map(item => helperListitem(item, true, curDay, lessonColor, studentId, lessonObj.id, myGroup)).join('')}
-      </ul>
+      ${filesList(lessonObj.lessonFinished.filter( item => item.studentId = studentId)[0].files, '/student/day/'+curDay, myGroup, studentId, lessonObj.id, lessonColor, true)}
       <form class="row my-3 p-2 mx-0 align-item-center" action="/fileupload" method="post" enctype="multipart/form-data">
         <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">
         <input type="text" readonly class="d-none" id="course" name="course" value="${lessonObj.lesson}">
@@ -145,6 +147,12 @@ function helperUpload (myGroup, lessonObj, studentId, curDay, lessonColor) {
     return '';
   }
 }
+
+/*
+<ul class="text-truncate">
+  ${lessonObj.lessonFinished.filter( item => item.studentId = studentId)[0].files.map(item => helperListitem(item, true, curDay, lessonColor, studentId, lessonObj.id, myGroup)).join('')}
+</ul>
+*/
 
 function helperFinishButton (myGroup, lessonObj, studentId, curDay) {
   if (lessonObj.lessonFinished.map( item => { return item.studentId } ).includes(studentId)) {
