@@ -9,12 +9,10 @@
 
 // Required modules
 const locale = require('../../lib/locale');
-const { getGroupConfig, getConfig } = require('../../models/model-config');
-const config = getConfig();
+const config = require('../../models/model-config').getConfig();
 const { getBoard } = require('../../models/model-board');
-const { getLessons } = require('../../models/model-lessons');
-const { notValid } = require('../../lib/dateJuggler');
-const filesList = require('../templates/files-list');
+const boardColumn = require('./board-column');
+const boardColumnForm = require('./board-column-form');
 
 
 function boardView (group, role='student') {
@@ -26,8 +24,8 @@ function boardView (group, role='student') {
           <h2>${locale.headlines.board[config.lang]} ${group}</h2>
         </div>
         <div class="container px-0 pb-3 d-flex" style="overflow-x: scroll; min-height: 80vH;">
-          ${myBoard.topics.map( topics => helperCreateColumn(topics, myBoard, group, role)).join('')}
-          ${role === 'teacher' ? helperAddColumnForm(group) : ''}
+          ${myBoard.topics.map( topics => boardColumn(topics, myBoard, group, role)).join('')}
+          ${role === 'teacher' ? boardColumnForm(group) : ''}
         </div>
       </div>
     `;
@@ -42,7 +40,7 @@ function boardView (group, role='student') {
 
 
 // Additional functions
-
+/*
 function helperCreateColumn (myTopic, myBoard, group, role) {
   let cardsArray = [];
   if (myTopic.autofill === true) {
@@ -99,12 +97,12 @@ function helperAddColumnForm (group, myTopic) {
           <input type="text" name="section" class="d-none" hidden value="topics" />
           <label for="topic-field">Title</label>
           <input type="text" class="form-control board-form form-control-sm" id="topic-field" name="topic" value="${myTopic.topic}">
-          ${helperSelects(config.courseColors, myTopic.color, 'color', myTopic.autofill === true ? 'disabled' : '')}
+          ${formSelect(config.courseColors, myTopic.color, 'color', myTopic.autofill === true ? 'disabled' : '')}
           <div class="form-check form-check-inline mt-2">
             <label class="form-check-label" for="autofill">Autofill</label>
             <input class="form-check-input ml-2" type="checkbox" id="autofill" name="autofill" onchange="enableDisableInput(this, '#edit-column-form-${myTopic.id} select#with-field', '#edit-column-form-${myTopic.id} select#color-field')" ${myTopic.autofill === true ? 'checked' : ''}>
           </div>
-          ${helperSelects(getGroupConfig(group).courses.map( item => { return item.name; }), myTopic.autofillWith, 'with', myTopic.autofill === true ? '' : 'disabled')}
+          ${formSelect(getGroupConfig(group).courses.map( item => { return item.name; }), myTopic.autofillWith, 'with', myTopic.autofill === true ? '' : 'disabled')}
           <div class="d-flex justify-content-between mt-3">
             ${delButton}
             <button type="submit" class="btn btn-primary">${myTopic.id === 'null' ? locale.buttons.add[config.lang] : locale.buttons.update[config.lang]}</button>
@@ -255,29 +253,6 @@ function helperEditCardButton (myTopic, myCardId) {
     </a>
   `;
 }
-
-function helperSelects (optionsList, value, prop, disabled='') {
-  return `
-    <label for="${prop}-field" class="mt-2">${prop}</label>
-    <select class="custom-select custom-select-sm" id="${prop}-field" name="${prop}" ${disabled}>
-      <option value=""></option>
-      ${optionsList.map( item => helperSelectOption(item, value) ).join('')}
-    </select>
-  `;
-}
-
-function helperSelectOption (item, value) {
-  let myValue = item;
-  if (typeof(item) === 'object') {
-    myValue = item[0];
-    item = item[1];
-  }
-  let selected = '';
-  if (value && value.includes(item)) selected = 'selected'
-  return `
-    <option ${selected} value="${myValue}">${item}</option>
-  `;
-}
-
+*/
 
 module.exports = boardView;
