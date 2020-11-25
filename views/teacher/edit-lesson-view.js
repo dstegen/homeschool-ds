@@ -12,6 +12,7 @@ const path = require('path');
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
 const { weekDay } = require('../../lib/dateJuggler');
+const filesList = require('../templates/files-list');
 let lessonsConfig = {};
 
 
@@ -34,24 +35,23 @@ function editLessonView (itemObj, myGroup, user) {
       <div class="container h-100 border py-2 px-3 mb-3">
         <h4>${locale.headlines.th_uploads[config.lang]}:</h4>
         <div class="row">
-          <div class="col-sm-10 offset-lg-2">
-          <ul class="text-truncate pl-3 w-75">
-            ${itemObj.files && itemObj.files.length > 0 ? itemObj.files.map(item => helperListitem(item, item.split('/').pop(), true, myGroup, itemObj.id)).join('') : ''}
-          </ul>
-          <form class="row my-3 py-2 mx-0 align-item-center" action="/fileupload" method="post" enctype="multipart/form-data">
-            <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">
-            <input type="text" readonly class="d-none" id="course" name="course" value="${itemObj.lesson}">
-            <input type="text" readonly class="d-none" id="course" name="courseId" value="${itemObj.id}">
-            <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/edit/${myGroup}/${itemObj.id}">
-            <div class="custom-file col-sm-7">
-              <input type="file" class="custom-file-input" id="filetoupload-${itemObj.id}" name="filetoupload">
-              <label class="custom-file-label" for="filetoupload-${itemObj.id}">${locale.placeholder.choose_file[config.lang]}...</label>
-              <div class="invalid-feedback">${locale.placeholder.invalid_feedback[config.lang]}</div>
-            </div>
-            <div class="col-sm-3 mt-2 mt-sm-0">
-              <button type="submit" class="btn btn-primary">${locale.buttons.upload[config.lang]}</button>
-            </div>
-          </form>
+          <div class="col-sm-8 offset-lg-2">
+            ${itemObj.files ? filesList(itemObj.files, '/edit/'+myGroup+'/'+itemObj.id, myGroup, '', itemObj.id, '', true) : ''}
+            <form class="row my-3 py-2 mx-0 align-item-center" action="/fileupload" method="post" enctype="multipart/form-data">
+              <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">
+              <input type="text" readonly class="d-none" id="course" name="course" value="${itemObj.lesson}">
+              <input type="text" readonly class="d-none" id="course" name="courseId" value="${itemObj.id}">
+              <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/edit/${myGroup}/${itemObj.id}">
+              <div class="custom-file col-sm-10">
+                <input type="file" class="custom-file-input" id="filetoupload-${itemObj.id}" name="filetoupload">
+                <label class="custom-file-label" for="filetoupload-${itemObj.id}">${locale.placeholder.choose_file[config.lang]}...</label>
+                <div class="invalid-feedback">${locale.placeholder.invalid_feedback[config.lang]}</div>
+              </div>
+              <div class="col-sm-2 mt-2 mt-sm-0">
+                <button type="submit" class="btn btn-primary">${locale.buttons.upload[config.lang]}</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
   `;
@@ -147,29 +147,6 @@ function formInputs (itemObj, courses) {
     });
   }
   return returnHtml;
-}
-
-function helperListitem (filePath, item, deleteable=false, myGroup='00', itemId) {
-  let delButton = '';
-  if (deleteable) {
-    delButton = `
-      <form id="delform-${item.split('.')[0]}" action="/filedelete" method="post" enctype="multipart/form-data">
-        <input type="text" readonly class="d-none" id="filePath" name="filePath" value="${filePath}">
-        <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/edit/${myGroup}/${itemId}">
-        <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">
-        <input type="text" readonly class="d-none" id="courseId" name="courseId" value="${itemId}">
-        <a href="#" onclick="fileDelete('delform-${item.split('.')[0]}')">
-          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-          </svg>
-        </a>
-      </form>
-    `;
-  }
-  return `
-    <li><div class="d-flex justify-content-between text-truncate"><a href="${filePath}" target="_blank">${item}</a>${delButton}</li>
-  `;
 }
 
 

@@ -16,6 +16,7 @@ const config = require('../../models/model-config').getConfig();
 const { getAllUsers } = require('../../models/model-user');
 const { getLessons } = require('../../models/model-lessons');
 const { workdaysBetween } = require('../../lib/dateJuggler');
+const filesList = require('../templates/files-list');
 
 
 function singleLessonView (teacher, urlPath) {
@@ -34,9 +35,7 @@ function singleLessonView (teacher, urlPath) {
         <div class="mb-3">
           <span class="details-box px-2 py-1">${myLesson.details}</span>
         </div>
-        <ul>
-          ${myLesson.files && myLesson.files.length > 0 ? myLesson.files.map(lesson  => helperDownloads(path.join(group, 'courses', myLesson.lesson, myLessonId, 'material'), lesson.split('/').pop())).join('') : ''}
-        </ul>
+        ${myLesson.files ? filesList(myLesson.files, urlPath, group, '', myLesson.id, '', false) : ''}
         <div class="mt-5">
           ${groupHomework(group, myLesson)}
         </div>
@@ -98,12 +97,6 @@ function lessonStatus (myLesson, studentId) {
   } else {
     return `<span class="checkmark-missing">X</span>`;
   }
-}
-
-function helperDownloads (filePath, item) {
-  return `
-    <li><div class="d-flex justify-content-between text-truncate"><a href="${path.join('/data/classes/', filePath, item)}" target="_blank">${item}</a></li>
-  `;
 }
 
 

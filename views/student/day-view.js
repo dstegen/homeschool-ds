@@ -69,7 +69,7 @@ function helperLessonBig (lessonObj, curWeekDay, curDay, myGroup, studentId) {
       </div>
       <div id="lessonbig-details-${lessonObj.id}${curWeekDay}" class="card-body collapse" data-parent="#today">
         ${lessonObj.details != '' ? `<strong class="card-title">${locale.student.exercise[config.lang]}:</strong><p class="card-text">${lessonObj.details}</p>` : ''}
-        <strong class="card-title">${locale.student.downloads[config.lang]}:</strong>
+
         ${lessonObj.files ? filesList(lessonObj.files, '/student/day/'+curDay, myGroup, studentId, lessonObj.id, lessonColor, false) : ''}
         ${helperUpload(myGroup, lessonObj, studentId, curDay, lessonColor)}
         ${helperFinishButton(myGroup, lessonObj, studentId, curDay)}
@@ -77,50 +77,6 @@ function helperLessonBig (lessonObj, curWeekDay, curDay, myGroup, studentId) {
     </div>
   `;
 }
-
-/*
-function helperDownloads (lessonObj, lessonColor) {
-  let downloadsList = [];
-  if (lessonObj.files) downloadsList = lessonObj.files;
-  if (downloadsList.length > 0) {
-    return `
-      <strong class="card-title">${locale.student.downloads[config.lang]}:</strong>
-      <ul class="text-truncate">
-        ${downloadsList.map(item => {
-          return `<li><a href="${item}" class="${lessonColor}" target="_blank">${item.split('/').pop()}</a></li>`;
-        }).join('')}
-      </ul>
-    `;
-  } else {
-    return '';
-  }
-}
-
-function helperListitem (filePath, deleteable=false, curDay='', lessonColor, studentId, lessonId, group) {
-  let delButton = '';
-  let tmpFile = filePath.split('/').pop();
-  if (deleteable) {
-    delButton = `
-      <form id="delform-${tmpFile.split('.')[0]}" action="/filedelete" method="post" enctype="multipart/form-data">
-        <input type="text" readonly class="d-none" id="filePath" name="filePath" value="${filePath}">
-        <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/student/day/${curDay}">
-        <input type="text" readonly class="d-none" id="group" name="group" value="${group}">
-        <input type="text" readonly class="d-none" id="studentId" name="studentId" value="${studentId}">
-        <input type="text" readonly class="d-none" id="lessonId" name="lessonId" value="${lessonId}">
-        <a href="#" class="${lessonColor} mr-2" onclick="fileDelete('delform-${tmpFile.split('.')[0]}')">
-          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-          </svg>
-        </a>
-      </form>
-    `;
-  }
-  return `
-    <li><div class="d-flex justify-content-between text-truncate"><a href="${filePath}" class="${lessonColor}" target="_blank">${tmpFile}</a>${delButton}</div></li>
-  `;
-}
-*/
 
 function helperUpload (myGroup, lessonObj, studentId, curDay, lessonColor) {
   if (lessonObj.returnHomework === 'true') {
@@ -147,12 +103,6 @@ function helperUpload (myGroup, lessonObj, studentId, curDay, lessonColor) {
     return '';
   }
 }
-
-/*
-<ul class="text-truncate">
-  ${lessonObj.lessonFinished.filter( item => item.studentId = studentId)[0].files.map(item => helperListitem(item, true, curDay, lessonColor, studentId, lessonObj.id, myGroup)).join('')}
-</ul>
-*/
 
 function helperFinishButton (myGroup, lessonObj, studentId, curDay) {
   if (lessonObj.lessonFinished.map( item => { return item.studentId } ).includes(studentId)) {
