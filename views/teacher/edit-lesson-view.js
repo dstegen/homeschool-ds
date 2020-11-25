@@ -36,7 +36,7 @@ function editLessonView (itemObj, myGroup, user) {
         <div class="row">
           <div class="col-sm-10 offset-lg-2">
           <ul class="text-truncate pl-3 w-75">
-            ${itemObj.files && itemObj.files.length > 0 ? itemObj.files.map(item => helperListitem(path.join(myGroup, 'courses', itemObj.lesson, itemObj.id.toString(), 'material'), item.split('/').pop(), true, myGroup, itemObj.id)).join('') : ''}
+            ${itemObj.files && itemObj.files.length > 0 ? itemObj.files.map(item => helperListitem(item, item.split('/').pop(), true, myGroup, itemObj.id)).join('') : ''}
           </ul>
           <form class="row my-3 py-2 mx-0 align-item-center" action="/fileupload" method="post" enctype="multipart/form-data">
             <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">
@@ -155,16 +155,20 @@ function helperListitem (filePath, item, deleteable=false, myGroup='00', itemId)
     delButton = `
       <form id="delform-${item.split('.')[0]}" action="/filedelete" method="post" enctype="multipart/form-data">
         <input type="text" readonly class="d-none" id="filePath" name="filePath" value="${filePath}">
-        <input type="text" readonly class="d-none" id="delfilename" name="delfilename" value="${item}">
         <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/edit/${myGroup}/${itemId}">
-        <input type="text" readonly class="d-none" id="urlPath" name="group" value="${myGroup}">
-        <input type="text" readonly class="d-none" id="urlPath" name="courseId" value="${itemId}">
-        <a href="#" onclick="fileDelete('delform-${item.split('.')[0]}')"><strong>[ X ]</strong></a>
+        <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">
+        <input type="text" readonly class="d-none" id="courseId" name="courseId" value="${itemId}">
+        <a href="#" onclick="fileDelete('delform-${item.split('.')[0]}')">
+          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+          </svg>
+        </a>
       </form>
     `;
   }
   return `
-    <li><div class="d-flex justify-content-between text-truncate"><a href="${path.join('/data/classes/', filePath, item)}" target="_blank">${item}</a>${delButton}</li>
+    <li><div class="d-flex justify-content-between text-truncate"><a href="${filePath}" target="_blank">${item}</a>${delButton}</li>
   `;
 }
 
