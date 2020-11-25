@@ -69,7 +69,6 @@ function helperLessonBig (lessonObj, curWeekDay, curDay, myGroup, studentId) {
       </div>
       <div id="lessonbig-details-${lessonObj.id}${curWeekDay}" class="card-body collapse" data-parent="#today">
         ${lessonObj.details != '' ? `<strong class="card-title">${locale.student.exercise[config.lang]}:</strong><p class="card-text">${lessonObj.details}</p>` : ''}
-
         ${lessonObj.files ? filesList(lessonObj.files, '/student/day/'+curDay, myGroup, studentId, lessonObj.id, lessonColor, false) : ''}
         ${helperUpload(myGroup, lessonObj, studentId, curDay, lessonColor)}
         ${helperFinishButton(myGroup, lessonObj, studentId, curDay)}
@@ -83,7 +82,9 @@ function helperUpload (myGroup, lessonObj, studentId, curDay, lessonColor) {
     return `
       <hr />
       <strong class="card-title">${locale.student.uploads[config.lang]}:</strong>
-      ${filesList(lessonObj.lessonFinished.filter( item => item.studentId = studentId)[0].files, '/student/day/'+curDay, myGroup, studentId, lessonObj.id, lessonColor, true)}
+      <div class="pl-3">
+        ${filesList(lessonObj.lessonFinished.filter( item => item.studentId = studentId)[0].files, '/student/day/'+curDay, myGroup, studentId, lessonObj.id, lessonColor, true)}
+      </div>
       <form class="row my-3 p-2 mx-0 align-item-center" action="/fileupload" method="post" enctype="multipart/form-data">
         <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">
         <input type="text" readonly class="d-none" id="course" name="course" value="${lessonObj.lesson}">

@@ -117,9 +117,9 @@ function deleteFromBoard (fields) {
 
 function deleteFileFromCard (fields) {
   let tmpBoard = getBoard(fields.group);
-  let myFiles = tmpBoard.cards.filter( item => item.id === Number(fields.id))[0].files;
-  myFiles.splice(myFiles.indexOf('/data/classes/'+fields.group+'/board/'+fields.id+'/'+fields.delfilename));
-  tmpBoard.cards.filter( item => item.id === Number(fields.id))[0].files = myFiles;
+  let myFiles = tmpBoard.cards.filter( item => item.id === Number(fields.lessonId))[0].files;
+  myFiles.splice(myFiles.indexOf('/data/classes/'+fields.group+'/board/'+fields.lessonId+'/'+fields.delfilename));
+  tmpBoard.cards.filter( item => item.id === Number(fields.lessonId))[0].files = myFiles;
   saveFile(path.join(__dirname, '../data/classes', fields.group), 'board.json', tmpBoard);
 }
 

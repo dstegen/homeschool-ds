@@ -8,7 +8,7 @@
 'use strict';
 
 
-function filesList (files, urlPath='', group='', studentId='', lessonId='', lessonColor='', deleteable=false) {
+function filesList (files, urlPath='', group='', studentId='', lessonId='', lessonColor='', deleteable=false, section='') {
   let returnHtml = '';
   if (files && files.length > 0) {
     files.forEach( filePath => {
@@ -22,6 +22,7 @@ function filesList (files, urlPath='', group='', studentId='', lessonId='', less
             <input type="text" readonly class="d-none" id="group" name="group" value="${group}">
             <input type="text" readonly class="d-none" id="studentId" name="studentId" value="${studentId}">
             <input type="text" readonly class="d-none" id="lessonId" name="lessonId" value="${lessonId}">
+            <input type="text" readonly class="d-none" id="section" name="section" value="${section}">
             <a href="#" class="${lessonColor} mr-2" onclick="fileDelete('delform-${tmpFile.split('.')[0]}')">
               <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
@@ -48,7 +49,7 @@ function filesList (files, urlPath='', group='', studentId='', lessonId='', less
       `;
     });
   }
-  if (deleteable) returnHtml = '<ul>'+returnHtml+'</ul>'
+  if (deleteable) returnHtml = '<ul class="pl-3">'+returnHtml+'</ul>'
   return returnHtml;
 }
 

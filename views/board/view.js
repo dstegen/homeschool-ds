@@ -1,5 +1,5 @@
 /*!
- * views/board-view.js
+ * views/board/view.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2020 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -8,13 +8,13 @@
 'use strict';
 
 // Required modules
-const path = require('path');
-const locale = require('../lib/locale');
-const { getGroupConfig, getConfig } = require('../models/model-config');
+const locale = require('../../lib/locale');
+const { getGroupConfig, getConfig } = require('../../models/model-config');
 const config = getConfig();
-const { getBoard } = require('../models/model-board');
-const { getLessons } = require('../models/model-lessons');
-const { notValid } = require('../lib/dateJuggler');
+const { getBoard } = require('../../models/model-board');
+const { getLessons } = require('../../models/model-lessons');
+const { notValid } = require('../../lib/dateJuggler');
+const filesList = require('../templates/files-list');
 
 
 function boardView (group, role='student') {
@@ -159,7 +159,6 @@ function helperAddCardForm (group, myTopicId, myCard) {
           ${delButton}
           <button type="submit" class="btn btn-primary">${myCard.id === 'null' ? locale.buttons.add[config.lang] : locale.buttons.update[config.lang]}</button>
         </div>
-
         <hr />
         <label class="mb-2">${locale.headlines.attachment_files[config.lang]}</label>
         <div class="custom-file">
@@ -168,9 +167,9 @@ function helperAddCardForm (group, myTopicId, myCard) {
           <div class="invalid-feedback">${locale.placeholder.invalid_feedback[config.lang]}</div>
         </div>
       </form>
-      <ul class="small mt-2 pl-3">
-        ${myCard.files && myCard.files.length > 0 ? myCard.files.map( filePath => helperListitem (filePath, true, group, myCard.id)).join('') : ''}
-      </ul>
+      <div class="small mt-2">
+        ${myCard.files ? filesList(myCard.files, '/board/'+group, group, '', myCard.id, '', true, 'cards') : ''}
+      </div>
     </div>
   `;
 }
@@ -277,31 +276,6 @@ function helperSelectOption (item, value) {
   if (value && value.includes(item)) selected = 'selected'
   return `
     <option ${selected} value="${myValue}">${item}</option>
-  `;
-}
-
-function helperListitem (filePath, deleteable=false, myGroup='00', itemId) {
-  let delButton = '';
-  if (deleteable) {
-    delButton = `
-      <form id="delform-${filePath.split('/').pop().split('.')[0]}" action="/filedelete" method="post" enctype="multipart/form-data">
-        <input type="text" readonly class="d-none" id="filePath" name="filePath" value="${path.join(myGroup, 'board', itemId.toString())}">
-        <input type="text" readonly class="d-none" id="delfilename" name="delfilename" value="${filePath.split('/').pop()}">
-        <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/board/${myGroup}">
-        <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">
-        <input type="text" readonly class="d-none" id="id" name="id" value="${itemId}">
-        <input type="text" readonly class="d-none" id="section" name="section" value="cards">
-        <a href="#" onclick="fileDelete('delform-${filePath.split('/').pop().split('.')[0]}')">
-          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-          </svg>
-        </a>
-      </form>
-    `;
-  }
-  return `
-    <li><div class="d-flex justify-content-between"><a class="w-75 text-truncate" href="${filePath}" target="_blank">${filePath.split('/').pop()}</a>${delButton}</li>
   `;
 }
 
