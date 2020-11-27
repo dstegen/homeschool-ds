@@ -35,6 +35,10 @@ A simple HomeSchool server for teachers and students to have a better overview o
 
 ## Changelog ##
 
+#### v0.3.6 ####
+- refactored boards
+- refactored file up-/download & delete
+
 #### v0.3.5 ####
 - introduced group boards
 - introduced admin mode
