@@ -20,7 +20,6 @@ const teacherClassesView = require('../views/teacher/classes-view');
 const teacherSingleLessonView = require('../views/teacher/single-lesson-view');
 const timetableView = require('../views/timetable-view');
 const boardView = require('../views/board/view');
-const comView = require('../views/communication-view');
 const view = require('../views/view');
 
 let myGroup = '';
@@ -38,9 +37,7 @@ function userController (request, response, wss, wsport, user) {
     curDay = Number(route.split('/')[2]);
   }
   let naviObj = getNaviObj(user);
-  if (route.includes('communication')) {
-    uniSend(view(wsport, naviObj, comView(user, wsport)), response);
-  } else if (user.role === 'teacher') {
+  if (user.role === 'teacher') {
     // Teacher only
     // TODO: Prevent illegal URLs
     if (route.startsWith('teacher/classes')) {

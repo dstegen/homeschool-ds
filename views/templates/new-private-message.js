@@ -26,7 +26,7 @@ function newPrivateMessage (userId='', chatMateId='') {
   }
   return `
     <div class="border py-2 px-3 mb-3">
-      <form id="newMessage-form" action="/message" method="post">
+      <form id="newMessage-form" action="/communication/message" method="post">
         <input type="text" name="chatterId" class="d-none" hidden value="${userId}" />
         <div class="form-group form-inline justify-content-between">
           <h4>${locale.headlines.send_message_to[config.lang]}</h4>

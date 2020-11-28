@@ -13,6 +13,7 @@ const { deliver, cookie, uniSend, getFormObj, SendObj, Auth } = require('webappu
 const { initUsers, getPasswdObj, getUserDetails } = require('../models/model-user');
 const userController = require('./user-controller');
 const adminController = require('./admin-controller');
+const communicationController = require('./communication-controller');
 const loginView = require('../views/login-view');
 
 const authenticate = new Auth(path.join(__dirname, '../sessionids.json'));
@@ -38,9 +39,12 @@ function router (request, response, wss, wsport) {
     uniSend(new SendObj(302, ['sessionid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;']), response);
   } else if (authenticate.loggedIn(cookie(request).sessionid)) {
     let user = getUserDetails(authenticate.getUserId(cookie(request).sessionid));
-    if (user.role === 'admin') {
+    if (route.startsWith('communication')) {
+      communicationController(request, response, wss, wsport, user)
+    } else if (user.role === 'admin') {
       adminController(request, response, wss, wsport, user);
     } else {
+      // Split to teachers & students here?
       userController(request, response, wss, wsport, user);
     }
   } else {
