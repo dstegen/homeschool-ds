@@ -11,6 +11,7 @@
 const { uniSend } = require('webapputils-ds');
 const { thisWeek } = require('../lib/dateJuggler');
 const { getLessons } = require('../models/model-lessons');
+const { editLessonAction, updateLessonAction, deleteLessonAction } = require('./lessons-controller');
 const getNaviObj = require('../views/lib/getNaviObj');
 const teacherView = require('../views/teacher/view');
 const teacherLessonsView = require('../views/teacher/lessons-view');
@@ -38,6 +39,12 @@ function teacherController (request, response, wss, wsport, user) {
     uniSend(view(wsport, naviObj, teacherLessonsView(user)), response);
   } else if (route.startsWith('teacher/lessons')) {
     uniSend(view(wsport, naviObj, teacherSingleLessonView(user, route)), response);
+  } else if (route.startsWith('edit')) {
+    editLessonAction(request, response, wss, user);
+  } else if (route.startsWith('update')) {
+    updateLessonAction(request, response, wss);
+  } else if (route.startsWith('delete')) {
+    deleteLessonAction(request, response, wss);
   } else if (route.startsWith('timetable')) {
     myGroup = route.split('/')[1];
     myLessons = getLessons(myGroup);

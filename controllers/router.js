@@ -25,7 +25,7 @@ let passwd = getPasswdObj();
 
 function router (request, response, wss, wsport) {
   let route = request.url.substr(1).split('?')[0];
-  if (request.url.includes('data') || request.url.includes('node_modules') || request.url.includes('public') || request.url.includes('favicon')) {
+  if (route.startsWith('data/classes') || route.startsWith('data/school/pics') || request.url.includes('node_modules') || request.url.includes('public') || request.url.includes('favicon')) {
    deliver(request, response);
   } else if (route === 'login') {
     getFormObj(request).then(

@@ -11,11 +11,11 @@
 const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
 const { getLessons, updateLesson, deleteLesson, finishLesson } = require('../models/model-lessons');
 const getNaviObj = require('../views/lib/getNaviObj');
-const teacherLessonsEditView = require('../views/teacher/edit-lesson-view');
+const editLessonView = require('../views/teacher/edit-lesson-view');
 const view = require('../views/view');
 
 
-function editLessonAction (request, response, user) {
+function editLessonAction (request, response, wss, user) {
   let itemObj = {};
   if (request.url.split('/')[2] != undefined) {
     let myGroup = request.url.split('/')[2];
@@ -27,7 +27,7 @@ function editLessonAction (request, response, user) {
         itemObj[key] = '';
       });
     }
-    uniSend(view('', getNaviObj(user), teacherLessonsEditView(itemObj, myGroup, user)),response);
+    uniSend(view('', getNaviObj(user), editLessonView(itemObj, myGroup, user)),response);
   } else {
     uniSend(new SendObj(302), response);
   }

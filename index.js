@@ -9,7 +9,7 @@
 
 // Required modules
 const { ServerDS } = require('webapputils-ds');
-const router = require('./lib/router');
+const router = require('./controllers/router');
 
 // Name the process
 process.title = 'homeschool-ds';
