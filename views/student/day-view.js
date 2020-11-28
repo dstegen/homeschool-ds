@@ -111,7 +111,7 @@ function helperFinishButton (myGroup, lessonObj, studentId, curDay) {
   } else {
     return `
       <hr />
-      <form class="my-3 p-2 mx-0 text-right" action="/lessonfinished" method="post" enctype="multipart/form-data">
+      <form class="my-3 p-2 mx-0 text-right" action="/student/lessonfinished" method="post" enctype="multipart/form-data">
         <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">
         <input type="text" readonly class="d-none" id="courseId" name="courseId" value="${lessonObj.id}">
         <input type="text" readonly class="d-none" id="studentId" name="studentId" value="${studentId}">
