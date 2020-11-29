@@ -9,35 +9,17 @@
 
 // Required modules
 const { uniSend } = require('webapputils-ds');
-const { thisWeek, thisDay } = require('../lib/dateJuggler');
+const { thisWeek } = require('../lib/dateJuggler');
 const { getLessons } = require('../models/model-lessons');
-const { finishLessonAction } = require('./lessons-controller');
 const getNaviObj = require('../views/lib/getNaviObj');
 const studentView = require('../views/student/view');
-const studentDayView = require('../views/student/day-view');
 const view = require('../views/view');
-
-let myGroup = '';
-let myLessons = [];
 
 
 function studentController (request, response, wss, wsport, user) {
-  let route = request.url.substr(1).split('?')[0];
-  let curWeek = thisWeek();
-  let curDay = thisDay();
-  if (route.split('/')[1] === 'day' && Number.isInteger(Number(route.split('/')[2]))) {
-    curDay = Number(route.split('/')[2]);
-  }
-  let naviObj = getNaviObj(user);
-  myGroup = user.group;
-  myLessons = getLessons(myGroup);
-  if (route.split('/')[1] === 'day') {
-    uniSend(view(wsport, naviObj, studentDayView(myLessons, myGroup, curDay, user)), response);
-  } else if (route === 'student/lessonfinished') {
-    finishLessonAction(request, response);
-  } else {
-    uniSend(view(wsport, naviObj, studentView(myLessons, myGroup, curWeek, user, wsport)), response);
-  }
+  let myGroup = user.group;
+  let myLessons = getLessons(myGroup);
+  uniSend(view(wsport, getNaviObj(user), studentView(myLessons, myGroup, thisWeek(), user, wsport)), response);
 }
 
 

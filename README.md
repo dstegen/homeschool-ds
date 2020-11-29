@@ -36,6 +36,9 @@ A simple HomeSchool server for teachers and students to have a better overview o
 ## Changelog ##
 
 #### v0.3.6 ####
+- major refactored router+controller
+- introduced separate controllers
+- improved routing and url-workflows 
 - refactored boards
 - refactored file up-/download & delete
 

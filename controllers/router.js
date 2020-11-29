@@ -16,7 +16,8 @@ const adminController = require('./admin-controller');
 const communicationController = require('./communication-controller');
 const boardController = require('./board-controller');
 const timetableController = require('./timetable-controller');
-const { fileUploadAction, fileDeleteAction } = require('./file-controller');
+const lessonsController = require('./lessons-controller');
+const fileController = require('./file-controller');
 const loginView = require('../views/login-view');
 
 
@@ -36,10 +37,10 @@ function router (request, response, wss, wsport) {
       boardController(request, response, user);
     } else if (route.startsWith('timetable')) {
       timetableController(request, response, user);
-    } else if (request.url.startsWith('/fileupload')) {
-      fileUploadAction(request, response, user);
-    } else if (request.url.startsWith('/filedelete')) {
-      fileDeleteAction(request, response);
+    } else if (route.startsWith('lessons')) {
+      lessonsController(request, response, user);
+    } else if (route.startsWith('file')) {
+      fileController(request, response, user);
     } else if (route === 'setpassword') {
       setPasswordAction(request, response);
     } else if (route === 'updatepassword') {

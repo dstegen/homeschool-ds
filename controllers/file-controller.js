@@ -16,6 +16,20 @@ const fileDelete = require('../lib/file-delete');
 const { deleteFileFromCard } = require('../models/model-board');
 
 
+function fileController (request, response, user) {
+  let route = request.url.substr(1).split('?')[0];
+  if (route.startsWith('fileupload')) {
+    fileUploadAction(request, response, user);
+  } else if (route.startsWith('filedelete')) {
+    fileDeleteAction(request, response, user);
+  } else {
+    uniSend(new SendObj(302), response);
+  }
+}
+
+
+// Additional functions
+
 function fileUploadAction (request, response, user) {
   let urlPath = '';
   getFormObj(request).then(
@@ -52,17 +66,17 @@ function fileUploadAction (request, response, user) {
   });
 }
 
-function fileDeleteAction (request, response) {
+function fileDeleteAction (request, response, user) {
   let urlPath = '';
   getFormObj(request).then(
     data => {
       urlPath = data.fields.urlPath;
       if (fileDelete(data.fields)) {
-        if (data.fields.section === 'cards') {
+        if (data.fields.section === 'cards' && user.role === 'teacher') {
           deleteFileFromCard(data.fields);
         } else if (data.fields.studentId && data.fields.studentId !== '') {
           deleteFileFromLessonFinished(data.fields.group, Number(data.fields.lessonId), Number(data.fields.studentId), data.fields.filePath);
-        } else {
+        } else if (user.role === 'teacher') {
           deleteFileFromLesson(data.fields.group, Number(data.fields.lessonId), data.fields.filePath);
         }
       }
@@ -75,4 +89,4 @@ function fileDeleteAction (request, response) {
 }
 
 
-module.exports = { fileUploadAction, fileDeleteAction };
+module.exports = fileController;

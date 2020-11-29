@@ -10,9 +10,9 @@
 // Required modules
 const path = require('path');
 const bcrypt = require('bcryptjs');
+const { cookie, uniSend, getFormObj, SendObj, Auth } = require('webapputils-ds');
 const locale = require('../lib/locale');
 const config = require('../models/model-config').getConfig();
-const { cookie, uniSend, getFormObj, SendObj, Auth } = require('webapputils-ds');
 const { initUsers, getPasswdObj, getUserDetails, updatePassword } = require('../models/model-user');
 const getNaviObj = require('../views/lib/getNaviObj');
 const setpasswordView = require('../views/setpassword-view');

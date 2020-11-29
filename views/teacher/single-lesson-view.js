@@ -29,7 +29,7 @@ function singleLessonView (teacher, urlPath) {
         <h2 class="d-flex justify-content-between"><span>${myLesson.lesson}: ${myLesson.chapter}</span><span>${group}</span></h2>
         <div class="d-flex justify-content-between">
           <span class="text-muted">${locale.lessons.amount[config.lang]} ${workdaysBetween(myLesson.validFrom, myLesson.validUntil, myLesson.weekdays)} ${locale.lessons.hours[config.lang]} (${moment(myLesson.validFrom).format('LL')} – ${moment(myLesson.validUntil).format('LL')})</span>
-          <a href="/edit/${group}/${myLesson.id}" class="btn btn-sm bg-grey ml-3">${locale.buttons.edit[config.lang]}</a>
+          <a href="/lessons/edit/${group}/${myLesson.id}" class="btn btn-sm bg-grey ml-3">${locale.buttons.edit[config.lang]}</a>
         </div>
         <hr />
         <div class="mb-3">

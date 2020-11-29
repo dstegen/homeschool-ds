@@ -65,7 +65,7 @@ function studentView (myLessons, myGroup, curWeek=thisWeek(), user={}, wsport) {
 // Additional functions
 
 function helperLessonsToday (lessonObj) {
-  return `<li><a href="/student/day">${lessonObj.lesson}: ${lessonObj.chapter}</a></li>`;
+  return `<li><a href="/lessons/day">${lessonObj.lesson}: ${lessonObj.chapter}</a></li>`;
 }
 
 function helperLessonsNotFinished (user) {
@@ -73,7 +73,7 @@ function helperLessonsNotFinished (user) {
   let lessonsNotFinishedToday = lessonsNotFinished(user);
   if (lessonsNotFinishedToday.length > 0) {
     lessonsNotFinishedToday.forEach( lessonObj => {
-      returnHtml += `<li><a href="/student/day">${lessonObj.lesson}: ${lessonObj.chapter} (${locale.student.return_date[config.lang]}: ${formatDay(thisDay(lessonObj.validUntil))})</a></li>`;
+      returnHtml += `<li><a href="/lessons/day">${lessonObj.lesson}: ${lessonObj.chapter} (${locale.student.return_date[config.lang]}: ${formatDay(thisDay(lessonObj.validUntil))})</a></li>`;
     });
     return `
       <p class="text-danger">

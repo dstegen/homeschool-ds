@@ -29,12 +29,12 @@ function getNaviObj (user) {
         loggedin: true,
         home: {
           name: 'HomeSchool-DS',
-          link: '/student'
+          link: '/'
         },
         menuItems: [
           {
             name: locale.headlines.navi_today[config.lang],
-            link: '/student/day',
+            link: '/lessons/day',
             dropdown: false
           },
           {
@@ -60,14 +60,14 @@ function getNaviObj (user) {
       lessonsDropdown = [
         {
           name: locale.headlines.navi_overview[config.lang],
-          link: '/teacher/lessons'
+          link: '/lessons'
         }
       ]
       for (let i=0; i<myGroup.length; i++) {
         lessonsDropdown.push(
           {
             name: '+ '+locale.headlines.navi_new_class[config.lang]+' '+myGroup[i],
-            link: '/edit/'+myGroup[i]
+            link: '/lessons/edit/'+myGroup[i]
           }
         )
       }
@@ -93,7 +93,7 @@ function getNaviObj (user) {
         loggedin: true,
         home: {
           name: 'HomeSchool-DS',
-          link: '/teacher'
+          link: '/'
         },
         menuItems: [
           {

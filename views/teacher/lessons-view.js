@@ -44,7 +44,7 @@ function displayLessons (group, courses) {
       </div>
       ${getLessons(group).map( item => helperLesson(item, group, courses)).join('')}
       <div class="d-flex justify-content-end p-2 mb-">
-        <a href="/edit/${group}" class="btn-sm btn-primary" data-toggle="tooltip" data-placement="left" title="${locale.buttons.add_lesson[config.lang]}"> + </a>
+        <a href="/lessons/edit/${group}" class="btn-sm btn-primary" data-toggle="tooltip" data-placement="left" title="${locale.buttons.add_lesson[config.lang]}"> + </a>
       </div>
     </div>
   `;
@@ -57,9 +57,9 @@ function helperLesson (item, group, courses) {
         <div class="d-flex justify-content-between">
           <div><strong>${item.lesson}</strong>: ${item.chapter} <span class="text-muted">(${moment(item.validFrom).format('LL')} – ${moment(item.validUntil).format('LL')})</span></div>
           <div class="d-flex justify-content-end">
-            <a href="/edit/${group}/${item.id}" class="btn btn-sm bg-grey ml-3 ${notValid(item.validUntil) ? 'd-none' : ''}">${locale.buttons.edit[config.lang]}</a>
+            <a href="/lessons/edit/${group}/${item.id}" class="btn btn-sm bg-grey ml-3 ${notValid(item.validUntil) ? 'd-none' : ''}">${locale.buttons.edit[config.lang]}</a>
             <a data-toggle="collapse" href="#lesson-homework-${group}-${item.id}" class="btn btn-sm btn-primary ml-3">${locale.buttons.homework[config.lang]}</a>
-            <a href="/teacher/lessons/${group}/${item.id}" class="btn btn-sm btn-secondary ml-3">${locale.buttons.details[config.lang]}</a>
+            <a href="/lessons/show/${group}/${item.id}" class="btn btn-sm btn-secondary ml-3">${locale.buttons.details[config.lang]}</a>
           </div>
         </div>
         <div class="collapse" id="lesson-homework-${group}-${item.id}" data-parent="#lessons">

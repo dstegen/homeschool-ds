@@ -42,7 +42,7 @@ function updateChatAction (request, response, wss) {
           }, 100);
         });
       } catch (e) {
-        console.log('- ERROR sending websocket message to all clients: '+e);
+        console.log('- ERROR while sending websocket message to all clients: '+e);
       }
       uniSend(new SendObj(302, [], '', '/communication'), response);
     }
@@ -63,7 +63,7 @@ function updatePrivateMessagesAction (request, response, wss) {
           }, 100);
         });
       } catch (e) {
-        console.log('- ERROR sending websocket message to all clients: '+e);
+        console.log('- ERROR while sending websocket message to all clients: '+e);
       }
       uniSend(new SendObj(302, [], '', '/communication'), response);
     }

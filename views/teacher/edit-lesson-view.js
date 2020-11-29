@@ -21,13 +21,13 @@ function editLessonView (itemObj, myGroup, user) {
   let body = `
       <div class="container h-100 border py-2 px-3 my-3">
         <h2>${locale.headlines.add_edit_lesson[config.lang]} ${myGroup}</h2>
-        <form id="edit-form-${myGroup}-${itemObj.id}" name="edit-form-${myGroup}-${itemObj.id}" action="/update" method="post">
+        <form id="edit-form-${myGroup}-${itemObj.id}" name="edit-form-${myGroup}-${itemObj.id}" action="/lessons/update" method="post">
           <input type="text" name="id" class="d-none" hidden value="${itemObj.id}" />
           <input type="text" name="group" class="d-none" hidden value="${myGroup}" />
           ${formInputs(itemObj, user.courses)}
           <div class="d-flex justify-content-end mb-3">
-            <button type="button" class="btn btn-danger ${itemObj.id === '' ? 'd-none' : ''}" onclick="confirmDelete(this.form.name, \'/delete\')">${locale.buttons.delete[config.lang]}</button>
-            <button type="button" class="btn btn-info ml-3" onclick="window.open('/teacher/lessons', '_top', '');">${locale.buttons.cancle[config.lang]}</a>
+            <button type="button" class="btn btn-danger ${itemObj.id === '' ? 'd-none' : ''}" onclick="confirmDelete(this.form.name, \'/lessons/delete\')">${locale.buttons.delete[config.lang]}</button>
+            <button type="button" class="btn btn-info ml-3" onclick="window.open('/lessons', '_top', '');">${locale.buttons.cancle[config.lang]}</a>
             <button type="submit" class="btn btn-primary ml-3">${locale.buttons.add_update[config.lang]}</button>
           </div>
         </form>
@@ -36,12 +36,12 @@ function editLessonView (itemObj, myGroup, user) {
         <h4>${locale.headlines.th_uploads[config.lang]}:</h4>
         <div class="row">
           <div class="col-sm-8 offset-lg-2">
-            ${itemObj.files ? filesList(itemObj.files, '/edit/'+myGroup+'/'+itemObj.id, myGroup, '', itemObj.id, '', true) : ''}
+            ${itemObj.files ? filesList(itemObj.files, '/lessons/edit/'+myGroup+'/'+itemObj.id, myGroup, '', itemObj.id, '', true) : ''}
             <form class="row my-3 py-2 mx-0 align-item-center" action="/fileupload" method="post" enctype="multipart/form-data">
               <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">
               <input type="text" readonly class="d-none" id="course" name="course" value="${itemObj.lesson}">
               <input type="text" readonly class="d-none" id="course" name="courseId" value="${itemObj.id}">
-              <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/edit/${myGroup}/${itemObj.id}">
+              <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/lessons/edit/${myGroup}/${itemObj.id}">
               <div class="custom-file col-sm-10">
                 <input type="file" class="custom-file-input" id="filetoupload-${itemObj.id}" name="filetoupload">
                 <label class="custom-file-label" for="filetoupload-${itemObj.id}">${locale.placeholder.choose_file[config.lang]}...</label>

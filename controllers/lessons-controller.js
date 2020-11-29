@@ -9,19 +9,62 @@
 
 // Required modules
 const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
+const { thisDay } = require('../lib/dateJuggler');
 const { getLessons, updateLesson, deleteLesson, finishLesson } = require('../models/model-lessons');
 const getNaviObj = require('../views/lib/getNaviObj');
+const studentDayView = require('../views/student/day-view');
+const teacherLessonsView = require('../views/teacher/lessons-view');
+const teacherSingleLessonView = require('../views/teacher/single-lesson-view');
 const editLessonView = require('../views/teacher/edit-lesson-view');
 const view = require('../views/view');
 
+let myGroup = '';
+let myLessons = [];
 
-function editLessonAction (request, response, wss, user) {
+
+function lessonsController (request, response, user) {
+  let route = request.url.substr(1).split('?')[0];
+  let naviObj = getNaviObj(user);
+  let curDay = thisDay();
+  if (user.role === 'student') {
+    myGroup = user.group;
+    myLessons = getLessons(myGroup);
+    if (route.startsWith('lessons/day')) {
+      if (Number.isInteger(Number(route.split('/')[2]))) {
+        curDay = Number(route.split('/')[2]);
+      }
+      uniSend(view('', naviObj, studentDayView(myLessons, myGroup, curDay, user)), response);
+    } else if (route === 'lessons/lessonfinished') {
+      finishLessonAction(request, response);
+    }
+  } else if (user.role === 'teacher') {
+    myGroup = route.split('/')[2];
+    if (route === 'lessons') {
+      uniSend(view('', naviObj, teacherLessonsView(user)), response);
+    } else if (route.startsWith('lessons/show')) {
+      uniSend(view('', naviObj, teacherSingleLessonView(user, route)), response);
+    } else if (route.startsWith('lessons/edit')) {
+      editLessonAction(request, response, user);
+    } else if (route.startsWith('lessons/update')) {
+      updateLessonAction(request, response);
+    } else if (route.startsWith('lessons/delete')) {
+      deleteLessonAction(request, response);
+    }
+  } else {
+    uniSend(new SendObj(302), response);
+  }
+}
+
+
+// Additional functions
+
+function editLessonAction (request, response, user) {
   let itemObj = {};
-  if (request.url.split('/')[2] != undefined) {
-    let myGroup = request.url.split('/')[2];
+  if (request.url.split('/')[3] != undefined) {
+    let myGroup = request.url.split('/')[3];
     let myLessons = getLessons(myGroup);
-    if (request.url.split('/')[3] != undefined && Number.isInteger(Number(request.url.split('/')[3]))) {
-      itemObj = myLessons.filter( item => item.id === Number(request.url.split('/')[3]))[0];
+    if (request.url.split('/')[4] != undefined && Number.isInteger(Number(request.url.split('/')[4]))) {
+      itemObj = myLessons.filter( item => item.id === Number(request.url.split('/')[4]))[0];
     } else {
       Object.keys(myLessons[0]).forEach( key => {
         itemObj[key] = '';
@@ -70,4 +113,4 @@ function finishLessonAction (request, response) {
 }
 
 
-module.exports = { editLessonAction, updateLessonAction, deleteLessonAction, finishLessonAction };
+module.exports = lessonsController;
