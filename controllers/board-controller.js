@@ -10,6 +10,33 @@
 // Required modules
 const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
 const { updateTopic, updateCard, deleteFromBoard } = require('../models/model-board');
+const getNaviObj = require('../views/lib/getNaviObj');
+const boardView = require('../views/board/view');
+const view = require('../views/view');
+
+let myGroup = '';
+
+
+function boardController (request, response, user) {
+  let route = request.url.substr(1).split('?')[0];
+  let naviObj = getNaviObj(user);
+  if (user.role === 'student') {
+    myGroup = user.group;
+    uniSend(view('', naviObj, boardView(myGroup)), response);
+  } else if (user.role === 'teacher') {
+    if (route.startsWith('board') && (route.includes('update') || route.includes('delete'))) {
+      updateBoard(request, response);
+    } else if (route.startsWith('board')) {
+      myGroup = route.split('/')[1];
+      uniSend(view('', naviObj, boardView(myGroup, 'teacher')), response);
+    }
+  } else {
+    uniSend(new SendObj(302), response);
+  }
+}
+
+
+// Additional functions
 
 function updateBoard (request, response) {
   getFormObj(request).then(
@@ -30,4 +57,4 @@ function updateBoard (request, response) {
 }
 
 
-module.exports = { updateBoard };
+module.exports = boardController;

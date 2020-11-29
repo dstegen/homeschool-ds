@@ -16,7 +16,6 @@ const getNaviObj = require('../views/lib/getNaviObj');
 const studentView = require('../views/student/view');
 const studentDayView = require('../views/student/day-view');
 const timetableView = require('../views/timetable-view');
-const boardView = require('../views/board/view');
 const view = require('../views/view');
 
 let myGroup = '';
@@ -40,8 +39,6 @@ function studentController (request, response, wss, wsport, user) {
     uniSend(view(wsport, naviObj, studentDayView(myLessons, myGroup, curDay, user)), response);
   } else if (route.startsWith('timetable')) {
     uniSend(view(wsport, naviObj, timetableView(myLessons, myGroup, curWeek)), response);
-  } else if (route.startsWith('board')) {
-    uniSend(view(wsport, naviObj, boardView(myGroup)), response);
   } else if (route === 'student/lessonfinished') {
     finishLessonAction(request, response);
   } else {

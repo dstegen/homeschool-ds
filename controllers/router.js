@@ -14,6 +14,7 @@ const studentController = require('./student-controller');
 const teacherController = require('./teacher-controller');
 const adminController = require('./admin-controller');
 const communicationController = require('./communication-controller');
+const boardController = require('./board-controller');
 const { fileUploadAction, fileDeleteAction } = require('./file-controller');
 const loginView = require('../views/login-view');
 
@@ -30,6 +31,8 @@ function router (request, response, wss, wsport) {
     let user = userDetails(request);
     if (route.startsWith('communication')) {
       communicationController(request, response, wss, wsport, user)
+    } else if (route.startsWith('board')) {
+      boardController(request, response, user);
     } else if (request.url.startsWith('/fileupload')) {
       fileUploadAction(request, response, user);
     } else if (request.url.startsWith('/filedelete')) {

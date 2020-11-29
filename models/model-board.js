@@ -61,7 +61,7 @@ function updateTopic (fields) {
     tmpBoard.topics.push(newTopic);
   }
   saveFile(path.join(__dirname, '../data/classes', fields.group), 'board.json', tmpBoard);
-  console.log('+ Added/updated group board topic successfully!');
+  console.log('+ Updated/added group board topic successfully!');
 }
 
 function updateCard (fields, files) {
@@ -86,7 +86,7 @@ function updateCard (fields, files) {
     tmpBoard.cards.push(newCard);
   }
   saveFile(path.join(__dirname, '../data/classes', fields.group), 'board.json', tmpBoard);
-  console.log('+ Added/updated group board card successfully!');
+  console.log('+ Updated/added group board card successfully!');
 }
 
 function deleteFromBoard (fields) {
