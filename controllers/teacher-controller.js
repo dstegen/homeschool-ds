@@ -9,27 +9,19 @@
 
 // Required modules
 const { uniSend } = require('webapputils-ds');
-const { thisWeek } = require('../lib/dateJuggler');
-const { getLessons } = require('../models/model-lessons');
 const { editLessonAction, updateLessonAction, deleteLessonAction } = require('./lessons-controller');
 const getNaviObj = require('../views/lib/getNaviObj');
 const teacherView = require('../views/teacher/view');
 const teacherLessonsView = require('../views/teacher/lessons-view');
 const teacherClassesView = require('../views/teacher/classes-view');
 const teacherSingleLessonView = require('../views/teacher/single-lesson-view');
-const timetableView = require('../views/timetable-view');
 const view = require('../views/view');
 
 let myGroup = '';
-let myLessons = [];
 
 
 function teacherController (request, response, wss, wsport, user) {
   let route = request.url.substr(1).split('?')[0];
-  let curWeek = thisWeek();
-  if (route.split('/')[0] === 'timetable' && Number.isInteger(Number(route.split('/')[2]))) {
-    curWeek = Number(route.split('/')[2]);
-  }
   let naviObj = getNaviObj(user);
   if (route.startsWith('teacher/classes')) {
     myGroup = route.split('/')[2];
@@ -44,10 +36,6 @@ function teacherController (request, response, wss, wsport, user) {
     updateLessonAction(request, response, wss);
   } else if (route.startsWith('delete')) {
     deleteLessonAction(request, response, wss);
-  } else if (route.startsWith('timetable')) {
-    myGroup = route.split('/')[1];
-    myLessons = getLessons(myGroup);
-    uniSend(view(wsport, naviObj, timetableView(myLessons, myGroup, curWeek)), response);
   } else {
     uniSend(view(wsport, naviObj, teacherView(user, wsport)), response);
   }

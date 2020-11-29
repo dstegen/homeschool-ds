@@ -15,7 +15,6 @@ const { finishLessonAction } = require('./lessons-controller');
 const getNaviObj = require('../views/lib/getNaviObj');
 const studentView = require('../views/student/view');
 const studentDayView = require('../views/student/day-view');
-const timetableView = require('../views/timetable-view');
 const view = require('../views/view');
 
 let myGroup = '';
@@ -26,9 +25,6 @@ function studentController (request, response, wss, wsport, user) {
   let route = request.url.substr(1).split('?')[0];
   let curWeek = thisWeek();
   let curDay = thisDay();
-  if (route.split('/')[0] === 'timetable' && Number.isInteger(Number(route.split('/')[2]))) {
-    curWeek = Number(route.split('/')[2]);
-  }
   if (route.split('/')[1] === 'day' && Number.isInteger(Number(route.split('/')[2]))) {
     curDay = Number(route.split('/')[2]);
   }
@@ -37,8 +33,6 @@ function studentController (request, response, wss, wsport, user) {
   myLessons = getLessons(myGroup);
   if (route.split('/')[1] === 'day') {
     uniSend(view(wsport, naviObj, studentDayView(myLessons, myGroup, curDay, user)), response);
-  } else if (route.startsWith('timetable')) {
-    uniSend(view(wsport, naviObj, timetableView(myLessons, myGroup, curWeek)), response);
   } else if (route === 'student/lessonfinished') {
     finishLessonAction(request, response);
   } else {
