@@ -11,7 +11,7 @@
 const { uniSend } = require('webapputils-ds');
 const { thisWeek, thisDay } = require('../lib/dateJuggler');
 const { getLessons } = require('../models/model-lessons');
-const finishLessonAction = require('./lessons-controller');
+const { finishLessonAction } = require('./lessons-controller');
 const getNaviObj = require('../views/lib/getNaviObj');
 const studentView = require('../views/student/view');
 const studentDayView = require('../views/student/day-view');
