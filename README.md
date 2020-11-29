@@ -8,6 +8,8 @@ A simple HomeSchool server for teachers and students to have a better overview o
 - Teachers can setup lessons, provide download material and receive returned homework uploads from the students.
 - Students get a weekly and daily overview of what to do, can finish a lesson by clicking a button and can upload homework.
 - HomeSchool-DS includes a basic class/group-chat, as well as a private message from teachers to students and students to teachers.
+- It also includes a group board for additional informations or alternative display of lessons
+
 
 ## Installation ##
 
@@ -38,7 +40,7 @@ A simple HomeSchool server for teachers and students to have a better overview o
 #### v0.3.6 ####
 - major refactored router+controller
 - introduced separate controllers
-- improved routing and url-workflows 
+- improved routing and url-workflows
 - refactored boards
 - refactored file up-/download & delete
 

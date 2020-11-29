@@ -1,6 +1,6 @@
 {
   "name": "homeschool-ds",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "simple homeschool web app",
   "main": "index.js",
   "directories": {
