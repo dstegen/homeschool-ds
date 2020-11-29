@@ -13,7 +13,7 @@ const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
 const { updateLesson, finishLesson, deleteFileFromLesson, deleteFileFromLessonFinished } = require('../models/model-lessons');
 const fileUpload = require('../lib/file-upload');
 const fileDelete = require('../lib/file-delete');
-const deleteFileFromCard = require('../models/model-board');
+const { deleteFileFromCard } = require('../models/model-board');
 
 
 function fileUploadAction (request, response, user) {

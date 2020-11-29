@@ -12,6 +12,7 @@ const { uniSend } = require('webapputils-ds');
 const { thisWeek } = require('../lib/dateJuggler');
 const { getLessons } = require('../models/model-lessons');
 const { editLessonAction, updateLessonAction, deleteLessonAction } = require('./lessons-controller');
+const { updateBoard } = require('./board-controller');
 const getNaviObj = require('../views/lib/getNaviObj');
 const teacherView = require('../views/teacher/view');
 const teacherLessonsView = require('../views/teacher/lessons-view');
@@ -49,6 +50,8 @@ function teacherController (request, response, wss, wsport, user) {
     myGroup = route.split('/')[1];
     myLessons = getLessons(myGroup);
     uniSend(view(wsport, naviObj, timetableView(myLessons, myGroup, curWeek)), response);
+  } else if (route.startsWith('board') && (route.includes('update') || route.includes('delete'))) {
+    updateBoard(request, response);
   } else if (route.startsWith('board')) {
     myGroup = route.split('/')[1];
     uniSend(view(wsport, naviObj, boardView(myGroup, 'teacher')), response);
