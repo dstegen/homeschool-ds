@@ -34,7 +34,7 @@ function boardColumnForm (group, myTopic) {
       autofillWith: ''
     }
     addButton = `
-      <div class="px-3 py-2 border bg-primary text-light text-center" style="width: 200px; overflow: hidden; cursor: pointer;" data-toggle="collapse" data-target="#addColumnForm-null">
+      <div class="px-3 py-2 border bg-primary text-light text-center board-header" data-toggle="collapse" data-target="#addColumnForm-null">
         <strong>+ ${locale.buttons.add_column[config.lang]}</strong>
       </div>
     `;
@@ -43,7 +43,7 @@ function boardColumnForm (group, myTopic) {
   return `
     <div>
       ${addButton}
-      <div id="addColumnForm-${myTopic.id}" class="collapse px-3 py-2 border bg-light" style="width: 200px; overflow: hidden;">
+      <div id="addColumnForm-${myTopic.id}" class="collapse px-3 py-2 border bg-light board-card">
         <form id="edit-column-form-${myTopic.id}" name="edit-column-form-${myTopic.id}" action="/board/${group}/update" method="post">
           <input type="text" name="id" class="d-none" hidden value="${myTopic.id}" />
           <input type="text" name="group" class="d-none" hidden value="${group}" />

@@ -282,3 +282,28 @@ input.form-control.board-form {
   font-size: 66%;
   color: #6c757d;
 }
+
+.board-bg {
+  background: url('/public/autumnleaves_light_ds.jpg');
+}
+
+.board-frame {
+  overflow-x: scroll;
+  min-height: 75vH;
+}
+
+.board-column {
+  width: 220px;
+  overflow: hidden;
+}
+
+.board-card {
+  width: 220px;
+  overflow: hidden;
+}
+
+.board-header {
+  width: 220px;
+  overflow: hidden;
+  cursor: pointer;
+}

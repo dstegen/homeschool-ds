@@ -24,7 +24,7 @@ function boardColumn (myTopic, myBoard, group, role) {
   }
   return `
     <div class="mr-3">
-      <h5 class="px-3 py-2 border mb-0 bg-light d-flex justify-content-between" style="width: 200px; overflow: hidden;">
+      <h5 class="px-3 py-2 border mb-0 bg-light d-flex justify-content-between board-column">
         ${myTopic.topic}
         ${role === 'teacher' ? helperEditColumnButton(myTopic.id) : ''}
       </h5>

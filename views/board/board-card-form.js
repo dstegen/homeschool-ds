@@ -34,14 +34,14 @@ function boardCardForm (group, myTopicId, myCard) {
     }
     delButton = '';
     addButton = `
-      <div class="px-3 py-2 border mt-2 text-muted bg-light text-center" style="width: 200px; overflow: hidden; cursor: pointer;" data-toggle="collapse" data-target="#addCardForm-${myTopicId}-${myCard.id}">
+      <div class="px-3 py-2 border mt-2 text-muted bg-light text-center board-header" data-toggle="collapse" data-target="#addCardForm-${myTopicId}-${myCard.id}">
         <strong>+</strong>
       </div>
     `;
   }
   return `
     ${addButton}
-    <div id="addCardForm-${myTopicId}-${myCard.id}" class="collapse px-3 py-2 border bg-light" style="width: 200px; overflow: hidden;">
+    <div id="addCardForm-${myTopicId}-${myCard.id}" class="collapse px-3 py-2 border bg-light board-card">
       <form id="edit-column-form-${group}-${myCard.id}" name="edit-column-form-${group}-${myCard.id}" action="/board/${group}/update" method="post" enctype="multipart/form-data">
         <input type="text" name="group" class="d-none" hidden value="${group}" />
         <input type="text" name="id" class="d-none" hidden value="${myCard.id}" />

@@ -46,7 +46,7 @@ function boardCard (card, myTopic, role, group) {
   }
   if (card.chapter != '') {
       returnHtml += `
-        <div class="border mt-2 bg-light" style="width: 200px; overflow: hidden;">
+        <div class="border mt-2 bg-light board-card">
           <div class="py-2 px-3 h-100 w-100 d-flex justify-content-between ${topicColor}">
             <strong>${card.chapter}</strong>
             ${role === 'teacher' && myTopic.autofill !== true ? helperEditCardButton(myTopic, card.id) : ''}
