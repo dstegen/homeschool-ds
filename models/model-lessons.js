@@ -95,13 +95,22 @@ function deleteFileFromLessonFinished (group, lessonId, studentId, fileName) {
 function finishLesson (fields) {
   let myLessons = getLessons(fields.group);
   let tmpList = myLessons.filter( item => item.id === Number(fields.courseId))[0].lessonFinished;
-  let tmpObj = { studentId: Number(fields.studentId), files: []}
-  if (tmpList.map( item => { return item.studentId } ).includes(fields.studentId)) {
+  let tmpObj = { studentId: Number(fields.studentId), files: [], finished: false, timeStamp: ''}
+  if (tmpList.filter( item => item.studentId === fields.studentId).length === 1) {
     // add file only
     tmpList.filter( item => item.studentId === fields.studentId )[0].files.push(fields.file);
-  } else {
+    tmpList.filter( item => item.studentId === fields.studentId )[0].timeStamp = new Date();
+    // finish lesson
+    if (fields.finished === 'true') {
+      tmpList.filter( item => item.studentId === fields.studentId )[0].finished = true;
+    }
+   } else {
     if (fields.file && fields.file !== '') {
       tmpObj.files.push(fields.file);
+      tmpObj.timeStamp = new Date();
+    } else if (fields.finished === 'true') {
+      tmpObj.finished = true;
+      tmpObj.timeStamp = new Date();
     }
     tmpList.push(tmpObj);
   }
@@ -115,7 +124,7 @@ function lessonsToday (myGroup, curWeekDay, curWeek) {
 }
 
 function lessonsNotFinished (user, inDay) {
-  return getLessons(user.group).filter( lesson => (!lesson.lessonFinished.map( item => { return item.studentId } ).includes(user.id) && notValid(lesson.validUntil, inDay)));
+  return getLessons(user.group).filter( lesson => ((!lesson.lessonFinished.map( item => { return item.studentId } ).includes(user.id) || lesson.lessonFinished.filter( item => (item.id === user.id && item.finished === false)))&& notValid(lesson.validUntil, inDay)));
 }
 
 

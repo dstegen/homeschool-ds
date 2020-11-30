@@ -106,7 +106,7 @@ function helperUpload (myGroup, lessonObj, studentId, curDay, lessonColor) {
 }
 
 function helperFinishButton (myGroup, lessonObj, studentId, curDay) {
-  if (lessonObj.lessonFinished.map( item => { return item.studentId } ).includes(studentId)) {
+  if (lessonObj.lessonFinished.filter( item => item.finished === true).map( item => { return item.studentId } ).includes(studentId)) {
     return '';
   } else {
     return `
@@ -115,6 +115,7 @@ function helperFinishButton (myGroup, lessonObj, studentId, curDay) {
         <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">
         <input type="text" readonly class="d-none" id="courseId" name="courseId" value="${lessonObj.id}">
         <input type="text" readonly class="d-none" id="studentId" name="studentId" value="${studentId}">
+        <input type="text" readonly class="d-none" id="finished" name="finished" value="true">
         <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/lessons/day/${curDay}">
         <button type="submit" class="btn btn-success">${locale.buttons.finish_lesson[config.lang]}</button>
       </form>
@@ -123,7 +124,7 @@ function helperFinishButton (myGroup, lessonObj, studentId, curDay) {
 }
 
 function lessonIndicator (myGroup, lessonObj, studentId, curDay) {
-  if (lessonObj.lessonFinished.map( item => { return item.studentId } ).includes(studentId)) {
+  if (lessonObj.lessonFinished.filter( item => item.finished === true).map( item => { return item.studentId } ).includes(studentId)) {
     return '<span class="checkmark-ok-grey">&#10003;</span>';
   } else if (notValid(lessonObj.validUntil, momentFromDay(curDay))) {
     return `${locale.student.return_date[config.lang]}: ${formatDay(thisDay(lessonObj.validUntil))}`;

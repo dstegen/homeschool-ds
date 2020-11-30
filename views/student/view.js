@@ -10,7 +10,7 @@
 // Required modules
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
-const { thisWeek, thisDay, weekDayNumber, formatDay } = require('../../lib/dateJuggler');
+const { thisWeek, thisDay, weekDayNumber, formatDay, momentFromDay } = require('../../lib/dateJuggler');
 const { lessonsToday, lessonsNotFinished } = require('../../models/model-lessons');
 const { usersOnline } = require('../../models/model-user');
 const classChat = require('../templates/chat');
@@ -70,7 +70,7 @@ function helperLessonsToday (lessonObj) {
 
 function helperLessonsNotFinished (user) {
   let returnHtml = '';
-  let lessonsNotFinishedToday = lessonsNotFinished(user);
+  let lessonsNotFinishedToday = lessonsNotFinished(user, momentFromDay(thisDay()));
   if (lessonsNotFinishedToday.length > 0) {
     lessonsNotFinishedToday.forEach( lessonObj => {
       returnHtml += `<li><a href="/lessons/day">${lessonObj.lesson}: ${lessonObj.chapter} (${locale.student.return_date[config.lang]}: ${formatDay(thisDay(lessonObj.validUntil))})</a></li>`;
