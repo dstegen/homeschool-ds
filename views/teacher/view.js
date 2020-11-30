@@ -8,13 +8,12 @@
 'use strict';
 
 // Required modules
-const path = require('path');
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
 const { formatDay, dateIsRecent, getDaytime } = require('../../lib/dateJuggler');
 const { getAllUsers, usersOnline, getUserById, getTitleNameById } = require('../../models/model-user');
 const { getLatestMessages } = require('../../models/model-messages');
-const getRER = require('../../lib/getRecentExerciseReturns');
+const { returnedHomework } = require('../../models/model-lessons');
 const classChat = require('../templates/chat');
 
 const lang = config.lang;
@@ -85,7 +84,7 @@ function returnedExercises (allGroups, courses) {
   let returnHtml = '';
   allGroups.forEach( group => {
     try {
-      let recentHomeworkList = getRER(group, courses).filter( item => dateIsRecent(item.birthtime, 5));
+      let recentHomeworkList = returnedHomework(group, courses).filter( item => dateIsRecent(item.birthtime, 5));
       if (recentHomeworkList.length > 0) {
         returnHtml += `<h5>${locale.headlines.class[lang]} ${group}:</h5><ul>`;
         returnHtml += recentHomeworkList.map( item => helperListitem(item, group)).join('');
@@ -100,10 +99,9 @@ function returnedExercises (allGroups, courses) {
 
 function helperListitem (item, group) {
   if (item.files.length > 0) {
-    let filePath = path.join(group, 'courses', item.course, item.lessonId, 'homework', item.studentId);
     let curStudent = getAllUsers(group).filter( user => user.id === Number(item.studentId)).map( user => { return user.fname+' '+user.lname} );
     return `
-      <li><a href="/lessons/show/${group}/${item.lessonId}" class="orange">${item.course} (${item.lessonId})</a> : <a href="${path.join('/data/classes/', filePath, item.files[0])}" class="orange" target="_blank">${item.files[0]} (${curStudent})</a></li>
+      <li><a href="/lessons/show/${group}/${item.lessonId}" class="orange">${item.course} (${item.lessonId})</a> : <a href="${item.files[0]}" class="orange" target="_blank">${item.files[0].split('/').pop()} (${curStudent})</a></li>
     `;
   } else {
     return '';

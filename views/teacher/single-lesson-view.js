@@ -92,7 +92,7 @@ function userUploads (group, myLesson, studentId) {
 }
 
 function lessonStatus (myLesson, studentId) {
-  if (myLesson.lessonFinished.map( item => { return item.studentId } ).includes(studentId)) {
+  if (myLesson.lessonFinished.filter( item => item.finished === true).map( item => { return item.studentId } ).includes(studentId)) {
     return `<span class="checkmark-ok">&#10003;</span>`;
   } else {
     return `<span class="checkmark-missing">X</span>`;

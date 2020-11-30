@@ -96,15 +96,14 @@ function finishLesson (fields) {
   let myLessons = getLessons(fields.group);
   let tmpList = myLessons.filter( item => item.id === Number(fields.courseId))[0].lessonFinished;
   let tmpObj = { studentId: Number(fields.studentId), files: [], finished: false, timeStamp: ''}
-  if (tmpList.filter( item => item.studentId === fields.studentId).length === 1) {
-    // add file only
-    tmpList.filter( item => item.studentId === fields.studentId )[0].files.push(fields.file);
-    tmpList.filter( item => item.studentId === fields.studentId )[0].timeStamp = new Date();
-    // finish lesson
+  if (tmpList.filter( item => item.studentId === Number(fields.studentId)).length === 1) {
     if (fields.finished === 'true') {
-      tmpList.filter( item => item.studentId === fields.studentId )[0].finished = true;
+      tmpList.filter( item => item.studentId === Number(fields.studentId) )[0].finished = true;
+    } else {
+      tmpList.filter( item => item.studentId === Number(fields.studentId) )[0].files.push(fields.file);
+      tmpList.filter( item => item.studentId === Number(fields.studentId) )[0].timeStamp = new Date();
     }
-   } else {
+  } else {
     if (fields.file && fields.file !== '') {
       tmpObj.files.push(fields.file);
       tmpObj.timeStamp = new Date();
@@ -124,9 +123,30 @@ function lessonsToday (myGroup, curWeekDay, curWeek) {
 }
 
 function lessonsNotFinished (user, inDay) {
-  return getLessons(user.group).filter( lesson => ((!lesson.lessonFinished.map( item => { return item.studentId } ).includes(user.id) || lesson.lessonFinished.filter( item => (item.id === user.id && item.finished === false)))&& notValid(lesson.validUntil, inDay)));
+  return getLessons(user.group).filter( lesson => ((!lesson.lessonFinished.map( item => { return item.studentId } ).includes(user.id) || lesson.lessonFinished.filter( item => (item.studentId === user.id && item.finished === false)).length > 0) && notValid(lesson.validUntil, inDay)));
 }
 
+function returnedHomework (myGroup, courses=['all']) {
+  let returnsList = [];
+  let myLessons = getLessons(myGroup).filter( item => item.lessonFinished.length > 0);
+  if (courses[0] !== 'all') {
+    myLessons = myLessons.filter( item => courses.includes(item.lesson));
+  }
+  myLessons.forEach( lesson => {
+    lesson.lessonFinished.forEach( item => {
+      if (item.files.length > 0) {
+        returnsList.push({
+          studentId: item.studentId,
+          course: lesson.lesson,
+          lessonId: lesson.id,
+          files: item.files,
+          birthtime: item.timeStamp
+        })
+      }
+    });
+  });
+  return returnsList;
+}
 
 // Additional functions
 
@@ -135,4 +155,4 @@ function getNewId (lessons) {
 }
 
 
-module.exports = { getLessons, updateLesson, deleteLesson, finishLesson, lessonsToday, lessonsNotFinished, deleteFileFromLesson, deleteFileFromLessonFinished };
+module.exports = { getLessons, updateLesson, deleteLesson, finishLesson, lessonsToday, lessonsNotFinished, deleteFileFromLesson, deleteFileFromLessonFinished, returnedHomework };

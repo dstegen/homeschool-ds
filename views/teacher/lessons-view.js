@@ -8,14 +8,12 @@
 'use strict';
 
 // Required modules
-const path = require('path');
 const moment = require('moment');
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
 const { notValid } = require('../../lib/dateJuggler');
 const { getAllUsers } = require('../../models/model-user');
-const { getLessons } = require('../../models/model-lessons');
-const getRER = require('../../lib/getRecentExerciseReturns');
+const { getLessons, returnedHomework } = require('../../models/model-lessons');
 
 
 function lessonsView (teacher) {
@@ -66,7 +64,7 @@ function helperLesson (item, group, courses) {
           <hr />
           <strong>${locale.headlines.returned_homework[config.lang]}:</strong>
           <ul>
-            ${getRER(group, [item.lesson]).filter( file => Number(file.lessonId) === Number(item.id) ).map( lesson => helperListitem(lesson, group)).join('')}
+            ${returnedHomework(group, [item.lesson]).filter( file => Number(file.lessonId) === Number(item.id) ).map( lesson => helperListitem(lesson, group)).join('')}
           </ul>
         </div>
       </div>
@@ -78,10 +76,9 @@ function helperLesson (item, group, courses) {
 
 function helperListitem (item, group) {
   if (item.files.length > 0) {
-    let filePath = path.join(group, 'courses', item.course, item.lessonId, 'homework', item.studentId);
     let curStudent = getAllUsers(group).filter( user => user.id === Number(item.studentId)).map( user => { return user.fname+' '+user.lname} );
     return `
-      <li><div class="d-flex justify-content-between text-truncate"><a href="${path.join('/data/classes/', filePath, item.files[0])}" target="_blank">${curStudent}: ${item.files[item.files.length-1]}</a></li>
+      <li><div class="d-flex justify-content-between text-truncate"><a href="${item.files[0]}" target="_blank">${curStudent}: ${item.files[0].split('/').pop()}</a></li>
     `;
   } else {
     return '';
