@@ -18,8 +18,8 @@ const view = require('../views/view');
 function teacherController (request, response, wss, wsport, user) {
   let route = request.url.substr(1).split('?')[0];
   let naviObj = getNaviObj(user);
-  if (route.startsWith('teacher/classes')) {
-    let myGroup = route.split('/')[2];
+  if (route.startsWith('classes')) {
+    let myGroup = route.split('/')[1];
     uniSend(view(wsport, naviObj, teacherClassesView(user, myGroup, wsport)), response);
   } else {
     uniSend(view(wsport, naviObj, teacherView(user, wsport)), response);

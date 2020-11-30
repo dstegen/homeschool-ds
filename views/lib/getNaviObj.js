@@ -75,7 +75,7 @@ function getNaviObj (user) {
         classesDropdown.push(
           {
             name: locale.headlines.class[config.lang]+' '+myGroup[i],
-            link: '/teacher/classes/'+myGroup[i]
+            link: '/classes/'+myGroup[i]
           }
         )
       }

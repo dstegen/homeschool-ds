@@ -85,7 +85,7 @@ function updateLessonAction (request, response) {
     error => {
       console.log('ERROR can\'t update/add: '+error.message);
   });
-  uniSend(new SendObj(302, [], '', '/teacher/lessons'), response);
+  uniSend(new SendObj(302, [], '', '/lessons'), response);
 }
 
 function deleteLessonAction (request, response) {
@@ -97,7 +97,7 @@ function deleteLessonAction (request, response) {
       error => {
         console.log('ERROR can\'t delete item: '+error.message);
     });
-    uniSend(new SendObj(302, [], '', '/teacher/lessons'), response);
+    uniSend(new SendObj(302, [], '', '/lessons'), response);
 }
 
 function finishLessonAction (request, response) {
