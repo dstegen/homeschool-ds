@@ -5,7 +5,7 @@
   "main": "index.js",
   "directories": {
     "controllers": "./controllers",
-    "data": "./data"
+    "data": "./data",
     "helper": "./helper",
     "lib": "./lib",
     "models": "./models",
