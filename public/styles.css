@@ -198,11 +198,6 @@ a.orange, a.orange:focus, a.orange:hover {
   background-color: var(--bg-input-disabled);
 }
 
-.ui-sortable-handle, .form-control-plaintext, .form-control {
-  color: var(--color);
-  background-color: var(--bg-color);
-}
-
 input.form-control {
   background-color: transparent;
   /*border: 1px solid #E3E3E3;*/
@@ -306,4 +301,8 @@ input.form-control.board-form {
   width: 220px;
   overflow: hidden;
   cursor: pointer;
+}
+
+.ui-sortable-placeholder {
+  min-width: 220px;
 }

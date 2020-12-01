@@ -19,7 +19,7 @@ function getBoard (group) {
   let returnBoard = {};
   returnBoard = loadFile(path.join(__dirname, '../data/classes', group, 'board.json'), false);
   if (returnBoard.topics !== undefined) {
-    return returnBoard;
+    return reOrderBoard(returnBoard);
   } else {
     return {
       topics: [
@@ -123,12 +123,38 @@ function deleteFileFromCard (fields) {
   saveFile(path.join(__dirname, '../data/classes', fields.group), 'board.json', tmpBoard);
 }
 
+function updateOrder (fields) {
+  let tmpBoard = getBoard(fields.group);
+  if (fields['newOrder[]'].length > 0) {
+    fields['newOrder[]'].forEach((id, i) => {
+      tmpBoard.topics.filter( item => item.id === Number(id))[0].order = i;
+    });
+  }
+  saveFile(path.join(__dirname, '../data/classes', fields.group), 'board.json', tmpBoard);
+  console.log('+ Changed order of board '+fields.group);
+}
+
 
 // Additional functions
+
+function reOrderBoard (inBoard) {
+  let tmpTopics = [];
+  try {
+    for (let i=0; i<inBoard.topics.length; i++) {
+      if (inBoard.topics.filter( item => item.order === i)[0] !== undefined) {
+        tmpTopics.push(inBoard.topics.filter( item => item.order === i)[0]);
+      }
+    }
+    inBoard.topics = tmpTopics;
+  } catch (e) {
+    console.log('- ERROR re-ording topics: '+e);
+  }
+  return inBoard;
+}
 
 function getNewId (cards) {
   return Math.max(...cards.map( item => item.id)) + 1;
 }
 
 
-module.exports = { getBoard, updateCard, updateTopic, deleteFromBoard, deleteFileFromCard };
+module.exports = { getBoard, updateCard, updateTopic, deleteFromBoard, deleteFileFromCard, updateOrder };

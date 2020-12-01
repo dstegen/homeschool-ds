@@ -20,6 +20,7 @@ function tail () {
       </div>
       <!-- jQuery first, then Bootstrap JS -->
         <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+        <script src="/node_modules/jquery-ui-dist/jquery-ui.min.js"></script>
         <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="/node_modules/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
       <!-- Other Scripts -->

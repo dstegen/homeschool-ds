@@ -15,7 +15,7 @@ const boardCardForm = require('./board-card-form');
 const boardColumnForm = require('./board-column-form');
 
 
-function boardColumn (myTopic, myBoard, group, role) {
+function boardColumn (myTopic, myBoard, group, role='student') {
   let cardsArray = [];
   if (myTopic.autofill === true) {
     cardsArray = getLessons(group).filter( item => item.lesson === myTopic.autofillWith && !notValid(item.validUntil));
@@ -23,7 +23,7 @@ function boardColumn (myTopic, myBoard, group, role) {
     cardsArray = myBoard.cards.filter( item => item.topicId === myTopic.id);
   }
   return `
-    <div class="mr-3">
+    <div id="topic-${myTopic.id}" class="mr-3 board-topic ${role === 'teacher' ? 'ui-sortable-handle' : ''}">
       <h5 class="px-3 py-2 border mb-0 bg-light d-flex justify-content-between board-column">
         ${myTopic.topic}
         ${role === 'teacher' ? helperEditColumnButton(myTopic.id) : ''}
