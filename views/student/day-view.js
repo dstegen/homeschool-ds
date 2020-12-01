@@ -83,7 +83,7 @@ function helperUpload (myGroup, lessonObj, studentId, curDay, lessonColor) {
       <hr />
       <strong class="card-title">${locale.student.uploads[config.lang]}:</strong>
       <div class="pl-3">
-        ${lessonObj.lessonFinished.filter( item => item.studentId = studentId).length > 0 ? filesList(lessonObj.lessonFinished.filter( item => item.studentId = studentId)[0].files, '/lessons/day/'+curDay, myGroup, studentId, lessonObj.id, lessonColor, true) : ''}
+        ${lessonObj.lessonFinished.filter( item => item.studentId === studentId).length > 0 ? filesList(lessonObj.lessonFinished.filter( item => item.studentId === studentId)[0].files, '/lessons/day/'+curDay, myGroup, studentId, lessonObj.id, lessonColor, true) : ''}
       </div>
       <form class="row my-3 p-2 mx-0 align-item-center" action="/fileupload" method="post" enctype="multipart/form-data">
         <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">
