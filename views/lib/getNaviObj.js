@@ -67,7 +67,7 @@ function getNaviObj (user) {
         lessonsDropdown.push(
           {
             name: '+ '+locale.headlines.navi_new_class[config.lang]+' '+myGroup[i],
-            link: '/lessons/edit/'+myGroup[i]
+            link: '/lessons/add/'+myGroup[i]
           }
         )
       }

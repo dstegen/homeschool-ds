@@ -1,5 +1,5 @@
 /*!
- * teacher/views/single-lesson-view.js
+ * views/lessons/teacher-lesson-view.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2020 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -17,9 +17,11 @@ const { getAllUsers } = require('../../models/model-user');
 const { getLessons } = require('../../models/model-lessons');
 const { workdaysBetween } = require('../../lib/dateJuggler');
 const filesList = require('../templates/files-list');
+const lessonForm = require('./lesson-form');
+const lessonUploadForm = require('./lesson-upload-form');
 
 
-function singleLessonView (teacher, urlPath) {
+function teacherLessonView (teacher, urlPath) {
   let group = urlPath.split('/')[2];
   let myLessonId = urlPath.split('/')[3];
   const myLesson = getLessons(group).filter( lesson => lesson.id === Number(myLessonId))[0];
@@ -29,15 +31,26 @@ function singleLessonView (teacher, urlPath) {
         <h2 class="d-flex justify-content-between"><span>${myLesson.lesson}: ${myLesson.chapter}</span><span>${group}</span></h2>
         <div class="d-flex justify-content-between">
           <span class="text-muted">${locale.lessons.amount[config.lang]} ${workdaysBetween(myLesson.validFrom, myLesson.validUntil, myLesson.weekdays)} ${locale.lessons.hours[config.lang]} (${moment(myLesson.validFrom).format('LL')} – ${moment(myLesson.validUntil).format('LL')})</span>
-          <a href="/lessons/edit/${group}/${myLesson.id}" class="btn btn-sm bg-grey ml-3">${locale.buttons.edit[config.lang]}</a>
+          <button type="button" class="btn btn-sm bg-grey ml-3" data-toggle="collapse" data-target="#lesson-form" onclick="javascript: $('#lesson-details').collapse('toggle')">${locale.buttons.edit[config.lang]}</button>
         </div>
         <hr />
-        <div class="mb-3">
-          <span class="details-box px-2 py-1">${myLesson.details}</span>
+        <div id="lesson-form" class="collapse">
+          ${lessonForm(myLesson, group, teacher)}
+          <hr />
+          ${lessonUploadForm(myLesson, group)}
         </div>
-        ${myLesson.files ? filesList(myLesson.files, urlPath, group, '', myLesson.id, '', false) : ''}
-        <div class="mt-5">
-          ${groupHomework(group, myLesson)}
+        <div id="lesson-details" class="collapse show">
+          <div class="row">
+            <div class=" col-12 col-md-6 mb-3">
+              <span class="details-box px-2 py-1">${myLesson.details}</span>
+            </div>
+            <div class="col-12 col-md-6">
+              ${myLesson.files ? filesList(myLesson.files, urlPath, group, '', myLesson.id, '', false) : ''}
+            </div>
+          </div>
+          <div class="mt-5">
+            ${groupHomework(group, myLesson)}
+          </div>
         </div>
       </div>
     `;
@@ -100,4 +113,4 @@ function lessonStatus (myLesson, studentId) {
 }
 
 
-module.exports = singleLessonView;
+module.exports = teacherLessonView;

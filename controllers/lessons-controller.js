@@ -12,10 +12,10 @@ const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
 const { thisDay } = require('../lib/dateJuggler');
 const { getLessons, updateLesson, deleteLesson, finishLesson } = require('../models/model-lessons');
 const getNaviObj = require('../views/lib/getNaviObj');
-const studentDayView = require('../views/student/day-view');
-const teacherLessonsView = require('../views/teacher/lessons-view');
-const teacherSingleLessonView = require('../views/teacher/single-lesson-view');
-const editLessonView = require('../views/teacher/edit-lesson-view');
+const studentDayView = require('../views/lessons/student-lesson-view');
+const teacherLessonsView = require('../views/lessons/all-lessons-view');
+const teacherSingleLessonView = require('../views/lessons/teacher-lesson-view');
+const addLessonView = require('../views/lessons/add-lesson-view');
 const view = require('../views/view');
 
 let myGroup = '';
@@ -43,8 +43,8 @@ function lessonsController (request, response, user) {
       uniSend(view('', naviObj, teacherLessonsView(user)), response);
     } else if (route.startsWith('lessons/show')) {
       uniSend(view('', naviObj, teacherSingleLessonView(user, route)), response);
-    } else if (route.startsWith('lessons/edit')) {
-      editLessonAction(request, response, user);
+    } else if (route.startsWith('lessons/add')) {
+      addLessonAction(request, response, user);
     } else if (route.startsWith('lessons/update')) {
       updateLessonAction(request, response);
     } else if (route.startsWith('lessons/delete')) {
@@ -58,7 +58,7 @@ function lessonsController (request, response, user) {
 
 // Additional functions
 
-function editLessonAction (request, response, user) {
+function addLessonAction (request, response, user) {
   let itemObj = {};
   if (request.url.split('/')[3] != undefined) {
     let myGroup = request.url.split('/')[3];
@@ -70,22 +70,25 @@ function editLessonAction (request, response, user) {
         itemObj[key] = '';
       });
     }
-    uniSend(view('', getNaviObj(user), editLessonView(itemObj, myGroup, user)),response);
+    uniSend(view('', getNaviObj(user), addLessonView(itemObj, myGroup, user)),response);
   } else {
     uniSend(new SendObj(302), response);
   }
 }
 
 function updateLessonAction (request, response) {
+  let urlPath = '/lessons';
   getFormObj(request).then(
     data => {
       updateLesson(data.fields);
+      if (data.fields.urlPath.split('/')[4] !== '') urlPath = data.fields.urlPath
+      uniSend(new SendObj(302, [], '', urlPath), response);
     }
   ).catch(
     error => {
       console.log('ERROR can\'t update/add: '+error.message);
+      uniSend(new SendObj(302, [], '', urlPath), response);
   });
-  uniSend(new SendObj(302, [], '', '/lessons'), response);
 }
 
 function deleteLessonAction (request, response) {

@@ -1,8 +1,8 @@
 /*!
- * student/views/day-view.js
+ * views/lessons/student-lesson-view.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2020 Daniel Stegen <info@danielstegen.de>
- * Licensed under MIT (https://github.com/dstegen/webapputils-ds/blob/master/LICENSE)
+ * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
  */
 
 'use strict';
@@ -17,7 +17,7 @@ const filesList = require('../templates/files-list');
 let lessonsConfig = {};
 
 
-function studentDayView (myLessons, myGroup, curDay=thisDay(), user) {
+function studentLessonView (myLessons, myGroup, curDay=thisDay(), user) {
   lessonsConfig = require(path.join('../../data/classes/', myGroup,'/config.json'));
   let myLessonsToday = lessonsToday(myGroup, weekDayNumber(curDay), thisWeek(momentFromDay(curDay)));
   return `
@@ -136,4 +136,4 @@ function lessonIndicator (myGroup, lessonObj, studentId, curDay) {
 }
 
 
-module.exports = studentDayView;
+module.exports = studentLessonView;

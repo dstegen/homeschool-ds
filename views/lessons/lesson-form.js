@@ -1,5 +1,5 @@
 /*!
- * example/views/edit-lesson-view.js
+ * views/lessons/lesson-form.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2020 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -12,50 +12,25 @@ const path = require('path');
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
 const { weekDay } = require('../../lib/dateJuggler');
-const filesList = require('../templates/files-list');
 let lessonsConfig = {};
 
 
-function editLessonView (itemObj, myGroup, user) {
+
+function lessonForm (itemObj, myGroup, user) {
   lessonsConfig = require(path.join('../../data/classes/', myGroup,'/config.json'));
-  let body = `
-      <div class="container h-100 border py-2 px-3 my-3">
-        <h2>${locale.headlines.add_edit_lesson[config.lang]} ${myGroup}</h2>
-        <form id="edit-form-${myGroup}-${itemObj.id}" name="edit-form-${myGroup}-${itemObj.id}" action="/lessons/update" method="post">
-          <input type="text" name="id" class="d-none" hidden value="${itemObj.id}" />
-          <input type="text" name="group" class="d-none" hidden value="${myGroup}" />
-          ${formInputs(itemObj, user.courses)}
-          <div class="d-flex justify-content-end mb-3">
-            <button type="button" class="btn btn-danger ${itemObj.id === '' ? 'd-none' : ''}" onclick="confirmDelete(this.form.name, \'/lessons/delete\')">${locale.buttons.delete[config.lang]}</button>
-            <button type="button" class="btn btn-info ml-3" onclick="window.open('/lessons', '_top', '');">${locale.buttons.cancle[config.lang]}</a>
-            <button type="submit" class="btn btn-primary ml-3">${locale.buttons.add_update[config.lang]}</button>
-          </div>
-        </form>
+  return `
+    <form id="edit-form-${myGroup}-${itemObj.id}" name="edit-form-${myGroup}-${itemObj.id}" action="/lessons/update" method="post">
+      <input type="text" name="id" class="d-none" hidden value="${itemObj.id}" />
+      <input type="text" id="group" name="group" class="d-none" hidden value="${myGroup}" />
+      <input type="text" class="d-none" hidden class="d-none" id="urlPath" name="urlPath" value="/lessons/show/${myGroup}/${itemObj.id}">
+      ${formInputs(itemObj, user.courses)}
+      <div class="d-flex justify-content-end mb-3">
+        <button type="button" class="btn btn-danger ${itemObj.id === '' ? 'd-none' : ''}" onclick="confirmDelete(this.form.name, \'/lessons/delete\')">${locale.buttons.delete[config.lang]}</button>
+        <button type="button" class="btn btn-info ml-3" data-toggle="collapse" data-target="#lesson-form" onclick="javascript: $('#lesson-details').collapse('toggle');">${locale.buttons.cancle[config.lang]}</a>
+        <button type="submit" class="btn btn-primary ml-3">${itemObj.id === '' ? locale.buttons.add[config.lang] : locale.buttons.update[config.lang]}</button>
       </div>
-      <div class="container h-100 border py-2 px-3 mb-3">
-        <h4>${locale.headlines.th_uploads[config.lang]}:</h4>
-        <div class="row">
-          <div class="col-sm-8 offset-lg-2">
-            ${itemObj.files ? filesList(itemObj.files, '/lessons/edit/'+myGroup+'/'+itemObj.id, myGroup, '', itemObj.id, '', true) : ''}
-            <form class="row my-3 py-2 mx-0 align-item-center" action="/fileupload" method="post" enctype="multipart/form-data">
-              <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">
-              <input type="text" readonly class="d-none" id="course" name="course" value="${itemObj.lesson}">
-              <input type="text" readonly class="d-none" id="course" name="courseId" value="${itemObj.id}">
-              <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/lessons/edit/${myGroup}/${itemObj.id}">
-              <div class="custom-file col-sm-10">
-                <input type="file" class="custom-file-input" id="filetoupload-${itemObj.id}" name="filetoupload">
-                <label class="custom-file-label" for="filetoupload-${itemObj.id}">${locale.placeholder.choose_file[config.lang]}...</label>
-                <div class="invalid-feedback">${locale.placeholder.invalid_feedback[config.lang]}</div>
-              </div>
-              <div class="col-sm-2 mt-2 mt-sm-0">
-                <button type="submit" class="btn btn-primary">${locale.buttons.upload[config.lang]}</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
+    </form>
   `;
-  return body;
 }
 
 
@@ -73,7 +48,7 @@ function formInputs (itemObj, courses) {
   let returnHtml = '';
   if (Object.keys(itemObj).length > 0) {
     Object.keys(itemObj).forEach( key => {
-      if (key !== 'id' && key !== 'lessonFinished' && key !== 'files') {
+      if (key !== 'id' && key !== 'lessonFinished' && key !== 'files' && key !== 'urlPath') {
         returnHtml += `<div class="form-group row mb-1">`;
         switch (fieldTypes[key]) {
           case 'checkbox':
@@ -150,4 +125,4 @@ function formInputs (itemObj, courses) {
 }
 
 
-module.exports = editLessonView;
+module.exports = lessonForm;

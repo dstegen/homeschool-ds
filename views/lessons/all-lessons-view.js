@@ -1,8 +1,8 @@
 /*!
- * teacher/views/lessons-view.js
+ * views/lessons/all-lessons-view.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2020 Daniel Stegen <info@danielstegen.de>
- * Licensed under MIT (https://github.com/dstegen/webapputils-ds/blob/master/LICENSE)
+ * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
  */
 
 'use strict';
@@ -16,12 +16,12 @@ const { getAllUsers } = require('../../models/model-user');
 const { getLessons, returnedHomework } = require('../../models/model-lessons');
 
 
-function lessonsView (teacher) {
+function allLessonsView (user) {
   return `
     <div id="lessons" class="container my-3 p-3 border collapse show" data-parent="#homeschool-ds">
       <h2>${locale.headlines.navi_lessons[config.lang]}</h2>
       <hr />
-      ${teacher.group.map( group => displayLessons(group, teacher.courses)).join('')}
+      ${user.group.map( group => displayLessons(group, user.courses)).join('')}
     </div>
   `;
 }
@@ -42,7 +42,7 @@ function displayLessons (group, courses) {
       </div>
       ${getLessons(group).map( item => helperLesson(item, group, courses)).join('')}
       <div class="d-flex justify-content-end p-2 mb-">
-        <a href="/lessons/edit/${group}" class="btn-sm btn-primary" data-toggle="tooltip" data-placement="left" title="${locale.buttons.add_lesson[config.lang]}"> + </a>
+        <a href="/lessons/add/${group}" class="btn-sm btn-primary" data-toggle="tooltip" data-placement="left" title="${locale.buttons.add_lesson[config.lang]}"> + </a>
       </div>
     </div>
   `;
@@ -55,7 +55,6 @@ function helperLesson (item, group, courses) {
         <div class="d-flex justify-content-between">
           <div><strong>${item.lesson}</strong>: ${item.chapter} <span class="text-muted">(${moment(item.validFrom).format('LL')} – ${moment(item.validUntil).format('LL')})</span></div>
           <div class="d-flex justify-content-end">
-            <a href="/lessons/edit/${group}/${item.id}" class="btn btn-sm bg-grey ml-3 ${notValid(item.validUntil) ? 'd-none' : ''}">${locale.buttons.edit[config.lang]}</a>
             <a data-toggle="collapse" href="#lesson-homework-${group}-${item.id}" class="btn btn-sm btn-primary ml-3">${locale.buttons.homework[config.lang]}</a>
             <a href="/lessons/show/${group}/${item.id}" class="btn btn-sm btn-secondary ml-3">${locale.buttons.details[config.lang]}</a>
           </div>
@@ -86,4 +85,4 @@ function helperListitem (item, group) {
 }
 
 
-module.exports = lessonsView;
+module.exports = allLessonsView;
