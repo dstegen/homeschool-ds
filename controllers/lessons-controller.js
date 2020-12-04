@@ -9,8 +9,8 @@
 
 // Required modules
 const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
-const { thisDay } = require('../lib/dateJuggler');
-const { getLessons, updateLesson, deleteLesson, finishLesson } = require('../models/model-lessons');
+const { thisDay, thisWeek, weekDayNumber, momentFromDay } = require('../lib/dateJuggler');
+const { getLessons, updateLesson, deleteLesson, finishLesson, lessonsToday, lessonsNotFinished } = require('../models/model-lessons');
 const getNaviObj = require('../views/lib/getNaviObj');
 const studentDayView = require('../views/lessons/student-lesson-view');
 const teacherLessonsView = require('../views/lessons/all-lessons-view');
@@ -19,7 +19,6 @@ const addLessonView = require('../views/lessons/add-lesson-view');
 const view = require('../views/view');
 
 let myGroup = '';
-let myLessons = [];
 
 
 function lessonsController (request, response, user) {
@@ -28,12 +27,11 @@ function lessonsController (request, response, user) {
   let curDay = thisDay();
   if (user.role === 'student') {
     myGroup = user.group;
-    myLessons = getLessons(myGroup);
     if (route.startsWith('lessons/day')) {
       if (Number.isInteger(Number(route.split('/')[2]))) {
         curDay = Number(route.split('/')[2]);
       }
-      uniSend(view('', naviObj, studentDayView(myLessons, myGroup, curDay, user)), response);
+      uniSend(view('', naviObj, studentDayAction(myGroup, curDay, user)), response);
     } else if (route === 'lessons/lessonfinished') {
       finishLessonAction(request, response);
     }
@@ -57,6 +55,12 @@ function lessonsController (request, response, user) {
 
 
 // Additional functions
+
+function studentDayAction (myGroup, curDay, user) {
+  let myLessonsToday = lessonsToday(myGroup, weekDayNumber(curDay), thisWeek(momentFromDay(curDay)));
+  let lessonsNotFinishedToday = lessonsNotFinished(user, momentFromDay(curDay));
+  return studentDayView(myLessonsToday, myGroup, curDay, weekDayNumber(curDay), user, lessonsNotFinishedToday);
+}
 
 function addLessonAction (request, response, user) {
   let itemObj = {};
