@@ -2,15 +2,15 @@
  * views/admin/settings-view.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2020 Daniel Stegen <info@danielstegen.de>
- * Licensed under MIT (https://github.com/dstegen/webapputils-ds/blob/master/LICENSE)
+ * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
  */
 
 'use strict';
 
 // Required modules
 const locale = require('../../lib/locale');
-const { getGroupConfig } = require('../../models/model-config');
 const config = require('../../models/model-config').getConfig();
+const { getGroupConfig } = require('../../models/model-config');
 
 
 function settingsView (group='') {

@@ -37,6 +37,11 @@ A simple HomeSchool server for teachers and students to have a better overview o
 
 ## Changelog ##
 
+#### v0.3.7 ####
+- major refactored views
+- made board columns sortable
+- severeal bug fixes & minor improvements
+
 #### v0.3.6 ####
 - major refactored router+controller
 - introduced separate controllers

@@ -2,13 +2,14 @@
  * models/model-chat.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2020 Daniel Stegen <info@danielstegen.de>
- * Licensed under MIT (https://github.com/dstegen/webapputils-ds/blob/master/LICENSE)
+ * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
  */
 
 'use strict';
 
 // Required modules
 const path = require('path');
+const config = require('./model-config').getConfig();
 const loadFile = require('../utils/load-file');
 const saveFile = require('../utils/save-file');
 
@@ -47,5 +48,13 @@ function updateChat (fields) {
   }
 }
 
+function getChatCount () {
+  let chatMessagesCount = 0;
+  config.classes.forEach( group => {
+    chatMessagesCount += getChat(group).length;
+  });
+  return chatMessagesCount;
+}
 
-module.exports = { getChat, updateChat };
+
+module.exports = { getChat, updateChat, getChatCount };

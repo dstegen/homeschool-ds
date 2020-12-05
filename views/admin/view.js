@@ -2,7 +2,7 @@
  * views/admin/view.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2020 Daniel Stegen <info@danielstegen.de>
- * Licensed under MIT (https://github.com/dstegen/webapputils-ds/blob/master/LICENSE)
+ * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
  */
 
 'use strict';
@@ -10,17 +10,14 @@
 // Required modules
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
-const { formatDay, getDaytime } = require('../../lib/dateJuggler');
+const { formatDay } = require('../../lib/dateJuggler');
 const { getAllUsers, getTitleNameById, usersOnline } = require('../../models/model-user');
 const { getMessagesCount } = require('../../models/model-messages');
-const { getChat } = require('../../models/model-chat');
+const { getChatCount } = require('../../models/model-chat');
+const getWelcome = require('../lib/get-welcome');
 
 
 function adminView (user) {
-  let chatMessagesCount = 0;
-  config.classes.forEach( group => {
-    chatMessagesCount += getChat(group).length;
-  });
 
   return `
     <div id="dashboard" class="container">
@@ -31,7 +28,7 @@ function adminView (user) {
       <div class="row">
         <div class="col-12 col-md-6">
         <div class="border py-2 px-3 mb-3">
-            <h4>${helperWelcome(config.lang)} ${getTitleNameById(user.id)},</h4>
+            <h4>${getWelcome(config.lang)} ${getTitleNameById(user.id)},</h4>
             <p>
               ${locale.teacher.today_is[config.lang]} ${formatDay()}.
             </p>
@@ -42,26 +39,14 @@ function adminView (user) {
         <div class="col-12 col-md-6">
           <div class="border py-2 px-3 mb-3">
             <h4>Statistics:</h4>
-            <p>
-              Teachers: <strong>${getAllUsers().filter( item => item.role === 'teacher' ).length}</strong>
-            </p>
-            <p>
-              Students: <strong>${getAllUsers().filter( item => item.role === 'student' ).length}</strong>
-            </p>
-            <p>
-              Classes: <strong>${config.classes.length}</strong>
-            </p>
+            ${helperCounts('Teachers', getAllUsers().filter( item => item.role === 'teacher' ).length)}
+            ${helperCounts('Students', getAllUsers().filter( item => item.role === 'student' ).length)}
+            ${helperCounts('Classes', config.classes.length)}
             <hr />
-            <p>
-              Messages count: <strong>${getMessagesCount()}</strong>
-            </p>
-            <p>
-              Chat count: <strong>${chatMessagesCount}</strong>
-            </p>
+            ${helperCounts('Messages count', getMessagesCount())}
+            ${helperCounts('Chat count', getChatCount())}
             <hr />
-            <p>
-              Users online: <strong>${usersOnline()}</strong>
-            </p>
+            ${helperCounts('Users online', usersOnline())}
             <br />
           </div>
         </div>
@@ -73,17 +58,12 @@ function adminView (user) {
 
 // Additional functions
 
-function helperWelcome (lang) {
-  switch (getDaytime()) {
-    case 'AM':
-      return locale.teacher.welcome_morning[lang];
-    case 'PM':
-      return locale.teacher.welcome_afternoon[lang];
-    case 'NIGHT':
-      return locale.teacher.welcome_evening[lang];
-    default:
-      return locale.teacher.welcome_afternoon[lang];
-  }
+function helperCounts (title, counts) {
+  return `
+    <p>
+      ${title}: <strong>${counts}</strong>
+    </p>
+  `;
 }
 
 
