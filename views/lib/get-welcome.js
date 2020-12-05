@@ -1,0 +1,29 @@
+/*!
+ * views/lib/get-welcome.js
+ * homeschool-ds (https://github.com/dstegen/homeschool-ds)
+ * Copyright 2020 Daniel Stegen <info@danielstegen.de>
+ * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
+ */
+
+'use strict';
+
+// Required modules
+const locale = require('../../lib/locale');
+const { getDaytime } = require('../../lib/dateJuggler');
+
+
+function getWelcome (lang) {
+  switch (getDaytime()) {
+    case 'AM':
+      return locale.teacher.welcome_morning[lang];
+    case 'PM':
+      return locale.teacher.welcome_afternoon[lang];
+    case 'NIGHT':
+      return locale.teacher.welcome_evening[lang];
+    default:
+      return locale.teacher.welcome_afternoon[lang];
+  }
+}
+
+
+module.exports = getWelcome;

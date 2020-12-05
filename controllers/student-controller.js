@@ -9,17 +9,15 @@
 
 // Required modules
 const { uniSend } = require('webapputils-ds');
-const { thisWeek } = require('../lib/dateJuggler');
-const { getLessons } = require('../models/model-lessons');
+const { thisWeek, weekDayNumber } = require('../lib/dateJuggler');
+const { lessonsToday } = require('../models/model-lessons');
 const getNaviObj = require('../views/lib/getNaviObj');
 const studentView = require('../views/student/view');
 const view = require('../views/view');
 
 
 function studentController (request, response, wss, wsport, user) {
-  let myGroup = user.group;
-  let myLessons = getLessons(myGroup);
-  uniSend(view(wsport, getNaviObj(user), studentView(myLessons, myGroup, thisWeek(), user, wsport)), response);
+  uniSend(view(wsport, getNaviObj(user), studentView(lessonsToday(user.group, weekDayNumber(), thisWeek()), thisWeek(), user, wsport)), response);
 }
 
 
