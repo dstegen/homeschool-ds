@@ -12,7 +12,7 @@ const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
 const { updateChat } = require('../models/model-chat');
 const { updatePrivateMessages } = require('../models/model-messages');
 const getNaviObj = require('../views/lib/getNaviObj');
-const comView = require('../views/communication-view');
+const comView = require('../views/communication/view');
 const view = require('../views/view');
 
 
@@ -49,6 +49,7 @@ function updateChatAction (request, response, wss) {
   ).catch(
     error => {
       console.log('ERROR can\'t update chat: '+error.message);
+      uniSend(new SendObj(302), response);
   });
 }
 
@@ -70,6 +71,7 @@ function updatePrivateMessagesAction (request, response, wss) {
   ).catch(
     error => {
       console.log('ERROR can\'t update private messages: '+error.message);
+      uniSend(new SendObj(302), response);
   });
 }
 
