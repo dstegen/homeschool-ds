@@ -18,7 +18,7 @@ const boardController = require('./board-controller');
 const timetableController = require('./timetable-controller');
 const lessonsController = require('./lessons-controller');
 const fileController = require('./file-controller');
-const loginView = require('../views/login-view');
+const loginView = require('../views/auth/login-view');
 
 
 function router (request, response, wss, wsport) {

@@ -15,7 +15,7 @@ const locale = require('../lib/locale');
 const config = require('../models/model-config').getConfig();
 const { initUsers, getPasswdObj, getUserDetails, updatePassword } = require('../models/model-user');
 const getNaviObj = require('../views/lib/getNaviObj');
-const setpasswordView = require('../views/setpassword-view');
+const setpasswordView = require('../views/auth/setpassword-view');
 const view = require('../views/view');
 
 const authenticate = new Auth(path.join(__dirname, '../sessionids.json'));

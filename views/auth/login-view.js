@@ -1,17 +1,17 @@
 /*!
- * views/login-view.js
+ * views/auth/login-view.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2020 Daniel Stegen <info@danielstegen.de>
- * Licensed under MIT (https://github.com/dstegen/webapputils-ds/blob/master/LICENSE)
+ * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
  */
 
 'use strict';
 
 // Required modules
-const locale = require('../lib/locale');
-const config = require('../models/model-config').getConfig();
-const getNaviObj = require('./lib/getNaviObj');
-const view = require('./view');
+const locale = require('../../lib/locale');
+const config = require('../../models/model-config').getConfig();
+const getNaviObj = require('../lib/getNaviObj');
+const view = require('../view');
 
 
 function loginView (wsport, message='') {
