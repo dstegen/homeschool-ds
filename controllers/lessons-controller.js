@@ -39,6 +39,13 @@ function lessonsController (request, response, user) {
     myGroup = route.split('/')[2];
     if (route === 'lessons') {
       uniSend(view('', naviObj, teacherLessonsView(user)), response);
+    } else if (route.startsWith('lessons/day')) {
+      // Reformat route for teacher-lesson-view
+      let tmpList = route.split('/');
+      tmpList.splice(1,1,'show');
+      tmpList.splice(2,1);
+      route = tmpList.join('/');
+      uniSend(view('', naviObj, teacherSingleLessonView(user, route)), response);
     } else if (route.startsWith('lessons/show')) {
       uniSend(view('', naviObj, teacherSingleLessonView(user, route)), response);
     } else if (route.startsWith('lessons/add')) {

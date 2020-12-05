@@ -19,6 +19,10 @@
    });
    // Chat & chat-windows
    initChat();
+   // Open targetted lessonBig
+   if (document.location.pathname.includes('day') && document.location.pathname.split('/')[4] !== undefined) {
+     $('#lessonbig-details-'+document.location.pathname.split('/').pop()).collapse('toggle');
+   }
  });
 
 // Initialize Chat functions

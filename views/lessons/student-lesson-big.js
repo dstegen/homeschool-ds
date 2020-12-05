@@ -24,11 +24,11 @@ function studentLessonBig (lessonObj, curWeekDay, curDay, myGroup, studentId) {
   }
   return `
     <div class="card lessonbig ${lessonColor} mt-2 text-left">
-      <div id="lessonbig-${lessonObj.id}${curWeekDay}" class="card-header d-flex justify-content-between" onclick="$('#lessonbig-details-${lessonObj.id}${curWeekDay}').collapse('toggle');">
+      <div id="lessonbig-${lessonObj.id}" class="card-header d-flex justify-content-between" onclick="$('#lessonbig-details-${lessonObj.id}').collapse('toggle');">
         <span>${lessonObj.lesson}: ${lessonObj.chapter}</span>
         ${lessonIndicator(myGroup, lessonObj, studentId, curDay)}
       </div>
-      <div id="lessonbig-details-${lessonObj.id}${curWeekDay}" class="card-body collapse" data-parent="#today">
+      <div id="lessonbig-details-${lessonObj.id}" class="card-body collapse" data-parent="#today">
         ${lessonObj.details != '' ? `<strong class="card-title">${locale.student.exercise[config.lang]}:</strong><p class="card-text">${lessonObj.details}</p>` : ''}
         ${lessonObj.files ? filesList(lessonObj.files, '/lessons/day/'+curDay, myGroup, studentId, lessonObj.id, lessonColor, false) : ''}
         ${helperUpload(myGroup, lessonObj, studentId, curDay, lessonColor)}

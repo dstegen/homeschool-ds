@@ -12,7 +12,7 @@ const { uniSend, SendObj } = require('webapputils-ds');
 const { thisWeek } = require('../lib/dateJuggler');
 const { getLessons } = require('../models/model-lessons');
 const getNaviObj = require('../views/lib/getNaviObj');
-const timetableView = require('../views/timetable-view');
+const timetableView = require('../views/timetable/view');
 const view = require('../views/view');
 
 let myGroup = '';

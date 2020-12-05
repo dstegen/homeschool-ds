@@ -96,6 +96,7 @@ a.orange, a.orange:focus, a.orange:hover {
   box-shadow: none;
   margin-bottom: 0;
   font-size: .8rem;
+  cursor: pointer;
 }
 
 .card.lessonbig {
