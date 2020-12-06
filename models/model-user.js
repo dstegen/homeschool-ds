@@ -95,14 +95,15 @@ function getTitleNameById (id, n=false) {
 }
 
 function updateUser (fields) {
-  console.log(fields);
   if (fields.id !== '' && fields.userId !== '') {
     // update user
     let tmpObj = users.filter( user => user.id === Number(fields.id))[0];
     Object.keys(fields).forEach( key => {
       if (key !== 'id' && key !== 'password' && fields[key] !== '') {
         if (key === 'group' && fields.role === 'teacher' && typeof(fields.group) === 'string') {
-          tmpObj.group = [fields.group];
+          tmpObj.group = fields.group.split(',');
+        } else if (key === 'courses' && fields.role === 'teacher' && typeof(fields.courses) === 'string') {
+          tmpObj.courses = fields.courses.split(',');
         } else {
           tmpObj[key] = fields[key];
         }
