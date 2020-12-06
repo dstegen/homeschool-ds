@@ -95,6 +95,7 @@ function getTitleNameById (id, n=false) {
 }
 
 function updateUser (fields) {
+  console.log(fields);
   if (fields.id !== '' && fields.userId !== '') {
     // update user
     let tmpObj = users.filter( user => user.id === Number(fields.id))[0];
@@ -119,7 +120,7 @@ function updateUser (fields) {
       password: bcrypt.hashSync(myPassword),
       role: fields.role,
       group: fields.role === 'teacher' ? fields.group.split(',') : fields.group,
-      courses: fields.role === 'teacher' ? fields.courses : '',
+      courses: fields.role === 'teacher' ? fields.courses.split(',') : '',
       fname: fields.fname,
       lname: fields.lname,
       email: fields.email,
