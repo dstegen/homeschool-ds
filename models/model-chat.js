@@ -9,6 +9,7 @@
 
 // Required modules
 const path = require('path');
+const { dateIsRecent } = require('../lib/dateJuggler');
 const config = require('./model-config').getConfig();
 const loadFile = require('../utils/load-file');
 const saveFile = require('../utils/save-file');
@@ -56,5 +57,15 @@ function getChatCount () {
   return chatMessagesCount;
 }
 
+function cleanChat (group, days=15) {
+  let myChat = getChat(group);
+  myChat = myChat.filter( item => dateIsRecent(item.timeStamp, days));
+  try {
+    saveFile(path.join(__dirname, '../data/classes', group), 'chat.json', myChat);
+  } catch (e) {
+    console.log('- ERROR writing chat to disk: '+e);
+  }
+}
 
-module.exports = { getChat, updateChat, getChatCount };
+
+module.exports = { getChat, updateChat, getChatCount, cleanChat };

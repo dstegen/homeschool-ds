@@ -64,6 +64,19 @@ function updatePrivateMessages (fields) {
   }
 }
 
+function cleanMessages (userId, days=15) {
+  let allMessages = loadFile(path.join(__dirname, '../data/school', 'private-messages.json'), true);
+  allMessages = allMessages.filter( item => dateIsRecent(item.updated, days));
+  allMessages.forEach( myMessage => {
+    myMessage.messages = myMessage.messages.filter( item => dateIsRecent(item.timeStamp, days));
+  });
+  try {
+    saveFile(path.join(__dirname, '../data/school'), 'private-messages.json', allMessages);
+  } catch (e) {
+    console.log('- ERROR writing private messages to disk: '+e);
+  }
+}
+
 
 // Additional functions
 
@@ -115,4 +128,4 @@ function reorderPrivateMessages (msgA, msgB) {
 }
 
 
-module.exports = { getPrivateMessages, getLatestMessages, updatePrivateMessages, getMessagesCount };
+module.exports = { getPrivateMessages, getLatestMessages, updatePrivateMessages, getMessagesCount, cleanMessages };
