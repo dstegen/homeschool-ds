@@ -10,7 +10,7 @@
 // Required modules
 const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
 const { updateSettings, updateGroupConfig, addNewGroup } = require('../models/model-config');
-const { updateUser, getUserById } = require('../models/model-user');
+const { updateUser, getUserById, getAllUsers } = require('../models/model-user');
 const getNaviObj = require('../views/lib/getNaviObj');
 const adminView = require('../views/admin/view');
 const editUserView = require('../views/admin/edit-user-view');
@@ -36,10 +36,30 @@ function adminController (request, response, wss, wsport, user) {
 
 function editUserAction (request, response, naviObj) {
   let group = request.url.split('?')[1];
+  let allUsers = getAllUsers();
+  if (group !== undefined) {
+    allUsers = allUsers.filter( item => item.group.includes(group) );
+  }
+  let allUserIds = allUsers.map( item => { return [item.id, item.fname+' '+item.lname+', '+item.group] } );
+  allUserIds.unshift('');
   if (request.url.split('/')[3] != undefined && Number.isInteger(Number(request.url.split('/')[3]))) {
-    uniSend(view('', naviObj, editUserView(group, getUserById(Number(request.url.split('/')[3])))), response);
+    uniSend(view('', naviObj, editUserView(allUserIds, getUserById(Number(request.url.split('/')[3])))), response);
   } else {
-    uniSend(view('', naviObj, editUserView(group)), response);
+    let newUser = {
+      userId: '',
+      id: '',
+      password: '',
+      role: '',
+      group: '',
+      courses: '',
+      fname: '',
+      lname: '',
+      email: '',
+      phone: '',
+      gender: ''
+    };
+
+    uniSend(view('', naviObj, editUserView(allUserIds, newUser)), response);
   }
 }
 
