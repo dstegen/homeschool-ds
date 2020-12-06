@@ -15,7 +15,7 @@ const formSelectColumn = require('../templates/form-select-column');
 
 
 function settingsView (group='') {
-  let classes = config.classes;
+  let classes = Array.from(config.classes);
   classes.unshift('');
   return `
     <div id="dashboard" class="container">
