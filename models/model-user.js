@@ -52,7 +52,7 @@ function usersOnline (group) {
   let onlineUsers = [];
   try {
     let sessionIds = JSON.parse(fs.readFileSync(path.join(__dirname, '../sessionids.json')));
-    let userIds = sessionIds.ids.map( user => { return Object.values(user)[0]; } )
+    let userIds = sessionIds.map( user => { return Object.values(user)[0]; } )
     if ( group !== undefined && group !== '') {
       let allUsers = getAllUsers(group).filter( user => (user.role === 'student' && userIds.includes(user.userId)) );
       allUsers.forEach(user => {
