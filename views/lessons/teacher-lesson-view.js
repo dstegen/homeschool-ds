@@ -42,7 +42,7 @@ function teacherLessonView (teacher, urlPath) {
         <div id="lesson-details" class="collapse show">
           <div class="row">
             <div class=" col-12 col-md-6 mb-3">
-              <span class="details-box px-2 py-1">${myLesson.details}</span>
+              <span class="lesson-details px-2 py-1">${myLesson.details}</span>
             </div>
             <div class="col-12 col-md-6">
               ${myLesson.files ? filesList(myLesson.files, urlPath, group, '', myLesson.id, '', false) : ''}

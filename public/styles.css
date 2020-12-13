@@ -157,7 +157,11 @@ a.orange, a.orange:focus, a.orange:hover {
 }
 
 .details-box {
-  /* background-color: #efefef; */
+  background-color: #efefef;
+  color: var(--color);
+}
+
+.lesson-details {
   color: var(--color);
 }
 
