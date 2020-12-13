@@ -10,16 +10,29 @@
 // Required modules
 const moment = require('moment');
 const locale = require('../../lib/locale');
-const config = require('../../models/model-config').getConfig();
+const { getConfig, getGroupConfig } = require('../../models/model-config');
+const config = getConfig();
 const { notValid } = require('../../lib/dateJuggler');
 const { getAllUsers } = require('../../models/model-user');
 const { getLessons, returnedHomework } = require('../../models/model-lessons');
+const formSelectColumn = require('../templates/form-select-column');
 
 
 function allLessonsView (user) {
+  let allLessonsList = ['Filter...'];
+  for (let i=0; i<user.group.length; i++) {
+    getGroupConfig(user.group[i]).courses.forEach( item => {
+      allLessonsList.push(item.name);
+    });
+  }
   return `
     <div id="lessons" class="container my-3 p-3 border collapse show" data-parent="#homeschool-ds">
-      <h2>${locale.headlines.navi_lessons[config.lang]}</h2>
+      <div class="d-flex justify-content-between">
+        <h2>${locale.headlines.navi_lessons[config.lang]}</h2>
+        <div class="form-group row mb-1">
+          ${formSelectColumn([... new Set(allLessonsList)], '', '', 'onchange="filterLessons(this.value)"')}
+        </div>
+      </div>
       <hr />
       ${user.group.map( group => displayLessons(group, user.courses)).join('')}
     </div>
@@ -51,7 +64,7 @@ function displayLessons (group, courses) {
 function helperLesson (item, group, courses) {
   if (courses.includes(item.lesson) || courses[0] === 'all') {
     return `
-      <div class="border p-2 mb-2 ${notValid(item.validUntil) ? 'details-box details-box-'+group+'" style="display: none;"' : ''}">
+      <div class="border p-2 mb-2 lesson-box ${'details-box-'+item.lesson} ${notValid(item.validUntil) ? 'details-box details-box-'+group+'" style="display: none;"' : ''}">
         <div class="d-flex justify-content-between">
           <div><strong>${item.lesson}</strong>: ${item.chapter} <span class="text-muted">(${moment(item.validFrom).format('LL')} – ${moment(item.validUntil).format('LL')})</span></div>
           <div class="d-flex justify-content-end">

@@ -92,6 +92,24 @@ function fileDelete (formId) {
   }
 }
 
+// Filter lessons on all-lessons-view
+function filterLessons (lesson) {
+  let allLessonsList = document.getElementsByClassName('lesson-box');
+  if (lesson !== 'Filter...') {
+    for (let i=0; i<allLessonsList.length; i++) {
+      allLessonsList[i].hidden = true;
+    }
+  } else {
+    for (let i=0; i<allLessonsList.length; i++) {
+      allLessonsList[i].hidden = false;
+    }
+  }
+  let allShowLessons = document.getElementsByClassName('details-box-'+lesson);
+  for (let i=0; i<allShowLessons.length; i++) {
+    allShowLessons[i].hidden = false;
+  }
+}
+
 // Check if new password and retype match
 $(document).ready(function () {
   if (window.location.pathname === '/setpassword') {
