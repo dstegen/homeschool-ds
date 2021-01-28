@@ -1,7 +1,7 @@
 /*!
  * views/templates/tail.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
- * Copyright 2020 Daniel Stegen <info@danielstegen.de>
+ * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/webapputils-ds/blob/master/LICENSE)
  */
 
@@ -14,7 +14,7 @@ function tail () {
         <!-- Footer -->
         <div class="footer">
           <div class="small bg-secondary text-light text-center pt-4 pb-4">
-            &copy; 2020 by Daniel Stegen
+            &copy; 2021 by Daniel Stegen
           </div>
         </div>
       </div>

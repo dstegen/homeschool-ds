@@ -37,6 +37,14 @@ A simple HomeSchool server for teachers and students to have a better overview o
 
 ## Changelog ##
 
+#### v0.3.8 ####
+- added optional ssl support
+- added filter lessons
+- updated dependencies
+- added cronjob for cleaning up chats & messages
+- refactored admin views
+- bugfixes & code cleanup
+
 #### v0.3.7 ####
 - major refactored views
 - made board columns sortable
@@ -66,7 +74,7 @@ A simple HomeSchool server for teachers and students to have a better overview o
 
 The MIT License (MIT)
 
-Copyright (c) 2020 Daniel Stegen
+Copyright (c) 2021 Daniel Stegen
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
