@@ -8,7 +8,8 @@
 'use strict';
 
 // Required modules
-const { ServerDS } = require('webapputils-ds');
+const fs = require('fs');
+const { ServerDS, ServerDSS } = require('webapputils-ds');
 const router = require('./controllers/router');
 const cronController = require('./controllers/cron-controller');
 const CronJob = require('cron').CronJob;
@@ -17,10 +18,28 @@ const CronJob = require('cron').CronJob;
 // Name the process
 process.title = 'homeschool-ds';
 
-const server = new ServerDS('homeschool-ds', 9090);
-server.setCallback(router);
-server.startServer();
+// Use SSL if available
+let ssl = {};
+try {
+  const serverconf = require('./serverconf');
+  ssl.key = fs.readFileSync(serverconf.keyFile).toString();
+  ssl.cert = fs.readFileSync(serverconf.certFile).toString();
+} catch (e) {
+  console.log('- No serverconf found, using defaults!');
+}
+
+
+if (ssl.key && ssl.cert) {
+  const server = new ServerDSS('homeschool-ds', 9090, '0', ssl);
+	server.setCallback(router);
+	server.startServer();
+} else {
+  const server = new ServerDS('homeschool-ds', 9090);
+  server.setCallback(router);
+  server.startServer();
+}
+
 
 // Cron job for cleaning up chats & messags
-const job = new CronJob('0 */10 * * * *', cronController, null, true, 'Europe/Berlin');
+const job = new CronJob('0 */30 * * * *', cronController, null, true, 'Europe/Berlin');
 job.start();

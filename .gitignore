@@ -12,6 +12,7 @@ data*
 # internal files
 roadmap.md
 sessionids.json
+serverconf.json
 
 # external modules
 node_modules
