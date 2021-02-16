@@ -17,17 +17,49 @@ const classChat = require('../templates/chat');
 
 
 function classroomView (group, user, wss, wsport, recentLesson) {
+  let teacherButtons = '';
+  let unloadScripts = '';
+  if (user.role === 'teacher') {
+    teacherButtons = `
+      <div class="my-3 d-flex justify-content-end">
+        <button class="btn btn-sm btn-danger" onclick="window.location.replace('/classroom/${group}/endlesson');">${locale.buttons.end_onelinelesson[config.lang]}</button>
+      </div>
+    `;
+  } else {
+    unloadScripts = `
+      window.addEventListener('beforeunload', function (e) {
+        // Cancel the event
+        e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
+        // Chrome requires returnValue to be set
+        e.returnValue = '';
+      });
+      window.addEventListener('unload', function (e) {
+        Cookies("classroomaccess", "");
+        window.location.replace('/classroom/exitaccess');
+        $.ajax({
+          url: '/classroom/exitaccess', // url where to submit the request
+          type : "POST", // type of action POST || GET
+          dataType : 'json', // data type
+          data : {"action": "exitaccess"},
+          success : function(result) {
+              //console.log(result);
+          }
+        });
+      });
+    `;
+  }
   return `
     <div id="classroom">
       <div class="container">
         <h2 class="d-flex justify-content-between py-2 px-3 my-3 border">
-          ${locale.headlines.classroom[config.lang]} ${group}: ${recentLesson.lesson}
+          ${locale.headlines.classroom[config.lang]} (${group}): ${recentLesson.lesson}
           <span id="clock" class="d-none d-md-block">&nbsp;</span>
         </h2>
+        ${teacherButtons}
       </div>
       <div class="d-flex justify-content-around mb-3">
         <div class="d-none d-xl-flex align-content-start flex-wrap p-3" style="min-width: 150px;">
-          ${studentsList(getAllUsers(group),1)}
+          ${studentsList(recentLesson.students,2)}
         </div>
         <div class="d-block mx-3">
           ${user.role === 'teacher' ? '' : ''}
@@ -35,7 +67,7 @@ function classroomView (group, user, wss, wsport, recentLesson) {
           ${classChat([group], user)}
         </div>
         <div class="d-none d-xl-flex align-content-start flex-wrap p-3" style="min-width: 150px;">
-          ${studentsList(getAllUsers(group),2)}
+          ${studentsList(recentLesson.students,1)}
         </div>
       </div>
     </div>
@@ -44,19 +76,17 @@ function classroomView (group, user, wss, wsport, recentLesson) {
       const hostname = window.location.hostname ;
       const socket = new WebSocket('ws://'+hostname+':${wsport}/', 'protocolOne', { perMessageDeflate: false });
       socket.onmessage = function (msg) {
+        console.log(msg);
+        if (msg.data === 'lessonclosed') {
+          window.location.replace('/');
+        } else if (msg.data === 'newstudent') {
+          location.reload();
+        }
         //location.reload();
         console.log(msg.data);
-        context.putImageData(msg.data, 0, 0);
+        //context.putImageData(msg.data, 0, 0);
       };
-      window.addEventListener('beforeunload', function (e) {
-        // Cancel the event
-        e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
-        // Chrome requires returnValue to be set
-        e.returnValue = '';
-      });
-      window.addEventListener('unload', function (e) {
-        Cookies('classroomaccess', '');
-      });
+      ${unloadScripts}
     </script>
   `;
 }

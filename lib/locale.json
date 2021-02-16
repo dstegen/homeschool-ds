@@ -132,9 +132,21 @@
       "en": "Attachments",
       "de": "Anhänge"
     },
-    "classroom": {
+    "navi_classroom": {
       "en": "Classroom",
       "de": "Classroom"
+    },
+    "classroom": {
+      "en": "Online lesson",
+      "de": "Online Unterricht"
+    },
+    "create_onlinelesson": {
+      "en": "Create online lesson",
+      "de": "Eine Online-Unterrichtsstunde starten"
+    },
+    "no_lesson_yet": {
+      "en": "No online lesson at the moment!",
+      "de": "Zurzeit ist kein Online-Unterrichtsstunde!"
     }
   },
   "buttons": {
@@ -197,6 +209,18 @@
     "finish_lesson": {
       "en": "Lesson finished",
       "de": "Fertig"
+    },
+    "start_onlinelesson": {
+      "en": "Start lesson",
+      "de": "Online Unterricht beginnen"
+    },
+    "request_access": {
+      "en": "Request access",
+      "de": "Zugang anfragen"
+    },
+    "end_onelinelesson": {
+      "en": "End online lesson",
+      "de": "Online-Unterricht beenden"
     }
   },
   "placeholder": {

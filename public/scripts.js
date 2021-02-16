@@ -178,21 +178,22 @@ $(".sortable").on("sortupdate", function(event, ui) {
   setTimeout( function () {$("#feedback").modal('hide');}, 2500);
 } );
 
+
 // blackboard functions
 
 function requestClassroomAccess () {
   window.location.replace('/classroom/requestaccess');
 }
 
-// When true, moving the mouse draws on the canvas
-let isDrawing = false;
-let x = 0;
-let y = 0;
-
-const myPics = document.getElementById('myBlackboard');
-const context = myPics.getContext('2d');
-
 function initBlackboard () {
+  // When true, moving the mouse draws on the canvas
+  let isDrawing = false;
+  let x = 0;
+  let y = 0;
+
+  const myPics = document.getElementById('myBlackboard');
+  const context = myPics.getContext('2d');
+
   // event.offsetX, event.offsetY gives the (x,y) offset from the edge of the canvas.
 
   // Add the event listeners for mousedown, mousemove, and mouseup

@@ -13,14 +13,22 @@ const config = require('../../models/model-config').getConfig();
 const { usersOnline, getAllUsers } = require('../../models/model-user');
 
 
-function lobbyView (lesson) {
-  return `
-    <div class="container border my-3 p-3 h-50 text-center">
-      <h2>Recent lesson: ${lesson}</h2>
-      <p></p>
-      <button class="btn btn-primary" onclick="requestClassroomAccess()">Request access</button>
-    </div>
-  `;
+function lobbyView (recentLesson) {
+  if (recentLesson.lesson === undefined) {
+    return `
+      <div class="container border my-3 p-3 h-50 text-center">
+        <h5>${locale.headlines.no_lesson_yet[config.lang]}</h5>
+      </div>
+    `;
+  } else {
+    return `
+      <div class="container border my-3 p-3 h-50 text-center">
+        <h2>${locale.headlines.classroom[config.lang]}: ${recentLesson.lesson}</h2>
+        <p></p>
+        <button class="btn btn-primary" onclick="requestClassroomAccess()">${locale.buttons.request_access[config.lang]}</button>
+      </div>
+    `;
+  }
 }
 
 

@@ -44,7 +44,7 @@ function getNaviObj (user) {
             dropdown: false
           },
           {
-            name: locale.headlines.classroom[config.lang],
+            name: locale.headlines.navi_classroom[config.lang],
             link: '/classroom',
             dropdown: false
           },
@@ -96,7 +96,7 @@ function getNaviObj (user) {
       for (let i=0; i<myGroup.length; i++) {
         classroomDropdowns.push(
           {
-            name: locale.headlines.classroom[config.lang]+' '+myGroup[i],
+            name: locale.headlines.navi_classroom[config.lang]+' '+myGroup[i],
             link: '/classroom/'+myGroup[i]
           }
         )
@@ -116,7 +116,7 @@ function getNaviObj (user) {
             dropdown: false
           },
           {
-            name: locale.headlines.classroom[config.lang],
+            name: locale.headlines.navi_classroom[config.lang],
             link: '#',
             dropdown: true,
             dropdownItems: classroomDropdowns
