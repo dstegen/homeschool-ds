@@ -16,6 +16,7 @@ const adminController = require('./admin-controller');
 const communicationController = require('./communication-controller');
 const boardController = require('./board-controller');
 const timetableController = require('./timetable-controller');
+const classroomController = require('./classroom-controller');
 const lessonsController = require('./lessons-controller');
 const fileController = require('./file-controller');
 const loginView = require('../views/auth/login-view');
@@ -33,6 +34,8 @@ function router (request, response, wss, wsport) {
     let user = userDetails(request);
     if (route.startsWith('communication')) {
       communicationController(request, response, wss, wsport, user)
+    } else if (route.startsWith('classroom')) {
+      classroomController(request, response, wss, wsport, user);
     } else if (route.startsWith('board')) {
       boardController(request, response, user);
     } else if (route.startsWith('timetable')) {

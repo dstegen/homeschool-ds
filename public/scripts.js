@@ -19,6 +19,8 @@
    });
    // Chat & chat-windows
    initChat();
+   // blackboard
+   initBlackboard();
    // Open targetted lessonBig
    if (document.location.pathname.includes('day') && document.location.pathname.split('/')[4] !== undefined) {
      $('#lessonbig-details-'+document.location.pathname.split('/').pop()).collapse('toggle');
@@ -173,3 +175,66 @@ $(".sortable").on("sortupdate", function(event, ui) {
   $("#feedback").modal('show');
   setTimeout( function () {$("#feedback").modal('hide');}, 2500);
 } );
+
+// blackboard functions
+
+// When true, moving the mouse draws on the canvas
+let isDrawing = false;
+let x = 0;
+let y = 0;
+
+const myPics = document.getElementById('myBlackboard');
+const context = myPics.getContext('2d');
+
+function initBlackboard () {
+  // event.offsetX, event.offsetY gives the (x,y) offset from the edge of the canvas.
+
+  // Add the event listeners for mousedown, mousemove, and mouseup
+  myPics.addEventListener('mousedown', e => {
+    x = e.offsetX;
+    y = e.offsetY;
+    isDrawing = true;
+  });
+
+  myPics.addEventListener('mousemove', e => {
+    if (isDrawing === true) {
+      drawLine(context, x, y, e.offsetX, e.offsetY);
+      x = e.offsetX;
+      y = e.offsetY;
+    }
+  });
+
+  window.addEventListener('mouseup', e => {
+    if (isDrawing === true) {
+      drawLine(context, x, y, e.offsetX, e.offsetY);
+      x = 0;
+      y = 0;
+      isDrawing = false;
+      transmitBlackboard(context);
+    }
+  });
+}
+
+function drawLine(context, x1, y1, x2, y2) {
+  context.beginPath();
+  context.strokeStyle = 'black';
+  context.lineWidth = 1;
+  context.moveTo(x1, y1);
+  context.lineTo(x2, y2);
+  context.stroke();
+  context.closePath();
+}
+
+function transmitBlackboard (ctx) {
+  var curContent = ctx.getImageData(0,0,1110,500);
+  var curGroup = window.location.pathname.split('/')[2];
+  $.ajax({
+    url: '/classroom/update/'+curGroup, // url where to submit the request
+    type : "POST", // type of action POST || GET
+    dataType : 'json', // data type
+    data : {"group": curGroup, "ctx": curContent},
+    success : function(result) {
+        console.log(result);
+    }
+  });
+}

@@ -65,8 +65,10 @@ function chatterEntry (myGroup, user) {
     if (item.chaterId === user.id) {
       returnHtml += `
         <div class="row no-gutters mb-2">
-          <div class="col-1">
-            ${chatterImage}
+          <div class="col-1 d-flex justify-content-end">
+            <div>
+              ${chatterImage}
+            </div>
           </div>
           <div class="col-9 pl-2">
             <div class="${cssInline} px-1 border rounded text-break">${item.chat}</div>
@@ -83,8 +85,10 @@ function chatterEntry (myGroup, user) {
             <div class="${cssInline} px-1 border rounded text-left text-break">${item.chat}</div>
             <div class="supersmall text-muted">${chatUserName} | ${moment(item.timeStamp).format('dddd[, ] HH:MM')}</div>
           </div>
-          <div class="col-1">
-            ${chatterImage}
+          <div class="col-1 d-flex justify-content-start">
+            <div>
+              ${chatterImage}
+            </div>
           </div>
         </div>
 

@@ -21,6 +21,7 @@ function getNaviObj (user) {
   let lessonsDropdown = [];
   let classesDropdown = [];
   let boardsDropdown = [];
+  let classroomDropdowns = [];
   switch (role) {
     case 'student':
       return {
@@ -40,6 +41,11 @@ function getNaviObj (user) {
           {
             name: locale.headlines.navi_this_week[config.lang],
             link: '/timetable',
+            dropdown: false
+          },
+          {
+            name: locale.headlines.classroom[config.lang],
+            link: '/classroom',
             dropdown: false
           },
           {
@@ -87,6 +93,14 @@ function getNaviObj (user) {
           }
         )
       }
+      for (let i=0; i<myGroup.length; i++) {
+        classroomDropdowns.push(
+          {
+            name: locale.headlines.classroom[config.lang]+' '+myGroup[i],
+            link: '/classroom/'+myGroup[i]
+          }
+        )
+      }
       return {
         school: config.schoolName,
         loginname: locale.headlines.navi_teacher[config.lang]+': '+getTitleNameById(user.id),
@@ -100,6 +114,12 @@ function getNaviObj (user) {
             name: locale.headlines.navi_communication[config.lang],
             link: '/communication',
             dropdown: false
+          },
+          {
+            name: locale.headlines.classroom[config.lang],
+            link: '#',
+            dropdown: true,
+            dropdownItems: classroomDropdowns
           },
           {
             name: locale.headlines.navi_classes[config.lang],

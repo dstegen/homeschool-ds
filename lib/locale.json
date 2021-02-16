@@ -131,6 +131,10 @@
     "attachment_files": {
       "en": "Attachments",
       "de": "Anhänge"
+    },
+    "classroom": {
+      "en": "Classroom",
+      "de": "Classroom"
     }
   },
   "buttons": {
