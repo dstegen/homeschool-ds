@@ -8,10 +8,13 @@
 'use strict';
 
 // Required modules
-const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
+const path = require('path');
+const { uniSend, getFormObj, SendObj, cookie } = require('webapputils-ds');
 const getNaviObj = require('../views/lib/getNaviObj');
 const classroomView = require('../views/classroom/view');
+const lobbyView = require('../views/classroom/lobby-view');
 const view = require('../views/view');
+const loadFile = require('../utils/load-file');
 
 let myGroup = '';
 
@@ -21,13 +24,21 @@ function classroomController (request, response, wss, wsport, user) {
   let naviObj = getNaviObj(user);
   if (user.role === 'student') {
     myGroup = user.group;
-    uniSend(view('', naviObj, classroomView(myGroup, user, wss, wsport)), response);
+    let recentLesson = loadFile(path.join(__dirname, '../data/classes', myGroup.toString(), 'onlinelesson.json'));
+    if (accessGranted(request, recentLesson)) {
+      uniSend(view('', naviObj, classroomView(myGroup, user, wss, wsport, recentLesson)), response);
+    } else if (route.startsWith('classroom/requestaccess')) {
+      grantAccess(response, recentLesson);
+    } else {
+      uniSend(view('', naviObj, lobbyView(recentLesson.lesson)), response);
+    }
   } else if (user.role === 'teacher') {
+    myGroup = route.split('/')[1];
+    let recentLesson = loadFile(path.join(__dirname, '../data/classes', myGroup.toString(), 'onlinelesson.json'));
     if (route.startsWith('classroom') && route.includes('update')) {
       updateClassroom(request, response, wss, wsport, user);
     } else if (route.startsWith('classroom')) {
-      myGroup = route.split('/')[1];
-      uniSend(view('', naviObj, classroomView(myGroup, user, wss, wsport)), response);
+      uniSend(view('', naviObj, classroomView(myGroup, user, wss, wsport, recentLesson)), response);
     }
   } else {
     uniSend(new SendObj(302), response);
@@ -36,6 +47,18 @@ function classroomController (request, response, wss, wsport, user) {
 
 
 // Additional functions
+
+function grantAccess (response, recentLesson) {
+  uniSend(new SendObj(302, ['classroomaccess='+recentLesson.key+'; path=/'], '', '/classroom'), response);
+}
+
+function accessGranted (request, recentLesson) {
+  if (cookie(request).classroomaccess && cookie(request).classroomaccess === recentLesson.key.toString()) {
+    return true;
+  } else {
+    return false;
+  }
+}
 
 function updateClassroom (request, response, wss, wsport, user) {
   getFormObj(request).then(

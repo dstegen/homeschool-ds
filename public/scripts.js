@@ -20,7 +20,9 @@
    // Chat & chat-windows
    initChat();
    // blackboard
-   initBlackboard();
+   if (document.location.toString().includes('classroom')) {
+     initBlackboard();
+   }
    // Open targetted lessonBig
    if (document.location.pathname.includes('day') && document.location.pathname.split('/')[4] !== undefined) {
      $('#lessonbig-details-'+document.location.pathname.split('/').pop()).collapse('toggle');
@@ -177,6 +179,10 @@ $(".sortable").on("sortupdate", function(event, ui) {
 } );
 
 // blackboard functions
+
+function requestClassroomAccess () {
+  window.location.replace('/classroom/requestaccess');
+}
 
 // When true, moving the mouse draws on the canvas
 let isDrawing = false;

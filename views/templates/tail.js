@@ -25,6 +25,7 @@ function tail () {
         <script src="/node_modules/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
       <!-- Other Scripts -->
         <script src="/public/clock.js"></script>
+        <script src="/public/cookie.js"></script>
         <script src="/public/scripts.js"></script>
     </body>
   </html>`;

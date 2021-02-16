@@ -16,12 +16,12 @@ const { usersOnline, getAllUsers } = require('../../models/model-user');
 const classChat = require('../templates/chat');
 
 
-function classroomView (group, user, wss, wsport) {
+function classroomView (group, user, wss, wsport, recentLesson) {
   return `
     <div id="classroom">
       <div class="container">
         <h2 class="d-flex justify-content-between py-2 px-3 my-3 border">
-          ${locale.headlines.classroom[config.lang]} ${group}
+          ${locale.headlines.classroom[config.lang]} ${group}: ${recentLesson.lesson}
           <span id="clock" class="d-none d-md-block">&nbsp;</span>
         </h2>
       </div>
@@ -32,53 +32,6 @@ function classroomView (group, user, wss, wsport) {
         <div class="d-block mx-3">
           ${user.role === 'teacher' ? '' : ''}
           <canvas ${user.role === 'teacher' ? 'id="myBlackboard"' : 'id="myBlackboard"'} width="1110" height="500" style="width: 1110px; height: 500px; border: 1px solid lightgrey;"></canvas>
-          <script>
-          /*
-            // When true, moving the mouse draws on the canvas
-            let isDrawing = false;
-            let x = 0;
-            let y = 0;
-
-            const myPics = document.getElementById('myBlackboard');
-            const context = myPics.getContext('2d');
-
-            // event.offsetX, event.offsetY gives the (x,y) offset from the edge of the canvas.
-
-            // Add the event listeners for mousedown, mousemove, and mouseup
-            myPics.addEventListener('mousedown', e => {
-              x = e.offsetX;
-              y = e.offsetY;
-              isDrawing = true;
-            });
-
-            myPics.addEventListener('mousemove', e => {
-              if (isDrawing === true) {
-                drawLine(context, x, y, e.offsetX, e.offsetY);
-                x = e.offsetX;
-                y = e.offsetY;
-              }
-            });
-
-            window.addEventListener('mouseup', e => {
-              if (isDrawing === true) {
-                drawLine(context, x, y, e.offsetX, e.offsetY);
-                x = 0;
-                y = 0;
-                isDrawing = false;
-              }
-            });
-
-            function drawLine(context, x1, y1, x2, y2) {
-              context.beginPath();
-              context.strokeStyle = 'black';
-              context.lineWidth = 1;
-              context.moveTo(x1, y1);
-              context.lineTo(x2, y2);
-              context.stroke();
-              context.closePath();
-            }
-            */
-          </script>
           ${classChat([group], user)}
         </div>
         <div class="d-none d-xl-flex align-content-start flex-wrap p-3" style="min-width: 150px;">
@@ -95,6 +48,15 @@ function classroomView (group, user, wss, wsport) {
         console.log(msg.data);
         context.putImageData(msg.data, 0, 0);
       };
+      window.addEventListener('beforeunload', function (e) {
+        // Cancel the event
+        e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
+        // Chrome requires returnValue to be set
+        e.returnValue = '';
+      });
+      window.addEventListener('unload', function (e) {
+        Cookies('classroomaccess', '');
+      });
     </script>
   `;
 }
