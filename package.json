@@ -38,6 +38,7 @@
     "jquery": "^3.5.1",
     "jquery-ui-dist": "^1.12.1",
     "moment": "^2.29.1",
+    "node-viewerjs": "^0.7.1",
     "webapputils-ds": "^0.4.9"
   },
   "nodemonConfig": {
