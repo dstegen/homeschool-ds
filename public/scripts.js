@@ -190,56 +190,72 @@ function initBlackboard () {
   let isDrawing = false;
   let x = 0;
   let y = 0;
+  try {
+    const myCanvas = document.getElementById('myBlackboard');
+    const context = myCanvas.getContext('2d');
 
-  const myPics = document.getElementById('myBlackboard');
-  const context = myPics.getContext('2d');
+    var background = new Image();
+    background.src = "/public/blackboard.jpg";
+    background.onload = function () {
+      context.drawImage(background,0,0);
+    }
 
-  // event.offsetX, event.offsetY gives the (x,y) offset from the edge of the canvas.
+    var timeoutHandle = '';
 
-  // Add the event listeners for mousedown, mousemove, and mouseup
-  myPics.addEventListener('mousedown', e => {
-    x = e.offsetX;
-    y = e.offsetY;
-    isDrawing = true;
-  });
+    // event.offsetX, event.offsetY gives the (x,y) offset from the edge of the canvas.
 
-  myPics.addEventListener('mousemove', e => {
-    if (isDrawing === true) {
-      drawLine(context, x, y, e.offsetX, e.offsetY);
+    // Add the event listeners for mousedown, mousemove, and mouseup
+    myCanvas.addEventListener('mousedown', e => {
+      window.clearTimeout(timeoutHandle);
       x = e.offsetX;
       y = e.offsetY;
-    }
-  });
+      isDrawing = true;
+    });
 
-  window.addEventListener('mouseup', e => {
-    if (isDrawing === true) {
-      drawLine(context, x, y, e.offsetX, e.offsetY);
-      x = 0;
-      y = 0;
-      isDrawing = false;
-      transmitBlackboard(context);
-    }
-  });
+    myCanvas.addEventListener('mousemove', e => {
+      if (isDrawing === true) {
+        drawLine(context, x, y, e.offsetX, e.offsetY);
+        x = e.offsetX;
+        y = e.offsetY;
+      }
+    });
+
+    window.addEventListener('mouseup', e => {
+      if (isDrawing === true) {
+        drawLine(context, x, y, e.offsetX, e.offsetY);
+        x = 0;
+        y = 0;
+        isDrawing = false;
+        // start timer, after 10sec transmit as long as isDrawing === false, reset on isDrawing === true
+        timeoutHandle = window.setTimeout(function() {
+          transmitBlackboard(myCanvas, context);
+        }, 5000);
+      }
+    });
+  } catch (e) {
+    //console.log(e);
+  }
 }
 
 function drawLine(context, x1, y1, x2, y2) {
   context.beginPath();
-  context.strokeStyle = 'black';
-  context.lineWidth = 1;
+  context.strokeStyle = 'white';
+  context.lineWidth = 2;
   context.moveTo(x1, y1);
   context.lineTo(x2, y2);
   context.stroke();
   context.closePath();
 }
 
-function transmitBlackboard (ctx) {
-  var curContent = ctx.getImageData(0,0,1110,500);
+function transmitBlackboard (myCanvas, context) {
+  var curContent = context.getImageData(0,0,1110,500);
+  var img    = myCanvas.toDataURL("image/png");
   var curGroup = window.location.pathname.split('/')[2];
   $.ajax({
-    url: '/classroom/update/'+curGroup, // url where to submit the request
+    url: '/classroom/'+curGroup+'/updatechalkboard/', // url where to submit the request
     type : "POST", // type of action POST || GET
     dataType : 'json', // data type
-    data : {"group": curGroup, "ctx": curContent},
+    data : {"group": curGroup, "data": img},
     success : function(result) {
         console.log(result);
     }

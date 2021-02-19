@@ -47,6 +47,8 @@ function classroomController (request, response, wss, wsport, user) {
     } else if (accessGranted(request, recentLesson)) {
       if (route.startsWith('classroom') && route.includes('endlesson')) {
         endOnlinelesson(request, response, myGroup, wss);
+      } else if (route.startsWith('classroom') && route.includes('updatechalkboard')) {
+        updateChalkboard(request, response, wss, wsport, user);
       } else if (route.startsWith('classroom') && route.includes('update')) {
         updateClassroom(request, response, wss, wsport, user);
       } else if (route.startsWith('classroom')) {
@@ -131,6 +133,22 @@ function updateClassroom (request, response, wss, wsport, user) {
   ).catch(
     error => {
       console.log('ERROR can\'t update classroom: '+error.message);
+  });
+}
+
+function updateChalkboard (request, response, wss, wsport, user) {
+  getFormObj(request).then(
+    data => {
+        wss.clients.forEach(client => {
+          setTimeout(function () {
+            client.send(data.fields.data);
+          }, 100);
+        });
+      //uniSend(new SendObj(302, [], '', '/classroom/'+request.url.substr(1).split('?')[0].split('/')[1]), response);
+    }
+  ).catch(
+    error => {
+      console.log('ERROR can\'t update chalkboard: '+error.message);
   });
 }
 
