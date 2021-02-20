@@ -8,11 +8,11 @@
 'use strict';
 
 
-function formSelectColumn (optionsList, value, prop, onchange='', multiple='') {
+function formSelectColumn (optionsList, value, prop, onchange='', multiple='', required='required') {
   return `
     <label for="${prop}-field" class="col-sm-3 col-form-label text-right">${prop}</label>
     <div class="col-sm-9 mb-2">
-      <select ${multiple} class="form-control form-control-sm" id="${prop}-field" name="${prop}" required ${onchange}>
+      <select ${multiple} class="form-control form-control-sm" id="${prop}-field" name="${prop}" ${required} ${onchange}>
         ${optionsList.map( item => helperSelectOption(item, value) ).join('')}
       </select>
     </div>
