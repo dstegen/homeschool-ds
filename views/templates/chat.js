@@ -35,14 +35,20 @@ function classChat (groupsList, user, windowLength=250) {
             ${chatterEntry(myGroup, user)}
           </div>
           <hr />
-          <form id="classChat-form" action="/communication/chat" class="d-flex justify-content-between" method="post">
+          <form id="classChat-form-${myGroup}" action="/communication/chat" class="d-flex justify-content-between" method="post">
             <input type="text" name="chatterId" class="d-none" hidden value="${user.id}" />
             <input type="text" name="group" class="d-none" hidden value="${myGroup}" />
-            <input type="texte" class="form-control mr-2" id="userchat" name="userchat" maxlength="128" placeholder="${user.fname}, ${locale.placeholder.write_something[config.lang]}" value="" />
-            <button type="submit" class="btn btn-sm btn-primary">${locale.buttons.send[config.lang]}</button>
+            <input type="texte" class="form-control mr-2" id="userchat-${myGroup}" name="userchat" maxlength="128" placeholder="${user.fname}, ${locale.placeholder.write_something[config.lang]}" value="" />
+            <button type="button" class="btn btn-sm btn-primary" onclick="sendChat('${myGroup}');">${locale.buttons.send[config.lang]}</button>
           </form>
         </div>
       </div>
+      <script>
+        document.getElementById('userchat-${myGroup}').addEventListener('keypress', function (e) {
+          if (e.key === 'Enter') sendChat('${myGroup}');
+          return false;
+        });
+      </script>
     `;
   });
   return returnHtml;

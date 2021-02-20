@@ -29,6 +29,9 @@
    }
  });
 
+
+//+++ START Chat functions +++//
+
 // Initialize Chat functions
 function initChat () {
   for (let i=0; i<$('.chat-window').length; i++) {
@@ -66,6 +69,25 @@ function toggleChat (id) {
     console.log(localStorage.closedChats);
   }
 }
+
+function sendChat (group) {
+  var chatterId = $('#chat-window-'+group+' input[name="chatterId"]').val();
+  var userchat = $('#chat-window-'+group+' input[name="userchat"]').val();
+  $('#chat-window-'+group+' input[name="userchat"]').val('');
+  $.ajax({
+    url: '/communication/chat', // url where to submit the request
+    type : "POST", // type of action POST || GET
+    dataType : 'json', // data type
+    data : {"chatterId": chatterId, "group": group, "userchat": userchat},
+    success : function(result) {
+        console.log(result);
+    }
+  });
+}
+
+//--- END CHat functions ---//
+
+
 
 // newPrivateMessage-Modal
 function showNewPrivateMessage (myGroup, chatMate) {
@@ -179,7 +201,8 @@ $(".sortable").on("sortupdate", function(event, ui) {
 } );
 
 
-// blackboard functions
+
+//+++ Blackboard functions +++///
 
 function requestClassroomAccess () {
   window.location.replace('/classroom/requestaccess');
@@ -261,3 +284,5 @@ function transmitBlackboard (myCanvas, context) {
     }
   });
 }
+
+//--- ENDE Blackboard functions ---///

@@ -44,7 +44,8 @@ function updateChatAction (request, response, wss) {
       } catch (e) {
         console.log('- ERROR while sending websocket message to all clients: '+e);
       }
-      uniSend(new SendObj(302, [], '', '/communication'), response);
+      //uniSend(new SendObj(302, [], '', '/communication'), response);
+      uniSend(new SendObj(200), response);
     }
   ).catch(
     error => {

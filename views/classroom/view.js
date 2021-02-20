@@ -43,8 +43,8 @@ function classroomView (group, user, wss, wsport, recentLesson) {
         e.returnValue = '';
       });
       window.addEventListener('unload', function (e) {
-        Cookies("classroomaccess", "");
-        window.location.replace('/classroom/exitaccess');
+        //Cookies("classroomaccess", "");
+        //window.location.replace('/classroom/exitaccess');
         $.ajax({
           url: '/classroom/exitaccess', // url where to submit the request
           type : "POST", // type of action POST || GET
@@ -93,16 +93,17 @@ function classroomView (group, user, wss, wsport, recentLesson) {
         if (msg.data === 'lessonclosed') {
           window.location.replace('/');
         } else if (msg.data === 'newstudent') {
-          //location.reload();
-          $( "#studentsLeft" ).load(window.location.href + " #studentsLeft" );
-          $( "#studentsRight" ).load(window.location.href + " #studentsRight" );
+          $( "#studentsLeft" ).load(window.location.href + " #studentsLeft > *" );
+          $( "#studentsRight" ).load(window.location.href + " #studentsRight > *" );
+        } else if (msg.data === 'chatUpdate') {
+          $("#chat-window-${group}").load(window.location.href + " #chat-window-${group} > *" );
+          setTimeout(function () {
+            $('#'+$('.chat-window')[0].id).scrollTop($('.chat-window')[0].scrollHeight);
+          }, 500);
         } else {
           var bb = document.getElementById('studentChalkboard');
-          bb.innerHTML = '<img src="'+msg.data+'"/>';
+          if (bb !== null) bb.innerHTML = '<img src="'+msg.data+'"/>';
         }
-        //location.reload();
-        //console.log(msg.data);
-        //context.putImageData(msg.data, 0, 0);
       };
       ${unloadScripts}
     </script>
