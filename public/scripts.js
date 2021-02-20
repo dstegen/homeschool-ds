@@ -286,3 +286,15 @@ function transmitBlackboard (myCanvas, context) {
 }
 
 //--- ENDE Blackboard functions ---///
+
+function signalTeacher (group, userId) {
+  $.ajax({
+    url: '/classroom/signal', // url where to submit the request
+    type : "POST", // type of action POST || GET
+    dataType : 'json', // data type
+    data : {"group": group, "userId": userId},
+    success : function(result) {
+        console.log(result);
+    }
+  });
+}

@@ -31,7 +31,9 @@ function classroomController (request, response, wss, wsport, user) {
   if (user.role === 'student') {
     myGroup = user.group;
     let recentLesson = loadFile(path.join(__dirname, '../data/classes', myGroup.toString(), 'onlinelesson.json'));
-    if (accessGranted(request, recentLesson)) {
+    if (route.startsWith('classroom/signal')) {
+      signalTeacher(request, response, user, wss, wsport, recentLesson);
+    } else if (accessGranted(request, recentLesson)) {
       uniSend(view('', naviObj, classroomView(myGroup, user, wss, wsport, recentLesson)), response);
     } else if (route.startsWith('classroom/requestaccess')) {
       grantAccess(response, recentLesson, user, wss);
@@ -132,6 +134,23 @@ function exitAccess (recentLesson, user) {
   } catch (e) {
     console.log('- ERROR online lesson already closed! '+e);
   }
+}
+
+function signalTeacher (request, response, user, wss, wsport, recentLesson) {
+  getFormObj(request).then(
+    data => {
+      console.log(data.fields);
+      wss.clients.forEach(client => {
+        setTimeout(function () {
+          client.send(JSON.stringify(['signal', user.id]));
+        }, 100);
+      });
+      uniSend(new SendObj(200), response);
+    }
+  ).catch(
+    error => {
+      console.log('ERROR can\'t update classroom: '+error.message);
+  });
 }
 
 function updateClassroom (request, response, wss, wsport, user) {
