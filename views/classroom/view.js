@@ -86,7 +86,8 @@ function classroomView (group, user, wss, wsport, recentLesson) {
     <script>
       // Websockets
       const hostname = window.location.hostname ;
-      const socket = new WebSocket('ws://'+hostname+':${wsport}/', 'protocolOne', { perMessageDeflate: false });
+      const wsProtocol = location.protocol.replace('http','ws');
+      const socket = new WebSocket(wsProtocol+'//'+hostname+':${wsport}/', 'protocolOne', { perMessageDeflate: false });
       socket.onmessage = function (msg) {
         //console.log(msg);
         if (msg.data === 'lessonclosed') {

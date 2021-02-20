@@ -17,7 +17,7 @@ const formSelectColumn = require('../templates/form-select-column');
 
 function teacherView (group) {
   let myLessons = getLessons(group);
-  let lessonsSelectArray = myLessons.map( item => { return [item.id, item.lesson+' - '+item.details]; });
+  let lessonsSelectArray = myLessons.map( item => { return [item.id, item.lesson+' - '+item.chapter]; });
   lessonsSelectArray.unshift(['','']);
   return `
     <div class="container border my-3 p-3 h-50">

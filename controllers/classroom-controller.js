@@ -83,7 +83,7 @@ function createOnlinelesson (request, response, myGroup) {
       };
       if (data.fields.lessonName === '' && typeof(Number(data.fields.lessonId)) === 'number') {
         let myLesson = getLessons(myGroup).filter( item => item.id === Number(data.fields.lessonId))[0];
-        recentLesson.lesson = myLesson.lesson + ' - ' + myLesson.details;
+        recentLesson.lesson = myLesson.lesson + ' - ' + myLesson.chapter;
         recentLesson.id = myLesson.id;
         if (myLesson.files && myLesson.files.length > 0) recentLesson.files = myLesson.files;
         if (myLesson.videos && myLesson.videos.length > 0) recentLesson.videos = myLesson.videos;
