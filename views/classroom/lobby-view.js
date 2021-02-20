@@ -10,7 +10,6 @@
 // Required modules
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
-const { usersOnline, getAllUsers } = require('../../models/model-user');
 
 
 function lobbyView (recentLesson) {

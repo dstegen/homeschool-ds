@@ -147,6 +147,18 @@
     "no_lesson_yet": {
       "en": "No online lesson at the moment!",
       "de": "Zurzeit ist kein Online-Unterrichtsstunde!"
+    },
+    "blackboard_chalkboard": {
+      "en": "Chalkboard",
+      "de": "Tafel"
+    },
+    "blackboard_doc": {
+      "en": "Doc",
+      "de": "Dokument"
+    },
+    "blackboard_video": {
+      "en": "Video",
+      "de": "Film"
     }
   },
   "buttons": {

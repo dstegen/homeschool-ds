@@ -248,14 +248,14 @@ function drawLine(context, x1, y1, x2, y2) {
 }
 
 function transmitBlackboard (myCanvas, context) {
-  var curContent = context.getImageData(0,0,1110,500);
-  var img    = myCanvas.toDataURL("image/png");
+  var curContent = context.getImageData(0,0,1110,625);
+  var chalkboardImg = myCanvas.toDataURL("image/png");
   var curGroup = window.location.pathname.split('/')[2];
   $.ajax({
     url: '/classroom/'+curGroup+'/updatechalkboard/', // url where to submit the request
     type : "POST", // type of action POST || GET
     dataType : 'json', // data type
-    data : {"group": curGroup, "data": img},
+    data : {"group": curGroup, "data": chalkboardImg},
     success : function(result) {
         console.log(result);
     }

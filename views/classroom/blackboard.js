@@ -14,35 +14,55 @@ const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
 
 
-function blackboard (role) {
+function blackboard (recentLesson, role) {
   let myChalkboard = '';
   if (role === 'teacher') {
     myChalkboard = `<canvas id="myBlackboard" width="1110" height="625" style="width: 1110px; height: 625px;"></canvas>`;
   } else {
-    myChalkboard = `<div id="studentChalkboard" style="width: 1110px; height: 625px; background: url('/public/blackboard.jpg') center center;"></div>`;
+    if (fs.existsSync(path.join(__dirname, '../../data/classes/', recentLesson.group.toString(), 'onlinelesson.png'))) {
+      myChalkboard = `<div id="studentChalkboard" style="width: 1110px; height: 625px; background: url('/data/classes/${recentLesson.group}/onlinelesson.png') center center;"></div>`;
+    } else {
+      myChalkboard = `<div id="studentChalkboard" style="width: 1110px; height: 625px; background: url('/public/blackboard.jpg') center center;"></div>`;
+    }
+  }
+  let tabMenu = '';
+  let tabBody = '';
+  for (let i=0; i<recentLesson.files.length; i++) {
+    tabMenu += `
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="docs-tab-${i}" data-toggle="tab" href="#docs${i}" role="tab" aria-controls="docs${i}" aria-selected="false">${locale.headlines.blackboard_doc[config.lang]} ${i+1}</a>
+      </li>
+    `;
+    tabBody += `
+      <div class="tab-pane fade border border-top-0" id="docs${i}" role="tabpanel" aria-labelledby="docs-tab-${i}" style="width: 1110px; height: 625px;">
+        <iframe src = "/node_modules/node-viewerjs/release/index.html?zoom=page-width#${recentLesson.files[i]}" width='1110' height='625' allowfullscreen webkitallowfullscreen></iframe>
+      </div>
+    `;
+  }
+  for (let i=0; i<recentLesson.videos.length; i++) {
+    tabMenu += `
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="video-tab-${i}" data-toggle="tab" href="#video${i}" role="tab" aria-controls="video${i}" aria-selected="false">${locale.headlines.blackboard_video[config.lang]} ${i+1}</a>
+      </li>
+    `;
+    tabBody += `
+    <div class="tab-pane fade border border-top-0" id="video${i}" role="tabpanel" aria-labelledby="video-tab-${i}" style="width: 1110px; height: 625px;">
+      <iframe width="1110" height="625" src="https://www.youtube-nocookie.com/embed/${recentLesson.videos[i]}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    `;
   }
   return `
   <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
-      <a class="nav-link active" id="chalkboard-tab" data-toggle="tab" href="#chalkboard" role="tab" aria-controls="chalkboard" aria-selected="true">Chalkboard</a>
+      <a class="nav-link active" id="chalkboard-tab" data-toggle="tab" href="#chalkboard" role="tab" aria-controls="chalkboard" aria-selected="true">${locale.headlines.blackboard_chalkboard[config.lang]}</a>
     </li>
-    <li class="nav-item" role="presentation">
-      <a class="nav-link" id="docs-tab" data-toggle="tab" href="#docs" role="tab" aria-controls="docs" aria-selected="false">Docs</a>
-    </li>
-    <li class="nav-item" role="presentation">
-      <a class="nav-link" id="video-tab" data-toggle="tab" href="#video" role="tab" aria-controls="video" aria-selected="false">Video</a>
-    </li>
+    ${tabMenu}
   </ul>
   <div class="tab-content mb-3" id="myTabContent">
     <div class="tab-pane fade show active border border-top-0" id="chalkboard" role="tabpanel" aria-labelledby="chalkboard-tab">
       ${myChalkboard}
     </div>
-    <div class="tab-pane fade border border-top-0" id="docs" role="tabpanel" aria-labelledby="docs-tab" style="width: 1110px; height: 625px;">
-      <iframe src = "/node_modules/node-viewerjs/release/index.html?zoom=page-width#/data/classes/7A1/courses/Mathe/700015/homework/100001/ds_aufgaben_mathe.pdf" width='1110' height='625' allowfullscreen webkitallowfullscreen></iframe>
-    </div>
-    <div class="tab-pane fade border border-top-0" id="video" role="tabpanel" aria-labelledby="video-tab" style="width: 1110px; height: 625px;">
-      <iframe width="1110" height="625" src="https://www.youtube-nocookie.com/embed/ksCrRr6NBg0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </div>
+    ${tabBody}
   </div>
   `;
 }

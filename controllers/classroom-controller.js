@@ -12,6 +12,7 @@ const fs = require('fs');
 const path = require('path');
 const uuidv4 = require('uuid').v4;
 const { uniSend, getFormObj, SendObj, cookie } = require('webapputils-ds');
+const { getLessons } = require('../models/model-lessons');
 const getNaviObj = require('../views/lib/getNaviObj');
 const classroomView = require('../views/classroom/view');
 const lobbyView = require('../views/classroom/lobby-view');
@@ -68,13 +69,26 @@ function classroomController (request, response, wss, wsport, user) {
 function createOnlinelesson (request, response, myGroup) {
   getFormObj(request).then(
     data => {
+      let newUuid = uuidv4();
       let recentLesson = {
-        key: uuidv4(),
+        key: newUuid,
+        id: newUuid,
         lesson: data.fields.lessonName,
         group: myGroup,
+        files: [],
+        videos: data.fields.videos !== '' ? data.fields.videos.replace(/\s/g, '').split(',') : [], // Test-YT-IDs: 'ksCrRr6NBg0','Wbfp4_HQQPM'
+        links: [],
         students: [],
         timeStamp: new Date()
       };
+      if (data.fields.lessonName === '' && typeof(Number(data.fields.lessonId)) === 'number') {
+        let myLesson = getLessons(myGroup).filter( item => item.id === Number(data.fields.lessonId))[0];
+        recentLesson.lesson = myLesson.lesson + ' - ' + myLesson.details;
+        recentLesson.id = myLesson.id;
+        if (myLesson.files && myLesson.files.length > 0) recentLesson.files = myLesson.files;
+        if (myLesson.videos && myLesson.videos.length > 0) recentLesson.videos = myLesson.videos;
+        if (myLesson.links && myLesson.links.length > 0) recentLesson.links = myLesson.links;
+      }
       saveFile(path.join(__dirname, '../data/classes', myGroup.toString()), 'onlinelesson.json', recentLesson);
       uniSend(new SendObj(302, ['classroomaccess='+recentLesson.key+'; path=/'], '', '/classroom/'+myGroup), response);
     }
@@ -112,8 +126,12 @@ function accessGranted (request, recentLesson) {
 
 function exitAccess (recentLesson, user) {
   console.log('Exit');
-  recentLesson.students = recentLesson.students.filter( item => item.id !== user.id);
-  saveFile(path.join(__dirname, '../data/classes', user.group.toString()), 'onlinelesson.json', recentLesson);
+  try {
+    recentLesson.students = recentLesson.students.filter( item => item.id !== user.id);
+    saveFile(path.join(__dirname, '../data/classes', user.group.toString()), 'onlinelesson.json', recentLesson);
+  } catch (e) {
+    console.log('- ERROR online lesson already closed! '+e);
+  }
 }
 
 function updateClassroom (request, response, wss, wsport, user) {
@@ -139,12 +157,18 @@ function updateClassroom (request, response, wss, wsport, user) {
 function updateChalkboard (request, response, wss, wsport, user) {
   getFormObj(request).then(
     data => {
-        wss.clients.forEach(client => {
-          setTimeout(function () {
-            client.send(data.fields.data);
-          }, 100);
-        });
-      //uniSend(new SendObj(302, [], '', '/classroom/'+request.url.substr(1).split('?')[0].split('/')[1]), response);
+      wss.clients.forEach(client => {
+        setTimeout(function () {
+          client.send(data.fields.data);
+        }, 100);
+      });
+      try {
+        let fileBuffer = new Buffer.from(data.fields.data.split(',')[1], 'base64');
+        saveFile(path.join(__dirname, '../data/classes', data.fields.group.toString(),), 'onlinelesson.png', fileBuffer, true);
+      } catch (e) {
+        console.log('- ERROR saving chalkboard: '+e);
+      }
+      //uniSend(new SendObj(200), response);
     }
   ).catch(
     error => {
@@ -155,6 +179,7 @@ function updateChalkboard (request, response, wss, wsport, user) {
 function endOnlinelesson (request, response, myGroup, wss) {
   try {
     fs.unlinkSync(path.join(__dirname, '../data/classes', myGroup.toString(), 'onlinelesson.json'));
+    fs.unlinkSync(path.join(__dirname, '../data/classes', myGroup.toString(), 'onlinelesson.png'));
     wss.clients.forEach(client => {
       setTimeout(function () {
         client.send('lessonclosed');

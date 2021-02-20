@@ -12,7 +12,6 @@ const fs = require('fs');
 const path = require('path');
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
-const { usersOnline, getAllUsers } = require('../../models/model-user');
 const blackboard = require('./blackboard');
 const classChat = require('../templates/chat');
 
@@ -68,18 +67,18 @@ function classroomView (group, user, wss, wsport, recentLesson) {
         ${actionsButtons}
       </div>
       <div class="d-flex justify-content-around mb-3">
-        <div class="d-none d-xl-flex align-content-start flex-wrap p-3" style="min-width: 150px;">
+        <div id="studentsLeft" class="d-none d-xl-flex align-content-start flex-wrap p-3" style="min-width: 150px;">
           ${studentsList(recentLesson.students,2)}
         </div>
         <div class="d-block mx-3">
           <div>
-            ${blackboard(user.role)}
+            ${blackboard(recentLesson, user.role)}
           </div>
           <div>
             ${classChat([group], user)}
           </div>
         </div>
-        <div class="d-none d-xl-flex align-content-start flex-wrap p-3" style="min-width: 150px;">
+        <div id="studentsRight" class="d-none d-xl-flex align-content-start flex-wrap p-3" style="min-width: 150px;">
           ${studentsList(recentLesson.students,1)}
         </div>
       </div>
@@ -93,7 +92,9 @@ function classroomView (group, user, wss, wsport, recentLesson) {
         if (msg.data === 'lessonclosed') {
           window.location.replace('/');
         } else if (msg.data === 'newstudent') {
-          location.reload();
+          //location.reload();
+          $( "#studentsLeft" ).load(window.location.href + " #studentsLeft" );
+          $( "#studentsRight" ).load(window.location.href + " #studentsRight" );
         } else {
           var bb = document.getElementById('studentChalkboard');
           bb.innerHTML = '<img src="'+msg.data+'"/>';

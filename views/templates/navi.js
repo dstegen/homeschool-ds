@@ -39,7 +39,7 @@ function navi (naviObj, loggedIn, history) {
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-secondary sticky-top d-block">
       <div class="container w-100">
-        <a class="navbar-brand text-truncate w-50 py-0" href="${naviObj.home.link}" ${onClick}>
+        <a class="navbar-brand text-truncate w-25 py-0" href="${naviObj.home.link}" ${onClick}>
           ${naviObj.home.name}
         </a>
         ${loggedInHtml}

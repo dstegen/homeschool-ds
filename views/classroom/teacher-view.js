@@ -10,11 +10,15 @@
 // Required modules
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
-const { usersOnline, getAllUsers } = require('../../models/model-user');
+const { getLessons } = require('../../models/model-lessons');
 const formTextInputColumn = require('../templates/form-textinput-column');
+const formSelectColumn = require('../templates/form-select-column');
 
 
 function teacherView (group) {
+  let myLessons = getLessons(group);
+  let lessonsSelectArray = myLessons.map( item => { return [item.id, item.lesson+' - '+item.details]; });
+  lessonsSelectArray.unshift(['','']);
   return `
     <div class="container border my-3 p-3 h-50">
       <div class="d-flex justify-content-between">
@@ -22,12 +26,22 @@ function teacherView (group) {
         <h2>${group}</h2>
       </div>
       <form id="create-online-lesson-form" action="/classroom/${group}/create" method="post">
-        <div class="row mt-3">
-          ${formTextInputColumn('', 'lessonName')}
+      <div class="row">
+        <div class="col row mt-3">
+          ${formTextInputColumn('', 'lessonName', '')}
         </div>
-        <div class="text-right">
+        <div class="col row mt-3">
+          ${formTextInputColumn('', 'videos', '')}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col row mt-3">
+          ${formSelectColumn(lessonsSelectArray, '', 'lessonId', 'onchange', '', '')}
+        </div>
+        <div class="col text-right">
           <button type="submit" class="btn btn-primary mt-3">${locale.buttons.start_onlinelesson[config.lang]}</button>
         </div>
+      </div>
       </form>
     </div>
   `;
