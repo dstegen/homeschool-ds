@@ -287,6 +287,7 @@ function transmitBlackboard (myCanvas, context) {
 
 //--- ENDE Blackboard functions ---///
 
+
 function signalTeacher (group, userId) {
   $.ajax({
     url: '/classroom/signal', // url where to submit the request
@@ -297,4 +298,10 @@ function signalTeacher (group, userId) {
         console.log(result);
     }
   });
+}
+
+function signal (id) {
+  $('#'+id+' svg').addClass('d-block');
+  $('#'+id+' div').addClass('pl-3');
+  $('#'+id+' small').addClass('font-weight-bold')
 }

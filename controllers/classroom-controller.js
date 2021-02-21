@@ -31,14 +31,16 @@ function classroomController (request, response, wss, wsport, user) {
   if (user.role === 'student') {
     myGroup = user.group;
     let recentLesson = loadFile(path.join(__dirname, '../data/classes', myGroup.toString(), 'onlinelesson.json'));
-    if (route.startsWith('classroom/signal')) {
-      signalTeacher(request, response, user, wss, wsport, recentLesson);
-    } else if (accessGranted(request, recentLesson)) {
-      uniSend(view('', naviObj, classroomView(myGroup, user, wss, wsport, recentLesson)), response);
+    if (accessGranted(request, recentLesson)) {
+      if (route.startsWith('classroom/signal')) {
+        signalTeacher(request, response, user, wss, wsport, recentLesson);
+      } else if (route.startsWith('classroom/exitaccess')) {
+        exitAccess(response, wss, recentLesson, user);
+      } else {
+        uniSend(view('', naviObj, classroomView(myGroup, user, wss, wsport, recentLesson)), response);
+      }
     } else if (route.startsWith('classroom/requestaccess')) {
       grantAccess(response, recentLesson, user, wss);
-    } else if (route.startsWith('classroom/exitaccess')) {
-      exitAccess(recentLesson, user);
     } else {
       uniSend(view('', naviObj, lobbyView(recentLesson)), response);
     }
@@ -126,20 +128,25 @@ function accessGranted (request, recentLesson) {
   }
 }
 
-function exitAccess (recentLesson, user) {
-  console.log('Exit');
+function exitAccess (response, wss, recentLesson, user) {
   try {
     recentLesson.students = recentLesson.students.filter( item => item.id !== user.id);
     saveFile(path.join(__dirname, '../data/classes', user.group.toString()), 'onlinelesson.json', recentLesson);
+    wss.clients.forEach(client => {
+      setTimeout(function () {
+        client.send('newstudent');
+      }, 100);
+    });
+    uniSend( new SendObj(302, ['classroomaccess=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'], '', '/'), response);
   } catch (e) {
     console.log('- ERROR online lesson already closed! '+e);
+    uniSend( new SendObj(302, [], '', '/'), response);
   }
 }
 
 function signalTeacher (request, response, user, wss, wsport, recentLesson) {
   getFormObj(request).then(
     data => {
-      console.log(data.fields);
       wss.clients.forEach(client => {
         setTimeout(function () {
           client.send(JSON.stringify(['signal', user.id]));
