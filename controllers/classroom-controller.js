@@ -55,7 +55,7 @@ function classroomController (request, response, wss, wsport, user) {
       } else if (route.startsWith('classroom') && route.includes('updatechalkboard')) {
         updateChalkboard(request, response, wss, wsport, user);
       } else if (route.startsWith('classroom') && route.includes('update')) {
-        updateClassroom(request, response, wss, wsport, user);
+        updateClassroom(request, response, wss, wsport, user, myGroup);
       } else if (route.startsWith('classroom')) {
         uniSend(view('', naviObj, classroomView(myGroup, user, wss, wsport, recentLesson)), response);
       }
@@ -144,43 +144,34 @@ function exitAccess (response, wss, recentLesson, user) {
   }
 }
 
-function signalTeacher (request, response, user, wss, wsport, recentLesson) {
-  getFormObj(request).then(
-    data => {
-      wss.clients.forEach(client => {
-        setTimeout(function () {
-          client.send(JSON.stringify(['signal', user.id]));
-        }, 100);
-      });
-      uniSend(new SendObj(200), response);
-    }
-  ).catch(
-    error => {
-      console.log('ERROR can\'t update classroom: '+error.message);
-  });
+function signalTeacher (request, response, user, wss) {
+  try {
+    wss.clients.forEach(client => {
+      setTimeout(function () {
+        client.send(JSON.stringify(['signal', user.id]));
+      }, 100);
+    });
+    uniSend(new SendObj(200), response);
+  } catch (e) {
+    console.log('ERROR can\'t update classroom: '+e);
+  }
 }
 
-function updateClassroom (request, response, wss, wsport, user) {
-  getFormObj(request).then(
-    data => {
-      if (request.url.includes('update')) {
-        /*
-        wss.clients.forEach(client => {
-          setTimeout(function () {
-            client.send(data.fields.ctx);
-          }, 100);
-        });
-        */
-      }
-      //uniSend(new SendObj(302, [], '', '/classroom/'+request.url.substr(1).split('?')[0].split('/')[1]), response);
-    }
-  ).catch(
-    error => {
-      console.log('ERROR can\'t update classroom: '+error.message);
-  });
+function updateClassroom (request, response, wss, wsport, user, myGroup) {
+  try {
+    wss.clients.forEach(client => {
+      setTimeout(function () {
+        client.send('updateclassroom');
+      }, 100);
+    });
+    uniSend(new SendObj(302, [], '', '/classroom/'+myGroup), response);
+  } catch (e) {
+    console.log('ERROR can\'t update classroom: '+e);
+    uniSend(new SendObj(302, [], '', '/classroom/'+myGroup), response);
+  }
 }
 
-function updateChalkboard (request, response, wss, wsport, user) {
+function updateChalkboard (request, response, wss) {
   getFormObj(request).then(
     data => {
       wss.clients.forEach(client => {

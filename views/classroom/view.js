@@ -22,7 +22,8 @@ function classroomView (group, user, wss, wsport, recentLesson) {
   if (user.role === 'teacher') {
     actionsButtons = `
       <div class="mt-3 d-flex justify-content-end">
-        <button class="btn btn-sm btn-danger" onclick="window.location.replace('/classroom/${group}/endlesson');">${locale.buttons.end_onelinelesson[config.lang]}</button>
+      <button class="btn btn-sm btn-primary" onclick="window.location.replace('/classroom/${group}/update');">Update classroom</button>
+        <button class="btn btn-sm btn-danger ml-3" onclick="window.location.replace('/classroom/${group}/endlesson');">${locale.buttons.end_onelinelesson[config.lang]}</button>
       </div>
     `;
   } else {
@@ -95,6 +96,8 @@ function classroomView (group, user, wss, wsport, recentLesson) {
         //console.log(msg);
         if (msg.data === 'lessonclosed') {
           window.location.replace('/');
+        } else if (msg.data === 'updateclassroom') {
+          location.reload();
         } else if (msg.data === 'newstudent') {
           $( "#studentsLeft" ).load(window.location.href + " #studentsLeft > *" );
           $( "#studentsRight" ).load(window.location.href + " #studentsRight > *" );
@@ -103,7 +106,7 @@ function classroomView (group, user, wss, wsport, recentLesson) {
           setTimeout(function () {
             $('#'+$('.chat-window')[0].id).scrollTop($('.chat-window')[0].scrollHeight);
           }, 500);
-        } else if (JSON.parse(msg.data)[0] === 'signal') {
+        } else if (msg.data.toString().startsWith('[')) {
           signal(JSON.parse(msg.data)[1])
         } else {
           var bb = document.getElementById('studentChalkboard');
