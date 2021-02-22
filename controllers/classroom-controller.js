@@ -126,7 +126,7 @@ function createOnlinelesson (request, response, myGroup) {
 function grantAccess (response, recentLesson, user, wss) {
   try {
     if (recentLesson.students === undefined) recentLesson.students = [];
-    if (recentLesson.students.filter( item => item.id === user.id).length === 0) {
+    if (recentLesson.students.filter( item => item.id === user.id).length === 0 && recentLesson.group === user.group) {
       recentLesson.students.push(user);
       saveFile(path.join(__dirname, '../data/classes', user.group.toString()), 'onlinelesson.json', recentLesson);
       wss.clients.forEach(client => {
