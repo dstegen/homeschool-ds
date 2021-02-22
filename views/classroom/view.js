@@ -75,10 +75,10 @@ function classroomView (group, user, wss, wsport, recentLesson) {
         <div id="studentsLeft" class="d-none d-xl-flex align-content-start flex-wrap p-3" style="min-width: 150px;">
           ${studentsList(recentLesson.students,2)}
         </div>
-        <div class="d-block mx-3">
-          <div>
+        <div class="container d-block mx-3">
+
             ${blackboard(recentLesson, user.role)}
-          </div>
+
           <div>
             ${classChat([group], user)}
           </div>
@@ -109,12 +109,13 @@ function classroomView (group, user, wss, wsport, recentLesson) {
           }, 500);
         } else if (msg.data === 'cleanchalkboard') {
           var bb = document.getElementById('studentChalkboard');
-          if (bb !== null) bb.innerHTML = '<img src="/public/blackboard.jpg" width="1110" height="625" />';
+          if (bb !== null) bb.innerHTML = '<img class="img-fluid" src="/public/blackboard.jpg" />';
         } else if (msg.data.toString().startsWith('[')) {
           signal(JSON.parse(msg.data)[1])
         } else {
           var bb = document.getElementById('studentChalkboard');
-          if (bb !== null) bb.innerHTML = '<img src="'+msg.data+'" />';
+          if (bb !== null) bb.innerHTML = '<img class="img-fluid" src="'+msg.data+'" />';
+          //$( "#studentChalkboard" ).load(window.location.href + " #studentChalkboard > *" );
         }
       };
       ${unloadScripts}

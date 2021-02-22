@@ -214,7 +214,13 @@ function initBlackboard () {
   let x = 0;
   let y = 0;
   try {
+    var heightRatio = 9/16;
+    $('#studentChalkboard').height($('#studentChalkboard').width() * heightRatio);
     const myCanvas = document.getElementById('myBlackboard');
+    myCanvas.width = $('#chalkboard').width();
+    myCanvas.style.width = myCanvas.width+'px';
+    myCanvas.height = myCanvas.width * heightRatio;
+    myCanvas.style.height = myCanvas.width * heightRatio+'px';
     const context = myCanvas.getContext('2d');
 
     var background = new Image();

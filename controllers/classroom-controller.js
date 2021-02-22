@@ -52,7 +52,7 @@ function classroomController (request, response, wss, wsport, user) {
             link: '/'
           },
           menuItems: [],
-          newMessages: ''
+          newMessages: '0'
         }
         uniSend(view('', naviObj, classroomView(myGroup, user, wss, wsport, recentLesson)), response);
       }
@@ -195,17 +195,17 @@ function updateClassroom (request, response, wss, wsport, user, myGroup) {
 function updateChalkboard (request, response, wss) {
   getFormObj(request).then(
     data => {
-      wss.clients.forEach(client => {
-        setTimeout(function () {
-          client.send(data.fields.data);
-        }, 100);
-      });
       try {
         let fileBuffer = new Buffer.from(data.fields.data.split(',')[1], 'base64');
         saveFile(path.join(__dirname, '../data/classes', data.fields.group.toString()), 'onlinelesson.png', fileBuffer, true);
       } catch (e) {
         console.log('- ERROR saving chalkboard: '+e);
       }
+      wss.clients.forEach(client => {
+        setTimeout(function () {
+          client.send(data.fields.data);
+        }, 100);
+      });
       //uniSend(new SendObj(200), response);
     }
   ).catch(

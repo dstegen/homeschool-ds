@@ -17,12 +17,12 @@ const config = require('../../models/model-config').getConfig();
 function blackboard (recentLesson, role) {
   let myChalkboard = '';
   if (role === 'teacher') {
-    myChalkboard = `<canvas id="myBlackboard" class="${recentLesson.group}" width="1110" height="625" style="width: 1110px; height: 625px;"></canvas>`;
+    myChalkboard = `<canvas id="myBlackboard" class="${recentLesson.group}"></canvas>`;
   } else {
     if (fs.existsSync(path.join(__dirname, '../../data/classes/', recentLesson.group.toString(), 'onlinelesson.png'))) {
-      myChalkboard = `<div id="studentChalkboard" style="width: 1110px; height: 625px; background: url('/data/classes/${recentLesson.group}/onlinelesson.png') center center;"></div>`;
+      myChalkboard = `<div id="studentChalkboard" style="width: 100%; max-width: 1110px; background: url('/data/classes/${recentLesson.group}/onlinelesson.png') center center; background-size: cover;"></div>`;
     } else {
-      myChalkboard = `<div id="studentChalkboard" style="width: 1110px; height: 625px; background: url('/public/blackboard.jpg') center center;"></div>`;
+      myChalkboard = `<div id="studentChalkboard" style="widht: 100%; max-width: 1110px; background: url('/public/blackboard.jpg') center center; background-size: cover;"></div>`;
     }
   }
   let tabMenu = '';
