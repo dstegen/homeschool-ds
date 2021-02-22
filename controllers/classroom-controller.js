@@ -11,6 +11,9 @@
 const fs = require('fs');
 const path = require('path');
 const uuidv4 = require('uuid').v4;
+const locale = require('../lib/locale');
+const config = require('../models/model-config').getConfig();
+const { getTitleNameById } = require('../models/model-user');
 const { uniSend, getFormObj, SendObj, cookie } = require('webapputils-ds');
 const { getLessons } = require('../models/model-lessons');
 const getNaviObj = require('../views/lib/getNaviObj');
@@ -28,15 +31,29 @@ function classroomController (request, response, wss, wsport, user) {
   let route = request.url.substr(1).split('?')[0];
   console.log('Route: '+route);
   let naviObj = getNaviObj(user);
+  let recentLesson = {};
   if (user.role === 'student') {
     myGroup = user.group;
-    let recentLesson = loadFile(path.join(__dirname, '../data/classes', myGroup.toString(), 'onlinelesson.json'));
+    if (fs.existsSync(path.join(__dirname, '../data/classes', myGroup.toString(), 'onlinelesson.json'))) {
+      recentLesson = loadFile(path.join(__dirname, '../data/classes', myGroup.toString(), 'onlinelesson.json'));
+    }
     if (accessGranted(request, recentLesson)) {
       if (route.startsWith('classroom/signal')) {
         signalTeacher(request, response, user, wss, wsport, recentLesson);
       } else if (route.startsWith('classroom/exitaccess')) {
         exitAccess(response, wss, recentLesson, user);
       } else {
+        naviObj = {
+          school: config.schoolName,
+          loginname: locale.headlines.navi_student[config.lang]+': '+getTitleNameById(user.id),
+          loggedin: true,
+          home: {
+            name: 'HomeSchool-DS',
+            link: '/'
+          },
+          menuItems: [],
+          newMessages: ''
+        }
         uniSend(view('', naviObj, classroomView(myGroup, user, wss, wsport, recentLesson)), response);
       }
     } else if (route.startsWith('classroom/requestaccess')) {
@@ -46,7 +63,9 @@ function classroomController (request, response, wss, wsport, user) {
     }
   } else if (user.role === 'teacher') {
     myGroup = route.split('/')[1];
-    let recentLesson = loadFile(path.join(__dirname, '../data/classes', myGroup.toString(), 'onlinelesson.json'));
+    if (fs.existsSync(path.join(__dirname, '../data/classes', myGroup.toString(), 'onlinelesson.json'))) {
+      recentLesson = loadFile(path.join(__dirname, '../data/classes', myGroup.toString(), 'onlinelesson.json'));
+    }
     if (route.startsWith('classroom') && route.includes('create')) {
       createOnlinelesson(request, response, myGroup);
     } else if (accessGranted(request, recentLesson)) {
@@ -54,6 +73,8 @@ function classroomController (request, response, wss, wsport, user) {
         endOnlinelesson(request, response, myGroup, wss);
       } else if (route.startsWith('classroom') && route.includes('updatechalkboard')) {
         updateChalkboard(request, response, wss, wsport, user);
+      } else if (route.startsWith('classroom') && route.includes('cleanchalkboard')) {
+        cleanChalkboard(request, response, wss, myGroup);
       } else if (route.startsWith('classroom') && route.includes('update')) {
         updateClassroom(request, response, wss, wsport, user, myGroup);
       } else if (route.startsWith('classroom')) {
@@ -181,7 +202,7 @@ function updateChalkboard (request, response, wss) {
       });
       try {
         let fileBuffer = new Buffer.from(data.fields.data.split(',')[1], 'base64');
-        saveFile(path.join(__dirname, '../data/classes', data.fields.group.toString(),), 'onlinelesson.png', fileBuffer, true);
+        saveFile(path.join(__dirname, '../data/classes', data.fields.group.toString()), 'onlinelesson.png', fileBuffer, true);
       } catch (e) {
         console.log('- ERROR saving chalkboard: '+e);
       }
@@ -191,6 +212,21 @@ function updateChalkboard (request, response, wss) {
     error => {
       console.log('ERROR can\'t update chalkboard: '+error.message);
   });
+}
+
+function cleanChalkboard (request, response, wss, myGroup) {
+  try {
+    wss.clients.forEach(client => {
+      setTimeout(function () {
+        client.send('cleanchalkboard');
+      }, 100);
+    });
+    fs.unlinkSync(path.join(__dirname, '../data/classes', myGroup, 'onlinelesson.png'));
+    uniSend(new SendObj(302, [], '', '/classroom/'+myGroup), response);
+  } catch (e) {
+    console.log('- ERROR cleaning chalkboard: '+e);
+    uniSend(new SendObj(302, [], '', '/classroom/'+myGroup), response);
+  }
 }
 
 function endOnlinelesson (request, response, myGroup, wss) {

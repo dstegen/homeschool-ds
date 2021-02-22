@@ -22,7 +22,8 @@ function classroomView (group, user, wss, wsport, recentLesson) {
   if (user.role === 'teacher') {
     actionsButtons = `
       <div class="mt-3 d-flex justify-content-end">
-      <button class="btn btn-sm btn-primary" onclick="window.location.replace('/classroom/${group}/update');">Update classroom</button>
+        <button class="btn btn-sm btn-primary" onclick="window.location.replace('/classroom/${group}/cleanchalkboard');">Clean chalkboard</button>
+        <button class="btn btn-sm btn-primary ml-3" onclick="window.location.replace('/classroom/${group}/update');">Update classroom</button>
         <button class="btn btn-sm btn-danger ml-3" onclick="window.location.replace('/classroom/${group}/endlesson');">${locale.buttons.end_onelinelesson[config.lang]}</button>
       </div>
     `;
@@ -106,11 +107,14 @@ function classroomView (group, user, wss, wsport, recentLesson) {
           setTimeout(function () {
             $('#'+$('.chat-window')[0].id).scrollTop($('.chat-window')[0].scrollHeight);
           }, 500);
+        } else if (msg.data === 'cleanchalkboard') {
+          var bb = document.getElementById('studentChalkboard');
+          if (bb !== null) bb.innerHTML = '<img src="/public/blackboard.jpg" width="1110" height="625" />';
         } else if (msg.data.toString().startsWith('[')) {
           signal(JSON.parse(msg.data)[1])
         } else {
           var bb = document.getElementById('studentChalkboard');
-          if (bb !== null) bb.innerHTML = '<img src="'+msg.data+'"/>';
+          if (bb !== null) bb.innerHTML = '<img src="'+msg.data+'" />';
         }
       };
       ${unloadScripts}

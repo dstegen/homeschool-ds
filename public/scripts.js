@@ -218,7 +218,17 @@ function initBlackboard () {
     const context = myCanvas.getContext('2d');
 
     var background = new Image();
-    background.src = "/public/blackboard.jpg";
+    var group = document.getElementById('myBlackboard').className;
+    $.ajax({
+      url:'/data/classes/'+group+'/onlinelesson.png',
+      type:'HEAD',
+      error: function () {
+          background.src = "/public/blackboard.jpg";
+      },
+      success: function () {
+          background.src = "/data/classes/"+group+"/onlinelesson.png";
+      }
+    });
     background.onload = function () {
       context.drawImage(background,0,0);
     }
@@ -235,7 +245,22 @@ function initBlackboard () {
       isDrawing = true;
     });
 
+    myCanvas.addEventListener('touchstart', e => {
+      window.clearTimeout(timeoutHandle);
+      x = e.offsetX;
+      y = e.offsetY;
+      isDrawing = true;
+    });
+
     myCanvas.addEventListener('mousemove', e => {
+      if (isDrawing === true) {
+        drawLine(context, x, y, e.offsetX, e.offsetY);
+        x = e.offsetX;
+        y = e.offsetY;
+      }
+    });
+
+    myCanvas.addEventListener('touchmove', e => {
       if (isDrawing === true) {
         drawLine(context, x, y, e.offsetX, e.offsetY);
         x = e.offsetX;
@@ -255,6 +280,20 @@ function initBlackboard () {
         }, 5000);
       }
     });
+
+    window.addEventListener('touchend', e => {
+      if (isDrawing === true) {
+        drawLine(context, x, y, e.offsetX, e.offsetY);
+        x = 0;
+        y = 0;
+        isDrawing = false;
+        // start timer, after 10sec transmit as long as isDrawing === false, reset on isDrawing === true
+        timeoutHandle = window.setTimeout(function() {
+          transmitBlackboard(myCanvas, context);
+        }, 5000);
+      }
+    });
+
   } catch (e) {
     //console.log(e);
   }
