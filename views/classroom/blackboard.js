@@ -10,13 +10,14 @@
 // Required modules
 const fs = require('fs');
 const path = require('path');
+const serverconf = require('../../serverconf');
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
 
 
-function blackboard (recentLesson, role) {
+function blackboard (recentLesson, user) {
   let myChalkboard = '';
-  if (role === 'teacher') {
+  if (user.role === 'teacher') {
     myChalkboard = `<canvas id="myBlackboard" class="${recentLesson.group}"></canvas>`;
   } else {
     if (fs.existsSync(path.join(__dirname, '../../data/classes/', recentLesson.group.toString(), 'onlinelesson.png'))) {
@@ -54,12 +55,36 @@ function blackboard (recentLesson, role) {
   return `
   <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
-      <a class="nav-link active" id="chalkboard-tab" data-toggle="tab" href="#chalkboard" role="tab" aria-controls="chalkboard" aria-selected="true">${locale.headlines.blackboard_chalkboard[config.lang]}</a>
+      <a class="nav-link active" id="jitsi-tab" data-toggle="tab" href="#jitsi" role="tab" aria-controls="jitsi" aria-selected="true">Jitsi</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" id="chalkboard-tab" data-toggle="tab" href="#chalkboard" role="tab" aria-controls="chalkboard" aria-selected="false">${locale.headlines.blackboard_chalkboard[config.lang]}</a>
     </li>
     ${tabMenu}
   </ul>
   <div class="tab-content mb-3" id="myTabContent">
-    <div class="tab-pane fade show active border border-top-0" id="chalkboard" role="tabpanel" aria-labelledby="chalkboard-tab">
+    <div class="tab-pane fade show active border border-top-0" id="jitsi" role="tabpanel" aria-labelledby="jitsi-tab">
+      <script src='https://${serverconf.meetServer}/external_api.js'></script>
+      <script>
+        const options = {
+          roomName: '${recentLesson.group}',
+          width: '1110px',
+          height: '625px',
+          parentNode: document.querySelector('#jitsi'),
+          configOverwrite: { startWithAudioMuted: true },
+          interfaceConfigOverwrite: {
+            DISABLE_DOMINANT_SPEAKER_INDICATOR: true,
+            DISABLE_JOIN_LEAVE_NOTIFICATIONS: true,
+            DISABLE_PRESENCE_STATUS: true
+          },
+          userInfo: {
+              displayName: '${user.fname + ' ' + user.lname}'
+          }
+        }
+        const api = new JitsiMeetExternalAPI('${serverconf.meetServer}', options);
+      </script>
+    </div>
+    <div class="tab-pane fade border border-top-0" id="chalkboard" role="tabpanel" aria-labelledby="chalkboard-tab">
       ${myChalkboard}
     </div>
     ${tabBody}

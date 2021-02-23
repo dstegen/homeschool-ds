@@ -77,7 +77,7 @@ function classroomView (group, user, wss, wsport, recentLesson) {
         </div>
         <div class="container d-block mx-3">
 
-            ${blackboard(recentLesson, user.role)}
+            ${blackboard(recentLesson, user)}
 
           <div>
             ${classChat([group], user)}
