@@ -20,10 +20,11 @@ function classroomView (group, user, wss, wsport, recentLesson) {
   let actionsButtons = '';
   let unloadScripts = '';
   if (user.role === 'teacher') {
+    // Action-Buttons should trigger js-functions!!!
     actionsButtons = `
       <div class="mt-3 d-flex justify-content-end">
-        <button class="btn btn-sm btn-primary" onclick="window.location.replace('/classroom/${group}/cleanchalkboard');">Clean chalkboard</button>
-        <button class="btn btn-sm btn-primary ml-3" onclick="window.location.replace('/classroom/${group}/update');">Update classroom</button>
+        <button class="btn btn-sm btn-primary" onclick="window.location.replace('/classroom/${group}/cleanchalkboard');" disabled>Clean chalkboard</button>
+        <button class="btn btn-sm btn-primary ml-3" onclick="window.location.replace('/classroom/${group}/update');" disabled>Update classroom</button>
         <button class="btn btn-sm btn-danger ml-3" onclick="window.location.replace('/classroom/${group}/endlesson');">${locale.buttons.end_onelinelesson[config.lang]}</button>
       </div>
     `;
