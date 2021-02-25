@@ -35,7 +35,7 @@ function addNewGroup (fields) {
     try {
       myConfig.classes.push(fields.newGroup);
       saveFile(path.join(__dirname, '../data/school'), 'config.json', myConfig)
-      createDir(path.join('data/classes', fields.newGroup));
+      createDir(path.join(__dirname, '../data/classes', fields.newGroup));
       saveFile(path.join(__dirname, '../data/classes', fields.newGroup), 'chat.json', []);
       saveFile(path.join(__dirname, '../data/classes', fields.newGroup), 'config.json', { courses: [] });
       saveFile(path.join(__dirname, '../data/classes', fields.newGroup), 'lessons.json', { lessons: [] });
