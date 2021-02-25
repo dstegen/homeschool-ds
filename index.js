@@ -18,23 +18,29 @@ const CronJob = require('cron').CronJob;
 // Name the process
 process.title = 'homeschool-ds';
 
+// Set defaults, 0 = take all available internet interfaces
+let serverIp = '0';
+let serverPort = 9090
+
 // Use SSL if available
 let ssl = {};
 try {
   const serverconf = require('./serverconf');
   ssl.key = fs.readFileSync(serverconf.keyFile).toString();
   ssl.cert = fs.readFileSync(serverconf.certFile).toString();
+  if (serverconf.serverIp && serverconf.serverIp !== '') serverIp = serverconf.serverIp;
+  if (serverconf.serverPort && typeof(serverconf.serverPort) === 'number') serverPort = serverconf.serverPort;
 } catch (e) {
   console.log('- No serverconf found, using defaults!');
 }
 
 
 if (ssl.key && ssl.cert) {
-  const server = new ServerDSS('homeschool-ds', 9090, '0', ssl);
+  const server = new ServerDSS('homeschool-ds', serverPort, serverIp, ssl);
 	server.setCallback(router);
 	server.startServer();
 } else {
-  const server = new ServerDS('homeschool-ds', 9090);
+  const server = new ServerDS('homeschool-ds', serverPort, serverIp);
   server.setCallback(router);
   server.startServer();
 }
