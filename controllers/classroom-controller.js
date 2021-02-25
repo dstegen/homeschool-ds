@@ -101,12 +101,14 @@ function createOnlinelesson (request, response, myGroup) {
         lesson: data.fields.lessonName,
         group: myGroup,
         files: [],
-        videos: data.fields.videos !== '' ? data.fields.videos.replace(/\s/g, '').split(',') : [], // Test-YT-IDs: 'ksCrRr6NBg0','Wbfp4_HQQPM'
+        videos: data.fields.youtubeId !== '' ? data.fields.youtubeId.replace(/\s/g, '').split(',') : [], // Test-YT-IDs: 'ksCrRr6NBg0','Wbfp4_HQQPM'
         links: [],
         students: [],
+        options: data.fields.options,
         timeStamp: new Date()
       };
-      if (data.fields.lessonName === '' && typeof(Number(data.fields.lessonId)) === 'number') {
+      if (data.fields.lessonName === '' && data.fields.lessonId !== '' && typeof(Number(data.fields.lessonId)) === 'number') {
+        console.log('here');
         let myLesson = getLessons(myGroup).filter( item => item.id === Number(data.fields.lessonId))[0];
         recentLesson.lesson = myLesson.lesson + ' - ' + myLesson.chapter;
         recentLesson.id = myLesson.id;

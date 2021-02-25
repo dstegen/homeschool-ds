@@ -76,12 +76,10 @@ function classroomView (group, user, wss, wsport, recentLesson) {
         <div id="studentsLeft" class="d-none d-xl-flex align-content-start flex-wrap p-3" style="min-width: 150px;">
           ${studentsList(recentLesson.students,2)}
         </div>
-        <div class="container d-block mx-3">
-
+        <div id="blackboard" class="container d-block mx-3">
             ${blackboard(recentLesson, user)}
-
           <div>
-            ${classChat([group], user)}
+            ${recentLesson.options.includes('classchat') ? classChat([group], user) : ''}
           </div>
         </div>
         <div id="studentsRight" class="d-none d-xl-flex align-content-start flex-wrap p-3" style="min-width: 150px;">

@@ -140,9 +140,17 @@
       "en": "Online lesson",
       "de": "Online Unterricht"
     },
-    "create_onlinelesson": {
-      "en": "Create online lesson",
+    "start_onlinelesson": {
+      "en": "Start online lesson",
       "de": "Eine Online-Unterrichtsstunde starten"
+    },
+    "chose_onlinelesson": {
+      "en": "Chose",
+      "de": "Auswählen"
+    },
+    "create_onlinelesson": {
+      "en": "Create new",
+      "de": "Neue erstellen"
     },
     "no_lesson_yet": {
       "en": "No online lesson at the moment!",
