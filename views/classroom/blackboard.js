@@ -51,7 +51,7 @@ function blackboard (recentLesson, user) {
               hideConferenceTimer: true
             },
             interfaceConfigOverwrite: {
-              DISABLE_DOMINANT_SPEAKER_INDICATOR: true,
+              DISABLE_DOMINANT_SPEAKER_INDICATOR: false,
               DISABLE_JOIN_LEAVE_NOTIFICATIONS: true,
               DISABLE_PRESENCE_STATUS: true,
               HIDE_INVITE_MORE_HEADER: true,
@@ -60,7 +60,7 @@ function blackboard (recentLesson, user) {
               SHOW_JITSI_WATERMARK: true,
               TOOLBAR_BUTTONS: [
                   'microphone', 'camera', 'desktop', 'fullscreen',
-                  'fodeviceselection', 'hangup', 'profile', 'chat',
+                  'fodeviceselection', 'profile', 'chat',
                   'etherpad', 'sharedvideo', 'settings', 'raisehand',
                   'videoquality', 'filmstrip', 'shortcuts',
                   'tileview', 'videobackgroundblur', 'help', 'mute-everyone', 'mute-video-everyone', 'security'

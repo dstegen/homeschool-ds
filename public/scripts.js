@@ -350,3 +350,29 @@ function signal (id) {
   $('#'+id+' div').addClass('pl-3');
   $('#'+id+' small').addClass('font-weight-bold')
 }
+
+function closeClassroom (group) {
+  //window.location.replace('/classroom/'+group+'/endlesson');
+  try {
+    const pList = api.getParticipantsInfo();
+    for (var i=0; i<pList.length; i++) {
+      api.executeCommand('kickParticipant', pList[i].participantId);
+    }
+    api.executeCommand('hangup');
+    //api.dispose();
+  } catch (e) {
+    //console.log(e);
+  } finally {
+    window.location.replace('/classroom/'+group+'/endlesson');
+  }
+}
+
+function exitClassroom () {
+  try {
+    api.executeCommand('hangup');
+  } catch (e) {
+    //console.log(e);
+  } finally {
+    window.location.replace('/classroom/exitaccess');
+  }
+}
