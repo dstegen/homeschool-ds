@@ -17,21 +17,6 @@ const classroomSockets = require('./classroom-sockets');
 
 
 function classroomView (group, user, wss, wsport, recentLesson) {
-  let unloadScripts = '';
-  if (user.role !== 'teacher') {
-    unloadScripts = `
-      window.addEventListener('beforeunload', function (e) {
-        e.preventDefault();
-        e.returnValue = '';
-      });
-      window.addEventListener('unload', function (e) {
-        $.ajax({
-          url: '/classroom/exitaccess',
-          type : "GET"
-        });
-      });
-    `;
-  }
   return `
     <div id="classroom">
       <div class="container">
@@ -57,7 +42,10 @@ function classroomView (group, user, wss, wsport, recentLesson) {
     </div>
     ${classroomSockets(wsport, group)}
     <script>
-      ${unloadScripts}
+      window.addEventListener('beforeunload', function (e) {
+        e.preventDefault();
+        e.returnValue = '';
+      });
     </script>
   `;
 }

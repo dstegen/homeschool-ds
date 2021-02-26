@@ -88,7 +88,7 @@ function actionsButtons (recentLesson, user) {
   if (user.role === 'teacher' && !recentLesson.options.includes('jitsi')) {
     return `
       <div class="mt-3 d-flex justify-content-end">
-        <button class="btn btn-sm btn-primary" onclick="window.location.replace('/classroom/${recentLesson.group}/cleanchalkboard');"x>Clean chalkboard</button>
+        <button class="btn btn-sm btn-primary" onclick="cleanChalkboard('${recentLesson.group}');">Clean chalkboard</button>
         <button class="btn btn-sm btn-primary ml-3" onclick="window.location.replace('/classroom/${recentLesson.group}/update');">Update classroom</button>
         <button class="btn btn-sm btn-danger ml-3" onclick="closeClassroom('${recentLesson.group}');">${locale.buttons.end_onelinelesson[config.lang]}</button>
       </div>
