@@ -47,7 +47,7 @@ function teacherView (group) {
         </div>
         <hr />
         <div class="row mt-3">
-          ${formCheckboxColumn(['jitsi', 'chalkboard', 'docs', 'youtube', 'classchat'], 'options', ['jitsi', 'docs'], ['youtube'])}
+          ${formCheckboxColumn(['jitsi', 'chalkboard', 'docs', 'youtube', 'classchat'], 'options', ['jitsi', 'docs'], [])}
         </div>
         <div class="text-right">
           <button type="submit" class="btn btn-primary mt-3">${locale.buttons.start_onlinelesson[config.lang]}</button>

@@ -100,8 +100,8 @@ function createOnlinelesson (request, response, myGroup) {
         id: newUuid,
         lesson: data.fields.lessonName,
         group: myGroup,
-        files: [],
-        videos: data.fields.youtubeId !== '' ? data.fields.youtubeId.replace(/\s/g, '').split(',') : [], // Test-YT-IDs: 'ksCrRr6NBg0','Wbfp4_HQQPM'
+        docs: [],
+        youtube: data.fields.youtubeId !== '' ? data.fields.youtubeId.replace(/\s/g, '').split(',') : [], // Test-YT-IDs: 'ksCrRr6NBg0','Wbfp4_HQQPM'
         links: [],
         students: [],
         options: data.fields.options,
@@ -112,8 +112,8 @@ function createOnlinelesson (request, response, myGroup) {
         let myLesson = getLessons(myGroup).filter( item => item.id === Number(data.fields.lessonId))[0];
         recentLesson.lesson = myLesson.lesson + ' - ' + myLesson.chapter;
         recentLesson.id = myLesson.id;
-        if (myLesson.files && myLesson.files.length > 0) recentLesson.files = myLesson.files;
-        if (myLesson.videos && myLesson.videos.length > 0) recentLesson.videos = myLesson.videos;
+        if (myLesson.files && myLesson.files.length > 0) recentLesson.docs = myLesson.files;
+        if (myLesson.videos && myLesson.videos.length > 0) recentLesson.youtube = myLesson.videos;
         if (myLesson.links && myLesson.links.length > 0) recentLesson.links = myLesson.links;
       }
       saveFile(path.join(__dirname, '../data/classes', myGroup.toString()), 'onlinelesson.json', recentLesson);
@@ -234,7 +234,9 @@ function cleanChalkboard (request, response, wss, myGroup) {
 function endOnlinelesson (request, response, myGroup, wss) {
   try {
     fs.unlinkSync(path.join(__dirname, '../data/classes', myGroup.toString(), 'onlinelesson.json'));
-    fs.unlinkSync(path.join(__dirname, '../data/classes', myGroup.toString(), 'onlinelesson.png'));
+    if (fs.existsSync(path.join(__dirname, '../data/classes', myGroup.toString(), 'onlinelesson.png'))) {
+      fs.unlinkSync(path.join(__dirname, '../data/classes', myGroup.toString(), 'onlinelesson.png'));
+    }
     wss.clients.forEach(client => {
       setTimeout(function () {
         client.send('lessonclosed');

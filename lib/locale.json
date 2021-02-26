@@ -156,17 +156,21 @@
       "en": "No online lesson at the moment!",
       "de": "Zurzeit ist kein Online-Unterrichtsstunde!"
     },
-    "blackboard_chalkboard": {
+    "chalkboard": {
       "en": "Chalkboard",
       "de": "Tafel"
     },
-    "blackboard_doc": {
+    "docs": {
       "en": "Doc",
       "de": "Dokument"
     },
-    "blackboard_video": {
+    "youtube": {
       "en": "Video",
       "de": "Film"
+    },
+    "jitsi": {
+      "en": "Jitsi",
+      "de": "Jitsi"
     }
   },
   "buttons": {
