@@ -24,7 +24,7 @@ function jitsi (recentLesson, user) {
           startWithAudioMuted: true,
           enableWelcomePage: false,
           enableClosePage: false,
-          disableTileView: true,
+          disableTileView: false,
           hideConferenceTimer: true
         },
         interfaceConfigOverwrite: {

@@ -16,12 +16,6 @@ const jitsi = require('./jitsi');
 
 
 function blackboard (recentLesson, user) {
-  let menuObj = {
-    jitsi: jitsi(recentLesson, user),
-    chalkboard: chalkBoard(recentLesson, user),
-    docs: docsTab(recentLesson.docs[0]),
-    youtube: youtubeTab(recentLesson.youtube[0])
-  }
   let tabMenu = '';
   let tabBody = '';
   let activeTab = false;
@@ -36,7 +30,7 @@ function blackboard (recentLesson, user) {
       `;
       tabBody += `
         <div class="tab-pane fade ${activeTab === true ? 'show active' : ''} border border-top-0" id="${recentLesson.options[i]}" role="tabpanel" aria-labelledby="${recentLesson.options[i]}-tab">
-          ${menuObj[recentLesson.options[i]]}
+          ${recentLesson.options[i] === 'jitsi' ? jitsi(recentLesson, user) : chalkBoard(recentLesson, user)}
         </div>
       `;
       activeTab = false;
