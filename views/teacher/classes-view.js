@@ -50,7 +50,8 @@ function teacherClassesView (teacher, group, wsport) {
     <script>
       // Websockets
       const hostname = window.location.hostname ;
-      const socket = new WebSocket('ws://'+hostname+':${wsport}/', 'protocolOne', { perMessageDeflate: false });
+      const wsProtocol = location.protocol.replace('http','ws');
+      const socket = new WebSocket(wsProtocol+'//'+hostname+':${wsport}/', 'protocolOne', { perMessageDeflate: false });
       socket.onmessage = function (msg) {
         location.reload();
         console.log(msg.data);
