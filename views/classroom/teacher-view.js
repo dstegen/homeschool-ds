@@ -21,6 +21,7 @@ function teacherView (group) {
   let myLessons = getLessons(group);
   let lessonsSelectArray = myLessons.filter(item => !notValid(item.validUntil)).map( item => { return [item.id, item.lesson+' - '+item.chapter]; });
   lessonsSelectArray.unshift(['','']);
+  //  enctype="multipart/form-data"
   return `
     <div class="container border my-3 p-3 h-50">
       <div class="d-flex justify-content-between">
@@ -28,6 +29,7 @@ function teacherView (group) {
         <h2>${group}</h2>
       </div>
       <form class="w-75 pt-3" id="create-online-lesson-form" action="/classroom/${group}/create" method="post">
+        <input type="text" readonly class="d-none" id="group" name="group" value="${group}">
         <div class="row">
           <h5 class="col-sm-3 text-right">${locale.headlines.chose_onlinelesson[config.lang]}:</h5>
         </div>
@@ -44,6 +46,16 @@ function teacherView (group) {
         </div>
         <div class="row mt-3">
           ${formTextInputColumn('', 'youtubeId', '')}
+        </div>
+        <div class="custom-file d-flex mt-3 row">
+          <div class="col-sm-3 col-form-label text-right mb-2">
+            filetoupload
+          </div>
+          <div class="col-12 col-sm-9">
+            <input type="file" class="custom-file-input" id="filetoupload-${group}" name="filetoupload" disabled>
+            <label class="custom-file-label" for="filetoupload-${group}">${locale.placeholder.choose_file[config.lang]}...</label>
+            <div class="invalid-feedback">${locale.placeholder.invalid_feedback[config.lang]}</div>
+          </div>
         </div>
         <hr />
         <div class="row mt-3">

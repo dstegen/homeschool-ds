@@ -14,12 +14,19 @@ const uuidv4 = require('uuid').v4;
 const { getLessons } = require('./model-lessons');
 const loadFile = require('../utils/load-file');
 const saveFile = require('../utils/save-file');
+const fileUpload = require('../lib/file-upload');
 
 
 function createOnlinelesson (data, group) {
   console.log(data.fields);
   let newUuid = uuidv4();
   let options = data.fields.options;
+  let docs = [];
+  if (data.files.filetoupload !== undefined && data.files.filetoupload.name) {
+    if (fileUpload(data.fields, data.files, 'onlinelesson')) {
+        docs.push(path.join('/data/classes', group, 'onlinelesson', data.files.filetoupload.name));
+    }
+  }
   if (typeof(options) !== 'object') {
     options = [options];
   }
@@ -28,7 +35,7 @@ function createOnlinelesson (data, group) {
     id: newUuid,
     lesson: data.fields.lessonName,
     group: group,
-    docs: [],
+    docs: docs,
     youtube: data.fields.youtubeId !== '' ? data.fields.youtubeId.replace(/\s/g, '').split(',') : [], // Test-YT-IDs: 'ksCrRr6NBg0','Wbfp4_HQQPM'
     links: [],
     students: [],
