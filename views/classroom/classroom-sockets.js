@@ -36,7 +36,7 @@ function classroomSockets (wsport, group) {
           }, 500);
         } else if (msg.data === 'cleanchalkboard') {
           var bb = document.getElementById('studentChalkboard');
-          if (bb !== null) bb.innerHTML = '<img class="img-fluid" src="/public/blackboard.jpg" />';
+          if (bb !== null) bb.innerHTML = '';
         } else if (msg.data.toString().startsWith('[')) {
           signal(JSON.parse(msg.data)[1])
         } else {

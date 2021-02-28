@@ -208,6 +208,8 @@ function requestClassroomAccess () {
   window.location.replace('/classroom/requestaccess');
 }
 
+let context = '';
+
 function initBlackboard () {
   // When true, moving the mouse draws on the canvas
   let isDrawing = false;
@@ -221,7 +223,8 @@ function initBlackboard () {
     myCanvas.style.width = myCanvas.width+'px';
     myCanvas.height = myCanvas.width * heightRatio;
     myCanvas.style.height = myCanvas.width * heightRatio+'px';
-    const context = myCanvas.getContext('2d');
+    context = myCanvas.getContext('2d');
+    context.strokeStyle = 'white';
     /*
     var background = new Image();
     var group = document.getElementById('myBlackboard').className;
@@ -307,12 +310,16 @@ function initBlackboard () {
 
 function drawLine(context, x1, y1, x2, y2) {
   context.beginPath();
-  context.strokeStyle = 'white';
-  context.lineWidth = 2;
+  //context.strokeStyle = 'white';
+  context.lineWidth = 3;
   context.moveTo(x1, y1);
   context.lineTo(x2, y2);
   context.stroke();
   context.closePath();
+}
+
+function chalkboardChangeColor (myColor) {
+  context.strokeStyle = myColor;
 }
 
 function transmitBlackboard (myCanvas, context) {
