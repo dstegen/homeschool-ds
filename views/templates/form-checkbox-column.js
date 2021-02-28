@@ -32,8 +32,8 @@ function helperCheckbox (value, prop, checkedArray, disabledArray) {
   if (disabledArray.includes(value)) disabled = 'disabled';
   return `
     <div class="form-check form-check-inline">
-      <input class="form-check-input" type="checkbox" name="${prop}" id="${value}" value="${value}" ${disabled} ${checked}>
-      <label class="form-check-label" for="${value}">${value}</label>
+      <input class="form-check-input" type="checkbox" name="${value}" id="${prop}-${value}" value="true" ${disabled} ${checked}>
+      <label class="form-check-label" for="${prop}-${value}">${value}</label>
     </div>
   `;
 }

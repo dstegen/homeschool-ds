@@ -20,15 +20,17 @@ const fileUpload = require('../lib/file-upload');
 function createOnlinelesson (data, group) {
   console.log(data.fields);
   let newUuid = uuidv4();
-  let options = data.fields.options;
+  let options = [];
   let docs = [];
+  ['jitsi', 'chalkboard', 'docs', 'youtube', 'classchat'].forEach( item => {
+    if (data.fields[item] === 'true') {
+      options.push(item);
+    }
+  });
   if (data.files.filetoupload !== undefined && data.files.filetoupload.name) {
     if (fileUpload(data.fields, data.files, 'onlinelesson')) {
         docs.push(path.join('/data/classes', group, 'onlinelesson', data.files.filetoupload.name));
     }
-  }
-  if (typeof(options) !== 'object') {
-    options = [options];
   }
   let recentLesson = {
     key: newUuid,
