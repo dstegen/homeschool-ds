@@ -10,24 +10,31 @@
  setInterval('updateClock()', 1000 );
 
  // Init some scripts and settings
- $(document).ready(function () {
-   // Init bsCustomFileInput-script for better file-upload forms
-   bsCustomFileInput.init();
-   // Enable tooltip
-   $(function () {
-     $('[data-toggle="tooltip"]').tooltip()
-   });
-   // Chat & chat-windows
-   initChat();
-   // blackboard
-   if (document.location.toString().includes('classroom')) {
-     initBlackboard();
-   }
-   // Open targetted lessonBig
-   if (document.location.pathname.includes('day') && document.location.pathname.split('/')[4] !== undefined) {
-     $('#lessonbig-details-'+document.location.pathname.split('/').pop()).collapse('toggle');
-   }
- });
+$(document).ready(function () {
+  // Init bsCustomFileInput-script for better file-upload forms
+  bsCustomFileInput.init();
+  // Enable tooltip
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  });
+  // Chat & chat-windows
+  initChat();
+  // blackboard
+  if (document.location.toString().includes('classroom')) {
+    let done = false;
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+      //e.target // newly activated tab
+      //e.relatedTarget // previous active tab
+      if (done === false) resizeBlackboard();
+      done = true;
+    })
+    initBlackboard();
+  }
+  // Open targetted lessonBig
+  if (document.location.pathname.includes('day') && document.location.pathname.split('/')[4] !== undefined) {
+    $('#lessonbig-details-'+document.location.pathname.split('/').pop()).collapse('toggle');
+  }
+});
 
 
 //+++ START Chat functions +++//
@@ -208,7 +215,20 @@ function requestClassroomAccess () {
   window.location.replace('/classroom/requestaccess');
 }
 
+let myCanvas = '';
 let context = '';
+
+function resizeBlackboard () {
+  var heightRatio = 9/16;
+  $('#studentChalkboard').height($('#studentChalkboard').width() * heightRatio);
+  //myCanvas = document.getElementById('myBlackboard');
+  myCanvas.width = $('#chalkboard').width();
+  myCanvas.style.width = myCanvas.width+'px';
+  myCanvas.height = myCanvas.width * heightRatio;
+  myCanvas.style.height = myCanvas.width * heightRatio+'px';
+  //context = myCanvas.getContext('2d');
+  //context.strokeStyle = 'white';
+}
 
 function initBlackboard () {
   // When true, moving the mouse draws on the canvas
@@ -218,7 +238,7 @@ function initBlackboard () {
   try {
     var heightRatio = 9/16;
     $('#studentChalkboard').height($('#studentChalkboard').width() * heightRatio);
-    const myCanvas = document.getElementById('myBlackboard');
+    myCanvas = document.getElementById('myBlackboard');
     myCanvas.width = $('#chalkboard').width();
     myCanvas.style.width = myCanvas.width+'px';
     myCanvas.height = myCanvas.width * heightRatio;
