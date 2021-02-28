@@ -75,11 +75,17 @@ function getRecentLesson (group) {
   }
 }
 
-function disposeOnlinelesson (group) {
+function disposeOnlinelesson (recentLesson) {
   try {
-    fs.unlinkSync(path.join(__dirname, '../data/classes', group, 'onlinelesson.json'));
-    if (fs.existsSync(path.join(__dirname, '../data/classes', group, 'onlinelesson.png'))) {
-      fs.unlinkSync(path.join(__dirname, '../data/classes', group, 'onlinelesson.png'));
+    fs.unlinkSync(path.join(__dirname, '../data/classes', recentLesson.group, 'onlinelesson.json'));
+    if (fs.existsSync(path.join(__dirname, '../data/classes', recentLesson.group, 'onlinelesson.png'))) {
+      fs.unlinkSync(path.join(__dirname, '../data/classes', recentLesson.group, 'onlinelesson.png'));
+    }
+    if (recentLesson.docs[0].includes('onlinelesson') && fs.existsSync(path.join(__dirname, '../', recentLesson.chalkboardBg))) {
+      fs.unlinkSync(path.join(__dirname, '../', recentLesson.chalkboardBg));
+    }
+    if (recentLesson.docs[0].includes('onlinelesson') && fs.existsSync(path.join(__dirname, '../', recentLesson.docs[0]))) {
+      fs.unlinkSync(path.join(__dirname, '../', recentLesson.docs[0]));
     }
   } catch (e) {
     console.log('- ERROR disposing Onlinelesson: '+e);

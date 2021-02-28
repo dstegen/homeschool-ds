@@ -140,7 +140,7 @@ function cleanChalkboard (request, response, wss, myGroup, recentLesson) {
 
 function endOnlinelesson (request, response, myGroup, wss, recentLesson) {
   try {
-    disposeOnlinelesson(myGroup);
+    disposeOnlinelesson(recentLesson);
     sendWsMessage(wss, recentLesson.key, 'lessonclosed');
     uniSend(new SendObj(302, ['classroomaccess=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;']), response);
   } catch (e) {

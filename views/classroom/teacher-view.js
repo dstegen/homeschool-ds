@@ -50,7 +50,7 @@ function teacherView (group) {
           <div class="col-sm-3 col-form-label text-right mb-2">
             filetoupload
           </div>
-          <div class="col-sm-9">
+          <div class="col-sm-9 custom-file">
             <input type="file" class="custom-file-input" id="filetoupload-${group}" name="filetoupload">
             <label class="custom-file-label mx-3" for="filetoupload-${group}">${locale.placeholder.choose_file[config.lang]}...</label>
             <div class="invalid-feedback">${locale.placeholder.invalid_feedback[config.lang]}</div>
@@ -64,7 +64,7 @@ function teacherView (group) {
           <div class="col-sm-3 col-form-label text-right mb-2">
             chalkboardBg
           </div>
-          <div class="col-sm-9">
+          <div class="col-sm-9 custom-file">
             <input type="file" class="custom-file-input" id="chalkboardBg" name="chalkboardBg">
             <label class="custom-file-label mx-3" for="chalkboardBg">${locale.placeholder.choose_file[config.lang]}...</label>
             <div class="invalid-feedback">${locale.placeholder.invalid_feedback[config.lang]}</div>
