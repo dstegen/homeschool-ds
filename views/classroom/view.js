@@ -8,8 +8,6 @@
 'use strict';
 
 // Required modules
-const locale = require('../../lib/locale');
-const config = require('../../models/model-config').getConfig();
 const attendantStudents = require('./attendant-students');
 const blackboard = require('./blackboard');
 const classChat = require('../templates/chat');
@@ -21,7 +19,7 @@ function classroomView (group, user, wss, wsport, recentLesson) {
     <div id="classroom">
       <div class="container">
         <h2 class="d-flex justify-content-between py-2 px-3 mt-3 border">
-          ${locale.headlines.classroom[config.lang]} (${group}): ${recentLesson.lesson}
+          ${recentLesson.lesson} ${user.role === 'teacher' ? '('+group+')' : ''}
           <span id="clock" class="d-none d-md-block">&nbsp;</span>
         </h2>
       </div>

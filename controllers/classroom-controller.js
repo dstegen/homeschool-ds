@@ -95,7 +95,7 @@ function simpleNaviObj (config, locale, user) {
 function startOnlinelesson (request, response, wss, myGroup, user) {
   getFormObj(request).then(
     data => {
-      let recentLesson = createOnlinelesson(data, myGroup);
+      let recentLesson = createOnlinelesson(data, myGroup, user);
       registerWs(wss, recentLesson.key, user.id);
       uniSend(new SendObj(302, ['classroomaccess='+recentLesson.key+'; path=/'], '', '/classroom/'+myGroup), response);
     }

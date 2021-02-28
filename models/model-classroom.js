@@ -17,8 +17,7 @@ const saveFile = require('../utils/save-file');
 const fileUpload = require('../lib/file-upload');
 
 
-function createOnlinelesson (data, group) {
-  console.log(data.fields);
+function createOnlinelesson (data, group, user) {
   let newUuid = uuidv4();
   let options = [];
   let docs = [];
@@ -47,6 +46,7 @@ function createOnlinelesson (data, group) {
     chalkboardBg: chalkboardBg,
     youtube: data.fields.youtubeId !== '' ? data.fields.youtubeId.replace(/\s/g, '').split(',') : [], // Test-YT-IDs: 'ksCrRr6NBg0','Wbfp4_HQQPM'
     links: [],
+    teacher: user,
     students: [],
     options: options,
     timeStamp: new Date()
