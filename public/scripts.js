@@ -338,13 +338,13 @@ function transmitBlackboard (myCanvas, context) {
 }
 
 function cleanChalkboard (group) {
-  //window.location.replace('/classroom/${recentLesson.group}/cleanchalkboard')
   $.ajax({
     url: '/classroom/'+group+'/cleanchalkboard', // url where to submit the request
     type : "POST", // type of action POST || GET
     dataType : 'json', // data type
     data : {"group": group, "action": 'cleanchalkboard'}
   });
+  initBlackboard();
 }
 
 //--- ENDE Blackboard functions ---///
