@@ -222,7 +222,7 @@ function initBlackboard () {
     myCanvas.height = myCanvas.width * heightRatio;
     myCanvas.style.height = myCanvas.width * heightRatio+'px';
     const context = myCanvas.getContext('2d');
-
+    /*
     var background = new Image();
     var group = document.getElementById('myBlackboard').className;
     $.ajax({
@@ -238,7 +238,7 @@ function initBlackboard () {
     background.onload = function () {
       context.drawImage(background,0,0);
     }
-
+    */
     var timeoutHandle = '';
 
     // event.offsetX, event.offsetY gives the (x,y) offset from the edge of the canvas.

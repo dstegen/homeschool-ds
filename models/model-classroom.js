@@ -22,6 +22,7 @@ function createOnlinelesson (data, group) {
   let newUuid = uuidv4();
   let options = [];
   let docs = [];
+  let chalkboardBg = '/public/blackboard.jpg';
   ['jitsi', 'chalkboard', 'docs', 'youtube', 'classchat'].forEach( item => {
     if (data.fields[item] === 'true') {
       options.push(item);
@@ -32,12 +33,18 @@ function createOnlinelesson (data, group) {
         docs.push(path.join('/data/classes', group, 'onlinelesson', data.files.filetoupload.name));
     }
   }
+  if (data.files.chalkboardBg !== undefined && data.files.chalkboardBg.name) {
+    if (fileUpload(data.fields, data.files, 'onlinelesson', 'chalkboardBg')) {
+        chalkboardBg = path.join('/data/classes', group, 'onlinelesson', data.files.chalkboardBg.name);
+    }
+  }
   let recentLesson = {
     key: newUuid,
     id: newUuid,
     lesson: data.fields.lessonName,
     group: group,
     docs: docs,
+    chalkboardBg: chalkboardBg,
     youtube: data.fields.youtubeId !== '' ? data.fields.youtubeId.replace(/\s/g, '').split(',') : [], // Test-YT-IDs: 'ksCrRr6NBg0','Wbfp4_HQQPM'
     links: [],
     students: [],

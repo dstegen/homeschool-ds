@@ -60,6 +60,16 @@ function teacherView (group) {
         <div class="row mt-3">
           ${formCheckboxColumn(['jitsi', 'chalkboard', 'docs', 'youtube', 'classchat'], 'options', ['jitsi', 'docs'], [])}
         </div>
+        <div class="row mt-3">
+          <div class="col-sm-3 col-form-label text-right mb-2">
+            chalkboardBg
+          </div>
+          <div class="col-sm-9">
+            <input type="file" class="custom-file-input" id="chalkboardBg" name="chalkboardBg">
+            <label class="custom-file-label mx-3" for="chalkboardBg">${locale.placeholder.choose_file[config.lang]}...</label>
+            <div class="invalid-feedback">${locale.placeholder.invalid_feedback[config.lang]}</div>
+          </div>
+        </div>
         <div class="text-right">
           <button type="submit" class="btn btn-primary mt-3">${locale.buttons.start_onlinelesson[config.lang]}</button>
         </div>

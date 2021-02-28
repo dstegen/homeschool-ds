@@ -109,12 +109,14 @@ function actionsButtons (recentLesson, user) {
 
 function chalkBoard (recentLesson, user) {
   if (user.role === 'teacher') {
-    return `<canvas id="myBlackboard" class="${recentLesson.group}"></canvas>`;
+    return `<canvas id="myBlackboard" class="${recentLesson.group}" style="background: url('${recentLesson.chalkboardBg}') center center; background-size: cover;"></canvas>`;
   } else {
     if (fs.existsSync(path.join(__dirname, '../../data/classes/', recentLesson.group.toString(), 'onlinelesson.png'))) {
-      return `<div id="studentChalkboard" style="width: 100%; max-width: 1110px; background: url('/data/classes/${recentLesson.group}/onlinelesson.png') center center; background-size: cover;"></div>`;
+      return `<div id="studentChalkboard" style="width: 100%; max-width: 1110px; background: url('${recentLesson.chalkboardBg}') center center; background-size: cover;">
+        <img class="img-fluid" src="/data/classes/${recentLesson.group}/onlinelesson.png">
+      </div>`;
     } else {
-      return `<div id="studentChalkboard" style="widht: 100%; max-width: 1110px; background: url('/public/blackboard.jpg') center center; background-size: cover;"></div>`;
+      return `<div id="studentChalkboard" style="widht: 100%; max-width: 1110px; background: url('${recentLesson.chalkboardBg}') center center; background-size: cover;"></div>`;
     }
   }
 }
