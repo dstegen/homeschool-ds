@@ -11,18 +11,20 @@
 const path = require('path');
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
+const formRadio = require('../templates/form-radio');
 const { weekDay } = require('../../lib/dateJuggler');
 let lessonsConfig = {};
 
 
 
-function lessonForm (itemObj, myGroup, user) {
+function lessonForm (itemObj, myGroup, user, addLesson=false) {
   lessonsConfig = require(path.join('../../data/classes/', myGroup,'/config.json'));
   return `
     <form id="edit-form-${myGroup}-${itemObj.id}" name="edit-form-${myGroup}-${itemObj.id}" action="/lessons/update" method="post">
       <input type="text" name="id" class="d-none" hidden value="${itemObj.id}" />
       <input type="text" id="group" name="group" class="d-none" hidden value="${myGroup}" />
       <input type="text" class="d-none" hidden class="d-none" id="urlPath" name="urlPath" value="/lessons/show/${myGroup}/${itemObj.id}">
+      ${addLesson === true ? formRadio('lessonType', ['homelesson', 'onlinelesson'], '', 'homelesson', 'required') : ''}
       ${formInputs(itemObj, user.courses)}
       <div class="d-flex justify-content-end mb-3">
         <button type="button" class="btn btn-danger ${itemObj.id === '' ? 'd-none' : ''}" onclick="confirmDelete(this.form.name, \'/lessons/delete\')">${locale.buttons.delete[config.lang]}</button>
@@ -41,6 +43,7 @@ function formInputs (itemObj, courses) {
     weekdays: 'checkbox',
     validFrom: 'date',
     validUntil: 'date',
+    time: 'time',
     lesson: 'select',
     details: 'textarea',
     returnHomework: 'select2'
@@ -49,7 +52,7 @@ function formInputs (itemObj, courses) {
   if (Object.keys(itemObj).length > 0) {
     Object.keys(itemObj).forEach( key => {
       if (key !== 'id' && key !== 'lessonFinished' && key !== 'files' && key !== 'urlPath') {
-        returnHtml += `<div class="form-group row mb-1">`;
+        returnHtml += `<div class="form-group row mb-1 form-${key}">`;
         switch (fieldTypes[key]) {
           case 'checkbox':
             returnHtml += `<label for="${key}-field" class="col-sm-2 col-form-label text-right">${key}</label>`;
@@ -74,6 +77,14 @@ function formInputs (itemObj, courses) {
               </div>
             `;
             break;
+            case 'time':
+              returnHtml += `
+                <label for="${key}-field" class="col-sm-2 col-form-label text-right">${key}</label>
+                <div class="col-sm-2">
+                  <input type="time" class="form-control" id="${key}-field" name="${key}" value="${itemObj[key]}">
+                </div>
+              `;
+              break;
           case 'textarea':
             returnHtml += `
             <label for="${key}-field" class="col-sm-2 col-form-label text-right">${key}</label>

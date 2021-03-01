@@ -143,6 +143,26 @@ function filterLessons (lesson) {
   }
 }
 
+// Lessons view
+function changeAddLessonsFormView (view) {
+  if (view === 'homelesson') {
+    ['time'].forEach( item => {
+      $('.form-'+item).hide();
+    });
+    ['details','returnHomework'].forEach( item => {
+      $('.form-'+item).show();
+    });
+  } else if (view === 'onlinelesson') {
+    ['details','returnHomework'].forEach( item => {
+      $('.form-'+item).hide();
+    });
+    ['time'].forEach( item => {
+      $('.form-'+item).show();
+    });
+  }
+}
+
+
 // Check if new password and retype match
 $(document).ready(function () {
   if (window.location.pathname === '/setpassword') {

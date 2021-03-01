@@ -20,7 +20,7 @@ function addLessonView (itemObj, myGroup, teacher) {
       <h2>${locale.headlines.add_edit_lesson[config.lang]} ${myGroup}</h2>
     </div>
     <div class="border py-3 px-3 my-3">
-      ${lessonForm(itemObj, myGroup, teacher)}
+      ${lessonForm(itemObj, myGroup, teacher, true)}
     </div>
   </div>
   `;

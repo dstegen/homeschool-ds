@@ -118,6 +118,7 @@ const myLessons = {
       "returnHomework": "true",
       "validFrom": moment().day(1).week(moment().isoWeek()).format('YYYY-MM-DD'),
       "validUntil": moment().day(7).week(moment().isoWeek()+1).format('YYYY-MM-DD'),
+      "time": "",
       "weekdays": [
         1,
         3,
@@ -134,6 +135,7 @@ const myLessons = {
       "returnHomework": "false",
       "validFrom": moment().day(7).week(moment().isoWeek()).format('YYYY-MM-DD'),
       "validUntil": moment().day(7).week(moment().isoWeek()+2).format('YYYY-MM-DD'),
+      "time": "",
       "weekdays": [
         1,
         2,
@@ -150,6 +152,7 @@ const myLessons = {
       "returnHomework": "false",
       "validFrom": moment().day(7).week(moment().isoWeek()).format('YYYY-MM-DD'),
       "validUntil": moment().day(7).week(moment().isoWeek()+4).format('YYYY-MM-DD'),
+      "time": "",
       "weekdays": [
         1,
         3
@@ -164,6 +167,7 @@ const myLessons = {
       "returnHomework": "true",
       "validFrom": moment().day(1).week(moment().isoWeek()+1).format('YYYY-MM-DD'),
       "validUntil": moment().day(7).week(moment().isoWeek()+2).format('YYYY-MM-DD'),
+      "time": "",
       "weekdays": [
         1,
         3,
