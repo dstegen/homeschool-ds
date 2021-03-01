@@ -80,7 +80,7 @@ function blackboard (recentLesson, user) {
 // Additional functions
 
 function actionsButtons (recentLesson, user) {
-  if (user.role === 'teacher') {
+  if (user.role === 'teacher' && recentLesson.options.includes('chalkboard')) {
     return `
       <div class="mt-3 d-flex justify-content-end">
         <select class="custom-select custom-select-sm mr-3" id="chalkcolor" name="chalkcolor" onchange="chalkboardChangeColor(this.value)" style="width: 100px;">
@@ -91,6 +91,12 @@ function actionsButtons (recentLesson, user) {
           <option value="blue">blue</option>
         </select>
         <button class="btn btn-sm btn-primary" onclick="cleanChalkboard('${recentLesson.group}');">Clean chalkboard</button>
+        <button class="btn btn-sm btn-danger ml-3" onclick="closeClassroom('${recentLesson.group}');">${locale.buttons.end_onelinelesson[config.lang]}</button>
+      </div>
+    `;
+  } else if (user.role === 'teacher') {
+    return `
+      <div class="mt-3 d-flex justify-content-end">
         <button class="btn btn-sm btn-danger ml-3" onclick="closeClassroom('${recentLesson.group}');">${locale.buttons.end_onelinelesson[config.lang]}</button>
       </div>
     `;

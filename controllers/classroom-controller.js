@@ -130,7 +130,9 @@ function updateChalkboard (request, response, wss, recentLesson) {
 function cleanChalkboard (request, response, wss, myGroup, recentLesson) {
   try {
     sendWsMessage(wss, recentLesson.key, 'cleanchalkboard');
-    fs.unlinkSync(path.join(__dirname, '../data/classes', myGroup, 'onlinelesson.png'));
+    if (fs.existsSync(path.join(__dirname, '../data/classes', recentLesson.group, 'onlinelesson.png'))) {
+      fs.unlinkSync(path.join(__dirname, '../data/classes', recentLesson.group, 'onlinelesson.png'));
+    }
     uniSend(new SendObj(302, [], '', '/classroom/'+myGroup), response);
   } catch (e) {
     console.log('- ERROR cleaning chalkboard: '+e);
