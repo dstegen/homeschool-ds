@@ -19,6 +19,11 @@ $(document).ready(function () {
   });
   // Chat & chat-windows
   initChat();
+  // Add/Update lesson
+  if (document.location.toString().includes('lessons/add')) {
+    changeAddLessonsFormView('homelesson');
+    calcValidFrom(moment().isoWeek());
+  }
   // blackboard
   if (document.location.toString().includes('classroom')) {
     let done = false;
@@ -125,6 +130,9 @@ function fileDelete (formId) {
   }
 }
 
+
+//--- Lessons scripts ---//
+
 // Filter lessons on all-lessons-view
 function filterLessons (lesson) {
   let allLessonsList = document.getElementsByClassName('lesson-box');
@@ -149,11 +157,11 @@ function changeAddLessonsFormView (view) {
     ['time'].forEach( item => {
       $('.form-'+item).hide();
     });
-    ['details','returnHomework'].forEach( item => {
+    ['details','returnHomework','amount'].forEach( item => {
       $('.form-'+item).show();
     });
   } else if (view === 'onlinelesson') {
-    ['details','returnHomework'].forEach( item => {
+    ['details','returnHomework','amount'].forEach( item => {
       $('.form-'+item).hide();
     });
     ['time'].forEach( item => {
@@ -161,6 +169,20 @@ function changeAddLessonsFormView (view) {
     });
   }
 }
+
+function calcValidFrom (startWeek) {
+  let endWeek = startWeek;
+  $('#validFrom-field').val(moment().day(1).isoWeek(startWeek).format('YYYY-MM-DD'));
+  if (Number($('#weekAmount-field').val()) > 1) endWeek = Number(startWeek) + Number($('#weekAmount-field').val()) - 1;
+  $('#validUntil-field').val(moment().day(7).isoWeek(endWeek).format('YYYY-MM-DD'))
+}
+
+function calcValidUntil (weekAmount) {
+  let endWeek = Number($('#startWeek-field').val()) + Number(weekAmount) - 1;
+  $('#validUntil-field').val(moment().day(7).isoWeek(endWeek).format('YYYY-MM-DD'));
+}
+
+//--- END Lessons scripts ---//
 
 
 // Check if new password and retype match

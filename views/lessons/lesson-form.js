@@ -12,7 +12,7 @@ const path = require('path');
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
 const formRadio = require('../templates/form-radio');
-const { weekDay } = require('../../lib/dateJuggler');
+const { weekDay, weeksArray } = require('../../lib/dateJuggler');
 let lessonsConfig = {};
 
 
@@ -40,6 +40,8 @@ function lessonForm (itemObj, myGroup, user, addLesson=false) {
 
 function formInputs (itemObj, courses) {
   let fieldTypes = {
+    startWeek: 'select3',
+    weekAmount: 'select4',
     weekdays: 'checkbox',
     validFrom: 'date',
     validUntil: 'date',
@@ -73,7 +75,7 @@ function formInputs (itemObj, courses) {
             returnHtml += `
               <label for="${key}-field" class="col-sm-2 col-form-label text-right">${key}</label>
               <div class="col-sm-2">
-                <input type="date" class="form-control" id="${key}-field" name="${key}" value="${itemObj[key]}" required>
+                <input type="date" class="form-control" id="${key}-field" name="${key}" value="${itemObj[key]}" required readonly>
               </div>
             `;
             break;
@@ -110,12 +112,33 @@ function formInputs (itemObj, courses) {
             `;
             break;
           case 'select2':
+            returnHtml += formRadio('returnHomework', ['false', 'true'], '', 'false', '');
+            break;
+          case 'select3':
             returnHtml += `
               <label for="${key}-field" class="col-sm-2 col-form-label text-right">${key}</label>
               <div class="col-sm-7">
-                <select class="form-control form-control-sm" id="${key}-field" name="${key}" required>
-                  <option ${itemObj.returnHomework === 'false'?'selected':''}>false</option>
-                  <option ${itemObj.returnHomework === 'true'?'selected':''}>true</option>
+                <select class="form-control form-control-sm" id="${key}-field" name="${key}" onchange="calcValidFrom(this.value)">
+                  ${weeksArray().map( item => {
+                    if (itemObj[key] === item[0]) {
+                      return '<option value='+item[0]+' selected>'+item[1]+'</option>';
+                    } else {
+                      return '<option value='+item[0]+'>'+item[1]+'</option>';
+                    }
+                  })}
+                </select>
+              </div>
+            `;
+            break;
+          case 'select4':
+            returnHtml += `
+              <label for="${key}-field" class="col-sm-2 col-form-label text-right">${key}</label>
+              <div class="col-sm-7">
+                <select class="form-control form-control-sm" id="${key}-field" name="${key}" onchange="calcValidUntil(this.value)">
+                  <option ${itemObj.weekAmount === '1'?'selected':''}>1</option>
+                  <option ${itemObj.weekAmount === '2'?'selected':''}>2</option>
+                  <option ${itemObj.weekAmount === '3'?'selected':''}>3</option>
+                  <option ${itemObj.weekAmount === '4'?'selected':''}>4</option>
                 </select>
               </div>
             `;
