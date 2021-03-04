@@ -154,5 +154,23 @@ function getNewId (lessons) {
   return Math.max(...lessons.map( item => item.id)) + 1;
 }
 
+function blancLesson () {
+  return {
+    id: '',
+    lessonType: 'homelesson',
+    lesson: '',
+    chapter: '',
+    details: '',
+    returnHomework: 'false',
+    startWeek: '',
+    weekAmount: '1',
+    validFrom: '',
+    validUntil: '',
+    time: '',
+    amount: '',
+    weekdays: ''
+  }
+}
 
-module.exports = { getLessons, updateLesson, deleteLesson, finishLesson, lessonsToday, lessonsNotFinished, deleteFileFromLesson, deleteFileFromLessonFinished, returnedHomework };
+
+module.exports = { getLessons, updateLesson, deleteLesson, finishLesson, lessonsToday, lessonsNotFinished, deleteFileFromLesson, deleteFileFromLessonFinished, returnedHomework, blancLesson };

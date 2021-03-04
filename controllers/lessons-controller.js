@@ -10,7 +10,7 @@
 // Required modules
 const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
 const { thisDay, thisWeek, weekDayNumber, momentFromDay } = require('../lib/dateJuggler');
-const { getLessons, updateLesson, deleteLesson, finishLesson, lessonsToday, lessonsNotFinished } = require('../models/model-lessons');
+const { getLessons, updateLesson, deleteLesson, finishLesson, lessonsToday, lessonsNotFinished, blancLesson } = require('../models/model-lessons');
 const getNaviObj = require('../views/lib/getNaviObj');
 const studentDayView = require('../views/lessons/student-lesson-view');
 const teacherLessonsView = require('../views/lessons/all-lessons-view');
@@ -74,12 +74,10 @@ function addLessonAction (request, response, user) {
   if (request.url.split('/')[3] != undefined) {
     let myGroup = request.url.split('/')[3];
     let myLessons = getLessons(myGroup);
-    if (request.url.split('/')[4] != undefined && Number.isInteger(Number(request.url.split('/')[4]))) {
+    if (request.url.split('/')[4] !== undefined && Number.isInteger(Number(request.url.split('/')[4]))) {
       itemObj = myLessons.filter( item => item.id === Number(request.url.split('/')[4]))[0];
     } else {
-      Object.keys(myLessons[0]).forEach( key => {
-        itemObj[key] = '';
-      });
+      itemObj = blancLesson();
     }
     uniSend(view('', getNaviObj(user), addLessonView(itemObj, myGroup, user)),response);
   } else {
