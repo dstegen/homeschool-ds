@@ -17,14 +17,13 @@ let lessonsConfig = {};
 
 
 
-function lessonForm (itemObj, myGroup, user, addLesson=false) {
+function lessonForm (itemObj, myGroup, user) {
   lessonsConfig = require(path.join('../../data/classes/', myGroup,'/config.json'));
   return `
     <form id="edit-form-${myGroup}-${itemObj.id}" name="edit-form-${myGroup}-${itemObj.id}" action="/lessons/update" method="post">
       <input type="text" name="id" class="d-none" hidden value="${itemObj.id}" />
       <input type="text" id="group" name="group" class="d-none" hidden value="${myGroup}" />
       <input type="text" class="d-none" hidden class="d-none" id="urlPath" name="urlPath" value="/lessons/show/${myGroup}/${itemObj.id}">
-      ${addLesson === true ? formRadio('lessonType', ['homelesson', 'onlinelesson'], '', 'homelesson', 'required') : ''}
       ${formInputs(itemObj, user.courses)}
       <div class="d-flex justify-content-end mb-3">
         <button type="button" class="btn btn-danger ${itemObj.id === '' ? 'd-none' : ''}" onclick="confirmDelete(this.form.name, \'/lessons/delete\')">${locale.buttons.delete[config.lang]}</button>
@@ -40,6 +39,7 @@ function lessonForm (itemObj, myGroup, user, addLesson=false) {
 
 function formInputs (itemObj, courses) {
   let fieldTypes = {
+    lessonType: 'radio1',
     startWeek: 'select3',
     weekAmount: 'select4',
     weekdays: 'checkbox',
@@ -70,6 +70,9 @@ function formInputs (itemObj, courses) {
               `;
             });
             returnHtml += `</div>`;
+            break;
+          case 'radio1':
+            returnHtml += formRadio('lessonType', ['homelesson', 'onlinelesson'], '', itemObj[key], '', 'onchange="changeAddLessonsFormView(this.value)"');
             break;
           case 'date':
             returnHtml += `
@@ -112,7 +115,7 @@ function formInputs (itemObj, courses) {
             `;
             break;
           case 'select2':
-            returnHtml += formRadio('returnHomework', ['false', 'true'], '', 'false', '');
+            returnHtml += formRadio('returnHomework', ['false', 'true'], '', itemObj[key], '');
             break;
           case 'select3':
             returnHtml += `
@@ -131,17 +134,7 @@ function formInputs (itemObj, courses) {
             `;
             break;
           case 'select4':
-            returnHtml += `
-              <label for="${key}-field" class="col-sm-2 col-form-label text-right">${key}</label>
-              <div class="col-sm-7">
-                <select class="form-control form-control-sm" id="${key}-field" name="${key}" onchange="calcValidUntil(this.value)">
-                  <option ${itemObj.weekAmount === '1'?'selected':''}>1</option>
-                  <option ${itemObj.weekAmount === '2'?'selected':''}>2</option>
-                  <option ${itemObj.weekAmount === '3'?'selected':''}>3</option>
-                  <option ${itemObj.weekAmount === '4'?'selected':''}>4</option>
-                </select>
-              </div>
-            `;
+            returnHtml += formRadio('weekAmount', ['1','2','3','4'], '', itemObj[key], '', 'onchange="calcValidUntil(this.value)"');
             break;
           default:
           returnHtml += `

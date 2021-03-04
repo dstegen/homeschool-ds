@@ -104,6 +104,11 @@ const classConfig = {
       "name": "History",
       "color": "bg-teal",
       "lpw": 2
+    },
+    {
+      "name": "onlinelesson",
+      "lpw": 2,
+      "color": "bg-purple"
     }
   ]
 };

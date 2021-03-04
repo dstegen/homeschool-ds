@@ -157,11 +157,11 @@ function changeAddLessonsFormView (view) {
     ['time'].forEach( item => {
       $('.form-'+item).hide();
     });
-    ['details','returnHomework','amount'].forEach( item => {
+    ['returnHomework','amount'].forEach( item => {
       $('.form-'+item).show();
     });
   } else if (view === 'onlinelesson') {
-    ['details','returnHomework','amount'].forEach( item => {
+    ['returnHomework','amount'].forEach( item => {
       $('.form-'+item).hide();
     });
     ['time'].forEach( item => {
