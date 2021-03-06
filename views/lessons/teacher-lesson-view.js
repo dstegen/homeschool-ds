@@ -14,7 +14,8 @@ const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
 const { getAllUsers } = require('../../models/model-user');
 const { getLessons } = require('../../models/model-lessons');
-const { workdaysBetween, formatDateWithDay, validFromUntil } = require('../../lib/dateJuggler');
+const lessonDateandtime = require('./lesson-dateandtime');
+const lessonSchedule = require('./lesson-schedule');
 const filesList = require('../templates/files-list');
 const lessonForm = require('./lesson-form');
 const lessonUploadForm = require('./lesson-upload-form');
@@ -29,11 +30,10 @@ function teacherLessonView (teacher, urlPath) {
       <div id="lesson" class="container my-3 p-3 border collapse show" data-parent="#homeschool-ds">
         <h2 class="d-flex justify-content-between"><span>${getIcon(myLesson.lessonType)} ${myLesson.lesson}: ${myLesson.chapter}</span><span>${group}</span></h2>
         <div class="d-flex justify-content-between">
-          <span class="text-muted">${workdaysBetween(myLesson.validFrom, myLesson.validUntil, myLesson.weekdays)} ${locale.lessons.hours[config.lang]} (${validFromUntil(myLesson.validFrom, myLesson.validUntil, myLesson.weekdays)})</span>
+          <span class="text-muted">${myLesson.lessonType !== 'onlinelesson' ? lessonDateandtime(myLesson) : ''}</span>
           <button type="button" class="btn btn-sm bg-grey ml-3" data-toggle="collapse" data-target="#lesson-form" onclick="javascript: $('#lesson-details').collapse('toggle')">${locale.buttons.edit[config.lang]}</button>
         </div>
-          ${myLesson.lessonType === 'onlinelesson' ? '<strong>'+locale.headlines.schedule[config.lang]+': <br /></strong>' : ''}
-          ${myLesson.lessonType === 'onlinelesson' ? myLesson.weekdays.map( item => { return myLesson.time + ' Uhr ' +formatDateWithDay(item, myLesson.startWeek) }).join('<br />') : ''}
+          ${myLesson.lessonType === 'onlinelesson' ? lessonSchedule(myLesson) : ''}
         <hr />
         <div id="lesson-form" class="collapse">
           ${lessonForm(myLesson, group, teacher)}

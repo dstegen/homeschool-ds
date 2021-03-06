@@ -11,10 +11,11 @@
 const locale = require('../../lib/locale');
 const { getConfig, getGroupConfig } = require('../../models/model-config');
 const config = getConfig();
-const { notValid, workdaysBetween, validFromUntil } = require('../../lib/dateJuggler');
+const { notValid } = require('../../lib/dateJuggler');
 const { getAllUsers } = require('../../models/model-user');
 const { getLessons, returnedHomework } = require('../../models/model-lessons');
 const formSelectColumn = require('../templates/form-select-column');
+const lessonDateandtime = require('./lesson-dateandtime');
 
 
 function allLessonsView (user) {
@@ -67,7 +68,7 @@ function helperLesson (item, group, courses) {
     return `
       <div class="border p-2 mb-2 lesson-box ${'details-box-'+item.lesson} ${notValid(item.validUntil) ? 'details-box details-box-'+group+'" style="display: none;"' : ''}">
         <div class="d-flex justify-content-between">
-          <div>${getIcon(item.lessonType)}<strong>${item.lesson}</strong>: ${item.chapter} <span class="text-muted"> - ${workdaysBetween(item.validFrom, item.validUntil, item.weekdays)} ${locale.lessons.hours[config.lang]} (${validFromUntil(item.validFrom, item.validUntil, item.weekdays)})</span></div>
+          <div>${getIcon(item.lessonType)}<strong>${item.lesson}</strong>: ${item.chapter} <span class="text-muted"> - ${lessonDateandtime(item)}</span></div>
           <div class="d-flex justify-content-end">
             ${homeworkButton}
             <a href="/lessons/show/${group}/${item.id}" class="btn btn-sm btn-secondary ml-3">${locale.buttons.details[config.lang]}</a>

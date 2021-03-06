@@ -325,8 +325,12 @@
       "de": "Umfang"
     },
     "hours": {
-      "en": "hours",
-      "de": "Stunden"
+      "en": "hrs",
+      "de": "Std."
+    },
+    "oclock": {
+      "en": "",
+      "de": "Uhr"
     }
   },
   "student": {

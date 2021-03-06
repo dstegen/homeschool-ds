@@ -106,7 +106,7 @@ const classConfig = {
       "lpw": 2
     },
     {
-      "name": "onlinelesson",
+      "name": "Onlinelesson",
       "lpw": 2,
       "color": "bg-purple"
     }
