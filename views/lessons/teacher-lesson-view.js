@@ -10,12 +10,11 @@
 // Required modules
 const path = require('path');
 const fs = require('fs');
-const moment = require('moment');
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
 const { getAllUsers } = require('../../models/model-user');
 const { getLessons } = require('../../models/model-lessons');
-const { workdaysBetween, formatDateWithDay } = require('../../lib/dateJuggler');
+const { workdaysBetween, formatDateWithDay, validFromUntil } = require('../../lib/dateJuggler');
 const filesList = require('../templates/files-list');
 const lessonForm = require('./lesson-form');
 const lessonUploadForm = require('./lesson-upload-form');
@@ -30,7 +29,7 @@ function teacherLessonView (teacher, urlPath) {
       <div id="lesson" class="container my-3 p-3 border collapse show" data-parent="#homeschool-ds">
         <h2 class="d-flex justify-content-between"><span>${getIcon(myLesson.lessonType)} ${myLesson.lesson}: ${myLesson.chapter}</span><span>${group}</span></h2>
         <div class="d-flex justify-content-between">
-          <span class="text-muted">${locale.lessons.amount[config.lang]} ${workdaysBetween(myLesson.validFrom, myLesson.validUntil, myLesson.weekdays)} ${locale.lessons.hours[config.lang]} (${moment(myLesson.validFrom).format('LL')} – ${moment(myLesson.validUntil).format('LL')})</span>
+          <span class="text-muted">${workdaysBetween(myLesson.validFrom, myLesson.validUntil, myLesson.weekdays)} ${locale.lessons.hours[config.lang]} (${validFromUntil(myLesson.validFrom, myLesson.validUntil, myLesson.weekdays)})</span>
           <button type="button" class="btn btn-sm bg-grey ml-3" data-toggle="collapse" data-target="#lesson-form" onclick="javascript: $('#lesson-details').collapse('toggle')">${locale.buttons.edit[config.lang]}</button>
         </div>
           ${myLesson.lessonType === 'onlinelesson' ? '<strong>Termin/e: <br /></strong>' : ''}
@@ -51,7 +50,7 @@ function teacherLessonView (teacher, urlPath) {
             </div>
           </div>
           <div class="mt-5">
-            ${myLesson.lessonType !== 'onlinelesson' && myLesson.returnHomework === 'true' ? groupHomework(group, myLesson) : ''}
+            ${myLesson.returnHomework === 'true' ? groupHomework(group, myLesson) : ''}
           </div>
         </div>
       </div>
