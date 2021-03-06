@@ -65,7 +65,7 @@ function formInputs (itemObj, courses, myGroup) {
               if (itemObj[key].includes(item)) checked = 'checked';
               returnHtml += `
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="${key}-${item}" name="${key}" value="${item}" ${checked} required>
+                  <input class="form-check-input" type="checkbox" id="${key}-${item}" name="${key}" value="${item}" ${checked}>
                   <label class="form-check-label" for="${key}-${item}">${weekDay(item)}</label>
                 </div>
               `;
