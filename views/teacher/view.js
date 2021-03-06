@@ -14,6 +14,7 @@ const { formatDay } = require('../../lib/dateJuggler');
 const { getTitleNameById } = require('../../models/model-user');
 const { getLatestMessages } = require('../../models/model-messages');
 const getWelcome = require('../lib/get-welcome');
+const getOnlinelessons = require('../lib/get-onlinelessons');
 const recentMessages = require('../communication/recent-messages');
 const returnedHomeworkOverview = require('../lessons/returned-homework-overview');
 const classChat = require('../templates/chat');
@@ -35,6 +36,17 @@ function teacherView (teacher, wsport) {
             ${locale.teacher.today_is[config.lang]} ${formatDay()} ${getLatestMessages(teacher.id).length > 0 ? ' '+locale.teacher.you_have[config.lang]+' <strong>'+getLatestMessages(teacher.id).length+'</strong> '+locale.teacher.new_messages[config.lang]+':' : ''}
           </p>
           ${recentMessages(teacher.id)}
+          <br />
+        </div>
+        <div class="border py-2 px-3 mb-3">
+          <h4>${locale.headlines.scheduledOnlinelessons[config.lang]}:</h4>
+          <hr />
+          <h5>${locale.headlines.thisWeek[config.lang]}</h5>
+          ${getOnlinelessons(teacher, 0)}
+          <br />
+          <hr />
+          <h5>${locale.headlines.nextWeek[config.lang]}</h5>
+          ${getOnlinelessons(teacher, 1)}
           <br />
         </div>
         <div class="border py-2 px-3 mb-3">
