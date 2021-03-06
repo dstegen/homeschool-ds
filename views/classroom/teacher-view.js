@@ -19,7 +19,7 @@ const { notValid } = require('../../lib/dateJuggler');
 
 function teacherView (group) {
   let myLessons = getLessons(group);
-  let lessonsSelectArray = myLessons.filter(item => !notValid(item.validUntil)).map( item => { return [item.id, item.lesson+' - '+item.chapter]; });
+  let lessonsSelectArray = myLessons.filter(item => !notValid(item.validUntil) && item.lessonType === 'onlinelesson').map( item => { return [item.id, item.lesson+' - '+item.chapter]; });
   lessonsSelectArray.unshift(['','']);
   return `
     <div class="container border my-3 p-3 h-50">

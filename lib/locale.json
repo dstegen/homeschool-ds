@@ -175,6 +175,18 @@
     "schedule": {
       "en": "Schedule",
       "de": "Termin/e"
+    },
+    "scheduledOnlinelessons": {
+      "en": "Scheduled online lessons",
+      "de": "Anstehende Online-Stunden"
+    },
+    "thisWeek": {
+      "en": "This week",
+      "de": "Diese Woche"
+    },
+    "nextWeek": {
+      "en": "Next week",
+      "de": "Nächste Woche"
     }
   },
   "buttons": {
