@@ -1,7 +1,7 @@
 /*!
  * views/lin/get-onlinelessons.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
- * Copyright 2020 Daniel Stegen <info@danielstegen.de>
+ * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
  */
 
@@ -12,6 +12,7 @@ const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
 const { thisWeek, isActualWeek, weekDayFromNumber } = require('../../lib/dateJuggler');
 const { getLessons } = require('../../models/model-lessons');
+
 
 function getOnlinelessons (user, weekOffset) {
   let returnHtml = '';
