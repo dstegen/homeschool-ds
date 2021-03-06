@@ -9,7 +9,7 @@
 
 // Required Modules
 const path = require('path');
-const { isActualWeek, notValid } = require('../lib/dateJuggler');
+const { isActualWeek, notValid, getWebDate } = require('../lib/dateJuggler');
 const loadFile = require('../utils/load-file');
 const saveFile = require('../utils/save-file');
 
@@ -37,6 +37,8 @@ function updateLesson(fields) {
       }
     });
     saveFile(path.join(__dirname, '../data/classes', myGroup), 'lessons.json', { lessons: myLessons});
+    console.log('+ Updated: lessons for class: '+myGroup);
+    if (fields.lessonType === 'onlinelesson') updateOnlinelessonsCalendar(myLessons.filter(item => item.id == fields.id)[0], myGroup);
     return myLessons;
   } else {
     // add
@@ -55,6 +57,8 @@ function updateLesson(fields) {
     });
     myLessons.push(newItem);
     saveFile(path.join(__dirname, '../data/classes', myGroup), 'lessons.json', { lessons: myLessons});
+    console.log('+ Added: lesson for class: '+myGroup);
+    if (fields.lessonType === 'onlinelesson') updateOnlinelessonsCalendar(newItem, myGroup);
     return myLessons;
   }
 }
@@ -166,10 +170,28 @@ function blancLesson () {
     weekAmount: '1',
     validFrom: '',
     validUntil: '',
-    time: '',
     amount: '',
-    weekdays: ''
+    weekdays: '',
+    time: ''
   }
+}
+
+function updateOnlinelessonsCalendar (myLesson, myGroup) {
+  let onlinelessonsCalendar = loadFile(path.join(__dirname, '../data/classes/', myGroup, 'onlinelessonscalendar.json'));
+  if (onlinelessonsCalendar.filter( item => item.id === myLesson.id).length > 0) {
+    let tmpObj = onlinelessonsCalendar.filter( item => item.id === myLesson.id)[0];
+    tmpObj.date = getWebDate(myLesson.validFrom, myLesson.weekdays[0]);
+    tmpObj.time = myLesson.time;
+    saveFile(path.join(__dirname, '../data/classes', myGroup), 'onlinelessonscalendar.json', onlinelessonsCalendar);
+  } else {
+    onlinelessonsCalendar.push({
+      id: myLesson.id,
+      date: getWebDate(myLesson.validFrom, myLesson.weekdays[0]),
+      time: myLesson.time
+    });
+    saveFile(path.join(__dirname, '../data/classes', myGroup), 'onlinelessonscalendar.json', onlinelessonsCalendar);
+  }
+  console.log('+ Updated: onlinelessonscalendar.json for class: '+myGroup);
 }
 
 

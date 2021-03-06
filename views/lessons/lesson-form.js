@@ -11,6 +11,7 @@
 const path = require('path');
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
+const loadFile = require('../../utils/load-file');
 const formRadio = require('../templates/form-radio');
 const { weekDay, weeksArray } = require('../../lib/dateJuggler');
 let lessonsConfig = {};
@@ -24,7 +25,7 @@ function lessonForm (itemObj, myGroup, user) {
       <input type="text" name="id" class="d-none" hidden value="${itemObj.id}" />
       <input type="text" id="group" name="group" class="d-none" hidden value="${myGroup}" />
       <input type="text" class="d-none" hidden class="d-none" id="urlPath" name="urlPath" value="/lessons/show/${myGroup}/${itemObj.id}">
-      ${formInputs(itemObj, user.courses)}
+      ${formInputs(itemObj, user.courses, myGroup)}
       <div class="d-flex justify-content-end mb-3">
         <button type="button" class="btn btn-danger ${itemObj.id === '' ? 'd-none' : ''}" onclick="confirmDelete(this.form.name, \'/lessons/delete\')">${locale.buttons.delete[config.lang]}</button>
         <button type="button" class="btn btn-info ml-3" data-toggle="collapse" data-target="#lesson-form" onclick="javascript: $('#lesson-details').collapse('toggle');">${locale.buttons.cancle[config.lang]}</a>
@@ -37,7 +38,7 @@ function lessonForm (itemObj, myGroup, user) {
 
 // Additional functions
 
-function formInputs (itemObj, courses) {
+function formInputs (itemObj, courses, myGroup) {
   let fieldTypes = {
     lessonType: 'radio1',
     startWeek: 'select3',
@@ -45,7 +46,7 @@ function formInputs (itemObj, courses) {
     weekdays: 'checkbox',
     validFrom: 'date',
     validUntil: 'date',
-    time: 'time',
+    time: 'select5',
     lesson: 'select',
     details: 'textarea',
     returnHomework: 'select2'
@@ -64,7 +65,7 @@ function formInputs (itemObj, courses) {
               if (itemObj[key].includes(item)) checked = 'checked';
               returnHtml += `
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="${key}-${item}" name="${key}" value="${item}" ${checked}>
+                  <input class="form-check-input" type="checkbox" id="${key}-${item}" name="${key}" value="${item}" ${checked} required>
                   <label class="form-check-label" for="${key}-${item}">${weekDay(item)}</label>
                 </div>
               `;
@@ -82,13 +83,8 @@ function formInputs (itemObj, courses) {
               </div>
             `;
             break;
-            case 'time':
-              returnHtml += `
-                <label for="${key}-field" class="col-sm-2 col-form-label text-right">${key}</label>
-                <div class="col-sm-2">
-                  <input type="time" class="form-control" id="${key}-field" name="${key}" value="${itemObj[key]}">
-                </div>
-              `;
+            case 'select5':
+              returnHtml += formSelect5(key, itemObj[key], myGroup);
               break;
           case 'textarea':
             returnHtml += `
@@ -140,7 +136,7 @@ function formInputs (itemObj, courses) {
           returnHtml += `
             <label for="${key}-field" class="col-sm-2 col-form-label text-right">${key}</label>
             <div class="col-sm-7">
-              <input type="text" class="form-control" id="${key}-field" name="${key}" value="${itemObj[key]}">
+              <input type="text" class="form-control" id="${key}-field" name="${key}" value="${itemObj[key]}" ${key === 'chapter' ? 'required' : ''}>
             </div>
           `;
         }
@@ -151,5 +147,26 @@ function formInputs (itemObj, courses) {
   return returnHtml;
 }
 
+function formSelect5 (key, value, myGroup) {
+  let onlinelessonsCalendar = loadFile(path.join(__dirname, '../../data/classes/', myGroup, 'onlinelessonscalendar.json'));
+  return `
+    <label for="${key}-field" class="col-sm-2 col-form-label text-right">${key}</label>
+    <div class="col-sm-7">
+      <select class="form-control form-control-sm" id="${key}-field" name="${key}" onchange="checkAvailability(this.value)">
+        ${lessonsConfig.lessonTimeslots.map(item => myOptions(item, value)).join('')}
+      </select>
+    </div>
+    <script>
+      var onlinelessonsCalendar = ${JSON.stringify(onlinelessonsCalendar)};
+    </script>
+  `;
+  function myOptions(item, value) {
+    return `
+      <option ${item === value ? 'selected' : ''}>
+        ${item}
+      </option>
+    `;
+  }
+}
 
 module.exports = lessonForm;

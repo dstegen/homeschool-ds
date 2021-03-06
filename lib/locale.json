@@ -171,6 +171,10 @@
     "jitsi": {
       "en": "Jitsi",
       "de": "Jitsi"
+    },
+    "schedule": {
+      "en": "Schedule",
+      "de": "Termin/e"
     }
   },
   "buttons": {

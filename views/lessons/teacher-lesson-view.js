@@ -32,7 +32,7 @@ function teacherLessonView (teacher, urlPath) {
           <span class="text-muted">${workdaysBetween(myLesson.validFrom, myLesson.validUntil, myLesson.weekdays)} ${locale.lessons.hours[config.lang]} (${validFromUntil(myLesson.validFrom, myLesson.validUntil, myLesson.weekdays)})</span>
           <button type="button" class="btn btn-sm bg-grey ml-3" data-toggle="collapse" data-target="#lesson-form" onclick="javascript: $('#lesson-details').collapse('toggle')">${locale.buttons.edit[config.lang]}</button>
         </div>
-          ${myLesson.lessonType === 'onlinelesson' ? '<strong>Termin/e: <br /></strong>' : ''}
+          ${myLesson.lessonType === 'onlinelesson' ? '<strong>'+locale.headlines.schedule[config.lang]+': <br /></strong>' : ''}
           ${myLesson.lessonType === 'onlinelesson' ? myLesson.weekdays.map( item => { return myLesson.time + ' Uhr ' +formatDateWithDay(item, myLesson.startWeek) }).join('<br />') : ''}
         <hr />
         <div id="lesson-form" class="collapse">

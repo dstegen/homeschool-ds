@@ -24,6 +24,13 @@ $(document).ready(function () {
     changeAddLessonsFormView('homelesson');
     calcValidFrom(moment().isoWeek());
   }
+  if (document.location.toString().includes('lessons/show')) {
+    if ($('form [name=lessonType]')[1].checked === true) {
+      changeAddLessonsFormView('onlinelesson');
+    } else {
+      changeAddLessonsFormView('homelesson');
+    }
+  }
   // blackboard
   if (document.location.toString().includes('classroom')) {
     let done = false;
@@ -160,6 +167,9 @@ function changeAddLessonsFormView (view) {
     ['returnHomework','amount'].forEach( item => {
       $('.form-'+item).show();
     });
+    for (var i=0; i<6; i++) {
+      $('form [name=weekdays]')[i].type = 'checkbox';
+    }
   } else if (view === 'onlinelesson') {
     ['returnHomework','amount'].forEach( item => {
       $('.form-'+item).hide();
@@ -167,6 +177,10 @@ function changeAddLessonsFormView (view) {
     ['time'].forEach( item => {
       $('.form-'+item).show();
     });
+    for (var i=0; i<6; i++) {
+      $('form [name=weekdays]')[i].type = 'radio';
+    }
+    $('#time-field').attr('required', 'required');
   }
 }
 
@@ -174,12 +188,30 @@ function calcValidFrom (startWeek) {
   let endWeek = startWeek;
   $('#validFrom-field').val(moment().day(1).isoWeek(startWeek).format('YYYY-MM-DD'));
   if (Number($('#weekAmount-field').val()) > 1) endWeek = Number(startWeek) + Number($('#weekAmount-field').val()) - 1;
-  $('#validUntil-field').val(moment().day(7).isoWeek(endWeek).format('YYYY-MM-DD'))
+  $('#validUntil-field').val(moment().day(7).isoWeek(endWeek).format('YYYY-MM-DD'));
 }
 
 function calcValidUntil (weekAmount) {
   let endWeek = Number($('#startWeek-field').val()) + Number(weekAmount) - 1;
   $('#validUntil-field').val(moment().day(7).isoWeek(endWeek).format('YYYY-MM-DD'));
+}
+
+function checkAvailability (myTime) {
+  let myDay = '';
+  for (var i=0; i<6; i++) {
+    if ($('form [name=weekdays]')[i].checked === true) myDay = i+1;
+  }
+  let myDate = moment($('#validFrom-field').val()).isoWeekday(myDay).format('YYYY-MM-DD');
+  //console.log(myDate);
+  //console.log(myTime);
+  if (onlinelessonsCalendar.filter(item => item.date == myDate && item.time == myTime).length > 0) {
+    console.log('Sorry, timeslot taken!');
+    alert('Sorry, timeslot taken!\nPls choose another time and/or date!');
+    $('form [type=submit]').attr('disabled', 'disabled');
+  } else {
+    console.log('OK');
+    $('form [type=submit]').removeAttr('disabled');
+  }
 }
 
 //--- END Lessons scripts ---//
