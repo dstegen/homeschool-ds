@@ -1,14 +1,26 @@
 # HomeSchool-DS #
-#### Simple HomeSchool web app by Daniel Stegen ####
+#### Simple HomeSchool Server by Daniel Stegen ####
 
 ## Introduction ##
 
 A simple HomeSchool server for teachers and students to have a better overview of what is to do and what is already done in a homeschool environment during Covid-19 lockdown situations.
 
+## Features ##
+
+- NEW: Online lessons with Jitsi Meet video conference, chalkboard, document viewer & youtube video display
 - Teachers can setup lessons, provide download material and receive returned homework uploads from the students.
 - Students get a weekly and daily overview of what to do, can finish a lesson by clicking a button and can upload homework.
 - HomeSchool-DS includes a basic class/group-chat, as well as a private message from teachers to students and students to teachers.
 - It also includes a group board for additional informations or alternative display of lessons
+
+## Important notice ##
+***At the moment HomeSchool-DS is more a "proof-of-concept" project and not ready for production!***
+
+#### Missing features: ####
+- Database support (currently only *.json files)
+- Secure privacy support (all saved data is unencrypted)
+- Scaleabilty (currently everything runs in one process)
+- Documentation & HowTos
 
 
 ## Installation ##
@@ -36,6 +48,17 @@ A simple HomeSchool server for teachers and students to have a better overview o
 
 
 ## Changelog ##
+
+#### v0.4.0 ####
+- added classroom for online lessons
+- added Jitsi video-meeting in classroom
+- added variable chalkboard with exchangeable background in classroom
+- added PDF, JPEG & PNG document viewer in classroom
+- integrated online lessons in timetable, day view and board
+- improved visualization in timetable, day view and board
+- improved lessons planing & data structure
+- better server configuration via serverconf.json
+- bug fixes, code cleanups & code improvements
 
 #### v0.3.8 ####
 - added optional ssl support
