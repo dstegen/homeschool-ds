@@ -20,6 +20,9 @@ function getOnlinelessons (user, weekOffset) {
   if (user.role === 'teacher') {
     user.group.forEach( group => {
       allLessons = allLessons.concat(getLessons(group).filter(item => item.lessonType === 'onlinelesson' && isActualWeek(item.validFrom, item.validUntil, thisWeek()+weekOffset) && (user.courses.includes(item.lesson) || user.courses[0] === 'all')));
+      allLessons.forEach( item => {
+        if (!item.group) item.group = group;
+      });
     });
   } else {
     allLessons = getLessons(user.group).filter(item => item.lessonType === 'onlinelesson' && isActualWeek(item.validFrom, item.validUntil, thisWeek()+weekOffset));
@@ -32,8 +35,13 @@ function getOnlinelessons (user, weekOffset) {
       allLessons.filter(item => item.weekdays.includes(wd)).forEach( item => {
         returnHtml += '<div class="mb-2">'
         returnHtml += '<strong>' + item.time + ' ' + locale.lessons.oclock[config.lang] + '</strong>: ';
-        returnHtml += item.lesson + ': ' + item.chapter + '<br />'
-        returnHtml += '</div>'
+        if (user.role === 'teacher') {
+          returnHtml += '<a href="/lessons/show/'+item.group+'/'+item.id+'">' + item.lesson + ': ' + item.chapter + '</a>';
+          returnHtml += ' (' + item.group + ')';
+        } else {
+          returnHtml += item.lesson + ': ' + item.chapter;
+        }
+        returnHtml += '<br /></div>';
       });
     }
   });
