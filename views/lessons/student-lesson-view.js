@@ -15,6 +15,7 @@ const studentLessonBig = require('./student-lesson-big');
 
 
 function studentLessonView (myLessonsToday, myGroup, curDay, curWeekDay, user, lessonsNotFinishedToday) {
+  myLessonsToday = myLessonsToday.sort((a,b) => reorderLessonsByDateAsc(a,b));
   return `
     <div id="today" class="container my-3 p-3 border collapse show" data-parent="#homeschool-ds">
       <div class="d-flex justify-content-between">
@@ -49,6 +50,20 @@ function helperLessonsNotFinished (lessonsNotFinishedToday, curWeekDay, curDay, 
     `;
   } else {
     return '';
+  }
+}
+
+function reorderLessonsByDateAsc (lessonA, lessonB) {
+  if ((lessonA.time === '' || lessonA.time === undefined) && lessonB.time > '') {
+    return 1;
+  } else if ((lessonB.time === '' || lessonB.time === undefined) && lessonA.time > '') {
+    return -1;
+  } else if (lessonA.time > lessonB.time) {
+    return 1;
+  } else if (lessonA.time < lessonB.time) {
+    return -1;
+  } else {
+    return 0;
   }
 }
 

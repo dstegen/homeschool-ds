@@ -12,6 +12,7 @@ const path = require('path');
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
 const { thisDay, formatDay, momentFromDay, workdaysBetween, notValid } = require('../../lib/dateJuggler');
+const getIcon = require('../lib/get-icon');
 const filesList = require('../templates/files-list');
 let lessonsConfig = {};
 
@@ -29,7 +30,7 @@ function studentLessonBig (lessonObj, curWeekDay, curDay, myGroup, studentId) {
         ${lessonIndicator(myGroup, lessonObj, studentId, curDay)}
       </div>
       <div id="lessonbig-details-${lessonObj.id}" class="card-body collapse" data-parent="#today">
-        ${lessonObj.details != '' ? `<strong class="card-title">${locale.student.exercise[config.lang]}:</strong><p class="card-text">${lessonObj.details}</p>` : ''}
+        <p class="card-text">${lessonObj.details}</p>
         ${lessonObj.files ? filesList(lessonObj.files, '/lessons/day/'+curDay, myGroup, studentId, lessonObj.id, lessonColor, false) : ''}
         ${helperUpload(myGroup, lessonObj, studentId, curDay, lessonColor)}
         ${helperFinishButton(myGroup, lessonObj, studentId, curDay)}
@@ -42,7 +43,9 @@ function studentLessonBig (lessonObj, curWeekDay, curDay, myGroup, studentId) {
 // Additional functions
 
 function lessonIndicator (myGroup, lessonObj, studentId, curDay) {
-  if (lessonObj.lessonFinished.filter( item => item.finished === true).map( item => { return item.studentId } ).includes(studentId)) {
+  if (lessonObj.lessonType === 'onlinelesson') {
+    return '<span>' + lessonObj.time + ' ' + getIcon('onlinelesson', 'currentColor', '24') + '</span>';
+  } else if (lessonObj.lessonFinished.filter( item => item.finished === true).map( item => { return item.studentId } ).includes(studentId)) {
     return '<span class="checkmark-ok-grey">&#10003;</span>';
   } else if (notValid(lessonObj.validUntil, momentFromDay(curDay))) {
     return `${locale.student.return_date[config.lang]}: ${formatDay(thisDay(lessonObj.validUntil))}`;
@@ -84,10 +87,16 @@ function helperUpload (myGroup, lessonObj, studentId, curDay, lessonColor) {
 function helperFinishButton (myGroup, lessonObj, studentId, curDay) {
   if (lessonObj.lessonFinished.filter( item => item.finished === true).map( item => { return item.studentId } ).includes(studentId)) {
     return '';
+  } else if (lessonObj.lessonType === 'onlinelesson') {
+    return `
+      <div class="text-right">
+        <a class="btn btn-md btn-warning" href="/classroom">${locale.buttons.to_onelinelesson[config.lang]}</a>
+      </div>
+    `;
   } else {
     return `
       <hr />
-      <form class="my-3 p-2 mx-0 text-right" action="/lessons/lessonfinished" method="post" enctype="multipart/form-data">
+      <form class="mt-3 mx-0 text-right" action="/lessons/lessonfinished" method="post" enctype="multipart/form-data">
         <input type="text" readonly class="d-none" id="group" name="group" value="${myGroup}">
         <input type="text" readonly class="d-none" id="courseId" name="courseId" value="${lessonObj.id}">
         <input type="text" readonly class="d-none" id="studentId" name="studentId" value="${studentId}">

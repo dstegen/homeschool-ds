@@ -261,6 +261,10 @@
     "end_onelinelesson": {
       "en": "End online lesson",
       "de": "Online-Unterricht beenden"
+    },
+    "to_onelinelesson": {
+      "en": "Onlinelesson",
+      "de": "zum Online-Unterricht"
     }
   },
   "placeholder": {

@@ -25,7 +25,7 @@ function updateLesson(fields) {
   if (fields.id && fields.id != '') {
     // update
     Object.keys(fields).forEach( key => {
-      if (key !== 'id' && key !== 'group') {
+      if (key !== 'id') {
         if (key === 'weekdays') {
           if (fields.weekdays.length < 2) fields.weekdays = [fields.weekdays];
           myLessons.filter(item => item.id == fields.id)[0][key] = fields[key].map( item => { return Number(item) } );
@@ -47,7 +47,7 @@ function updateLesson(fields) {
     newItem.id = getNewId(myLessons);
     newItem.lessonFinished = [];
     Object.keys(fields).forEach( key => {
-      if (key !== 'id' && key !== 'group') {
+      if (key !== 'id') {
         if (key === 'weekdays') {
           if (fields.weekdays.length < 2) fields.weekdays = [fields.weekdays];
           newItem[key] = fields[key].map( item => { return Number(item) } );
@@ -128,7 +128,7 @@ function lessonsToday (myGroup, curWeekDay, curWeek) {
 }
 
 function lessonsNotFinished (user, inDay) {
-  return getLessons(user.group).filter( lesson => ((!lesson.lessonFinished.map( item => { return item.studentId } ).includes(user.id) || lesson.lessonFinished.filter( item => (item.studentId === user.id && item.finished === false)).length > 0) && notValid(lesson.validUntil, inDay)));
+  return getLessons(user.group).filter( lesson => ((!lesson.lessonFinished.map( item => { return item.studentId } ).includes(user.id) || lesson.lessonFinished.filter( item => (item.studentId === user.id && item.finished === false)).length > 0) && notValid(lesson.validUntil, inDay) && lesson.lessonType !== 'onlinelesson'));
 }
 
 function returnedHomework (myGroup, courses=['all']) {
