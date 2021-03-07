@@ -54,7 +54,7 @@ function formInputs (itemObj, courses, myGroup) {
   let returnHtml = '';
   if (Object.keys(itemObj).length > 0) {
     Object.keys(itemObj).forEach( key => {
-      if (key !== 'id' && key !== 'lessonFinished' && key !== 'files' && key !== 'urlPath') {
+      if (key !== 'id' && key !== 'lessonFinished' && key !== 'files' && key !== 'urlPath' && key !== 'group') {
         returnHtml += `<div class="form-group row mb-1 form-${key}">`;
         switch (fieldTypes[key]) {
           case 'checkbox':

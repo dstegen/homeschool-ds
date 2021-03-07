@@ -8,6 +8,7 @@
 'use strict';
 
 // Required Modules
+const fs = require('fs');
 const path = require('path');
 const { isActualWeek, notValid, getWebDate } = require('../lib/dateJuggler');
 const loadFile = require('../utils/load-file');
@@ -161,6 +162,7 @@ function getNewId (lessons) {
 function blancLesson () {
   return {
     id: '',
+    group: '',
     lessonType: 'homelesson',
     lesson: '',
     chapter: '',
@@ -177,7 +179,10 @@ function blancLesson () {
 }
 
 function updateOnlinelessonsCalendar (myLesson, myGroup) {
-  let onlinelessonsCalendar = loadFile(path.join(__dirname, '../data/classes/', myGroup, 'onlinelessonscalendar.json'));
+  let onlinelessonsCalendar = [];
+  if (fs.existsSync(path.join(__dirname, '../data/classes/', myGroup, 'onlinelessonscalendar.json'))) {
+    onlinelessonsCalendar = loadFile(path.join(__dirname, '../data/classes/', myGroup, 'onlinelessonscalendar.json'));
+  }
   if (onlinelessonsCalendar.filter( item => item.id === myLesson.id).length > 0) {
     let tmpObj = onlinelessonsCalendar.filter( item => item.id === myLesson.id)[0];
     tmpObj.date = getWebDate(myLesson.validFrom, myLesson.weekdays[0]);
