@@ -8,6 +8,9 @@
 'use strict';
 
 // Required modules
+const locale = require('../../lib/locale');
+const config = require('../../models/model-config').getConfig();
+const { formatDateShort } = require('../../lib/dateJuggler');
 const { getGroupConfig } = require('../../models/model-config');
 const boardCardForm = require('./board-card-form');
 
@@ -56,6 +59,7 @@ function boardCard (card, myTopic, role, group) {
           ${boardCardForm(group, myTopic.id, card)}
           <div id="card-details-${card.id}" class="collapse show">
             <p class="small py-2 px-3">
+              ${card.lessonType === 'onlinelesson' ? '<strong>' + formatDateShort(card.startDate, card.weekdays[0]) + ' - ' + card.time + ' ' + locale.lessons.oclock[config.lang] + '</strong><br />' : ''}
               ${card.details}
             </p>
             <div class="py-2 px-3 text-truncate">
