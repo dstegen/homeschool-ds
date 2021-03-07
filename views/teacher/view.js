@@ -42,12 +42,16 @@ function teacherView (teacher, wsport) {
           <h4>${locale.headlines.scheduledOnlinelessons[config.lang]}:</h4>
           <hr />
           <h5>${locale.headlines.thisWeek[config.lang]}</h5>
-          ${getOnlinelessons(teacher, 0)}
-          <br />
+          <div style="font-size: 0.9rem;">
+            ${getOnlinelessons(teacher, 0)}
+            <br />
+          </div>
           <hr />
           <h5>${locale.headlines.nextWeek[config.lang]}</h5>
-          ${getOnlinelessons(teacher, 1)}
-          <br />
+          <div style="font-size: 0.9rem;">
+            ${getOnlinelessons(teacher, 1)}
+            <br />
+          </div>
         </div>
         <div class="border py-2 px-3 mb-3">
           <h4>${locale.headlines.returned_homework[config.lang]}:</h4>

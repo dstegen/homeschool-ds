@@ -265,6 +265,14 @@
     "to_onelinelesson": {
       "en": "Onlinelesson",
       "de": "zum Online-Unterricht"
+    },
+    "clean_chalkboard": {
+      "en": "Clean chalkboard",
+      "de": "Tafel säubern"
+    },
+    "exit_onlinelesson": {
+      "en": "Exit online lesson",
+      "de": "Online-Unterricht verlassen"
     }
   },
   "placeholder": {

@@ -318,7 +318,7 @@ function initBlackboard () {
     myCanvas.height = myCanvas.width * heightRatio;
     myCanvas.style.height = myCanvas.width * heightRatio+'px';
     context = myCanvas.getContext('2d');
-    context.strokeStyle = 'white';
+    chalkboardChangeColor('white');
     /*
     var background = new Image();
     var group = document.getElementById('myBlackboard').className;
