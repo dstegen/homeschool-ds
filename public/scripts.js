@@ -187,7 +187,11 @@ function changeAddLessonsFormView (view) {
 function calcValidFrom (startWeek) {
   let endWeek = startWeek;
   $('#validFrom-field').val(moment().day(1).isoWeek(startWeek).format('YYYY-MM-DD'));
-  if (Number($('#weekAmount-field').val()) > 1) endWeek = Number(startWeek) + Number($('#weekAmount-field').val()) - 1;
+  if ($('form [name=weekAmount]')[0].checked === false){
+    if ($('form [name=weekAmount]')[1].checked === true) endWeek = Number(startWeek) + 1;
+    if ($('form [name=weekAmount]')[2].checked === true) endWeek = Number(startWeek) + 2;
+    if ($('form [name=weekAmount]')[3].checked === true) endWeek = Number(startWeek) + 3;
+   }
   $('#validUntil-field').val(moment().day(7).isoWeek(endWeek).format('YYYY-MM-DD'));
 }
 

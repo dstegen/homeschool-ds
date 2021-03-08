@@ -8,7 +8,7 @@
 'use strict';
 
 
-function formTextInputColumn (valueArray, prop, checkedArray=[], disabledArray=[]) {
+function formCheckboxColumn (valueArray, prop, checkedArray=[], disabledArray=[]) {
   return `
     <div class="w-100"></div>
     <div class="col-12 px-4 row form-${prop}">
@@ -39,4 +39,4 @@ function helperCheckbox (value, prop, checkedArray, disabledArray) {
 }
 
 
-module.exports = formTextInputColumn;
+module.exports = formCheckboxColumn;
