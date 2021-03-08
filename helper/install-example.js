@@ -48,7 +48,7 @@ let users = [
       "role": "admin",
       "group": ["7A"],
       "courses": ["all"],
-      "fname": "admin",
+      "fname": "Admin",
       "lname": "Steen",
       "email": "admin@me.com",
       "phone": "+49 296112994",
@@ -137,6 +137,8 @@ const classConfig = {
   ]
 };
 
+const startWeek = moment().isoWeek();
+
 const myLessons = {
   "lessons": [
     {
@@ -147,10 +149,10 @@ const myLessons = {
       "chapter": "Functions",
       "details": "Introducting exponential functions",
       "returnHomework": "true",
-      "startWeek": moment().isoWeek(),
+      "startWeek": startWeek,
       "weekAmount": "2",
-      "validFrom": moment().day(1).isoWeek(moment().isoWeek()).format('YYYY-MM-DD'),
-      "validUntil": moment().day(7).isoWeek(moment().isoWeek()+1).format('YYYY-MM-DD'),
+      "validFrom": moment().day(1).isoWeek(startWeek).format('YYYY-MM-DD'),
+      "validUntil": moment().day(7).isoWeek(startWeek+1).format('YYYY-MM-DD'),
       "amount": "4",
       "weekdays": [
         1,
@@ -169,10 +171,10 @@ const myLessons = {
       "chapter": "past tens",
       "details": "Read the next chapter from the textbook.",
       "returnHomework": "true",
-      "startWeek": moment().isoWeek(),
+      "startWeek": startWeek,
       "weekAmount": "3",
-      "validFrom": moment().day(7).isoWeek(moment().isoWeek()).format('YYYY-MM-DD'),
-      "validUntil": moment().day(7).isoWeek(moment().isoWeek()+2).format('YYYY-MM-DD'),
+      "validFrom": moment().day(1).isoWeek(startWeek).format('YYYY-MM-DD'),
+      "validUntil": moment().day(7).isoWeek(startWeek+2).format('YYYY-MM-DD'),
       "amount": "4",
       "weekdays": [
         1,
@@ -191,10 +193,10 @@ const myLessons = {
       "chapter": "The Romans",
       "details": "Read the introduction from the history book page 70.",
       "returnHomework": "false",
-      "startWeek": moment().isoWeek(),
+      "startWeek": startWeek,
       "weekAmount": "5",
-      "validFrom": moment().day(7).isoWeek(moment().isoWeek()).format('YYYY-MM-DD'),
-      "validUntil": moment().day(7).isoWeek(moment().isoWeek()+4).format('YYYY-MM-DD'),
+      "validFrom": moment().day(1).isoWeek(startWeek).format('YYYY-MM-DD'),
+      "validUntil": moment().day(7).isoWeek(startWeek+4).format('YYYY-MM-DD'),
       "amount": "2",
       "weekdays": [
         1,
@@ -213,13 +215,32 @@ const myLessons = {
       "returnHomework": "false",
       "startWeek": moment().isoWeek(),
       "weekAmount": "2",
-      "validFrom": moment().day(1).isoWeek(moment().isoWeek()+1).format('YYYY-MM-DD'),
-      "validUntil": moment().day(7).isoWeek(moment().isoWeek()+2).format('YYYY-MM-DD'),
+      "validFrom": moment().day(1).isoWeek(startWeek+1).format('YYYY-MM-DD'),
+      "validUntil": moment().day(7).isoWeek(startWeek+2).format('YYYY-MM-DD'),
       "amount": "",
       "weekdays": [
         3
       ],
       "time": "10:00",
+      "lessonFinished": []
+    },
+    {
+      "id": 700004,
+      "group": "7A",
+      "lessonType": "onlinelesson",
+      "lesson": "Onlinelesson",
+      "chapter": "Class meeting",
+      "details": "Every monday at 9:00 am",
+      "returnHomework": "false",
+      "startWeek": moment().isoWeek(),
+      "weekAmount": "2",
+      "validFrom": moment().day(1).isoWeek(startWeek+1).format('YYYY-MM-DD'),
+      "validUntil": moment().day(7).isoWeek(startWeek+2).format('YYYY-MM-DD'),
+      "amount": "",
+      "weekdays": [
+        1
+      ],
+      "time": "09:00",
       "lessonFinished": []
     }
   ]
@@ -231,7 +252,9 @@ const myBoard = {
       "id": 1,
       "order": 1,
       "topic": "Videomeeting",
-      "color": "bg-purple"
+      "color": "",
+      "autofill": true,
+      "autofillWith": "Onlinelesson"
     },
     {
       "id": 2,
@@ -273,22 +296,6 @@ const myBoard = {
   "cards": [
     {
       "id": 1,
-      "topicId": 1,
-      "chapter": "Class meeting",
-      "details": "When in quarantine, we  meet here!",
-      "files": "",
-      "link": "https://zoom.us/123"
-    },
-    {
-      "id": 2,
-      "topicId": 1,
-      "chapter": "Homework online",
-      "details": "with teacher Ms. Smith",
-      "files": "",
-      "link": "https://zoom.us/456"
-    },
-    {
-      "id": 3,
       "topicId": 5,
       "chapter": "Anton App",
       "details": "Download the Anton App",
@@ -296,7 +303,7 @@ const myBoard = {
       "link": "https://anton.app/en_us/"
     },
     {
-      "id": 4,
+      "id": 2,
       "topicId": 6,
       "chapter": "Teachers contact",
       "details": "If you need to contact the teachers, pls use email!",
@@ -304,7 +311,7 @@ const myBoard = {
       "link": ""
     },
     {
-      "id": 5,
+      "id": 3,
       "topicId": 3,
       "chapter": "Places in town",
       "details": "Learn online",
@@ -316,7 +323,7 @@ const myBoard = {
 
 const myChat = [
     {
-      "chaterId": 100000,
+      "chaterId": 100001,
       "timeStamp": new Date(),
       "chat": "Hello students!"
     }
