@@ -21,6 +21,15 @@ function teacherView (group) {
   let myLessons = getLessons(group);
   let lessonsSelectArray = myLessons.filter(item => !notValid(item.validUntil) && item.lessonType === 'onlinelesson').map( item => { return [item.id, item.lesson+' - '+item.chapter]; });
   lessonsSelectArray.unshift(['','']);
+  let lessonOptions = formCheckboxColumn(['jitsi', 'chalkboard', 'docs', 'youtube', 'classchat'], 'options', ['docs'], ['jitsi']);
+  try {
+    const serverconf = require('../../serverconf');
+    if (serverconf.meetServer !== undefined && serverconf.meetServer !== '') {
+      lessonOptions = formCheckboxColumn(['jitsi', 'chalkboard', 'docs', 'youtube', 'classchat'], 'options', ['jitsi', 'docs'], []);
+    }
+  } catch (e) {
+    console.log('- ERROR no serverconf.json found, Jitsi meet not available: '+e);
+  }
   return `
     <div class="container border my-3 p-3 h-50">
       <div class="d-flex justify-content-between">
@@ -58,7 +67,7 @@ function teacherView (group) {
         </div>
         <hr />
         <div class="row mt-3">
-          ${formCheckboxColumn(['jitsi', 'chalkboard', 'docs', 'youtube', 'classchat'], 'options', ['jitsi', 'docs'], [])}
+          ${lessonOptions}
         </div>
         <div class="row mt-3">
           <div class="col-sm-3 col-form-label text-right mb-2">

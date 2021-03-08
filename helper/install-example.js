@@ -215,7 +215,7 @@ const myLessons = {
       "returnHomework": "false",
       "startWeek": moment().isoWeek(),
       "weekAmount": "2",
-      "validFrom": moment().day(1).isoWeek(startWeek+1).format('YYYY-MM-DD'),
+      "validFrom": moment().day(1).isoWeek(startWeek).format('YYYY-MM-DD'),
       "validUntil": moment().day(7).isoWeek(startWeek+2).format('YYYY-MM-DD'),
       "amount": "",
       "weekdays": [
@@ -234,7 +234,7 @@ const myLessons = {
       "returnHomework": "false",
       "startWeek": moment().isoWeek(),
       "weekAmount": "2",
-      "validFrom": moment().day(1).isoWeek(startWeek+1).format('YYYY-MM-DD'),
+      "validFrom": moment().day(1).isoWeek(startWeek).format('YYYY-MM-DD'),
       "validUntil": moment().day(7).isoWeek(startWeek+2).format('YYYY-MM-DD'),
       "amount": "",
       "weekdays": [

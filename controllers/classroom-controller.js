@@ -28,7 +28,6 @@ let myGroup = '';
 
 function classroomController (request, response, wss, wsport, user) {
   let route = request.url.substr(1).split('?')[0];
-  console.log('Route: '+route);
   let naviObj = getNaviObj(user);
   let recentLesson = {};
   if (user.role === 'student') {

@@ -22,6 +22,7 @@ function boardColumn (myTopic, myBoard, group, role='student') {
   } else {
     cardsArray = myBoard.cards.filter( item => item.topicId === myTopic.id);
   }
+  cardsArray = cardsArray.sort((a,b) => reorderLessonsByDateAsc(a,b));
   return `
     <div id="topic-${myTopic.id}" class="mr-3 board-topic ${role === 'teacher' ? 'ui-sortable-handle' : ''}">
       <h5 class="px-3 py-2 border mb-0 bg-light d-flex justify-content-between board-column">
@@ -47,6 +48,20 @@ function helperEditColumnButton (topicId) {
       </svg>
     </a>
   `;
+}
+
+function reorderLessonsByDateAsc (lessonA, lessonB) {
+  if ((lessonA.time === '' || lessonA.time === undefined) && lessonB.time > '') {
+    return 1;
+  } else if ((lessonB.time === '' || lessonB.time === undefined) && lessonA.time > '') {
+    return -1;
+  } else if (lessonA.time > lessonB.time) {
+    return 1;
+  } else if (lessonA.time < lessonB.time) {
+    return -1;
+  } else {
+    return 0;
+  }
 }
 
 

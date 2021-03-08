@@ -90,7 +90,7 @@ function updateLessonAction (request, response) {
   getFormObj(request).then(
     data => {
       updateLesson(data.fields);
-      if (data.fields.urlPath.split('/')[4] !== '') urlPath = data.fields.urlPath
+      //if (data.fields.urlPath.split('/')[4] !== '') urlPath = data.fields.urlPath
       uniSend(new SendObj(302, [], '', urlPath), response);
     }
   ).catch(
