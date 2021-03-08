@@ -43,19 +43,32 @@ const schoolConfig = {
 let users = [
     {
       "id": 100000,
+      "userId": "admin@me.com",
+      "password": "$2a$10$tyZ6UFV9NDkSxMM2AdvS0.br8pnPZot7aBFFE3rFczikFbDRFL5dC",
+      "role": "admin",
+      "group": ["7A"],
+      "courses": ["all"],
+      "fname": "admin",
+      "lname": "Steen",
+      "email": "admin@me.com",
+      "phone": "+49 296112994",
+      "gender": "female"
+    },
+    {
+      "id": 100001,
       "userId": "ds@me.com",
       "password": "$2a$10$tyZ6UFV9NDkSxMM2AdvS0.br8pnPZot7aBFFE3rFczikFbDRFL5dC",
       "role": "teacher",
       "group": ["7A"],
       "courses": ["all"],
-      "fname": "Daniel",
-      "lname": "Stegen",
+      "fname": "Dan",
+      "lname": "Steen",
       "email": "ds@me.com",
       "phone": "+49 296112994",
       "gender": "male"
     },
     {
-      "id": 100001,
+      "id": 100002,
       "userId": "ms@me.com",
       "password": "$2a$10$tyZ6UFV9NDkSxMM2AdvS0.br8pnPZot7aBFFE3rFczikFbDRFL5dC",
       "role": "teacher",
@@ -68,7 +81,7 @@ let users = [
       "gender": "female"
     },
     {
-      "id": 100002,
+      "id": 100003,
       "userId": "dm@me.com",
       "password": "$2a$10$tyZ6UFV9NDkSxMM2AdvS0.br8pnPZot7aBFFE3rFczikFbDRFL5dC",
       "role": "student",
@@ -128,15 +141,16 @@ const myLessons = {
   "lessons": [
     {
       "id": 700000,
+      "group": "7A",
+      "lessonType": "homelesson",
       "lesson": "Math",
       "chapter": "Functions",
       "details": "Introducting exponential functions",
       "returnHomework": "true",
       "startWeek": moment().isoWeek(),
       "weekAmount": "2",
-      "validFrom": moment().day(1).week(moment().isoWeek()).format('YYYY-MM-DD'),
-      "validUntil": moment().day(7).week(moment().isoWeek()+1).format('YYYY-MM-DD'),
-      "time": "",
+      "validFrom": moment().day(1).isoWeek(moment().isoWeek()).format('YYYY-MM-DD'),
+      "validUntil": moment().day(7).isoWeek(moment().isoWeek()+1).format('YYYY-MM-DD'),
       "amount": "4",
       "weekdays": [
         1,
@@ -144,19 +158,21 @@ const myLessons = {
         4,
         5
       ],
+      "time": "",
       "lessonFinished": []
     },
     {
       "id": 700001,
+      "group": "7A",
+      "lessonType": "homelesson",
       "lesson": "English",
       "chapter": "past tens",
       "details": "Read the next chapter from the textbook.",
-      "returnHomework": "false",
+      "returnHomework": "true",
       "startWeek": moment().isoWeek(),
       "weekAmount": "3",
-      "validFrom": moment().day(7).week(moment().isoWeek()).format('YYYY-MM-DD'),
-      "validUntil": moment().day(7).week(moment().isoWeek()+2).format('YYYY-MM-DD'),
-      "time": "",
+      "validFrom": moment().day(7).isoWeek(moment().isoWeek()).format('YYYY-MM-DD'),
+      "validUntil": moment().day(7).isoWeek(moment().isoWeek()+2).format('YYYY-MM-DD'),
       "amount": "4",
       "weekdays": [
         1,
@@ -164,44 +180,46 @@ const myLessons = {
         4,
         5
       ],
+      "time": "",
       "lessonFinished": []
     },
     {
       "id": 700002,
+      "group": "7A",
+      "lessonType": "homelesson",
       "lesson": "History",
       "chapter": "The Romans",
       "details": "Read the introduction from the history book page 70.",
       "returnHomework": "false",
       "startWeek": moment().isoWeek(),
       "weekAmount": "5",
-      "validFrom": moment().day(7).week(moment().isoWeek()).format('YYYY-MM-DD'),
-      "validUntil": moment().day(7).week(moment().isoWeek()+4).format('YYYY-MM-DD'),
-      "time": "",
+      "validFrom": moment().day(7).isoWeek(moment().isoWeek()).format('YYYY-MM-DD'),
+      "validUntil": moment().day(7).isoWeek(moment().isoWeek()+4).format('YYYY-MM-DD'),
       "amount": "2",
       "weekdays": [
         1,
         3
       ],
+      "time": "",
       "lessonFinished": []
     },
     {
       "id": 700003,
+      "group": "7A",
+      "lessonType": "onlinelesson",
       "lesson": "Math",
-      "chapter": "Functions II",
+      "chapter": "Online introduction",
       "details": "Exponential functions II",
-      "returnHomework": "true",
+      "returnHomework": "false",
       "startWeek": moment().isoWeek(),
-      "weekAmount": "3",
-      "validFrom": moment().day(1).week(moment().isoWeek()+1).format('YYYY-MM-DD'),
-      "validUntil": moment().day(7).week(moment().isoWeek()+2).format('YYYY-MM-DD'),
-      "time": "",
-      "amount": "4",
+      "weekAmount": "2",
+      "validFrom": moment().day(1).isoWeek(moment().isoWeek()+1).format('YYYY-MM-DD'),
+      "validUntil": moment().day(7).isoWeek(moment().isoWeek()+2).format('YYYY-MM-DD'),
+      "amount": "",
       "weekdays": [
-        1,
-        3,
-        4,
-        5
+        3
       ],
+      "time": "10:00",
       "lessonFinished": []
     }
   ]
@@ -322,7 +340,7 @@ rl.on('line', function (input) {
     saveFile(path.join(__dirname, '../data/classes/7A'), 'lessons.json', myLessons);
     saveFile(path.join(__dirname, '../data/classes/7A'), 'board.json', myBoard);
     saveFile(path.join(__dirname, '../data/classes/7A'), 'chat.json', myChat);
-    console.log('\nDemo is installed! \n\nPls login \n - as class teacher with: ds@me.com password: 123 \n - as English teacher with: ms@me.com password: 123 \n - as student with: dm@me.com password: 123\n');
+    console.log('\nDemo is installed! \n\nPls login \n - as admin with: admin@me.com password: 123 \n - as class teacher with: ds@me.com password: 123 \n - as English teacher with: ms@me.com password: 123 \n - as student with: dm@me.com password: 123\n');
     console.log('Start the HomeSchoo-DS server with "npm start" \n');
     process.exit(0);
   } else {
