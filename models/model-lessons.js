@@ -153,12 +153,6 @@ function returnedHomework (myGroup, courses=['all']) {
   return returnsList;
 }
 
-// Additional functions
-
-function getNewId (lessons) {
-  return Math.max(...lessons.map( item => item.id)) + 1;
-}
-
 function blancLesson () {
   return {
     id: '',
@@ -176,6 +170,13 @@ function blancLesson () {
     weekdays: '',
     time: ''
   }
+}
+
+
+// Additional functions
+
+function getNewId (lessons) {
+  return Math.max(...lessons.map( item => item.id)) + 1;
 }
 
 function updateOnlinelessonsCalendar (myLesson, myGroup) {
