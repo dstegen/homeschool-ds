@@ -49,6 +49,12 @@ A simple HomeSchool server for teachers and students to have a better overview o
 
 ## Changelog ##
 
+#### v0.4.1 ####
+- added basic sanitizer for sanitize form inputs
+- limit edit access on boards to class teacher
+- refactored user:teacher, added leader property
+- ...
+
 #### v0.4.0 ####
 - added classroom for online lessons
 - added Jitsi video-meeting in classroom
