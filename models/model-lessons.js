@@ -13,6 +13,7 @@ const path = require('path');
 const { isActualWeek, notValid, getWebDate } = require('../lib/dateJuggler');
 const loadFile = require('../utils/load-file');
 const saveFile = require('../utils/save-file');
+const sani = require('../utils/sanitizer');
 
 
 function getLessons(myGroup) {
@@ -33,7 +34,7 @@ function updateLesson(fields) {
           if (!myLessons.filter(item => item.id == fields.id)[0].files) myLessons.filter(item => item.id == fields.id)[0].files = [];
           myLessons.filter(item => item.id == fields.id)[0].files.push(fields.files)
         } else {
-          myLessons.filter(item => item.id == fields.id)[0][key] = fields[key];
+          myLessons.filter(item => item.id == fields.id)[0][key] = sani(fields[key]);
         }
       }
     });
@@ -52,7 +53,7 @@ function updateLesson(fields) {
           if (fields.weekdays.length < 2) fields.weekdays = [fields.weekdays];
           newItem[key] = fields[key].map( item => { return Number(item) } );
         } else {
-          newItem[key] = fields[key];
+          newItem[key] = sani(fields[key]);
         }
       }
     });
