@@ -13,6 +13,7 @@ const fs = require('fs');
 const loadFile = require('../utils/load-file');
 const saveFile = require('../utils/save-file');
 const fileUpload = require('../lib/file-upload');
+const sani = require('../utils/sanitizer');
 
 
 function getBoard (group) {
@@ -51,9 +52,9 @@ function updateTopic (fields) {
     newTopic = tmpBoard.topics.filter( item => item.id === Number(fields.id) )[0];
   } else {
     newTopic.id = getNewId(tmpBoard.topics);
-    newTopic.order = newTopic.id;
+    newTopic.order = newTopic.id - 1;
   }
-  newTopic.topic = fields.topic,
+  newTopic.topic = sani(fields.topic),
   newTopic.color = fields.color,
   newTopic.autofill = fields.autofill === 'on' ? true : false,
   newTopic.autofillWith = fields.with
@@ -73,9 +74,9 @@ function updateCard (fields, files) {
     newCard.id = getNewId(tmpBoard.cards);
   }
   newCard.topicId = Number(fields.topicId);
-  newCard.chapter = fields.chapter;
-  newCard.details = fields.details;
-  newCard.link = fields.link;
+  newCard.chapter = sani(fields.chapter);
+  newCard.details = sani(fields.details);
+  if (fields.link.startsWith('http://') || fields.link.startsWith('https://')) newCard.link = sani(fields.link);
   if (files.filetoupload.name !== '') {
     if (newCard.files === undefined || newCard.files === '') newCard.files = [];
     if (fileUpload(fields, files, path.join('board', newCard.id.toString()))) {

@@ -23,7 +23,6 @@ function boardColumn (myTopic, myBoard, group, user) {
   if (user.role === 'teacher' && user.courses[0] === 'all') {
     editor = true;
   }
-  console.log(editor);
   let cardsArray = [];
   if (myTopic.autofill === true) {
     cardsArray = getLessons(group).filter( item => item.lesson === myTopic.autofillWith && !notValid(item.validUntil));
