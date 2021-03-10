@@ -34,7 +34,7 @@ function boardColumn (myTopic, myBoard, group, user) {
     <div id="topic-${myTopic.id}" class="mr-3 board-topic ${editor === true ? 'ui-sortable-handle' : ''}">
       <h5 class="px-3 py-2 border mb-0 bg-light d-flex justify-content-between board-column">
         ${myTopic.topic}
-        ${editor === true ? helperEditColumnButton(myTopic.id) : ''}
+        ${user.leader.includes(group) ? helperEditColumnButton(myTopic.id) : ''}
       </h5>
       ${editor === true ? boardColumnForm(group, myTopic) : ''}
       ${cardsArray.map( card => boardCard(card, myTopic, user.role, group)).join('')}

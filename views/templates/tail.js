@@ -7,6 +7,9 @@
 
 'use strict';
 
+// Required modules
+const myPackage = require('../../package');
+
 
 function tail () {
   return `
@@ -14,7 +17,7 @@ function tail () {
         <!-- Footer -->
         <div class="footer">
           <div class="small bg-secondary text-light text-center pt-4 pb-4">
-            &copy; 2021 by Daniel Stegen
+            &copy; 2021 by Daniel Stegen, Version: ${myPackage.version}
           </div>
         </div>
       </div>
