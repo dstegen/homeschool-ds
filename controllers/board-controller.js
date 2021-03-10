@@ -22,13 +22,13 @@ function boardController (request, response, user) {
   let naviObj = getNaviObj(user);
   if (user.role === 'student') {
     myGroup = user.group;
-    uniSend(view('', naviObj, boardView(myGroup)), response);
+    uniSend(view('', naviObj, boardView(myGroup, user)), response);
   } else if (user.role === 'teacher') {
     if (route.startsWith('board') && (route.includes('update') || route.includes('delete') || route.includes('reorder'))) {
       updateBoard(request, response);
     } else if (route.startsWith('board')) {
       myGroup = route.split('/')[1];
-      uniSend(view('', naviObj, boardView(myGroup, 'teacher')), response);
+      uniSend(view('', naviObj, boardView(myGroup, user)), response);
     }
   } else {
     uniSend(new SendObj(302), response);

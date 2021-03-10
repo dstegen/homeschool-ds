@@ -15,7 +15,7 @@ const boardColumn = require('./board-column');
 const boardColumnForm = require('./board-column-form');
 
 
-function boardView (group, role='student') {
+function boardView (group, user) {
   let myBoard = getBoard(group);
   if (myBoard.topics !== undefined) {
     return `
@@ -23,9 +23,9 @@ function boardView (group, role='student') {
         <div class="container p-3 d-flex justify-content-between">
           <h2>${locale.headlines.board[config.lang]} ${group}</h2>
         </div>
-        <div id="board-frame" class="container px-0 pb-3 d-flex board-frame ${role === 'teacher' ? 'sortable ui-sortable' : ''}">
-          ${myBoard.topics.map( topics => boardColumn(topics, myBoard, group, role)).join('')}
-          ${role === 'teacher' ? boardColumnForm(group) : ''}
+        <div id="board-frame" class="container px-0 pb-3 d-flex board-frame ${user.role === 'teacher' ? 'sortable ui-sortable' : ''}">
+          ${myBoard.topics.map( topics => boardColumn(topics, myBoard, group, user)).join('')}
+          ${user.role === 'teacher' ? boardColumnForm(group) : ''}
         </div>
       </div>
     `;

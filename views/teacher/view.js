@@ -35,8 +35,10 @@ function teacherView (teacher, wsport) {
           <p>
             ${locale.teacher.today_is[config.lang]} ${formatDay()} ${getLatestMessages(teacher.id).length > 0 ? ' '+locale.teacher.you_have[config.lang]+' <strong>'+getLatestMessages(teacher.id).length+'</strong> '+locale.teacher.new_messages[config.lang]+':' : ''}
           </p>
-          ${recentMessages(teacher.id)}
-          <br />
+          <div style="font-size: 0.9rem;">
+            ${recentMessages(teacher.id)}
+            <br />
+          </div>
         </div>
         <div class="border py-2 px-3 mb-3">
           <h4>${locale.headlines.scheduledOnlinelessons[config.lang]}:</h4>
@@ -56,8 +58,10 @@ function teacherView (teacher, wsport) {
         <div class="border py-2 px-3 mb-3">
           <h4>${locale.headlines.returned_homework[config.lang]}:</h4>
           <hr />
-          ${returnedHomeworkOverview(teacher.group, teacher.courses)}
+          <div style="font-size: 0.9rem;">
+            ${returnedHomeworkOverview(teacher.group, teacher.courses)}
           <br />
+          </div>
         </div>
       </div>
       <div class="col-12 col-md-6">

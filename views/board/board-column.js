@@ -15,7 +15,15 @@ const boardCardForm = require('./board-card-form');
 const boardColumnForm = require('./board-column-form');
 
 
-function boardColumn (myTopic, myBoard, group, role='student') {
+function boardColumn (myTopic, myBoard, group, user) {
+  let editor = false;
+  if (user.role === 'teacher' && user.courses.includes(myTopic.autofillWith)) {
+    editor = true;
+  }
+  if (user.role === 'teacher' && user.courses[0] === 'all') {
+    editor = true;
+  }
+  console.log(editor);
   let cardsArray = [];
   if (myTopic.autofill === true) {
     cardsArray = getLessons(group).filter( item => item.lesson === myTopic.autofillWith && !notValid(item.validUntil));
@@ -24,14 +32,14 @@ function boardColumn (myTopic, myBoard, group, role='student') {
   }
   cardsArray = cardsArray.sort((a,b) => reorderLessonsByDateAsc(a,b));
   return `
-    <div id="topic-${myTopic.id}" class="mr-3 board-topic ${role === 'teacher' ? 'ui-sortable-handle' : ''}">
+    <div id="topic-${myTopic.id}" class="mr-3 board-topic ${editor === true ? 'ui-sortable-handle' : ''}">
       <h5 class="px-3 py-2 border mb-0 bg-light d-flex justify-content-between board-column">
         ${myTopic.topic}
-        ${role === 'teacher' ? helperEditColumnButton(myTopic.id) : ''}
+        ${editor === true ? helperEditColumnButton(myTopic.id) : ''}
       </h5>
-      ${role === 'teacher' ? boardColumnForm(group, myTopic) : ''}
-      ${cardsArray.map( card => boardCard(card, myTopic, role, group)).join('')}
-      ${role === 'teacher' && myTopic.autofill !== true ? boardCardForm(group, myTopic.id) : ''}
+      ${editor === true ? boardColumnForm(group, myTopic) : ''}
+      ${cardsArray.map( card => boardCard(card, myTopic, user.role, group)).join('')}
+      ${editor === true && myTopic.autofill !== true ? boardCardForm(group, myTopic.id) : ''}
     </div>
   `;
 }
