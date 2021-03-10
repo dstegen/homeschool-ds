@@ -76,7 +76,7 @@ function updateCard (fields, files) {
   newCard.topicId = Number(fields.topicId);
   newCard.chapter = sani(fields.chapter);
   newCard.details = sani(fields.details);
-  if (fields.link.startsWith('http://') || fields.link.startsWith('https://')) newCard.link = sani(fields.link);
+  if (fields.link.startsWith('http://') || fields.link.startsWith('https://')) newCard.link = sani(fields.link);
   if (files.filetoupload.name !== '') {
     if (newCard.files === undefined || newCard.files === '') newCard.files = [];
     if (fileUpload(fields, files, path.join('board', newCard.id.toString()))) {

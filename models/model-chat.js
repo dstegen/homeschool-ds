@@ -13,6 +13,7 @@ const { dateIsRecent } = require('../lib/dateJuggler');
 const config = require('./model-config').getConfig();
 const loadFile = require('../utils/load-file');
 const saveFile = require('../utils/save-file');
+const sani = require('../utils/sanitizer');
 
 
 function getChat (myGroup) {
@@ -37,7 +38,7 @@ function updateChat (fields) {
     let newChat = {
       chaterId: Number(fields.chatterId),
       timeStamp: new Date(),
-      chat: fields.userchat
+      chat: sani(fields.userchat)
     }
     let myChat = getChat(fields.group);
     try {

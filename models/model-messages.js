@@ -14,6 +14,7 @@ const moment = require('moment');
 const { dateIsRecent } = require('../lib/dateJuggler');
 const loadFile = require('../utils/load-file');
 const saveFile = require('../utils/save-file');
+const sani = require('../utils/sanitizer');
 
 
 function getPrivateMessages (userId) {
@@ -84,7 +85,7 @@ function addPrivateMessage (allMessages, fields) {
   let newMessage = {
     chaterId: Number(fields.chatterId),
     timeStamp: new Date(),
-    chat: fields.userchat
+    chat: sani(fields.userchat)
   }
   try {
     allMessages.filter( item => item.id === fields.privateMessageId)[0].messages.push(newMessage);
@@ -104,7 +105,7 @@ function createNewPrivateMessage (allMessages,fields) {
       {
         chaterId: Number(fields.chatterId),
         timeStamp: new Date(),
-        chat: fields.userchat
+        chat: sani(fields.userchat)
       }
     ]
   }
