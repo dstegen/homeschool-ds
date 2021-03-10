@@ -35,7 +35,7 @@ function allLessonsView (user) {
         </div>
       </div>
       <hr />
-      ${user.group.map( group => displayLessons(group, user.courses)).join('')}
+      ${user.group.map( group => displayLessons(group, user)).join('')}
     </div>
   `;
 }
@@ -43,7 +43,7 @@ function allLessonsView (user) {
 
 // Additional functions
 
-function displayLessons (group, courses) {
+function displayLessons (group, user) {
   return `
     <div class="mb-5">
       <div class="d-flex justify-content-between">
@@ -54,7 +54,7 @@ function displayLessons (group, courses) {
           <a href="/timetable/${group}">${locale.headlines.timetable[config.lang]}</a>
         </span>
       </div>
-      ${getLessons(group).map( item => helperLesson(item, group, courses)).join('')}
+      ${getLessons(group).map( item => helperLesson(item, group, user)).join('')}
       <div class="d-flex justify-content-end p-2 mb-">
         <a href="/lessons/add/${group}" class="btn-sm btn-primary" data-toggle="tooltip" data-placement="left" title="${locale.buttons.add_lesson[config.lang]}"> + </a>
       </div>
@@ -62,10 +62,10 @@ function displayLessons (group, courses) {
   `;
 }
 
-function helperLesson (item, group, courses) {
-  if (courses.includes(item.lesson) || courses[0] === 'all') {
+function helperLesson (item, group, user) {
+  if (user.courses.includes(item.lesson) || user.leader.includes(group)) {
     let homeworkButton = '';
-    if (item.returnHomework === 'true') homeworkButton = `<a data-toggle="collapse" href="#lesson-homework-${group}-${item.id}" class="btn btn-sm btn-primary ml-3">${locale.buttons.homework[config.lang]}</a>`;
+    if (item.returnHomework === true) homeworkButton = `<a data-toggle="collapse" href="#lesson-homework-${group}-${item.id}" class="btn btn-sm btn-primary ml-3">${locale.buttons.homework[config.lang]}</a>`;
     return `
       <div class="border p-2 mb-2 lesson-box ${'details-box-'+item.lesson} ${notValid(item.validUntil) ? 'details-box details-box-'+group+'" style="display: none;"' : ''}">
         <div class="d-flex justify-content-between">
@@ -79,7 +79,7 @@ function helperLesson (item, group, courses) {
           <hr />
           <strong>${locale.headlines.returned_homework[config.lang]}:</strong>
           <ul>
-            ${returnedHomework(group, [item.lesson]).filter( file => Number(file.lessonId) === Number(item.id) ).map( lesson => helperListitem(lesson, group)).join('')}
+            ${returnedHomework(group, [item.lesson], user).filter( file => Number(file.lessonId) === Number(item.id) ).map( lesson => helperListitem(lesson, group)).join('')}
           </ul>
         </div>
       </div>

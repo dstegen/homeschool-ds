@@ -16,11 +16,11 @@ const { returnedHomework } = require('../../models/model-lessons');
 const simpleList = require('../templates/simple-list');
 
 
-function returnedHomeworkOverview (allGroups, courses) {
+function returnedHomeworkOverview (user) {
   let returnHtml = '';
-  allGroups.forEach( group => {
+  user.group.forEach( group => {
     try {
-      let recentHomeworkList = returnedHomework(group, courses).filter( item => dateIsRecent(item.birthtime, 5));
+      let recentHomeworkList = returnedHomework(group, user.courses, user).filter( item => dateIsRecent(item.birthtime, 5));
       if (recentHomeworkList.length > 0) {
         returnHtml += simpleList(locale.headlines.class[config.lang]+' '+group, recentHomeworkList.map( item => { return `<a href="/lessons/show/${group}/${item.lessonId}" class="orange">${item.course} (${item.lessonId})</a> : <a href="${item.files[0]}" class="orange" target="_blank">${item.files[0].split('/').pop()} (${getTitleNameById(item.studentId)})</a>`}));
       }

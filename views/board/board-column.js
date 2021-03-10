@@ -20,7 +20,7 @@ function boardColumn (myTopic, myBoard, group, user) {
   if (user.role === 'teacher' && user.courses.includes(myTopic.autofillWith)) {
     editor = true;
   }
-  if (user.role === 'teacher' && user.courses[0] === 'all') {
+  if (user.role === 'teacher' && user.leader.includes(group)) {
     editor = true;
   }
   let cardsArray = [];

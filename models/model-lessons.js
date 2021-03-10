@@ -132,10 +132,10 @@ function lessonsNotFinished (user, inDay) {
   return getLessons(user.group).filter( lesson => ((!lesson.lessonFinished.map( item => { return item.studentId } ).includes(user.id) || lesson.lessonFinished.filter( item => (item.studentId === user.id && item.finished === false)).length > 0) && notValid(lesson.validUntil, inDay) && lesson.lessonType !== 'onlinelesson'));
 }
 
-function returnedHomework (myGroup, courses=['all']) {
+function returnedHomework (myGroup, courses, user) {
   let returnsList = [];
   let myLessons = getLessons(myGroup).filter( item => item.lessonFinished.length > 0);
-  if (courses[0] !== 'all') {
+  if (!user.leader.includes(myGroup)) {
     myLessons = myLessons.filter( item => courses.includes(item.lesson));
   }
   myLessons.forEach( lesson => {
@@ -162,7 +162,7 @@ function blancLesson () {
     lesson: '',
     chapter: '',
     details: '',
-    returnHomework: 'false',
+    returnHomework: false,
     startWeek: '',
     weekAmount: '1',
     validFrom: '',

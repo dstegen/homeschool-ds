@@ -57,7 +57,7 @@ function lessonIndicator (myGroup, lessonObj, studentId, curDay) {
 }
 
 function helperUpload (myGroup, lessonObj, studentId, curDay, lessonColor) {
-  if (lessonObj.returnHomework === 'true') {
+  if (lessonObj.returnHomework === true) {
     return `
       <hr />
       <strong class="card-title">${locale.student.uploads[config.lang]}:</strong>

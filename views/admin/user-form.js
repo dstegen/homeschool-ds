@@ -46,6 +46,8 @@ function helperInputs (value, prop, classes) {
         return formSelectColumn(['','male','female'], value, prop);
       case 'group':
         return formSelectColumn(classes, value, prop, '', 'multiple');
+      case 'leader':
+        return formSelectColumn(classes, value, prop, '', 'multiple');
       default:
         return formTextInputColumn(value, prop, required);
     }

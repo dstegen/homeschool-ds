@@ -59,7 +59,7 @@ function teacherView (teacher, wsport) {
           <h4>${locale.headlines.returned_homework[config.lang]}:</h4>
           <hr />
           <div style="font-size: 0.9rem;">
-            ${returnedHomeworkOverview(teacher.group, teacher.courses)}
+            ${returnedHomeworkOverview(teacher)}
           <br />
           </div>
         </div>

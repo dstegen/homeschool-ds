@@ -26,7 +26,7 @@ function lessonForm (itemObj, myGroup, user) {
       <input type="text" name="id" class="d-none" hidden value="${itemObj.id}" />
       <input type="text" id="group" name="group" class="d-none" hidden value="${myGroup}" />
       <input type="text" id="urlPath" class="d-none" hidden class="d-none" name="urlPath" value="/lessons/show/${myGroup}/${itemObj.id}">
-      ${formInputs(itemObj, user.courses, myGroup)}
+      ${formInputs(itemObj, user.courses, myGroup, user)}
       <div class="d-flex justify-content-end mb-3">
         <button type="button" class="btn btn-danger ${itemObj.id === '' ? 'd-none' : ''}" onclick="confirmDelete(this.form.name, \'/lessons/delete\')">${locale.buttons.delete[config.lang]}</button>
         <button type="button" class="btn btn-info ml-3" data-toggle="collapse" data-target="#lesson-form" onclick="javascript: $('#lesson-details').collapse('toggle');">${locale.buttons.cancle[config.lang]}</a>
@@ -39,7 +39,7 @@ function lessonForm (itemObj, myGroup, user) {
 
 // Additional functions
 
-function formInputs (itemObj, courses, myGroup) {
+function formInputs (itemObj, courses, myGroup, user) {
   let returnHtml = '';
   if (Object.keys(itemObj).length > 0) {
     Object.keys(itemObj).forEach( key => {
@@ -54,10 +54,10 @@ function formInputs (itemObj, courses, myGroup) {
           returnHtml += `<script>var onlinelessonsCalendar = ${JSON.stringify(loadFile(path.join(__dirname, '../../data/classes/', myGroup, 'onlinelessonscalendar.json')))};</script>`;
         } else if (key === 'lesson') {
           let coursOptions = lessonsConfig.courses.map( item => { return item.name; });
-          if (courses[0] !== 'all') coursOptions = coursOptions.filter(item => courses.includes(item));
+          if (!user.leader.includes(myGroup)) coursOptions = coursOptions.filter(item => courses.includes(item));
           returnHtml += formSelect(coursOptions, itemObj['lesson'], 'lesson', itemObj.id !== '' ? 'disabled' : '');
         } else if (key === 'returnHomework') {
-          returnHtml += formRadio('returnHomework', ['false', 'true'], '', itemObj[key], '');
+          returnHtml += formRadio('returnHomework', [false, true], '', itemObj[key], '');
         } else if (key === 'startWeek') {
           returnHtml += formSelect(weeksArray(), itemObj[key], 'startWeek', 'onchange="calcValidFrom(this.value)"');
         } else if (key === 'weekAmount') {

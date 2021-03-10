@@ -104,6 +104,8 @@ function updateUser (fields) {
           tmpObj.group = fields.group.split(',');
         } else if (key === 'courses' && fields.role === 'teacher' && typeof(fields.courses) === 'string') {
           tmpObj.courses = fields.courses.split(',');
+        } else if (key === 'leader' && fields.role === 'teacher' && typeof(fields.leader) === 'string') {
+          tmpObj.leader = fields.leader.split(',');
         } else {
           tmpObj[key] = fields[key];
         }
@@ -121,6 +123,7 @@ function updateUser (fields) {
       password: bcrypt.hashSync(myPassword),
       role: fields.role,
       group: fields.role === 'teacher' ? fields.group.split(',') : fields.group,
+      leader: fields.role === 'teacher' ? fields.leader.split(',') : fields.leader,
       courses: fields.role === 'teacher' ? fields.courses.split(',') : '',
       fname: fields.fname,
       lname: fields.lname,

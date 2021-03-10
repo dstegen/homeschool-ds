@@ -19,7 +19,7 @@ function getOnlinelessons (user, weekOffset) {
   let allLessons = [];
   if (user.role === 'teacher') {
     user.group.forEach( group => {
-      allLessons = allLessons.concat(getLessons(group).filter(item => item.lessonType === 'onlinelesson' && isActualWeek(item.validFrom, item.validUntil, thisWeek()+weekOffset) && (user.courses.includes(item.lesson) || user.courses[0] === 'all')));
+      allLessons = allLessons.concat(getLessons(group).filter(item => item.lessonType === 'onlinelesson' && isActualWeek(item.validFrom, item.validUntil, thisWeek()+weekOffset) && (user.courses.includes(item.lesson) || user.leader.includes(group))));
       allLessons.forEach( item => {
         if (!item.group) item.group = group;
       });

@@ -50,7 +50,7 @@ function teacherLessonView (teacher, urlPath) {
             </div>
           </div>
           <div class="mt-5">
-            ${myLesson.returnHomework === 'true' ? groupHomework(group, myLesson) : ''}
+            ${myLesson.returnHomework === true ? groupHomework(group, myLesson) : ''}
           </div>
         </div>
       </div>
