@@ -46,7 +46,7 @@ function blackboard (recentLesson, user) {
       `;
       tabBody += `
         <div class="tab-pane fade border border-top-0" id="docs${i}" role="tabpanel" aria-labelledby="docs-tab-${i}" style="width: 1110px; height: 625px;">
-          <iframe src = "/node_modules/node-viewerjs/release/index.html?zoom=page-width#${recentLesson.docs[i]}" width='1110' height='625' allowfullscreen webkitallowfullscreen></iframe>
+          <iframe src = "${recentLesson.docs[i]}" width='1110' height='625' allowfullscreen webkitallowfullscreen></iframe>
         </div>
       `;
     }
