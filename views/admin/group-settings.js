@@ -12,7 +12,7 @@ const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
 const { getGroupConfig } = require('../../models/model-config');
 const formSelectColumn = require('../templates/form-select-column');
-const formTextInputColumn = require('../templates/form-textinput-column');
+const formTextInput = require('../templates/form-textinput');
 
 
 function groupSettings (group) {
@@ -37,7 +37,7 @@ function groupSettings (group) {
           <input type="text" name="action" class="d-none" hidden value="updategroupsettings" />
           <input type="text" name="group" class="d-none" hidden value="${group}" />
           <div class="form-group row mb-1">
-            ${formTextInputColumn('', 'newCourse')}
+            ${formTextInput('', 'newCourse')}
             ${formSelectColumn(config.courseColors, '', 'color')}
           </div>
           <div class="d-flex justify-content-end mb-2">

@@ -8,13 +8,13 @@
 'use strict';
 
 
-function formCheckbox (valueArray, prop, checkedArray=[], disabledArray=[]) {
+function formCheckbox (valueArray, prop, checkedArray=[], disabledArray=[], oneGroup=true) {
   return `
       <div class="col-sm-2 pt-1 col-form-label text-right">
         ${prop}
       </div>
       <div class="col-sm-7">
-        ${valueArray.map( value => helperCheckbox(value, prop, checkedArray, disabledArray)).join('')}
+        ${valueArray.map( value => helperCheckbox(value, prop, checkedArray, disabledArray, oneGroup)).join('')}
       </div>
   `;
 }
@@ -22,7 +22,7 @@ function formCheckbox (valueArray, prop, checkedArray=[], disabledArray=[]) {
 
 // Additional Functions
 
-function helperCheckbox (valueIn, prop, checkedArray, disabledArray) {
+function helperCheckbox (valueIn, prop, checkedArray, disabledArray, oneGroup) {
   let value = '';
   let label = '';
   if (typeof(valueIn) === 'object') {
@@ -32,14 +32,16 @@ function helperCheckbox (valueIn, prop, checkedArray, disabledArray) {
     value = valueIn;
     label = valueIn;
   }
+  let inputName = prop;
+  if (oneGroup === false) inputName = label;
   let checked = '';
   if (checkedArray.includes(value)) checked = 'checked';
   let disabled = '';
   if (disabledArray.includes(value)) disabled = 'disabled';
   return `
     <div class="form-check form-check-inline">
-      <input class="form-check-input" type="checkbox" name="${prop}" id="${prop}-${value}" value="${value}" ${disabled} ${checked}>
-      <label class="form-check-label" for="${prop}-${value}">${label}</label>
+      <input class="form-check-input" type="checkbox" name="${inputName}" id="${prop}-${label}" value="${value}" ${disabled} ${checked}>
+      <label class="form-check-label" for="${prop}-${label}">${label}</label>
     </div>
   `;
 }

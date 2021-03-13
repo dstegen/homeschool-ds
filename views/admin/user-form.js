@@ -10,7 +10,7 @@
 // Required modules
 const locale = require('../../lib/locale');
 const formSelectColumn = require('../templates/form-select-column');
-const formTextInputColumn = require('../templates/form-textinput-column');
+const formTextInput = require('../templates/form-textinput');
 
 
 function userForm (user, classes) {
@@ -49,7 +49,7 @@ function helperInputs (value, prop, classes) {
       case 'leader':
         return formSelectColumn(classes, value, prop, '', 'multiple');
       default:
-        return formTextInputColumn(value, prop, required);
+        return formTextInput(value, prop, required);
     }
   } else {
     return '';
