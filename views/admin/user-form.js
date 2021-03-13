@@ -9,7 +9,7 @@
 
 // Required modules
 const locale = require('../../lib/locale');
-const formSelectColumn = require('../templates/form-select-column');
+const formSelect = require('../templates/form-select2');
 const formTextInput = require('../templates/form-textinput');
 
 
@@ -20,7 +20,7 @@ function userForm (user, classes) {
       <form action="/admin/updateuser" method="post">
         <input type="text" name="id" class="d-none" hidden value="${user.id}" />
         <div class="form-group row mb-1">
-          ${Object.keys(user).map( key => helperInputs(user[key], key, classes)).join('')}
+          ${Object.keys(user).map( key => helperInputs(user[key], key, classes)).join('<div class="w-100"></div>')}
         </div>
         <div class="d-flex justify-content-end mb-2">
           <button type="button" class="btn btn-info ml-3" onclick="window.open('/admin', '_top', '');">${locale.buttons.cancle['en']}</a>
@@ -41,13 +41,13 @@ function helperInputs (value, prop, classes) {
     if (prop === 'password') value = '';
     switch (prop) {
       case 'role':
-        return formSelectColumn(['','teacher','student'], value, prop);
+        return formSelect(['','teacher','student'], value, prop);
       case 'gender':
-        return formSelectColumn(['','male','female'], value, prop);
+        return formSelect(['','male','female'], value, prop);
       case 'group':
-        return formSelectColumn(classes, value, prop, '', 'multiple');
+        return formSelect(classes, value, prop, '', 'multiple');
       case 'leader':
-        return formSelectColumn(classes, value, prop, '', 'multiple');
+        return formSelect(classes, value, prop, '', 'multiple');
       default:
         return formTextInput(value, prop, required);
     }

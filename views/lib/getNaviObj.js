@@ -153,13 +153,18 @@ function getNaviObj (user) {
         },
         menuItems: [
           {
-            name: 'Users',
-            link: '/admin/edituser',
+            name: 'School',
+            link: '/admin/school',
             dropdown: false
           },
           {
-            name: 'Settings',
+            name: 'Group',
             link: '/admin/settings',
+            dropdown: false
+          },
+          {
+            name: 'Users',
+            link: '/admin/edituser',
             dropdown: false
           }
         ]

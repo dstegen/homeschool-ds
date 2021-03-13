@@ -10,7 +10,7 @@
 // Required modules
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
-const formSelectColumn = require('../templates/form-select-column');
+const formSelect = require('../templates/form-select2');
 const formTextInput = require('../templates/form-textinput');
 
 
@@ -18,11 +18,11 @@ function schoolSettings () {
   return `
   <div class="border py-2 px-3 mb-3">
     <h3>School-Config</h3>
-    <form action="/admin/settings" method="post">
+    <form action="/admin/school" method="post">
       <input type="text" name="action" class="d-none" hidden value="updatesettings" />
       <div class="form-group row mb-1">
-        ${formSelectColumn(['en','de'], config.lang, 'lang')}
-        ${Object.keys(config).map( key => formTextInput(config[key], key)).join('')}
+        ${formSelect(['en','de'], config.lang, 'lang')}
+        ${Object.keys(config).map( key => formTextInput(config[key], key)).join('<div class="w-100"></div>')}
       </div>
       <div class="d-flex justify-content-end mb-2">
         <button type="submit" class="btn btn-primary ml-3">${locale.buttons.update['en']}</button>
@@ -31,7 +31,7 @@ function schoolSettings () {
   </div>
   <div class="border py-2 px-3 mb-3">
     <h3>Add new class/group</h3>
-    <form action="/admin/settings" method="post">
+    <form action="/admin/school" method="post">
       <input type="text" name="action" class="d-none" hidden value="addgroup" />
       <div class="form-group row mb-1">
       ${formTextInput('', 'newGroup')}

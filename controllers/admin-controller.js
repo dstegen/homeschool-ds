@@ -15,6 +15,7 @@ const getNaviObj = require('../views/lib/getNaviObj');
 const adminView = require('../views/admin/view');
 const editUserView = require('../views/admin/edit-user-view');
 const settingsView = require('../views/admin/settings-view');
+const schoolSettingsView = require('../views/admin/school-settings-view');
 const view = require('../views/view');
 
 
@@ -26,6 +27,8 @@ function adminController (request, response, wss, wsport, user) {
     updateUserAction(request, response);
   } else if (request.url.startsWith('/admin/settings')) {
     settingsAction(request, response, naviObj);
+  } else if (request.url.startsWith('/admin/school')) {
+    schoolAction(request, response, naviObj);
   } else {
     uniSend(view(wsport, naviObj, adminView(user)), response);
   }
@@ -91,6 +94,24 @@ function settingsAction (request, response, naviObj) {
         uniSend(new SendObj(302, [], '', '/admin/settings'), response);
       }
       uniSend(view('', naviObj, settingsView(group)),response);
+    }
+  ).catch(
+    error => {
+      console.log('ERROR can\'t update settings: '+error.message);
+  });
+}
+
+function schoolAction (request, response, naviObj) {
+  getFormObj(request).then(
+    data => {
+      if (data.fields.action === 'updatesettings') {
+        updateSettings(data.fields);
+        uniSend(new SendObj(302, [], '', '/admin/school'), response);
+      } else if (data.fields.action === 'addgroup') {
+        addNewGroup(data.fields);
+        uniSend(new SendObj(302, [], '', '/admin/settings?'+data.fields.newGroup), response);
+      }
+      uniSend(view('', naviObj, schoolSettingsView()),response);
     }
   ).catch(
     error => {

@@ -11,7 +11,7 @@
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
 const { getGroupConfig } = require('../../models/model-config');
-const formSelectColumn = require('../templates/form-select-column');
+const formSelect = require('../templates/form-select2');
 const formTextInput = require('../templates/form-textinput');
 
 
@@ -24,7 +24,7 @@ function groupSettings (group) {
           <input type="text" name="action" class="d-none" hidden value="updategroupsettings" />
           <input type="text" name="group" class="d-none" hidden value="${group}" />
           <div class="form-group row mb-1">
-          ${getGroupConfig(group).courses.map( item => formSelectColumn(config.courseColors, item.color, item.name)).join('')}
+          ${getGroupConfig(group).courses.map( item => formSelect(config.courseColors, item.color, item.name)).join('<div class="w-100"></div>')}
           </div>
           <div class="d-flex justify-content-end mb-2">
             <button type="submit" class="btn btn-primary ml-3">${locale.buttons.update['en']}</button>
@@ -38,7 +38,8 @@ function groupSettings (group) {
           <input type="text" name="group" class="d-none" hidden value="${group}" />
           <div class="form-group row mb-1">
             ${formTextInput('', 'newCourse')}
-            ${formSelectColumn(config.courseColors, '', 'color')}
+            <div class="w-100"></div>
+            ${formSelect(config.courseColors, '', 'color')}
           </div>
           <div class="d-flex justify-content-end mb-2">
             <button type="submit" class="btn btn-primary ml-3">Add new course</button>

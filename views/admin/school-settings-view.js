@@ -1,5 +1,5 @@
 /*!
- * views/admin/settings-view.js
+ * views/admin/school-settings-view.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -9,31 +9,24 @@
 
 // Required modules
 const config = require('../../models/model-config').getConfig();
-const groupSettings = require('./group-settings');
-const formSelect = require('../templates/form-select2');
+const schoolSettings = require('./school-settings');
 
 
-function settingsView (group='') {
+function schoolSettingsView () {
   let classes = Array.from(config.classes);
   classes.unshift('');
   return `
     <div id="dashboard" class="container">
       <h2 class="d-flex justify-content-between py-2 px-3 my-3 border">
-        Group-Settings
+        School-Settings
         <span id="clock" class="d-none d-md-block">&nbsp;</span>
       </h2>
-      <div class="border py-2 px-3 mb-3">
-        <h3>Edit class/group settings</h3>
-        <form action="/admin/edituser" method="post">
-          <div class="form-group row mb-1">
-            ${formSelect(classes, '', 'choosegroup', 'onchange="selectGroupSettings(this.value)"')}
-          </div>
-        </form>
+      <div>
+        ${schoolSettings()}
       </div>
-      ${group !== '' ? groupSettings(group) : ''}
     </div>
   `;
 }
 
 
-module.exports = settingsView;
+module.exports = schoolSettingsView;
