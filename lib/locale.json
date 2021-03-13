@@ -317,6 +317,20 @@
       "de": "Ups, da gab es einen Fehler"
     }
   },
+  "tooltips": {
+    "youtubeId": {
+      "en": "YouTube IDs only, separate by comma",
+      "de": "nur YouTube IDs, mehrere mit Komma getrennt"
+    },
+    "filetoupload": {
+      "en": "PDF,JPG,PNG",
+      "de": "PDF,JPG,PNG"
+    },
+    "chalkboardBg": {
+      "en": "JPG,PNG - 16:9",
+      "de": "JPG,PNG - Format 16:9"
+    }
+  },
   "teacher": {
     "welcome_morning": {
       "en": "Good morning",

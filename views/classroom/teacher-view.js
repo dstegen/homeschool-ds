@@ -14,6 +14,7 @@ const { getLessons } = require('../../models/model-lessons');
 const formTextInputColumn = require('../templates/form-textinput-column');
 const formSelectColumn = require('../templates/form-select-column');
 const formCheckboxColumn = require('../templates/form-checkbox-column');
+const tooltip = require('../templates/tooltip');
 const { notValid } = require('../../lib/dateJuggler');
 
 
@@ -53,11 +54,11 @@ function teacherView (group) {
           <div class="col-sm-3"></div>
         </div>
         <div class="row mt-3">
-          ${formTextInputColumn('', 'youtubeId', '')}
+          ${formTextInputColumn('', 'youtubeId', '', tooltip(locale.tooltips.youtubeId[config.lang]))}
         </div>
         <div class="row mt-3">
           <div class="col-sm-3 col-form-label text-right mb-2">
-            filetoupload
+            filetoupload ${tooltip(locale.tooltips.filetoupload[config.lang])}
           </div>
           <div class="col-sm-9 custom-file">
             <input type="file" class="custom-file-input" id="filetoupload-${group}" name="filetoupload">
@@ -71,7 +72,7 @@ function teacherView (group) {
         </div>
         <div class="row mt-3">
           <div class="col-sm-3 col-form-label text-right mb-2">
-            chalkboardBg
+            chalkboardBg ${tooltip(locale.tooltips.chalkboardBg[config.lang])}
           </div>
           <div class="col-sm-9 custom-file">
             <input type="file" class="custom-file-input" id="chalkboardBg" name="chalkboardBg">

@@ -8,10 +8,10 @@
 'use strict';
 
 
-function formTextInputColumn (value, prop, required='required') {
+function formTextInputColumn (value, prop, required='required', infoTooltip='') {
   if (prop !== 'id' && prop !== 'classes' && prop !== 'courseColors' && prop !== 'lang') {
     return `
-      <label for="${prop}-field" class="col-sm-3 col-form-label text-right mb-2">${prop}</label>
+      <label for="${prop}-field" class="col-sm-3 col-form-label text-right mb-2">${prop} ${infoTooltip}</label>
       <div class="col-sm-9">
         <input type="text" class="form-control" id="${prop}-field" name="${prop}" value="${value}" ${required}>
       </div>
