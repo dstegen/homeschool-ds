@@ -25,6 +25,7 @@ function editUserView (allUserIds, user) {
       <div class="row">
         <div class="col-12 col-lg-6">
           <div class="border py-2 px-3 mb-3">
+            <h5>Filter group:</h5>
             <form action="/admin/edituser" method="post">
               <div class="form-group row mb-1">
                 ${formSelect(classes, '', 'group', 'onchange="selectGroup(this.value)"')}
@@ -32,6 +33,7 @@ function editUserView (allUserIds, user) {
             </form>
           </div>
           <div class="border py-2 px-3 mb-3">
+            <h5>Choose user to edit:</h5>
             <form action="/admin/edituser" method="post">
               <div class="form-group row mb-1">
                 ${formSelect(allUserIds, '', 'user', 'onchange="selectUser(this.value)"')}

@@ -9,6 +9,8 @@
 
 // Required modules
 const locale = require('../../lib/locale');
+const { getGroupConfig } = require('../../models/model-config');
+const tooltip = require('../templates/tooltip');
 const formSelect = require('../templates/form-select2');
 const formTextInput = require('../templates/form-textinput');
 
@@ -20,7 +22,7 @@ function userForm (user, classes) {
       <form action="/admin/updateuser" method="post">
         <input type="text" name="id" class="d-none" hidden value="${user.id}" />
         <div class="form-group row mb-1">
-          ${Object.keys(user).map( key => helperInputs(user[key], key, classes)).join('<div class="w-100"></div>')}
+          ${Object.keys(user).map( key => helperInputs(user[key], key, classes, user)).join('<div class="w-100"></div>')}
         </div>
         <div class="d-flex justify-content-end mb-2">
           <button type="button" class="btn btn-info ml-3" onclick="window.open('/admin', '_top', '');">${locale.buttons.cancle['en']}</a>
@@ -34,11 +36,12 @@ function userForm (user, classes) {
 
 // Additional functions
 
-function helperInputs (value, prop, classes) {
+function helperInputs (value, prop, classes, user) {
   if (prop !== 'id') {
     let required = 'required';
     if (prop === 'phone' || prop === 'email'|| prop === 'courses' || prop === 'password') required = '';
     if (prop === 'password') value = '';
+    let courses = [];
     switch (prop) {
       case 'role':
         return formSelect(['','teacher','student'], value, prop);
@@ -47,7 +50,19 @@ function helperInputs (value, prop, classes) {
       case 'group':
         return formSelect(classes, value, prop, '', 'multiple');
       case 'leader':
-        return formSelect(classes, value, prop, '', 'multiple');
+        return formSelect(classes, value, prop, '', 'multiple', '');
+      case 'courses':  
+        if (user.group[0]) {
+          for (let i=0; i<user.group.length; i++) {
+            courses = courses.concat(getGroupConfig(user.group[i]).courses.map( item => { return item.name; } ));
+            courses = Array.from(new Set(courses));
+          }
+          return formSelect(courses, value, prop, '', 'multiple');
+        } else {
+          return '';
+        }
+      case 'userId':
+        return formTextInput(value, prop, 'required pattern="[a-zA-Z0-9.@\-_]+"',tooltip('Use email-address as userId'));
       default:
         return formTextInput(value, prop, required);
     }

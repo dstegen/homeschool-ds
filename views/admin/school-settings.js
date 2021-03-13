@@ -34,7 +34,7 @@ function schoolSettings () {
     <form action="/admin/school" method="post">
       <input type="text" name="action" class="d-none" hidden value="addgroup" />
       <div class="form-group row mb-1">
-      ${formTextInput('', 'newGroup')}
+      ${formTextInput('', 'newGroup', 'pattern="[a-zA-Z0-9]+"')}
       </div>
       <div class="d-flex justify-content-end mb-2">
         <button type="submit" class="btn btn-primary ml-3">Add new class</button>

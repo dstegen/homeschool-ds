@@ -37,7 +37,7 @@ function groupSettings (group) {
           <input type="text" name="action" class="d-none" hidden value="updategroupsettings" />
           <input type="text" name="group" class="d-none" hidden value="${group}" />
           <div class="form-group row mb-1">
-            ${formTextInput('', 'newCourse')}
+            ${formTextInput('', 'newCourse', 'pattern="[a-zA-Z0-9]+"')}
             <div class="w-100"></div>
             ${formSelect(config.courseColors, '', 'color')}
           </div>
