@@ -11,7 +11,7 @@
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
 const { formatDateShort } = require('../../lib/dateJuggler');
-const { getGroupConfig } = require('../../models/model-config');
+const { getGroupConfig } = require('../../models/model-group');
 const getIcon = require('../lib/get-icon');
 const boardCardForm = require('./board-card-form');
 

@@ -25,7 +25,7 @@ function teacherLessonView (teacher, urlPath) {
   let group = urlPath.split('/')[2];
   let myLessonId = urlPath.split('/')[3];
   const myLesson = getLessons(group).filter( lesson => lesson.id === Number(myLessonId))[0];
-  if (teacher.group.includes(group)) {
+  if (teacher.group.includes(group) && myLesson.lessonType) {
     return `
       <div id="lesson" class="container my-3 p-3 border collapse show" data-parent="#homeschool-ds">
         <h2 class="d-flex justify-content-between"><span>${getIcon(myLesson.lessonType)} ${myLesson.lesson}: ${myLesson.chapter}</span><span>${group}</span></h2>

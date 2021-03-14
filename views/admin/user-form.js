@@ -9,7 +9,7 @@
 
 // Required modules
 const locale = require('../../lib/locale');
-const { getGroupConfig } = require('../../models/model-config');
+const { getGroupConfig } = require('../../models/model-group');
 const tooltip = require('../templates/tooltip');
 const formSelect = require('../templates/form-select2');
 const formTextInput = require('../templates/form-textinput');
@@ -51,7 +51,7 @@ function helperInputs (value, prop, classes, user) {
         return formSelect(classes, value, prop, '', 'multiple');
       case 'leader':
         return formSelect(classes, value, prop, '', 'multiple', '');
-      case 'courses':  
+      case 'courses':
         if (user.group[0]) {
           for (let i=0; i<user.group.length; i++) {
             courses = courses.concat(getGroupConfig(user.group[i]).courses.map( item => { return item.name; } ));

@@ -9,8 +9,9 @@
 
 // Required modules
 const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
-const { updateSettings, updateGroupConfig, addNewGroup } = require('../models/model-config');
-const { updateUser, getUserById, getAllUsers } = require('../models/model-user');
+const { updateSettings } = require('../models/model-config');
+const { updateGroupConfig, addNewGroup, advanceGroup } = require('../models/model-group');
+const { updateUser, getUserById, getAllUsers, advanceUsers } = require('../models/model-user');
 const getNaviObj = require('../views/lib/getNaviObj');
 const adminView = require('../views/admin/view');
 const editUserView = require('../views/admin/edit-user-view');
@@ -91,6 +92,10 @@ function settingsAction (request, response, naviObj) {
         uniSend(new SendObj(302, [], '', '/admin/settings'), response);
       } else if (data.fields.action === 'updategroupsettings') {
         updateGroupConfig(data.fields);
+        uniSend(new SendObj(302, [], '', '/admin/settings'), response);
+      } else if (data.fields.action === 'advancegroup') {
+        advanceGroup(data.fields);
+        advanceUsers(data.fields);
         uniSend(new SendObj(302, [], '', '/admin/settings'), response);
       }
       uniSend(view('', naviObj, settingsView(group)),response);

@@ -14,7 +14,11 @@ const fs = require('fs');
 function createDir (filePath) {
   if (!fs.existsSync(filePath)) {
     console.log('* Creating directory: '+filePath);
-    fs.mkdirSync(filePath);
+    try {
+      fs.mkdirSync(filePath);
+    } catch (e) {
+      console.log('- ERROR creating directory: '+e);
+    }
   } else {
     console.log('- directory already exists: '+filePath);
   }

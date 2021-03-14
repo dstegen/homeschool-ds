@@ -177,7 +177,11 @@ function blancLesson () {
 // Additional functions
 
 function getNewId (lessons) {
-  return Math.max(...lessons.map( item => item.id)) + 1;
+  if (lessons.length > 0) {
+    return Math.max(...lessons.map( item => item.id)) + 1;
+  } else {
+    return 100001;
+  }
 }
 
 function updateOnlinelessonsCalendar (myLesson, myGroup) {

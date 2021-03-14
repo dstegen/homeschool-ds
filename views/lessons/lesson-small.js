@@ -8,7 +8,7 @@
 'use strict';
 
 // Required modules
-const { getGroupConfig } = require('../../models/model-config');
+const { getGroupConfig } = require('../../models/model-group');
 const { isActualWeek, dayFromWeek } = require('../../lib/dateJuggler');
 const getIcon = require('../lib/get-icon');
 

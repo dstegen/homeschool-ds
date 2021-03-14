@@ -46,13 +46,14 @@ function getBoard (group) {
 }
 
 function updateTopic (fields) {
-  let tmpBoard = getBoard(fields.group);
+  let tmpBoard = {};
+  if (fs.existsSync(path.join(__dirname, '../data/classes/', fields.group, 'board.json'))) tmpBoard = getBoard(fields.group);
   let newTopic = {};
-  if (fields.id !== 'null' && tmpBoard.topics.filter( item => item.id === Number(fields.id) ).length === 1) {
+  if (fields.id !== 'null' && tmpBoard.topics && tmpBoard.topics.filter( item => item.id === Number(fields.id) ).length === 1) {
     newTopic = tmpBoard.topics.filter( item => item.id === Number(fields.id) )[0];
   } else {
     newTopic.id = getNewId(tmpBoard.topics);
-    newTopic.order = newTopic.id - 1;
+    newTopic.order = newTopic.id;
   }
   newTopic.topic = sani(fields.topic),
   newTopic.color = fields.color,
@@ -154,7 +155,11 @@ function reOrderBoard (inBoard) {
 }
 
 function getNewId (cards) {
-  return Math.max(...cards.map( item => item.id)) + 1;
+  if (cards.length > 0) {
+    return Math.max(...cards.map( item => item.id)) + 1;
+  } else {
+    return 100001;
+  }
 }
 
 

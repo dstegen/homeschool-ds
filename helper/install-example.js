@@ -252,8 +252,8 @@ const myLessons = {
 const myBoard = {
   "topics": [
     {
-      "id": 1,
-      "order": 1,
+      "id": 0,
+      "order": 0,
       "topic": "Videomeeting",
       "color": "",
       "autofill": true,

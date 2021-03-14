@@ -12,7 +12,7 @@ const path = require('path');
 const fs = require('fs');
 const bcrypt = require('bcryptjs');
 const locale = require('../lib/locale');
-const config = require('../models/model-config').getConfig();
+const config = require('./model-config').getConfig();
 const loadFile = require('../utils/load-file');
 const saveFile = require('../utils/save-file');
 
@@ -145,12 +145,32 @@ function updatePassword (fields) {
   }
 }
 
+function advanceUsers (fields) {
+  let allUsers = getAllUsers();
+  allUsers.filter( user => user.role === 'student' && user.group === fields.oldGroup).forEach( item => {
+    item.group = fields.newGroup;
+  });
+  allUsers.filter( user => user.role === 'teacher' && user.group.includes(fields.oldGroup)).forEach( item => {
+    item.group.push(fields.newGroup);
+    item.group = item.group.filter(item => item !== fields.oldGroup);
+    if (item.leader.includes(fields.oldGroup)) {
+      item.leader.push(fields.newGroup);
+      item.leader = item.leader.filter(item => item !== fields.oldGroup);
+    }
+  });
+  saveFile(path.join(__dirname, '../data/school'), 'users.json', allUsers);
+  console.log('+ Advanced useres from group '+fields.oldGroup+' to new group '+fields.newGroup);
+}
 
 // Additional functions
 
 function getNewId (users) {
-  return Math.max(...users.map( item => item.id)) + 1;
+  if (users.length > 0) {
+    return Math.max(...users.map( item => item.id)) + 1;
+  } else {
+    return 100001;
+  }
 }
 
 
-module.exports = { initUsers, getPasswdObj, getUserDetails, getAllUsers, usersOnline, getUserById, getTitleNameById, updateUser, updatePassword };
+module.exports = { initUsers, getPasswdObj, getUserDetails, getAllUsers, usersOnline, getUserById, getTitleNameById, updateUser, updatePassword, advanceUsers };
