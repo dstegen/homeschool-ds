@@ -23,9 +23,9 @@ function cronController () {
     getAllUsers(group).forEach( user => {
       cleanMessages(user.id, config.delMessagesAfter);
     });
-    console.log('- Cleaning Logins...');
-    cleanLogins();
   });
+  console.log('- Cleaning Logins...');
+  cleanLogins();
 }
 
 

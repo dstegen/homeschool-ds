@@ -18,8 +18,8 @@ function removeDirFile (path) {
         fs.rmdirSync(path, { recursive: true })
       } catch (e) {
         if (e.code === 'ENOTEMPTY') {
-          // implement recursiv deletion here...
-          
+          // TODO: implement recursiv deletion here...
+          console.log('- ERROR directories are not empty: '+e);
         } else {
           console.log('- ERROR removing directory: '+e);
         }

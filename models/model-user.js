@@ -169,6 +169,7 @@ function advanceUsers (fields) {
   console.log('+ Advanced useres from group '+fields.oldGroup+' to new group '+fields.newGroup);
 }
 
+
 // Additional functions
 
 function getNewId (users) {

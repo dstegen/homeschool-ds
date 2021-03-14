@@ -9,9 +9,8 @@
 
 // Required modules
 const locale = require('../../lib/locale');
-const { getConfig } = require('../../models/model-config');
+const config = require('../../models/model-config').getConfig();
 const { getGroupConfig } = require('../../models/model-group');
-const config = getConfig();
 const formSelect = require('../templates/form-select');
 
 
