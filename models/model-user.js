@@ -13,6 +13,7 @@ const fs = require('fs');
 const bcrypt = require('bcryptjs');
 const locale = require('../lib/locale');
 const config = require('./model-config').getConfig();
+const { dateIsRecent } = require('../lib/dateJuggler');
 const loadFile = require('../utils/load-file');
 const saveFile = require('../utils/save-file');
 
@@ -65,6 +66,12 @@ function usersOnline (group) {
     console.log('- ERROR reading determing online students: '+e);
   }
   return onlineUsers;
+}
+
+function cleanLogins () {
+  let sessionIds = loadFile(path.join(__dirname, '../sessionids.json'));
+  sessionIds = sessionIds.filter( item => dateIsRecent(item.timeStamp, 1));
+  saveFile(path.join(__dirname, '../'), 'sessionids.json', sessionIds);
 }
 
 function getUserById (id) {
@@ -173,4 +180,4 @@ function getNewId (users) {
 }
 
 
-module.exports = { initUsers, getPasswdObj, getUserDetails, getAllUsers, usersOnline, getUserById, getTitleNameById, updateUser, updatePassword, advanceUsers };
+module.exports = { initUsers, getPasswdObj, getUserDetails, getAllUsers, usersOnline, cleanLogins, getUserById, getTitleNameById, updateUser, updatePassword, advanceUsers };

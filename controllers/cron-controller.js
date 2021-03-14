@@ -10,7 +10,7 @@
 // Required modules
 const config = require('../models/model-config').getConfig();
 const { cleanChat } = require('../models/model-chat');
-const { getAllUsers } = require('../models/model-user');
+const { getAllUsers, cleanLogins } = require('../models/model-user');
 const { cleanMessages } = require('../models/model-messages');
 
 
@@ -23,6 +23,8 @@ function cronController () {
     getAllUsers(group).forEach( user => {
       cleanMessages(user.id, config.delMessagesAfter);
     });
+    console.log('- Cleaning Logins...');
+    cleanLogins();
   });
 }
 
