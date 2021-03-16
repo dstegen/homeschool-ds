@@ -1,5 +1,5 @@
 /*!
- * views/admin/edit-user-view.js
+ * main/views/edit-user-view.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -9,7 +9,7 @@
 
 // Required modules
 const config = require('../../models/model-config').getConfig();
-const formSelect = require('../templates/form-select2');
+const formSelect = require('../../views/templates/form-select2');
 const userForm = require('./user-form');
 
 

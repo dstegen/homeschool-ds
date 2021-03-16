@@ -10,7 +10,7 @@
 // Required modules
 const fs = require('fs');
 const { ServerDS, ServerDSS } = require('webapputils-ds');
-const router = require('./controllers/router');
+const router = require('./router');
 const cronController = require('./main/cron-controller');
 const CronJob = require('cron').CronJob;
 

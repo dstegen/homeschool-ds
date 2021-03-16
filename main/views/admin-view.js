@@ -1,5 +1,5 @@
 /*!
- * views/admin/view.js
+ * main/views/admin-view.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -14,7 +14,7 @@ const { formatDay } = require('../../lib/dateJuggler');
 const { getAllUsers, getTitleNameById, usersOnline } = require('../../user/models/model-user');
 const { getMessagesCount } = require('../../communication/models/model-messages');
 const { getChatCount } = require('../../communication/models/model-chat');
-const getWelcome = require('../lib/get-welcome');
+const getWelcome = require('../../views/lib/get-welcome');
 
 
 function adminView (user) {

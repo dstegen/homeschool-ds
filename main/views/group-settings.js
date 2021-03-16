@@ -1,5 +1,5 @@
 /*!
- * views/admin/group-settings.js
+ * main/views/group-settings.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -11,9 +11,9 @@
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
 const { getGroupConfig } = require('../../models/model-group');
-const formCheckbox = require('../templates/form-checkbox');
-const formSelect = require('../templates/form-select2');
-const formTextInput = require('../templates/form-textinput');
+const formCheckbox = require('../../views/templates/form-checkbox');
+const formSelect = require('../../views/templates/form-select2');
+const formTextInput = require('../../views/templates/form-textinput');
 
 
 function groupSettings (group) {

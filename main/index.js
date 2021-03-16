@@ -14,7 +14,7 @@ const { lessonsToday } = require('../models/model-lessons');
 const getNaviObj = require('../views/lib/getNaviObj');
 const studentView = require('./views/student-view');
 const teacherView = require('./views/teacher-view');
-const teacherClassesView = require('./views/classes-view');
+const teacherClassesView = require('./views/teacher-classes-view');
 const view = require('../views/view');
 
 

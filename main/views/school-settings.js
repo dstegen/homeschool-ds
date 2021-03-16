@@ -1,5 +1,5 @@
 /*!
- * views/admin/school-settings.js
+ * main/views/school-settings.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -10,8 +10,8 @@
 // Required modules
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
-const formSelect = require('../templates/form-select2');
-const formTextInput = require('../templates/form-textinput');
+const formSelect = require('../../views/templates/form-select2');
+const formTextInput = require('../../views/templates/form-textinput');
 
 
 function schoolSettings () {

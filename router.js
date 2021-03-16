@@ -1,5 +1,5 @@
 /*!
- * controllers/router.js
+ * router.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -9,16 +9,16 @@
 
 // Required modules
 const { deliver, uniSend } = require('webapputils-ds');
-const { login, logout, userLoggedIn, userDetails, setPasswordAction, updatePasswordAction } = require('../user');
-const mainController = require('../main');
-const adminController = require('./admin-controller');
-const communicationController = require('../communication');
-const boardController = require('../board');
-const timetableController = require('../timetable');
-const classroomController = require('../classroom');
-const lessonsController = require('./lessons-controller');
-const fileController = require('../main/file-controller');
-const loginView = require('../user/views/login-view');
+const { login, logout, userLoggedIn, userDetails, setPasswordAction, updatePasswordAction } = require('./user');
+const mainController = require('./main');
+const adminController = require('./main/admin-controller');
+const communicationController = require('./communication');
+const boardController = require('./board');
+const timetableController = require('./timetable');
+const classroomController = require('./classroom');
+const lessonsController = require('./controllers/lessons-controller');
+const fileController = require('./main/file-controller');
+const loginView = require('./user/views/login-view');
 
 
 function router (request, response, wss, wsport) {

@@ -1,5 +1,5 @@
 /*!
- * views/admin/user-form.js
+ * main/views/user-form.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -10,9 +10,9 @@
 // Required modules
 const locale = require('../../lib/locale');
 const { getGroupConfig } = require('../../models/model-group');
-const tooltip = require('../templates/tooltip');
-const formSelect = require('../templates/form-select2');
-const formTextInput = require('../templates/form-textinput');
+const tooltip = require('../../views/templates/tooltip');
+const formSelect = require('../../views/templates/form-select2');
+const formTextInput = require('../../views/templates/form-textinput');
 
 
 function userForm (user, classes) {

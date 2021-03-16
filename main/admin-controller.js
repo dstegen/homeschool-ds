@@ -1,5 +1,5 @@
 /*!
- * controllers/admin-controller.js
+ * main/admin-controller.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -13,10 +13,10 @@ const { updateSettings } = require('../models/model-config');
 const { updateGroupConfig, addNewGroup, advanceGroup } = require('../models/model-group');
 const { updateUser, getUserById, getAllUsers, advanceUsers } = require('../user/models/model-user');
 const getNaviObj = require('../views/lib/getNaviObj');
-const adminView = require('../views/admin/view');
-const editUserView = require('../views/admin/edit-user-view');
-const settingsView = require('../views/admin/settings-view');
-const schoolSettingsView = require('../views/admin/school-settings-view');
+const adminView = require('./views/admin-view');
+const editUserView = require('./views/edit-user-view');
+const settingsView = require('./views/settings-view');
+const schoolSettingsView = require('./views/school-settings-view');
 const view = require('../views/view');
 
 
