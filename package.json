@@ -4,13 +4,16 @@
   "description": "simple homeschool web app",
   "main": "index.js",
   "directories": {
+    "board": "./board",
     "controllers": "./controllers",
     "data": "./data",
     "helper": "./helper",
     "lib": "./lib",
+    "main": "./main",
     "models": "./models",
     "public": "./public",
     "utils": "./utils",
+    "timetable": "./timetable",
     "views": "./views"
   },
   "scripts": {

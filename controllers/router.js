@@ -10,15 +10,14 @@
 // Required modules
 const { deliver, uniSend } = require('webapputils-ds');
 const { login, logout, userLoggedIn, userDetails, setPasswordAction, updatePasswordAction } = require('./auth-controller');
-const studentController = require('./student-controller');
-const teacherController = require('./teacher-controller');
+const mainController = require('../main');
 const adminController = require('./admin-controller');
 const communicationController = require('./communication-controller');
 const boardController = require('../board');
 const timetableController = require('../timetable');
 const classroomController = require('./classroom-controller');
 const lessonsController = require('./lessons-controller');
-const fileController = require('./file-controller');
+const fileController = require('../main/file-controller');
 const loginView = require('../views/auth/login-view');
 
 
@@ -48,12 +47,10 @@ function router (request, response, wss, wsport) {
       setPasswordAction(request, response);
     } else if (route === 'updatepassword') {
       updatePasswordAction(request, response);
-    } else if (user.role === 'student'){
-      studentController(request, response, wss, wsport, user);
-    } else if (user.role === 'teacher') {
-      teacherController(request, response, wss, wsport, user);
     } else if (user.role === 'admin') {
       adminController(request, response, wss, wsport, user);
+    } else {
+      mainController(request, response, wss, wsport, user);
     }
   } else {
     uniSend(loginView(), response);

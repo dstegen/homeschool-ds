@@ -1,5 +1,5 @@
 /*!
- * controllers/file-controller.js
+ * main/file-controller.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -11,9 +11,9 @@
 const path = require('path');
 const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
 const { updateLesson, finishLesson, deleteFileFromLesson, deleteFileFromLessonFinished } = require('../models/model-lessons');
+const { deleteFileFromCard } = require('../board/models/model-board');
 const fileUpload = require('../lib/file-upload');
 const fileDelete = require('../lib/file-delete');
-const { deleteFileFromCard } = require('../board/models/model-board');
 
 
 function fileController (request, response, user) {
