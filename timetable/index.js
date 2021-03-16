@@ -1,5 +1,5 @@
 /*!
- * controllers/timetable-controller.js
+ * timetable/index.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -12,7 +12,7 @@ const { uniSend, SendObj } = require('webapputils-ds');
 const { thisWeek } = require('../lib/dateJuggler');
 const { getLessons } = require('../models/model-lessons');
 const getNaviObj = require('../views/lib/getNaviObj');
-const timetableView = require('../views/timetable/view');
+const timetableView = require('./timetable/view');
 const view = require('../views/view');
 
 let myGroup = '';

@@ -10,7 +10,7 @@
 // Required modules
 const { getGroupConfig } = require('../../models/model-group');
 const { isActualWeek, dayFromWeek } = require('../../lib/dateJuggler');
-const getIcon = require('../lib/get-icon');
+const getIcon = require('../../views/lib/get-icon');
 
 
 function lessonSmall (lessonObj, curDay, curWeek, myGroup) {

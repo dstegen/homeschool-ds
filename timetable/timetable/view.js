@@ -11,7 +11,7 @@
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
 const { thisWeek, weekDates, formatDate, weekDay, beforeToday, isActualWeek } = require('../../lib/dateJuggler');
-const lessonSmall = require('../lessons/lesson-small');
+const lessonSmall = require('./lesson-small');
 
 
 function timetableView (myLessons, myGroup, curWeek=thisWeek()) {
