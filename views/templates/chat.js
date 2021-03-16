@@ -13,7 +13,7 @@ const path = require('path');
 const moment = require('moment');
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
-const { getChat } = require('../../models/model-chat');
+const { getChat } = require('../../communication/models/model-chat');
 const { getUserById, getTitleNameById } = require('../../user/models/model-user');
 
 

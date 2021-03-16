@@ -12,8 +12,8 @@ const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
 const { formatDay } = require('../../lib/dateJuggler');
 const { getAllUsers, getTitleNameById, usersOnline } = require('../../user/models/model-user');
-const { getMessagesCount } = require('../../models/model-messages');
-const { getChatCount } = require('../../models/model-chat');
+const { getMessagesCount } = require('../../communication/models/model-messages');
+const { getChatCount } = require('../../communication/models/model-chat');
 const getWelcome = require('../lib/get-welcome');
 
 

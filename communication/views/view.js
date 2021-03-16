@@ -1,5 +1,5 @@
 /*!
- * views/communication/view.js
+ * communication/views/view.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -10,9 +10,9 @@
 // Required modules
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
-const classChat = require('../templates/chat');
-const privateMessages = require('../templates/private-messages');
-const newPrivateMessage = require('../templates/new-private-message');
+const classChat = require('../../views/templates/chat');
+const privateMessages = require('../../views/templates/private-messages');
+const newPrivateMessage = require('../../views/templates/new-private-message');
 
 
 function communicationView (user, wsport) {

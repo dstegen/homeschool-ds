@@ -9,9 +9,9 @@
 
 // Required modules
 const config = require('../models/model-config').getConfig();
-const { cleanChat } = require('../models/model-chat');
+const { cleanChat } = require('../communication/models/model-chat');
 const { getAllUsers, cleanLogins } = require('../user/models/model-user');
-const { cleanMessages } = require('../models/model-messages');
+const { cleanMessages } = require('../communication/models/model-messages');
 
 
 function cronController () {

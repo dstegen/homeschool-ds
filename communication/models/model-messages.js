@@ -1,5 +1,5 @@
 /*!
- * models/model-messages.js
+ * communication/models/model-messages.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/webapputils-ds/blob/master/LICENSE)
@@ -11,16 +11,16 @@
 const path = require('path');
 const uuidv4 = require('uuid').v4;
 const moment = require('moment');
-const { dateIsRecent } = require('../lib/dateJuggler');
-const loadFile = require('../utils/load-file');
-const saveFile = require('../utils/save-file');
-const sani = require('../utils/sanitizer');
+const { dateIsRecent } = require('../../lib/dateJuggler');
+const loadFile = require('../../utils/load-file');
+const saveFile = require('../../utils/save-file');
+const sani = require('../../utils/sanitizer');
 
 
 function getPrivateMessages (userId) {
   let messages = [];
   try {
-    messages = loadFile(path.join(__dirname, '../data/school', 'private-messages.json'), true).filter( item => item.chatMates.includes(userId));
+    messages = loadFile(path.join(__dirname, '../../data/school', 'private-messages.json'), true).filter( item => item.chatMates.includes(userId));
     messages.sort((a, b) => reorderPrivateMessages(a, b));
     return messages;
   } catch (e) {
@@ -32,7 +32,7 @@ function getPrivateMessages (userId) {
 function getLatestMessages (userId) {
   let allMessages = [];
   try {
-    allMessages = loadFile(path.join(__dirname, '../data/school', 'private-messages.json'), true).filter(
+    allMessages = loadFile(path.join(__dirname, '../../data/school', 'private-messages.json'), true).filter(
       item => item.chatMates.includes(userId)
     ).filter(
         item => dateIsRecent(item.updated, 5)
@@ -48,11 +48,11 @@ function getLatestMessages (userId) {
 }
 
 function getMessagesCount () {
-  return loadFile(path.join(__dirname, '../data/school', 'private-messages.json'), true).length;
+  return loadFile(path.join(__dirname, '../../data/school', 'private-messages.json'), true).length;
 }
 
 function updatePrivateMessages (fields) {
-  let allMessages = loadFile(path.join(__dirname, '../data/school', 'private-messages.json'), true);
+  let allMessages = loadFile(path.join(__dirname, '../../data/school', 'private-messages.json'), true);
   if (fields.privateMessageId === '' || fields.privateMessageId === undefined) {
     if (allMessages.filter( item => item.chatMates.includes(Number(fields.chatterId)) ).filter(item => item.chatMates.includes(Number(fields.chatMate)) ).length > 0) {
       fields.privateMessageId = allMessages.filter( item => item.chatMates.includes(Number(fields.chatterId)) ).filter(item => item.chatMates.includes(Number(fields.chatMate)))[0].id;
@@ -66,13 +66,13 @@ function updatePrivateMessages (fields) {
 }
 
 function cleanMessages (userId, days=15) {
-  let allMessages = loadFile(path.join(__dirname, '../data/school', 'private-messages.json'), true);
+  let allMessages = loadFile(path.join(__dirname, '../../data/school', 'private-messages.json'), true);
   allMessages = allMessages.filter( item => dateIsRecent(item.updated, days));
   allMessages.forEach( myMessage => {
     myMessage.messages = myMessage.messages.filter( item => dateIsRecent(item.timeStamp, days));
   });
   try {
-    saveFile(path.join(__dirname, '../data/school'), 'private-messages.json', allMessages);
+    saveFile(path.join(__dirname, '../../data/school'), 'private-messages.json', allMessages);
   } catch (e) {
     console.log('- ERROR writing private messages to disk: '+e);
   }
@@ -90,7 +90,7 @@ function addPrivateMessage (allMessages, fields) {
   try {
     allMessages.filter( item => item.id === fields.privateMessageId)[0].messages.push(newMessage);
     allMessages.filter( item => item.id === fields.privateMessageId)[0].updated = new Date();
-    saveFile(path.join(__dirname, '../data/school'), 'private-messages.json', allMessages);
+    saveFile(path.join(__dirname, '../../data/school'), 'private-messages.json', allMessages);
   } catch (e) {
     console.log('- ERROR writing private messages to disk: '+e);
   }
@@ -111,7 +111,7 @@ function createNewPrivateMessage (allMessages,fields) {
   }
   try {
     allMessages.push(newCom);
-    saveFile(path.join(__dirname, '../data/school'), 'private-messages.json', allMessages);
+    saveFile(path.join(__dirname, '../../data/school'), 'private-messages.json', allMessages);
   } catch (e) {
     console.log('- ERROR creating new private message to disk: '+e);
   }

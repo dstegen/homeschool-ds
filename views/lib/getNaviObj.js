@@ -10,7 +10,7 @@
 // Required modules
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
-const { getLatestMessages } = require('../../models/model-messages');
+const { getLatestMessages } = require('../../communication/models/model-messages');
 const { getTitleNameById } = require('../../user/models/model-user');
 
 

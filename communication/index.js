@@ -1,5 +1,5 @@
 /*!
- * controllers/communication-controller.js
+ * communication/index.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -9,10 +9,10 @@
 
 // Required modules
 const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
-const { updateChat } = require('../models/model-chat');
-const { updatePrivateMessages } = require('../models/model-messages');
+const { updateChat } = require('./models/model-chat');
+const { updatePrivateMessages } = require('./models/model-messages');
+const comView = require('./views/view');
 const getNaviObj = require('../views/lib/getNaviObj');
-const comView = require('../views/communication/view');
 const view = require('../views/view');
 
 
