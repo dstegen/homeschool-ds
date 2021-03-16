@@ -1,5 +1,5 @@
 /*!
- * models/model-chat.js
+ * classroom/models/model-chat.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -11,10 +11,10 @@
 const fs = require('fs');
 const path = require('path');
 const uuidv4 = require('uuid').v4;
-const { getLessons } = require('./model-lessons');
-const loadFile = require('../utils/load-file');
-const saveFile = require('../utils/save-file');
-const fileUpload = require('../lib/file-upload');
+const { getLessons } = require('../../models/model-lessons');
+const loadFile = require('../../utils/load-file');
+const saveFile = require('../../utils/save-file');
+const fileUpload = require('../../lib/file-upload');
 
 
 function createOnlinelesson (data, group, user) {
@@ -59,14 +59,14 @@ function createOnlinelesson (data, group, user) {
     if (myLesson.videos && myLesson.videos.length > 0) recentLesson.youtube = myLesson.videos;
     if (myLesson.links && myLesson.links.length > 0) recentLesson.links = myLesson.links;
   }
-  saveFile(path.join(__dirname, '../data/classes', group.toString()), 'onlinelesson.json', recentLesson);
+  saveFile(path.join(__dirname, '../../data/classes', group.toString()), 'onlinelesson.json', recentLesson);
   return recentLesson;
 }
 
 function getRecentLesson (group) {
-  if (fs.existsSync(path.join(__dirname, '../data/classes', group, 'onlinelesson.json'))) {
+  if (fs.existsSync(path.join(__dirname, '../../data/classes', group, 'onlinelesson.json'))) {
     try {
-      return loadFile(path.join(__dirname, '../data/classes', group, 'onlinelesson.json'));
+      return loadFile(path.join(__dirname, '../../data/classes', group, 'onlinelesson.json'));
     } catch (e) {
       console.log('- ERROR loading recentLesson: '+e);
     }
@@ -77,15 +77,15 @@ function getRecentLesson (group) {
 
 function disposeOnlinelesson (recentLesson) {
   try {
-    fs.unlinkSync(path.join(__dirname, '../data/classes', recentLesson.group, 'onlinelesson.json'));
-    if (fs.existsSync(path.join(__dirname, '../data/classes', recentLesson.group, 'onlinelesson.png'))) {
-      fs.unlinkSync(path.join(__dirname, '../data/classes', recentLesson.group, 'onlinelesson.png'));
+    fs.unlinkSync(path.join(__dirname, '../../data/classes', recentLesson.group, 'onlinelesson.json'));
+    if (fs.existsSync(path.join(__dirname, '../../data/classes', recentLesson.group, 'onlinelesson.png'))) {
+      fs.unlinkSync(path.join(__dirname, '../../data/classes', recentLesson.group, 'onlinelesson.png'));
     }
-    if (recentLesson.docs[0] && recentLesson.docs[0].includes('onlinelesson') && fs.existsSync(path.join(__dirname, '../', recentLesson.chalkboardBg))) {
-      fs.unlinkSync(path.join(__dirname, '../', recentLesson.chalkboardBg));
+    if (recentLesson.docs[0] && recentLesson.docs[0].includes('onlinelesson') && fs.existsSync(path.join(__dirname, '../../', recentLesson.chalkboardBg))) {
+      fs.unlinkSync(path.join(__dirname, '../../', recentLesson.chalkboardBg));
     }
-    if (recentLesson.docs[0] && recentLesson.docs[0].includes('onlinelesson') && fs.existsSync(path.join(__dirname, '../', recentLesson.docs[0]))) {
-      fs.unlinkSync(path.join(__dirname, '../', recentLesson.docs[0]));
+    if (recentLesson.docs[0] && recentLesson.docs[0].includes('onlinelesson') && fs.existsSync(path.join(__dirname, '../../', recentLesson.docs[0]))) {
+      fs.unlinkSync(path.join(__dirname, '../../', recentLesson.docs[0]));
     }
   } catch (e) {
     console.log('- ERROR disposing Onlinelesson: '+e);
@@ -96,7 +96,7 @@ function joinOnlinelesson (recentLesson, user) {
   if (recentLesson.students === undefined) recentLesson.students = [];
   if (recentLesson.students.filter( item => item.id === user.id).length === 0 && recentLesson.group === user.group) {
     recentLesson.students.push(user);
-    saveFile(path.join(__dirname, '../data/classes', user.group), 'onlinelesson.json', recentLesson);
+    saveFile(path.join(__dirname, '../../data/classes', user.group), 'onlinelesson.json', recentLesson);
     return true;
   } else {
     return false;
@@ -105,7 +105,7 @@ function joinOnlinelesson (recentLesson, user) {
 
 function exitOnlinelesson (recentLesson, user) {
   recentLesson.students = recentLesson.students.filter( item => item.id !== user.id);
-  saveFile(path.join(__dirname, '../data/classes', user.group), 'onlinelesson.json', recentLesson);
+  saveFile(path.join(__dirname, '../../data/classes', user.group), 'onlinelesson.json', recentLesson);
 }
 
 

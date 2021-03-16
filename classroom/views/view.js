@@ -1,5 +1,5 @@
 /*!
- * views/classroom/view.js
+ * classroom/views/view.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -8,9 +8,9 @@
 'use strict';
 
 // Required modules
+const classChat = require('../../views/templates/chat');
 const attendantStudents = require('./attendant-students');
 const blackboard = require('./blackboard');
-const classChat = require('../templates/chat');
 const classroomSockets = require('./classroom-sockets');
 
 

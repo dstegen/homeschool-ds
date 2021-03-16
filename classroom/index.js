@@ -1,5 +1,5 @@
 /*!
- * controllers/classroomView-controller.js
+ * classroom/index.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -14,11 +14,11 @@ const locale = require('../lib/locale');
 const config = require('../models/model-config').getConfig();
 const { getTitleNameById } = require('../user/models/model-user');
 const { uniSend, getFormObj, SendObj, cookie } = require('webapputils-ds');
-const { createOnlinelesson, getRecentLesson, disposeOnlinelesson, joinOnlinelesson, exitOnlinelesson } = require('../models/model-classroom');
+const { createOnlinelesson, getRecentLesson, disposeOnlinelesson, joinOnlinelesson, exitOnlinelesson } = require('./models/model-classroom');
 const getNaviObj = require('../views/lib/getNaviObj');
-const classroomView = require('../views/classroom/view');
-const lobbyView = require('../views/classroom/lobby-view');
-const teacherView = require('../views/classroom/teacher-view');
+const classroomView = require('./views/view');
+const lobbyView = require('./views/lobby-view');
+const teacherView = require('./views/teacher-view');
 const view = require('../views/view');
 const saveFile = require('../utils/save-file');
 const { registerWs, sendWsMessage } = require('../lib/websockets');

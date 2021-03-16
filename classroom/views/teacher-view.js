@@ -1,5 +1,5 @@
 /*!
- * views/classroom/teacher-view.js
+ * classroom/views/teacher-view.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -11,10 +11,10 @@
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
 const { getLessons } = require('../../models/model-lessons');
-const formTextInput = require('../templates/form-textinput');
-const formSelect = require('../templates/form-select2');
-const formCheckboxColumn = require('../templates/form-checkbox');
-const tooltip = require('../templates/tooltip');
+const formTextInput = require('../../views/templates/form-textinput');
+const formSelect = require('../../views/templates/form-select2');
+const formCheckboxColumn = require('../../views/templates/form-checkbox');
+const tooltip = require('../../views/templates/tooltip');
 const { notValid } = require('../../lib/dateJuggler');
 
 
