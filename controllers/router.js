@@ -9,7 +9,7 @@
 
 // Required modules
 const { deliver, uniSend } = require('webapputils-ds');
-const { login, logout, userLoggedIn, userDetails, setPasswordAction, updatePasswordAction } = require('./auth-controller');
+const { login, logout, userLoggedIn, userDetails, setPasswordAction, updatePasswordAction } = require('../user');
 const mainController = require('../main');
 const adminController = require('./admin-controller');
 const communicationController = require('./communication-controller');
@@ -18,7 +18,7 @@ const timetableController = require('../timetable');
 const classroomController = require('./classroom-controller');
 const lessonsController = require('./lessons-controller');
 const fileController = require('../main/file-controller');
-const loginView = require('../views/auth/login-view');
+const loginView = require('../user/views/login-view');
 
 
 function router (request, response, wss, wsport) {

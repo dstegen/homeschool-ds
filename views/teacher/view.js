@@ -11,7 +11,7 @@
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
 const { formatDay } = require('../../lib/dateJuggler');
-const { getTitleNameById } = require('../../models/model-user');
+const { getTitleNameById } = require('../../user/models/model-user');
 const { getLatestMessages } = require('../../models/model-messages');
 const getWelcome = require('../lib/get-welcome');
 const getOnlinelessons = require('../lib/get-onlinelessons');

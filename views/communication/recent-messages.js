@@ -8,7 +8,7 @@
 'use strict';
 
 // Required modules
-const { getUserById } = require('../../models/model-user');
+const { getUserById } = require('../../user/models/model-user');
 const { getLatestMessages } = require('../../models/model-messages');
 const simpleList = require('../templates/simple-list');
 

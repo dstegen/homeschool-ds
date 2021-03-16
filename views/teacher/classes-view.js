@@ -10,7 +10,7 @@
 // Required modules
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
-const { getAllUsers } = require('../../models/model-user');
+const { getAllUsers } = require('../../user/models/model-user');
 const classChat = require('../templates/chat');
 const newPrivateMessage = require('../templates/new-private-message');
 

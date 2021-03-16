@@ -1,5 +1,5 @@
 /*!
- * controllers/auth-controller.js
+ * user/index.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -13,9 +13,9 @@ const bcrypt = require('bcryptjs');
 const { cookie, uniSend, getFormObj, SendObj, Auth } = require('webapputils-ds');
 const locale = require('../lib/locale');
 const config = require('../models/model-config').getConfig();
-const { initUsers, getPasswdObj, getUserDetails, updatePassword } = require('../models/model-user');
+const { initUsers, getPasswdObj, getUserDetails, updatePassword } = require('./models/model-user');
 const getNaviObj = require('../views/lib/getNaviObj');
-const setpasswordView = require('../views/auth/setpassword-view');
+const setpasswordView = require('./views/setpassword-view');
 const view = require('../views/view');
 
 const authenticate = new Auth(path.join(__dirname, '../sessionids.json'));

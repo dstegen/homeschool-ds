@@ -1,5 +1,5 @@
 /*!
- * models/model-user.js
+ * user/models/model-user.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/webapputils-ds/blob/master/LICENSE)
@@ -11,17 +11,17 @@
 const path = require('path');
 const fs = require('fs');
 const bcrypt = require('bcryptjs');
-const locale = require('../lib/locale');
-const config = require('./model-config').getConfig();
-const { dateIsRecent } = require('../lib/dateJuggler');
-const loadFile = require('../utils/load-file');
-const saveFile = require('../utils/save-file');
+const locale = require('../../lib/locale');
+const config = require('../../models/model-config').getConfig();
+const { dateIsRecent } = require('../../lib/dateJuggler');
+const loadFile = require('../../utils/load-file');
+const saveFile = require('../../utils/save-file');
 
 let users = [];
 
 
 function initUsers () {
-  users = loadFile(path.join(__dirname, '../data/school/users.json'), true);
+  users = loadFile(path.join(__dirname, '../../data/school/users.json'), true);
 }
 
 function getPasswdObj () {
@@ -52,7 +52,7 @@ function getAllUsers (group) {
 function usersOnline (group) {
   let onlineUsers = [];
   try {
-    let sessionIds = JSON.parse(fs.readFileSync(path.join(__dirname, '../sessionids.json')));
+    let sessionIds = JSON.parse(fs.readFileSync(path.join(__dirname, '../../sessionids.json')));
     let userIds = sessionIds.map( user => { return Object.values(user)[0]; } )
     if ( group !== undefined && group !== '') {
       let allUsers = getAllUsers(group).filter( user => (user.role === 'student' && userIds.includes(user.userId)) );
@@ -69,9 +69,9 @@ function usersOnline (group) {
 }
 
 function cleanLogins () {
-  let sessionIds = loadFile(path.join(__dirname, '../sessionids.json'));
+  let sessionIds = loadFile(path.join(__dirname, '../../sessionids.json'));
   sessionIds = sessionIds.filter( item => dateIsRecent(item.timeStamp, 1));
-  saveFile(path.join(__dirname, '../'), 'sessionids.json', sessionIds);
+  saveFile(path.join(__dirname, '../../'), 'sessionids.json', sessionIds);
 }
 
 function getUserById (id) {
@@ -139,7 +139,7 @@ function updateUser (fields) {
       gender: fields.gender
     });
   }
-  saveFile(path.join(__dirname, '../data/school'), 'users.json', users);
+  saveFile(path.join(__dirname, '../../data/school'), 'users.json', users);
   console.log('+ User sucessfully added/updated: '+fields.userId);
 }
 
@@ -147,7 +147,7 @@ function updatePassword (fields) {
   let curUser = users.filter( user => user.userId === fields.userId)[0];
   if (curUser !== undefined) {
     curUser.password = bcrypt.hashSync(fields.new_password);
-    saveFile(path.join(__dirname, '../data/school'), 'users.json', users);
+    saveFile(path.join(__dirname, '../../data/school'), 'users.json', users);
     console.log('+ Password sucessfully updated for userId: '+fields.userId);
   }
 }
@@ -165,7 +165,7 @@ function advanceUsers (fields) {
       item.leader = item.leader.filter(item => item !== fields.oldGroup);
     }
   });
-  saveFile(path.join(__dirname, '../data/school'), 'users.json', allUsers);
+  saveFile(path.join(__dirname, '../../data/school'), 'users.json', allUsers);
   console.log('+ Advanced useres from group '+fields.oldGroup+' to new group '+fields.newGroup);
 }
 

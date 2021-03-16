@@ -11,7 +11,7 @@
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
 const { getLatestMessages } = require('../../models/model-messages');
-const { getTitleNameById } = require('../../models/model-user');
+const { getTitleNameById } = require('../../user/models/model-user');
 
 
 function getNaviObj (user) {

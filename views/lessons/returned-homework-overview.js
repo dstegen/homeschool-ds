@@ -11,7 +11,7 @@
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
 const { dateIsRecent } = require('../../lib/dateJuggler');
-const { getTitleNameById } = require('../../models/model-user');
+const { getTitleNameById } = require('../../user/models/model-user');
 const { returnedHomework } = require('../../models/model-lessons');
 const simpleList = require('../templates/simple-list');
 

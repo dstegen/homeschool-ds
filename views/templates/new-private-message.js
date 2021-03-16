@@ -10,7 +10,7 @@
 // Required modules
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
-const { getAllUsers, getUserById, getTitleNameById } = require('../../models/model-user');
+const { getAllUsers, getUserById, getTitleNameById } = require('../../user/models/model-user');
 
 
 function newPrivateMessage (userId='', chatMateId='') {

@@ -11,7 +11,7 @@
 const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
 const { updateSettings } = require('../models/model-config');
 const { updateGroupConfig, addNewGroup, advanceGroup } = require('../models/model-group');
-const { updateUser, getUserById, getAllUsers, advanceUsers } = require('../models/model-user');
+const { updateUser, getUserById, getAllUsers, advanceUsers } = require('../user/models/model-user');
 const getNaviObj = require('../views/lib/getNaviObj');
 const adminView = require('../views/admin/view');
 const editUserView = require('../views/admin/edit-user-view');

@@ -12,7 +12,7 @@ const fs = require('fs');
 const path = require('path');
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
-const { getTitleNameById } = require('../../models/model-user');
+const { getTitleNameById } = require('../../user/models/model-user');
 const jitsi = require('./jitsi');
 
 

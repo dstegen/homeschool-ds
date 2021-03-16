@@ -9,7 +9,7 @@
 
 // Required modules
 const locale = require('../../lib/locale');
-const { usersOnline } = require('../../models/model-user');
+const { usersOnline } = require('../../user/models/model-user');
 const simpleList = require('../templates/simple-list');
 
 
