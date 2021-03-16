@@ -1,5 +1,5 @@
 /*!
- * views/teacher/view.js
+ * main/views/teacher-view.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -13,12 +13,12 @@ const config = require('../../models/model-config').getConfig();
 const { formatDay } = require('../../lib/dateJuggler');
 const { getTitleNameById } = require('../../user/models/model-user');
 const { getLatestMessages } = require('../../communication/models/model-messages');
-const getWelcome = require('../lib/get-welcome');
-const getOnlinelessons = require('../lib/get-onlinelessons');
+const getWelcome = require('../../views/lib/get-welcome');
+const getOnlinelessons = require('../../views/lib/get-onlinelessons');
 const recentMessages = require('../../communication/views/recent-messages');
-const returnedHomeworkOverview = require('../lessons/returned-homework-overview');
-const classChat = require('../templates/chat');
-const userOnline = require('../templates/user-online');
+const returnedHomeworkOverview = require('../../views/lessons/returned-homework-overview');
+const classChat = require('../../views/templates/chat');
+const userOnline = require('../../views/templates/user-online');
 
 
 function teacherView (teacher, wsport) {

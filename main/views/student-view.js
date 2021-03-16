@@ -1,5 +1,5 @@
 /*!
- * views/student/view.js
+ * main/views/student-view.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -11,11 +11,11 @@
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
 const { formatDay } = require('../../lib/dateJuggler');
-const studentLessonsNotFinished = require('../lessons/student-lessons-not-finished');
-const getOnlinelessons = require('../lib/get-onlinelessons');
-const simpleList = require('../templates/simple-list');
-const userOnline = require('../templates/user-online');
-const classChat = require('../templates/chat');
+const studentLessonsNotFinished = require('../../views/lessons/student-lessons-not-finished');
+const getOnlinelessons = require('../../views/lib/get-onlinelessons');
+const simpleList = require('../../views/templates/simple-list');
+const userOnline = require('../../views/templates/user-online');
+const classChat = require('../../views/templates/chat');
 
 
 function studentView (lessonsTodayList, curWeek, user={}, wsport) {

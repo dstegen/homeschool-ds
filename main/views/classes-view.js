@@ -1,5 +1,5 @@
 /*!
- * teacher/views/classes-view.js
+ * main/views/classes-view.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/webapputils-ds/blob/master/LICENSE)
@@ -11,8 +11,8 @@
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
 const { getAllUsers } = require('../../user/models/model-user');
-const classChat = require('../templates/chat');
-const newPrivateMessage = require('../templates/new-private-message');
+const classChat = require('../../views/templates/chat');
+const newPrivateMessage = require('../../views/templates/new-private-message');
 
 
 function teacherClassesView (teacher, group, wsport) {
