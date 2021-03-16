@@ -11,7 +11,7 @@
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
 const { getGroupConfig } = require('../../models/model-group');
-const formSelect = require('../templates/form-select');
+const boardFormSelect = require('./board-form-select');
 
 
 function boardColumnForm (group, myTopic) {
@@ -50,12 +50,12 @@ function boardColumnForm (group, myTopic) {
           <input type="text" name="section" class="d-none" hidden value="topics" />
           <label for="topic-field">Title</label>
           <input type="text" class="form-control board-form form-control-sm" id="topic-field" name="topic" value="${myTopic.topic}">
-          ${formSelect(config.courseColors, myTopic.color, 'color', myTopic.autofill === true ? 'disabled' : '')}
+          ${boardFormSelect(config.courseColors, myTopic.color, 'color', myTopic.autofill === true ? 'disabled' : '')}
           <div class="form-check form-check-inline mt-2">
             <label class="form-check-label" for="autofill">Autofill</label>
             <input class="form-check-input ml-2" type="checkbox" id="autofill" name="autofill" onchange="enableDisableInput(this, '#edit-column-form-${myTopic.id} select#with-field', '#edit-column-form-${myTopic.id} select#color-field')" ${myTopic.autofill === true ? 'checked' : ''}>
           </div>
-          ${formSelect(getGroupConfig(group).courses.map( item => { return item.name; }), myTopic.autofillWith, 'with', myTopic.autofill === true ? '' : 'disabled')}
+          ${boardFormSelect(getGroupConfig(group).courses.map( item => { return item.name; }), myTopic.autofillWith, 'with', myTopic.autofill === true ? '' : 'disabled')}
           <div class="d-flex justify-content-between mt-3">
             ${delButton}
             <button type="submit" class="btn btn-primary">${myTopic.id === 'null' ? locale.buttons.add[config.lang] : locale.buttons.update[config.lang]}</button>

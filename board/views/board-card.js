@@ -10,9 +10,9 @@
 // Required modules
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
-const { formatDateShort } = require('../../lib/dateJuggler');
 const { getGroupConfig } = require('../../models/model-group');
-const getIcon = require('../lib/get-icon');
+const { formatDateShort } = require('../../lib/dateJuggler');
+const getIcon = require('../../views/lib/get-icon');
 const boardCardForm = require('./board-card-form');
 
 

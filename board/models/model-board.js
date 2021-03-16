@@ -1,5 +1,5 @@
 /*!
- * models/model-boards.js
+ * board/models/model-boards.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -8,17 +8,17 @@
 'use strict';
 
 // Required modules
-const path = require('path');
 const fs = require('fs');
-const loadFile = require('../utils/load-file');
-const saveFile = require('../utils/save-file');
-const fileUpload = require('../lib/file-upload');
-const sani = require('../utils/sanitizer');
+const path = require('path');
+const fileUpload = require('../../lib/file-upload');
+const loadFile = require('../../utils/load-file');
+const saveFile = require('../../utils/save-file');
+const sani = require('../../utils/sanitizer');
 
 
 function getBoard (group) {
   let returnBoard = {};
-  returnBoard = loadFile(path.join(__dirname, '../data/classes', group, 'board.json'), false);
+  returnBoard = loadFile(path.join(__dirname, '../../data/classes', group, 'board.json'), false);
   if (returnBoard.topics !== undefined) {
     return reOrderBoard(returnBoard);
   } else {
@@ -47,7 +47,7 @@ function getBoard (group) {
 
 function updateTopic (fields) {
   let tmpBoard = {};
-  if (fs.existsSync(path.join(__dirname, '../data/classes/', fields.group, 'board.json'))) tmpBoard = getBoard(fields.group);
+  if (fs.existsSync(path.join(__dirname, '../../data/classes/', fields.group, 'board.json'))) tmpBoard = getBoard(fields.group);
   let newTopic = {};
   if (fields.id !== 'null' && tmpBoard.topics && tmpBoard.topics.filter( item => item.id === Number(fields.id) ).length === 1) {
     newTopic = tmpBoard.topics.filter( item => item.id === Number(fields.id) )[0];
@@ -62,7 +62,7 @@ function updateTopic (fields) {
   if (fields.id === 'null') {
     tmpBoard.topics.push(newTopic);
   }
-  saveFile(path.join(__dirname, '../data/classes', fields.group), 'board.json', tmpBoard);
+  saveFile(path.join(__dirname, '../../data/classes', fields.group), 'board.json', tmpBoard);
   console.log('+ Updated/added group board topic successfully!');
 }
 
@@ -87,7 +87,7 @@ function updateCard (fields, files) {
   if (fields.id === 'null') {
     tmpBoard.cards.push(newCard);
   }
-  saveFile(path.join(__dirname, '../data/classes', fields.group), 'board.json', tmpBoard);
+  saveFile(path.join(__dirname, '../../data/classes', fields.group), 'board.json', tmpBoard);
   console.log('+ Updated/added group board card successfully!');
 }
 
@@ -105,7 +105,7 @@ function deleteFromBoard (fields) {
     if (tmpBoard.cards.filter( item => item.id === Number(fields.id) )[0].files && tmpBoard.cards.filter( item => item.id === Number(fields.id) )[0].files.length > 0) {
       tmpBoard.cards.filter( item => item.id === Number(fields.id) )[0].files.forEach( item => {
         try {
-          fs.unlinkSync(path.join(__dirname, '../', item));
+          fs.unlinkSync(path.join(__dirname, '../../', item));
         } catch (e) {
           console.log('- ERROR can\'t delete files from card: '+e);
         }
@@ -114,7 +114,7 @@ function deleteFromBoard (fields) {
     tmpBoard.cards.splice(tmpBoard.cards.indexOf(tmpBoard.cards.filter( item => item.id === Number(fields.id) )[0]), 1);
     console.log('- Deleted card successfully from group board!');
   }
-  saveFile(path.join(__dirname, '../data/classes', fields.group), 'board.json', tmpBoard);
+  saveFile(path.join(__dirname, '../../data/classes', fields.group), 'board.json', tmpBoard);
 }
 
 function deleteFileFromCard (fields) {
@@ -122,7 +122,7 @@ function deleteFileFromCard (fields) {
   let myFiles = tmpBoard.cards.filter( item => item.id === Number(fields.lessonId))[0].files;
   myFiles.splice(myFiles.indexOf('/data/classes/'+fields.group+'/board/'+fields.lessonId+'/'+fields.delfilename));
   tmpBoard.cards.filter( item => item.id === Number(fields.lessonId))[0].files = myFiles;
-  saveFile(path.join(__dirname, '../data/classes', fields.group), 'board.json', tmpBoard);
+  saveFile(path.join(__dirname, '../../data/classes', fields.group), 'board.json', tmpBoard);
 }
 
 function updateOrder (fields) {
@@ -132,7 +132,7 @@ function updateOrder (fields) {
       tmpBoard.topics.filter( item => item.id === Number(id))[0].order = i;
     });
   }
-  saveFile(path.join(__dirname, '../data/classes', fields.group), 'board.json', tmpBoard);
+  saveFile(path.join(__dirname, '../../data/classes', fields.group), 'board.json', tmpBoard);
   console.log('+ Changed order of board '+fields.group);
 }
 

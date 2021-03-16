@@ -10,7 +10,7 @@
 // Required modules
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
-const { getBoard } = require('../../models/model-board');
+const { getBoard } = require('../models/model-board');
 const boardColumn = require('./board-column');
 const boardColumnForm = require('./board-column-form');
 

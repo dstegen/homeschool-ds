@@ -1,5 +1,5 @@
 /*!
- * controllers/board-controller.js
+ * board/index.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -9,9 +9,9 @@
 
 // Required modules
 const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
-const { updateTopic, updateCard, deleteFromBoard, updateOrder } = require('../models/model-board');
+const { updateTopic, updateCard, deleteFromBoard, updateOrder } = require('./models/model-board');
 const getNaviObj = require('../views/lib/getNaviObj');
-const boardView = require('../views/board/view');
+const boardView = require('./views/view');
 const view = require('../views/view');
 
 let myGroup = '';
