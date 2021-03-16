@@ -11,7 +11,7 @@
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
 const { thisWeek, isActualWeek, weekDayFromNumber } = require('../../lib/dateJuggler');
-const { getLessons } = require('../../models/model-lessons');
+const { getLessons } = require('../../lesson/models/model-lessons');
 
 
 function getOnlinelessons (user, weekOffset) {

@@ -10,7 +10,7 @@
 // Required modules
 const path = require('path');
 const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
-const { updateLesson, finishLesson, deleteFileFromLesson, deleteFileFromLessonFinished } = require('../models/model-lessons');
+const { updateLesson, finishLesson, deleteFileFromLesson, deleteFileFromLessonFinished } = require('../lesson/models/model-lessons');
 const { deleteFileFromCard } = require('../board/models/model-board');
 const fileUpload = require('../lib/file-upload');
 const fileDelete = require('../lib/file-delete');

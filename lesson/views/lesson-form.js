@@ -1,5 +1,5 @@
 /*!
- * views/lessons/lesson-form.js
+ * lesson/views/lesson-form.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -12,9 +12,9 @@ const path = require('path');
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
 const loadFile = require('../../utils/load-file');
-const formRadio = require('../templates/form-radio');
-const formCheckbox = require('../templates/form-checkbox');
-const formSelect = require('../templates/form-select2');
+const formRadio = require('../../views/templates/form-radio');
+const formCheckbox = require('../../views/templates/form-checkbox');
+const formSelect = require('../../views/templates/form-select2');
 const { weekDay, weeksArray } = require('../../lib/dateJuggler');
 let lessonsConfig = {};
 

@@ -16,7 +16,7 @@ const communicationController = require('./communication');
 const boardController = require('./board');
 const timetableController = require('./timetable');
 const classroomController = require('./classroom');
-const lessonsController = require('./controllers/lessons-controller');
+const lessonsController = require('./lesson/');
 const fileController = require('./main/file-controller');
 const loginView = require('./user/views/login-view');
 

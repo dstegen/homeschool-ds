@@ -1,5 +1,5 @@
 /*!
- * models/model-lessons.js
+ * lesson/models/model-lessons.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -10,14 +10,14 @@
 // Required Modules
 const fs = require('fs');
 const path = require('path');
-const { isActualWeek, notValid, getWebDate } = require('../lib/dateJuggler');
-const loadFile = require('../utils/load-file');
-const saveFile = require('../utils/save-file');
-const sani = require('../utils/sanitizer');
+const { isActualWeek, notValid, getWebDate } = require('../../lib/dateJuggler');
+const loadFile = require('../../utils/load-file');
+const saveFile = require('../../utils/save-file');
+const sani = require('../../utils/sanitizer');
 
 
 function getLessons(myGroup) {
-  return loadFile(path.join(__dirname, '../data/classes', myGroup, 'lessons.json')).lessons;
+  return loadFile(path.join(__dirname, '../../data/classes', myGroup, 'lessons.json')).lessons;
 }
 
 function updateLesson(fields) {
@@ -38,7 +38,7 @@ function updateLesson(fields) {
         }
       }
     });
-    saveFile(path.join(__dirname, '../data/classes', myGroup), 'lessons.json', { lessons: myLessons});
+    saveFile(path.join(__dirname, '../../data/classes', myGroup), 'lessons.json', { lessons: myLessons});
     console.log('+ Updated: lessons for class: '+myGroup);
     if (fields.lessonType === 'onlinelesson') updateOnlinelessonsCalendar(myLessons.filter(item => item.id == fields.id)[0], myGroup);
     return myLessons;
@@ -58,7 +58,7 @@ function updateLesson(fields) {
       }
     });
     myLessons.push(newItem);
-    saveFile(path.join(__dirname, '../data/classes', myGroup), 'lessons.json', { lessons: myLessons});
+    saveFile(path.join(__dirname, '../../data/classes', myGroup), 'lessons.json', { lessons: myLessons});
     console.log('+ Added: lesson for class: '+myGroup);
     if (fields.lessonType === 'onlinelesson') updateOnlinelessonsCalendar(newItem, myGroup);
     return myLessons;
@@ -69,7 +69,7 @@ function deleteLesson (fields) {
   let myLessons = getLessons(fields.group);
   console.log(fields);
   myLessons = myLessons.filter( item => item.id != fields.id);
-  saveFile(path.join(__dirname, '../data/classes', fields.group), 'lessons.json', { lessons: myLessons});
+  saveFile(path.join(__dirname, '../../data/classes', fields.group), 'lessons.json', { lessons: myLessons});
   return myLessons;
 }
 
@@ -78,7 +78,7 @@ function deleteFileFromLesson (group, courseId, filePath) {
   if (myLessons.filter( item => item.id === courseId).length === 1) {
     let myFiles = myLessons.filter( item => item.id === courseId)[0].files;
     myLessons.filter( item => item.id === courseId)[0].files = myFiles.filter( item => item !== filePath);
-    saveFile(path.join(__dirname, '../data/classes', group), 'lessons.json', { lessons: myLessons});
+    saveFile(path.join(__dirname, '../../data/classes', group), 'lessons.json', { lessons: myLessons});
   } else {
     console.log('- ERROR couldn\'t find courseId: '+courseId);
   }
@@ -95,7 +95,7 @@ function deleteFileFromLessonFinished (group, lessonId, studentId, fileName) {
   } catch (e) {
     console.log('- ERROR couldn\'t find file in list:'+e);
   }
-  saveFile(path.join(__dirname, '../data/classes', group), 'lessons.json', { lessons: myLessons});
+  saveFile(path.join(__dirname, '../../data/classes', group), 'lessons.json', { lessons: myLessons});
 }
 
 function finishLesson (fields) {
@@ -120,7 +120,7 @@ function finishLesson (fields) {
     tmpList.push(tmpObj);
   }
   myLessons.filter( item => item.id === Number(fields.courseId))[0].lessonFinished = tmpList;
-  saveFile(path.join(__dirname, '../data/classes', fields.group), 'lessons.json', { lessons: myLessons});
+  saveFile(path.join(__dirname, '../../data/classes', fields.group), 'lessons.json', { lessons: myLessons});
   return myLessons;
 }
 
@@ -186,21 +186,21 @@ function getNewId (lessons) {
 
 function updateOnlinelessonsCalendar (myLesson, myGroup) {
   let onlinelessonsCalendar = [];
-  if (fs.existsSync(path.join(__dirname, '../data/classes/', myGroup, 'onlinelessonscalendar.json'))) {
-    onlinelessonsCalendar = loadFile(path.join(__dirname, '../data/classes/', myGroup, 'onlinelessonscalendar.json'));
+  if (fs.existsSync(path.join(__dirname, '../../data/classes/', myGroup, 'onlinelessonscalendar.json'))) {
+    onlinelessonsCalendar = loadFile(path.join(__dirname, '../../data/classes/', myGroup, 'onlinelessonscalendar.json'));
   }
   if (onlinelessonsCalendar.filter( item => item.id === myLesson.id).length > 0) {
     let tmpObj = onlinelessonsCalendar.filter( item => item.id === myLesson.id)[0];
     tmpObj.date = getWebDate(myLesson.validFrom, myLesson.weekdays[0]);
     tmpObj.time = myLesson.time;
-    saveFile(path.join(__dirname, '../data/classes', myGroup), 'onlinelessonscalendar.json', onlinelessonsCalendar);
+    saveFile(path.join(__dirname, '../../data/classes', myGroup), 'onlinelessonscalendar.json', onlinelessonsCalendar);
   } else {
     onlinelessonsCalendar.push({
       id: myLesson.id,
       date: getWebDate(myLesson.validFrom, myLesson.weekdays[0]),
       time: myLesson.time
     });
-    saveFile(path.join(__dirname, '../data/classes', myGroup), 'onlinelessonscalendar.json', onlinelessonsCalendar);
+    saveFile(path.join(__dirname, '../../data/classes', myGroup), 'onlinelessonscalendar.json', onlinelessonsCalendar);
   }
   console.log('+ Updated: onlinelessonscalendar.json for class: '+myGroup);
 }

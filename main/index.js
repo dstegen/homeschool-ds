@@ -10,7 +10,7 @@
 // Required modules
 const { uniSend } = require('webapputils-ds');
 const { thisWeek, weekDayNumber } = require('../lib/dateJuggler');
-const { lessonsToday } = require('../models/model-lessons');
+const { lessonsToday } = require('../lesson/models/model-lessons');
 const getNaviObj = require('../views/lib/getNaviObj');
 const studentView = require('./views/student-view');
 const teacherView = require('./views/teacher-view');

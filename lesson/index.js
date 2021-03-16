@@ -1,5 +1,5 @@
 /*!
- * controllers/lessons-controller.js
+ * lesson/index.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -10,12 +10,12 @@
 // Required modules
 const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
 const { thisDay, thisWeek, weekDayNumber, momentFromDay } = require('../lib/dateJuggler');
-const { getLessons, updateLesson, deleteLesson, finishLesson, lessonsToday, lessonsNotFinished, blancLesson } = require('../models/model-lessons');
+const { getLessons, updateLesson, deleteLesson, finishLesson, lessonsToday, lessonsNotFinished, blancLesson } = require('./models/model-lessons');
 const getNaviObj = require('../views/lib/getNaviObj');
-const studentDayView = require('../views/lessons/student-lesson-view');
-const teacherLessonsView = require('../views/lessons/all-lessons-view');
-const teacherSingleLessonView = require('../views/lessons/teacher-lesson-view');
-const addLessonView = require('../views/lessons/add-lesson-view');
+const studentDayView = require('./views/student-lesson-view');
+const teacherLessonsView = require('./views/all-lessons-view');
+const teacherSingleLessonView = require('./views/teacher-lesson-view');
+const addLessonView = require('./views/add-lesson-view');
 const view = require('../views/view');
 
 let myGroup = '';

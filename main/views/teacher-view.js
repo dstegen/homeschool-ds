@@ -16,7 +16,7 @@ const { getLatestMessages } = require('../../communication/models/model-messages
 const getWelcome = require('../../views/lib/get-welcome');
 const getOnlinelessons = require('../../views/lib/get-onlinelessons');
 const recentMessages = require('../../communication/views/recent-messages');
-const returnedHomeworkOverview = require('../../views/lessons/returned-homework-overview');
+const returnedHomeworkOverview = require('../../lesson/views/returned-homework-overview');
 const classChat = require('../../views/templates/chat');
 const userOnline = require('../../views/templates/user-online');
 

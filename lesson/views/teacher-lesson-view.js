@@ -1,5 +1,5 @@
 /*!
- * views/lessons/teacher-lesson-view.js
+ * lesson/views/teacher-lesson-view.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -13,10 +13,10 @@ const fs = require('fs');
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
 const { getAllUsers } = require('../../user/models/model-user');
-const { getLessons } = require('../../models/model-lessons');
+const { getLessons } = require('../../lesson/models/model-lessons');
 const lessonDateandtime = require('./lesson-dateandtime');
 const lessonSchedule = require('./lesson-schedule');
-const filesList = require('../templates/files-list');
+const filesList = require('../../views/templates/files-list');
 const lessonForm = require('./lesson-form');
 const lessonUploadForm = require('./lesson-upload-form');
 

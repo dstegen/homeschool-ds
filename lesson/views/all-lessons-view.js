@@ -1,5 +1,5 @@
 /*!
- * views/lessons/all-lessons-view.js
+ * lesson/views/all-lessons-view.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -14,9 +14,9 @@ const { getGroupConfig } = require('../../models/model-group');
 const config = getConfig();
 const { notValid } = require('../../lib/dateJuggler');
 const { getAllUsers } = require('../../user/models/model-user');
-const { getLessons, returnedHomework } = require('../../models/model-lessons');
-const formSelectColumn = require('../templates/form-select2');
-const getIcon = require('../lib/get-icon');
+const { getLessons, returnedHomework } = require('../../lesson/models/model-lessons');
+const formSelectColumn = require('../../views/templates/form-select2');
+const getIcon = require('../../views/lib/get-icon');
 const lessonDateandtime = require('./lesson-dateandtime');
 
 

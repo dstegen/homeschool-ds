@@ -1,5 +1,5 @@
 /*!
- * views/lessons/student-lesson-not-finished.js
+ * lesson/views/student-lesson-not-finished.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -11,8 +11,8 @@
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
 const { thisDay, formatDay, momentFromDay } = require('../../lib/dateJuggler');
-const { lessonsNotFinished } = require('../../models/model-lessons');
-const simpleList = require('../templates/simple-list');
+const { lessonsNotFinished } = require('../models/model-lessons');
+const simpleList = require('../../views/templates/simple-list');
 
 
 function studentLessonsNotFinished (user) {

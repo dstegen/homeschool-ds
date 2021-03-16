@@ -11,7 +11,7 @@
 const fs = require('fs');
 const path = require('path');
 const uuidv4 = require('uuid').v4;
-const { getLessons } = require('../../models/model-lessons');
+const { getLessons } = require('../../lesson/models/model-lessons');
 const loadFile = require('../../utils/load-file');
 const saveFile = require('../../utils/save-file');
 const fileUpload = require('../../lib/file-upload');

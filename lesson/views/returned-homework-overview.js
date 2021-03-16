@@ -1,5 +1,5 @@
 /*!
- * views/lessons/returned-homework-overview.js
+ * lesson/views/returned-homework-overview.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -12,8 +12,8 @@ const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
 const { dateIsRecent } = require('../../lib/dateJuggler');
 const { getTitleNameById } = require('../../user/models/model-user');
-const { returnedHomework } = require('../../models/model-lessons');
-const simpleList = require('../templates/simple-list');
+const { returnedHomework } = require('../../lesson/models/model-lessons');
+const simpleList = require('../../views/templates/simple-list');
 
 
 function returnedHomeworkOverview (user) {

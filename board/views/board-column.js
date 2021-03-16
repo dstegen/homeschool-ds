@@ -8,7 +8,7 @@
 'use strict';
 
 // Required modules
-const { getLessons } = require('../../models/model-lessons');
+const { getLessons } = require('../../lesson/models/model-lessons');
 const { notValid } = require('../../lib/dateJuggler');
 const boardCard = require('./board-card');
 const boardCardForm = require('./board-card-form');

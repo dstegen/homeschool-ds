@@ -10,7 +10,7 @@
 // Required modules
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
-const { getLessons } = require('../../models/model-lessons');
+const { getLessons } = require('../../lesson/models/model-lessons');
 const formTextInput = require('../../views/templates/form-textinput');
 const formSelect = require('../../views/templates/form-select2');
 const formCheckboxColumn = require('../../views/templates/form-checkbox');

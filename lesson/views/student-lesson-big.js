@@ -1,5 +1,5 @@
 /*!
- * views/lessons/student-lesson-big.js
+ * lesson/views/student-lesson-big.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -12,8 +12,8 @@ const path = require('path');
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
 const { thisDay, formatDay, momentFromDay, workdaysBetween, notValid } = require('../../lib/dateJuggler');
-const getIcon = require('../lib/get-icon');
-const filesList = require('../templates/files-list');
+const getIcon = require('../../views/lib/get-icon');
+const filesList = require('../../views/templates/files-list');
 let lessonsConfig = {};
 
 

@@ -1,5 +1,5 @@
 /*!
- * views/lessons/lesson-upload-form.js
+ * lesson/views/lesson-upload-form.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -10,7 +10,7 @@
 // Required modules
 const locale = require('../../lib/locale');
 const config = require('../../models/model-config').getConfig();
-const filesList = require('../templates/files-list');
+const filesList = require('../../views/templates/files-list');
 
 function lessonUploadForm (itemObj, myGroup) {
   return `

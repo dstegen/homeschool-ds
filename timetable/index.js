@@ -10,7 +10,7 @@
 // Required modules
 const { uniSend, SendObj } = require('webapputils-ds');
 const { thisWeek } = require('../lib/dateJuggler');
-const { getLessons } = require('../models/model-lessons');
+const { getLessons } = require('../lesson/models/model-lessons');
 const getNaviObj = require('../views/lib/getNaviObj');
 const timetableView = require('./timetable/view');
 const view = require('../views/view');
