@@ -1,5 +1,5 @@
 /*!
- * communication/views/recent-messages.js
+ * main/views/recent-messages.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -9,8 +9,8 @@
 
 // Required modules
 const { getUserById } = require('../../user/models/model-user');
-const { getLatestMessages } = require('../models/model-messages');
-const simpleList = require('../../main/templates/simple-list');
+const { getLatestMessages } = require('../../communication/models/model-messages');
+const simpleList = require('../templates/simple-list');
 
 
 function recentMessages (userId) {

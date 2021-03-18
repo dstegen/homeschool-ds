@@ -49,6 +49,11 @@ A simple HomeSchool server for teachers and students to have a better overview o
 
 ## Changelog ##
 
+#### v0.4.2 ####
+- big refactoring, all new structure
+- refactored forms for better reusability
+- ...
+
 #### v0.4.1 ####
 - added basic sanitizer for sanitize form inputs
 - limit edit access on boards to class teacher
