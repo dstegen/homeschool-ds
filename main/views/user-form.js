@@ -9,7 +9,7 @@
 
 // Required modules
 const locale = require('../../lib/locale');
-const { getGroupConfig } = require('../../models/model-group');
+const { getGroupConfig } = require('../models/model-group');
 const tooltip = require('../../views/templates/tooltip');
 const formSelect = require('../../views/templates/form-select2');
 const formTextInput = require('../../views/templates/form-textinput');

@@ -10,7 +10,7 @@
 // Required modules
 const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
 const { updateSettings } = require('../models/model-config');
-const { updateGroupConfig, addNewGroup, advanceGroup } = require('../models/model-group');
+const { updateGroupConfig, addNewGroup, advanceGroup } = require('./models/model-group');
 const { updateUser, getUserById, getAllUsers, advanceUsers } = require('../user/models/model-user');
 const getNaviObj = require('../views/lib/getNaviObj');
 const adminView = require('./views/admin-view');

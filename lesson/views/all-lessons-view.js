@@ -10,7 +10,7 @@
 // Required modules
 const locale = require('../../lib/locale');
 const { getConfig } = require('../../models/model-config');
-const { getGroupConfig } = require('../../models/model-group');
+const { getGroupConfig } = require('../../main/models/model-group');
 const config = getConfig();
 const { notValid } = require('../../lib/dateJuggler');
 const { getAllUsers } = require('../../user/models/model-user');
