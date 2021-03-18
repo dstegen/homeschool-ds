@@ -16,7 +16,7 @@ const studentDayView = require('./views/student-lesson-view');
 const teacherLessonsView = require('./views/all-lessons-view');
 const teacherSingleLessonView = require('./views/teacher-lesson-view');
 const addLessonView = require('./views/add-lesson-view');
-const view = require('../views/view');
+const view = require('../main/views/base-view');
 
 let myGroup = '';
 

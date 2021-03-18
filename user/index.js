@@ -16,7 +16,7 @@ const config = require('../main/models/model-config').getConfig();
 const { initUsers, getPasswdObj, getUserDetails, updatePassword } = require('./models/model-user');
 const getNaviObj = require('../lib/getNaviObj');
 const setpasswordView = require('./views/setpassword-view');
-const view = require('../views/view');
+const view = require('../main/views/base-view');
 
 const authenticate = new Auth(path.join(__dirname, '../sessionids.json'));
 initUsers();

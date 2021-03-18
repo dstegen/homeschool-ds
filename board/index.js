@@ -12,7 +12,7 @@ const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
 const { updateTopic, updateCard, deleteFromBoard, updateOrder } = require('./models/model-board');
 const getNaviObj = require('../lib/getNaviObj');
 const boardView = require('./views/view');
-const view = require('../views/view');
+const view = require('../main/views/base-view');
 
 let myGroup = '';
 

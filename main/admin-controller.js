@@ -17,7 +17,7 @@ const adminView = require('./views/admin-view');
 const editUserView = require('./views/edit-user-view');
 const settingsView = require('./views/settings-view');
 const schoolSettingsView = require('./views/school-settings-view');
-const view = require('../views/view');
+const view = require('../main/views/base-view');
 
 
 function adminController (request, response, wss, wsport, user) {

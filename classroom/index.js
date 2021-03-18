@@ -19,7 +19,7 @@ const getNaviObj = require('../lib/getNaviObj');
 const classroomView = require('./views/view');
 const lobbyView = require('./views/lobby-view');
 const teacherView = require('./views/teacher-view');
-const view = require('../views/view');
+const view = require('../main/views/base-view');
 const saveFile = require('../utils/save-file');
 const { registerWs, sendWsMessage } = require('../lib/websockets');
 

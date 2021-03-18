@@ -11,7 +11,7 @@
 const locale = require('../../lib/locale');
 const config = require('../../main/models/model-config').getConfig();
 const getNaviObj = require('../../lib/getNaviObj');
-const view = require('../../views/view');
+const view = require('../../main/views/base-view');
 
 
 function loginView (wsport, message='') {

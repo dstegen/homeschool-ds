@@ -13,7 +13,7 @@ const { thisWeek } = require('../lib/dateJuggler');
 const { getLessons } = require('../lesson/models/model-lessons');
 const getNaviObj = require('../lib/getNaviObj');
 const timetableView = require('./timetable/view');
-const view = require('../views/view');
+const view = require('../main/views/base-view');
 
 let myGroup = '';
 let myLessons = [];

@@ -1,5 +1,5 @@
 /*!
- * views/view.js
+ * main/views/base-view.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -13,7 +13,7 @@ const navi = require('./templates/navi');
 const tail = require('./templates/tail');
 
 
-function view (wsport, naviObj, body, history={}) {
+function baseView (wsport, naviObj, body, history={}) {
   let sendObj = new SendObj();
   sendObj.data += header();
   sendObj.data += navi(naviObj, naviObj.loggedin, history);
@@ -23,4 +23,4 @@ function view (wsport, naviObj, body, history={}) {
 }
 
 
-module.exports = view;
+module.exports = baseView;

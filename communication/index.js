@@ -13,7 +13,7 @@ const { updateChat } = require('./models/model-chat');
 const { updatePrivateMessages } = require('./models/model-messages');
 const comView = require('./views/view');
 const getNaviObj = require('../lib/getNaviObj');
-const view = require('../views/view');
+const view = require('../main/views/base-view');
 
 
 function communicationController (request, response, wss, wsport, user) {
