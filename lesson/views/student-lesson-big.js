@@ -10,7 +10,7 @@
 // Required modules
 const path = require('path');
 const locale = require('../../lib/locale');
-const config = require('../../models/model-config').getConfig();
+const config = require('../../main/models/model-config').getConfig();
 const { thisDay, formatDay, momentFromDay, workdaysBetween, notValid } = require('../../lib/dateJuggler');
 const getIcon = require('../../views/lib/get-icon');
 const filesList = require('../../views/templates/files-list');

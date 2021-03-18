@@ -11,7 +11,7 @@
 const path = require('path');
 const fs = require('fs');
 const locale = require('../../lib/locale');
-const config = require('../../models/model-config').getConfig();
+const config = require('../../main/models/model-config').getConfig();
 const { getAllUsers } = require('../../user/models/model-user');
 const { getLessons } = require('../../lesson/models/model-lessons');
 const lessonDateandtime = require('./lesson-dateandtime');

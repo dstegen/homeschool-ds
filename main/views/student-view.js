@@ -9,7 +9,7 @@
 
 // Required modules
 const locale = require('../../lib/locale');
-const config = require('../../models/model-config').getConfig();
+const config = require('../models/model-config').getConfig();
 const { formatDay } = require('../../lib/dateJuggler');
 const studentLessonsNotFinished = require('../../lesson/views/student-lessons-not-finished');
 const getOnlinelessons = require('../../views/lib/get-onlinelessons');

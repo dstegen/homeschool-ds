@@ -9,7 +9,7 @@
 
 // Required modules
 const locale = require('../../lib/locale');
-const config = require('../../models/model-config').getConfig();
+const config = require('../../main/models/model-config').getConfig();
 const { thisWeek, isActualWeek, weekDayFromNumber } = require('../../lib/dateJuggler');
 const { getLessons } = require('../../lesson/models/model-lessons');
 

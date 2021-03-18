@@ -9,7 +9,7 @@
 
 // Required modules
 const path = require('path');
-const config = require('../../models/model-config').getConfig();
+const config = require('./model-config').getConfig();
 const loadFile = require('../../utils/load-file');
 const saveFile = require('../../utils/save-file');
 const createDir = require('../../utils/create-dir');

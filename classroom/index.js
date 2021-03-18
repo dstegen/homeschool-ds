@@ -11,7 +11,7 @@
 const fs = require('fs');
 const path = require('path');
 const locale = require('../lib/locale');
-const config = require('../models/model-config').getConfig();
+const config = require('../main/models/model-config').getConfig();
 const { getTitleNameById } = require('../user/models/model-user');
 const { uniSend, getFormObj, SendObj, cookie } = require('webapputils-ds');
 const { createOnlinelesson, getRecentLesson, disposeOnlinelesson, joinOnlinelesson, exitOnlinelesson } = require('./models/model-classroom');

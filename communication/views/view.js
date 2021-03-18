@@ -9,7 +9,7 @@
 
 // Required modules
 const locale = require('../../lib/locale');
-const config = require('../../models/model-config').getConfig();
+const config = require('../../main/models/model-config').getConfig();
 const classChat = require('../../views/templates/chat');
 const privateMessages = require('../../views/templates/private-messages');
 const newPrivateMessage = require('../../views/templates/new-private-message');

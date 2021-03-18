@@ -8,7 +8,7 @@
 'use strict';
 
 // Required modules
-const config = require('../models/model-config').getConfig();
+const config = require('./models/model-config').getConfig();
 const { cleanChat } = require('../communication/models/model-chat');
 const { getAllUsers, cleanLogins } = require('../user/models/model-user');
 const { cleanMessages } = require('../communication/models/model-messages');

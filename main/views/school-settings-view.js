@@ -8,7 +8,7 @@
 'use strict';
 
 // Required modules
-const config = require('../../models/model-config').getConfig();
+const config = require('../models/model-config').getConfig();
 const schoolSettings = require('./school-settings');
 
 

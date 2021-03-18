@@ -8,7 +8,7 @@
 'use strict';
 
 // Required modules
-const config = require('../../models/model-config').getConfig();
+const config = require('../models/model-config').getConfig();
 const groupSettings = require('./group-settings');
 const formSelect = require('../../views/templates/form-select2');
 

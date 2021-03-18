@@ -8,7 +8,7 @@
 'use strict';
 
 // Required modules
-const config = require('../../models/model-config').getConfig();
+const config = require('../models/model-config').getConfig();
 const formSelect = require('../../views/templates/form-select2');
 const userForm = require('./user-form');
 

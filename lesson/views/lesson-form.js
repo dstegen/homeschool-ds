@@ -10,7 +10,7 @@
 // Required modules
 const path = require('path');
 const locale = require('../../lib/locale');
-const config = require('../../models/model-config').getConfig();
+const config = require('../../main/models/model-config').getConfig();
 const loadFile = require('../../utils/load-file');
 const formRadio = require('../../views/templates/form-radio');
 const formCheckbox = require('../../views/templates/form-checkbox');
