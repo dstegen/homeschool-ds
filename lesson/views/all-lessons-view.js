@@ -15,7 +15,7 @@ const config = getConfig();
 const { notValid } = require('../../lib/dateJuggler');
 const { getAllUsers } = require('../../user/models/model-user');
 const { getLessons, returnedHomework } = require('../../lesson/models/model-lessons');
-const formSelectColumn = require('../../views/templates/form-select2');
+const formSelectColumn = require('../../main/templates/form-select2');
 const getIcon = require('../../main/views/get-icon');
 const lessonDateandtime = require('./lesson-dateandtime');
 

@@ -11,8 +11,8 @@
 const locale = require('../../lib/locale');
 const config = require('../models/model-config').getConfig();
 const { getAllUsers } = require('../../user/models/model-user');
-const classChat = require('../../views/templates/chat');
-const newPrivateMessage = require('../../views/templates/new-private-message');
+const classChat = require('../../main/templates/chat');
+const newPrivateMessage = require('../../main/templates/new-private-message');
 
 
 function teacherClassesView (teacher, group, wsport) {

@@ -12,7 +12,7 @@ const locale = require('../../lib/locale');
 const config = require('../../main/models/model-config').getConfig();
 const { thisDay, formatDay, momentFromDay } = require('../../lib/dateJuggler');
 const { lessonsNotFinished } = require('../models/model-lessons');
-const simpleList = require('../../views/templates/simple-list');
+const simpleList = require('../../main/templates/simple-list');
 
 
 function studentLessonsNotFinished (user) {

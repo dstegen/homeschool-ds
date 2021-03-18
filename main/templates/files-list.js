@@ -1,5 +1,5 @@
 /*!
- * views/templates/files-list.js
+ * main/templates/files-list.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)

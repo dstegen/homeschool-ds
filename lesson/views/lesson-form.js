@@ -12,9 +12,9 @@ const path = require('path');
 const locale = require('../../lib/locale');
 const config = require('../../main/models/model-config').getConfig();
 const loadFile = require('../../utils/load-file');
-const formRadio = require('../../views/templates/form-radio');
-const formCheckbox = require('../../views/templates/form-checkbox');
-const formSelect = require('../../views/templates/form-select2');
+const formRadio = require('../../main/templates/form-radio');
+const formCheckbox = require('../../main/templates/form-checkbox');
+const formSelect = require('../../main/templates/form-select2');
 const { weekDay, weeksArray } = require('../../lib/dateJuggler');
 let lessonsConfig = {};
 

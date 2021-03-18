@@ -17,8 +17,8 @@ const getWelcome = require('./get-welcome');
 const getOnlinelessons = require('./get-onlinelessons');
 const recentMessages = require('../../communication/views/recent-messages');
 const returnedHomeworkOverview = require('../../lesson/views/returned-homework-overview');
-const classChat = require('../../views/templates/chat');
-const userOnline = require('../../views/templates/user-online');
+const classChat = require('../../main/templates/chat');
+const userOnline = require('../../main/templates/user-online');
 
 
 function teacherView (teacher, wsport) {

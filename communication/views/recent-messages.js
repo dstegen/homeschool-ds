@@ -10,7 +10,7 @@
 // Required modules
 const { getUserById } = require('../../user/models/model-user');
 const { getLatestMessages } = require('../models/model-messages');
-const simpleList = require('../../views/templates/simple-list');
+const simpleList = require('../../main/templates/simple-list');
 
 
 function recentMessages (userId) {

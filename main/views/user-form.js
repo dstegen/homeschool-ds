@@ -10,9 +10,9 @@
 // Required modules
 const locale = require('../../lib/locale');
 const { getGroupConfig } = require('../models/model-group');
-const tooltip = require('../../views/templates/tooltip');
-const formSelect = require('../../views/templates/form-select2');
-const formTextInput = require('../../views/templates/form-textinput');
+const tooltip = require('../../main/templates/tooltip');
+const formSelect = require('../../main/templates/form-select2');
+const formTextInput = require('../../main/templates/form-textinput');
 
 
 function userForm (user, classes) {

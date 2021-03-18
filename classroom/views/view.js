@@ -8,7 +8,7 @@
 'use strict';
 
 // Required modules
-const classChat = require('../../views/templates/chat');
+const classChat = require('../../main/templates/chat');
 const attendantStudents = require('./attendant-students');
 const blackboard = require('./blackboard');
 const classroomSockets = require('./classroom-sockets');

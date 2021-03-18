@@ -16,7 +16,7 @@ const { getAllUsers } = require('../../user/models/model-user');
 const { getLessons } = require('../../lesson/models/model-lessons');
 const lessonDateandtime = require('./lesson-dateandtime');
 const lessonSchedule = require('./lesson-schedule');
-const filesList = require('../../views/templates/files-list');
+const filesList = require('../../main/templates/files-list');
 const lessonForm = require('./lesson-form');
 const lessonUploadForm = require('./lesson-upload-form');
 

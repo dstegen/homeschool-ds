@@ -10,8 +10,8 @@
 // Required modules
 const locale = require('../../lib/locale');
 const config = require('../models/model-config').getConfig();
-const formSelect = require('../../views/templates/form-select2');
-const formTextInput = require('../../views/templates/form-textinput');
+const formSelect = require('../../main/templates/form-select2');
+const formTextInput = require('../../main/templates/form-textinput');
 
 
 function schoolSettings () {

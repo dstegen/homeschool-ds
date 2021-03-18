@@ -5,16 +5,17 @@
   "main": "index.js",
   "directories": {
     "board": "./board",
-    "controllers": "./controllers",
+    "classroom": "./classroom",
+    "communication": "./communication",
     "data": "./data",
     "helper": "./helper",
+    "lesson": "./lesson",
     "lib": "./lib",
     "main": "./main",
-    "models": "./models",
     "public": "./public",
-    "utils": "./utils",
     "timetable": "./timetable",
-    "views": "./views"
+    "user": "./user",
+    "utils": "./utils"
   },
   "scripts": {
     "postinstall": "node helper/install-example.js",

@@ -13,7 +13,7 @@ const locale = require('../../lib/locale');
 const config = require('../../main/models/model-config').getConfig();
 const { thisDay, formatDay, momentFromDay, workdaysBetween, notValid } = require('../../lib/dateJuggler');
 const getIcon = require('../../main/views/get-icon');
-const filesList = require('../../views/templates/files-list');
+const filesList = require('../../main/templates/files-list');
 let lessonsConfig = {};
 
 

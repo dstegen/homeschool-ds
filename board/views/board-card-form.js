@@ -10,7 +10,7 @@
 // Required modules
 const locale = require('../../lib/locale');
 const config = require('../../main/models/model-config').getConfig();
-const filesList = require('../../views/templates/files-list');
+const filesList = require('../../main/templates/files-list');
 
 
 function boardCardForm (group, myTopicId, myCard) {

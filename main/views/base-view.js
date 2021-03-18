@@ -8,9 +8,9 @@
 'use strict';
 
 const {SendObj} = require('webapputils-ds');
-const header = require('./templates/header');
-const navi = require('./templates/navi');
-const tail = require('./templates/tail');
+const header = require('../../main/templates/header');
+const navi = require('../../main/templates/navi');
+const tail = require('../../main/templates/tail');
 
 
 function baseView (wsport, naviObj, body, history={}) {

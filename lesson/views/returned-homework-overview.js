@@ -13,7 +13,7 @@ const config = require('../../main/models/model-config').getConfig();
 const { dateIsRecent } = require('../../lib/dateJuggler');
 const { getTitleNameById } = require('../../user/models/model-user');
 const { returnedHomework } = require('../../lesson/models/model-lessons');
-const simpleList = require('../../views/templates/simple-list');
+const simpleList = require('../../main/templates/simple-list');
 
 
 function returnedHomeworkOverview (user) {

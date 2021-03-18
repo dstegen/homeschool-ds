@@ -13,9 +13,9 @@ const config = require('../models/model-config').getConfig();
 const { formatDay } = require('../../lib/dateJuggler');
 const studentLessonsNotFinished = require('../../lesson/views/student-lessons-not-finished');
 const getOnlinelessons = require('./get-onlinelessons');
-const simpleList = require('../../views/templates/simple-list');
-const userOnline = require('../../views/templates/user-online');
-const classChat = require('../../views/templates/chat');
+const simpleList = require('../../main/templates/simple-list');
+const userOnline = require('../../main/templates/user-online');
+const classChat = require('../../main/templates/chat');
 
 
 function studentView (lessonsTodayList, curWeek, user={}, wsport) {

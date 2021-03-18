@@ -11,9 +11,9 @@
 const locale = require('../../lib/locale');
 const config = require('../models/model-config').getConfig();
 const { getGroupConfig } = require('../models/model-group');
-const formCheckbox = require('../../views/templates/form-checkbox');
-const formSelect = require('../../views/templates/form-select2');
-const formTextInput = require('../../views/templates/form-textinput');
+const formCheckbox = require('../../main/templates/form-checkbox');
+const formSelect = require('../../main/templates/form-select2');
+const formTextInput = require('../../main/templates/form-textinput');
 
 
 function groupSettings (group) {

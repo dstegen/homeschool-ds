@@ -11,10 +11,10 @@
 const locale = require('../../lib/locale');
 const config = require('../../main/models/model-config').getConfig();
 const { getLessons } = require('../../lesson/models/model-lessons');
-const formTextInput = require('../../views/templates/form-textinput');
-const formSelect = require('../../views/templates/form-select2');
-const formCheckboxColumn = require('../../views/templates/form-checkbox');
-const tooltip = require('../../views/templates/tooltip');
+const formTextInput = require('../../main/templates/form-textinput');
+const formSelect = require('../../main/templates/form-select2');
+const formCheckboxColumn = require('../../main/templates/form-checkbox');
+const tooltip = require('../../main/templates/tooltip');
 const { notValid } = require('../../lib/dateJuggler');
 
 
