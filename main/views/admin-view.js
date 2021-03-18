@@ -14,7 +14,7 @@ const { formatDay } = require('../../lib/dateJuggler');
 const { getAllUsers, getTitleNameById, usersOnline } = require('../../user/models/model-user');
 const { getMessagesCount } = require('../../communication/models/model-messages');
 const { getChatCount } = require('../../communication/models/model-chat');
-const getWelcome = require('../../views/lib/get-welcome');
+const getWelcome = require('./get-welcome');
 
 
 function adminView (user) {
