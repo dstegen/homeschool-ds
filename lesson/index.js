@@ -11,7 +11,7 @@
 const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
 const { thisDay, thisWeek, weekDayNumber, momentFromDay } = require('../lib/dateJuggler');
 const { getLessons, updateLesson, deleteLesson, finishLesson, lessonsToday, lessonsNotFinished, blancLesson } = require('./models/model-lessons');
-const getNaviObj = require('../views/lib/getNaviObj');
+const getNaviObj = require('../lib/getNaviObj');
 const studentDayView = require('./views/student-lesson-view');
 const teacherLessonsView = require('./views/all-lessons-view');
 const teacherSingleLessonView = require('./views/teacher-lesson-view');

@@ -12,7 +12,7 @@ const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
 const { updateChat } = require('./models/model-chat');
 const { updatePrivateMessages } = require('./models/model-messages');
 const comView = require('./views/view');
-const getNaviObj = require('../views/lib/getNaviObj');
+const getNaviObj = require('../lib/getNaviObj');
 const view = require('../views/view');
 
 

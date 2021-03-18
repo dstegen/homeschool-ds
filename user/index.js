@@ -14,7 +14,7 @@ const { cookie, uniSend, getFormObj, SendObj, Auth } = require('webapputils-ds')
 const locale = require('../lib/locale');
 const config = require('../main/models/model-config').getConfig();
 const { initUsers, getPasswdObj, getUserDetails, updatePassword } = require('./models/model-user');
-const getNaviObj = require('../views/lib/getNaviObj');
+const getNaviObj = require('../lib/getNaviObj');
 const setpasswordView = require('./views/setpassword-view');
 const view = require('../views/view');
 

@@ -10,7 +10,7 @@
 // Required modules
 const locale = require('../../lib/locale');
 const config = require('../../main/models/model-config').getConfig();
-const getNaviObj = require('../../views/lib/getNaviObj');
+const getNaviObj = require('../../lib/getNaviObj');
 const view = require('../../views/view');
 
 
