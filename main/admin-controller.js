@@ -15,7 +15,7 @@ const { updateUser, getUserById, getAllUsers, advanceUsers } = require('../user/
 const getNaviObj = require('../lib/getNaviObj');
 const adminView = require('./views/admin-view');
 const editUserView = require('./views/edit-user-view');
-const settingsView = require('./views/settings-view');
+const groupSettingsView = require('./views/group-settings-view');
 const schoolSettingsView = require('./views/school-settings-view');
 const view = require('../main/views/base-view');
 
@@ -86,19 +86,19 @@ function settingsAction (request, response, naviObj) {
     data => {
       if (data.fields.action === 'updatesettings') {
         updateSettings(data.fields);
-        uniSend(new SendObj(302, [], '', '/admin/settings'), response);
+        uniSend(new SendObj(302, [], '', '/admin/settings?'+data.fields.group), response);
       } else if (data.fields.action === 'addgroup') {
         addNewGroup(data.fields);
-        uniSend(new SendObj(302, [], '', '/admin/settings'), response);
+        uniSend(new SendObj(302, [], '', '/admin/settings?'+data.fields.newGroup), response);
       } else if (data.fields.action === 'updategroupsettings') {
         updateGroupConfig(data.fields);
-        uniSend(new SendObj(302, [], '', '/admin/settings'), response);
+        uniSend(new SendObj(302, [], '', '/admin/settings?'+data.fields.group), response);
       } else if (data.fields.action === 'advancegroup') {
         advanceGroup(data.fields);
         advanceUsers(data.fields);
-        uniSend(new SendObj(302, [], '', '/admin/settings'), response);
+        uniSend(new SendObj(302, [], '', '/admin/settings?'+data.fields.newGroup), response);
       }
-      uniSend(view('', naviObj, settingsView(group)),response);
+      uniSend(view('', naviObj, groupSettingsView(group)),response);
     }
   ).catch(
     error => {

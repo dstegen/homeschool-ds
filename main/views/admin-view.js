@@ -18,7 +18,6 @@ const getWelcome = require('./get-welcome');
 
 
 function adminView (user) {
-
   return `
     <div id="dashboard" class="container">
       <h2 class="d-flex justify-content-between py-2 px-3 my-3 border">

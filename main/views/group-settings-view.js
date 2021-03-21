@@ -1,5 +1,5 @@
 /*!
- * main/views/settings-view.js
+ * main/views/group-settings-view.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -13,7 +13,7 @@ const groupSettings = require('./group-settings');
 const formSelect = require('../../main/templates/form-select2');
 
 
-function settingsView (group='') {
+function groupSettingsView (group='') {
   let classes = Array.from(config.classes);
   classes.unshift('');
   return `
@@ -36,4 +36,4 @@ function settingsView (group='') {
 }
 
 
-module.exports = settingsView;
+module.exports = groupSettingsView;
