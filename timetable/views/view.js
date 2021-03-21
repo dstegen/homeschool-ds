@@ -11,6 +11,7 @@
 const locale = require('../../lib/locale');
 const config = require('../../main/models/model-config').getConfig();
 const { thisWeek, weekDates, formatDate, weekDay, beforeToday, isActualWeek } = require('../../lib/dateJuggler');
+const orderLessonByTime = require('../../lib/order-lesson-bytime');
 const lessonSmall = require('./lesson-small');
 
 
@@ -42,7 +43,7 @@ function timetableView (myLessons, myGroup, curWeek=thisWeek()) {
 // Additional functions
 
 function helperWeekday (day, curWeek, myLessons, myGroup) {
-  myLessons = myLessons.sort((a,b) => reorderLessonsByDateAsc(a,b));
+  myLessons = myLessons.sort((a,b) => orderLessonByTime(a,b));
   return `
     <div class="col-12 col-md-6 col-lg-2 mb-5 mb-lg-0">
       <h5 class="mb-0 ${beforeToday(day, curWeek)?'text-black-50':''}">${weekDay(day)}</h5>
@@ -51,20 +52,6 @@ function helperWeekday (day, curWeek, myLessons, myGroup) {
       ${myLessons.filter( item => item.weekdays.includes(day) && isActualWeek(item.validFrom, item.validUntil, curWeek)).length < 1 ?'<p class="text-muted mt-2">- '+locale.student.no_lessons[config.lang]+' -</p>':''}
     </div>
   `;
-}
-
-function reorderLessonsByDateAsc (lessonA, lessonB) {
-  if ((lessonA.time === '' || lessonA.time === undefined) && lessonB.time > '') {
-    return 1;
-  } else if ((lessonB.time === '' || lessonB.time === undefined) && lessonA.time > '') {
-    return -1;
-  } else if (lessonA.time > lessonB.time) {
-    return 1;
-  } else if (lessonA.time < lessonB.time) {
-    return -1;
-  } else {
-    return 0;
-  }
 }
 
 

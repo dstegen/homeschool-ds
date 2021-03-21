@@ -11,11 +11,12 @@
 const locale = require('../../lib/locale');
 const config = require('../../main/models/model-config').getConfig();
 const { formatDay } = require('../../lib/dateJuggler');
+const orderLessonByTime = require('../../lib/order-lesson-bytime');
 const lessonBig = require('./lesson-big');
 
 
 function studentLessonDayview (myLessonsToday, myGroup, curDay, curWeekDay, user, lessonsNotFinishedToday) {
-  myLessonsToday = myLessonsToday.sort((a,b) => reorderLessonsByDateAsc(a,b));
+  myLessonsToday = myLessonsToday.sort((a,b) => orderLessonByTime(a,b));
   return `
     <div id="today" class="container my-3 p-3 border collapse show" data-parent="#homeschool-ds">
       <div class="d-flex justify-content-between">
@@ -50,20 +51,6 @@ function helperLessonsNotFinished (lessonsNotFinishedToday, curWeekDay, curDay, 
     `;
   } else {
     return '';
-  }
-}
-
-function reorderLessonsByDateAsc (lessonA, lessonB) {
-  if ((lessonA.time === '' || lessonA.time === undefined) && lessonB.time > '') {
-    return 1;
-  } else if ((lessonB.time === '' || lessonB.time === undefined) && lessonA.time > '') {
-    return -1;
-  } else if (lessonA.time > lessonB.time) {
-    return 1;
-  } else if (lessonA.time < lessonB.time) {
-    return -1;
-  } else {
-    return 0;
   }
 }
 
