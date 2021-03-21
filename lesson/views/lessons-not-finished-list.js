@@ -1,5 +1,5 @@
 /*!
- * lesson/views/student-lesson-not-finished.js
+ * lesson/views/lesson-not-finished-list.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -15,7 +15,7 @@ const { lessonsNotFinished } = require('../models/model-lessons');
 const simpleList = require('../../main/templates/simple-list');
 
 
-function studentLessonsNotFinished (user) {
+function lessonsNotFinishedList (user) {
   let lessonsNotFinishedToday = lessonsNotFinished(user, momentFromDay(thisDay()));
   if (lessonsNotFinishedToday.length > 0) {
     let headline = `<span class="text-danger">${locale.student.you_have[config.lang]} <strong>${lessonsNotFinishedToday.length}</strong> ${locale.student.lessons_not_finished[config.lang]}:</span>`;
@@ -26,4 +26,4 @@ function studentLessonsNotFinished (user) {
 }
 
 
-module.exports = studentLessonsNotFinished;
+module.exports = lessonsNotFinishedList;

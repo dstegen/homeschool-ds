@@ -11,7 +11,7 @@
 const locale = require('../../lib/locale');
 const config = require('../models/model-config').getConfig();
 const { formatDay } = require('../../lib/dateJuggler');
-const studentLessonsNotFinished = require('../../lesson/views/student-lessons-not-finished');
+const lessonsNotFinishedList = require('../../lesson/views/lessons-not-finished-list');
 const getOnlinelessons = require('./get-onlinelessons');
 const simpleList = require('../../main/templates/simple-list');
 const userOnline = require('../../main/templates/user-online');
@@ -34,7 +34,7 @@ function studentView (lessonsTodayList, curWeek, user={}, wsport) {
             </p>
             ${simpleList('', lessonsTodayList.map( lessonObj => { return `<a href="/lessons/day">${lessonObj.lesson}: ${lessonObj.chapter}</a>` }))}
             <br />
-            ${studentLessonsNotFinished(user)}
+            ${lessonsNotFinishedList(user)}
           </div>
           <div class="border py-2 px-3 mb-3">
             <h4>${locale.headlines.scheduledOnlinelessons[config.lang]}:</h4>

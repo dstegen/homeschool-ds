@@ -12,10 +12,10 @@ const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
 const { thisDay, thisWeek, weekDayNumber, momentFromDay } = require('../lib/dateJuggler');
 const { getLessons, updateLesson, deleteLesson, finishLesson, lessonsToday, lessonsNotFinished, blancLesson } = require('./models/model-lessons');
 const getNaviObj = require('../lib/getNaviObj');
-const studentDayView = require('./views/student-lesson-view');
-const teacherLessonsView = require('./views/all-lessons-view');
-const teacherSingleLessonView = require('./views/teacher-lesson-view');
-const addLessonView = require('./views/add-lesson-view');
+const studentLessonDayview = require('./views/student-lesson-dayview');
+const teacherLessonOverview = require('./views/teacher-lesson-overview');
+const teacherLessonSingleview = require('./views/teacher-lesson-singleview');
+const teacherAddLessonView = require('./views/teacher-add-lesson-view');
 const view = require('../main/views/base-view');
 
 let myGroup = '';
@@ -38,16 +38,16 @@ function lessonsController (request, response, user) {
   } else if (user.role === 'teacher') {
     myGroup = route.split('/')[2];
     if (route === 'lessons') {
-      uniSend(view('', naviObj, teacherLessonsView(user)), response);
+      uniSend(view('', naviObj, teacherLessonOverview(user)), response);
     } else if (route.startsWith('lessons/day')) {
       // Reformat route for teacher-lesson-view
       let tmpList = route.split('/');
       tmpList.splice(1,1,'show');
       tmpList.splice(2,1);
       route = tmpList.join('/');
-      uniSend(view('', naviObj, teacherSingleLessonView(user, route)), response);
+      uniSend(view('', naviObj, teacherLessonSingleview(user, route)), response);
     } else if (route.startsWith('lessons/show')) {
-      uniSend(view('', naviObj, teacherSingleLessonView(user, route)), response);
+      uniSend(view('', naviObj, teacherLessonSingleview(user, route)), response);
     } else if (route.startsWith('lessons/add')) {
       addLessonAction(request, response, user);
     } else if (route.startsWith('lessons/update')) {
@@ -66,7 +66,7 @@ function lessonsController (request, response, user) {
 function studentDayAction (myGroup, curDay, user) {
   let myLessonsToday = lessonsToday(myGroup, weekDayNumber(curDay), thisWeek(momentFromDay(curDay)));
   let lessonsNotFinishedToday = lessonsNotFinished(user, momentFromDay(curDay));
-  return studentDayView(myLessonsToday, myGroup, curDay, weekDayNumber(curDay), user, lessonsNotFinishedToday);
+  return studentLessonDayview(myLessonsToday, myGroup, curDay, weekDayNumber(curDay), user, lessonsNotFinishedToday);
 }
 
 function addLessonAction (request, response, user) {
@@ -79,7 +79,7 @@ function addLessonAction (request, response, user) {
     } else {
       itemObj = blancLesson();
     }
-    uniSend(view('', getNaviObj(user), addLessonView(itemObj, myGroup, user)),response);
+    uniSend(view('', getNaviObj(user), teacherAddLessonView(itemObj, myGroup, user)),response);
   } else {
     uniSend(new SendObj(302), response);
   }

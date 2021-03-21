@@ -1,5 +1,5 @@
 /*!
- * lesson/views/student-lesson-big.js
+ * lesson/views/lesson-big.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -17,7 +17,7 @@ const filesList = require('../../main/templates/files-list');
 let lessonsConfig = {};
 
 
-function studentLessonBig (lessonObj, curWeekDay, curDay, myGroup, studentId) {
+function lessonBig (lessonObj, curWeekDay, curDay, myGroup, studentId) {
   lessonsConfig = require(path.join('../../data/classes/', myGroup,'/config.json'));
   let lessonColor = '';
   if (lessonsConfig.courses.filter( item => item.name === lessonObj.lesson).length > 0) {
@@ -109,4 +109,4 @@ function helperFinishButton (myGroup, lessonObj, studentId, curDay) {
 }
 
 
-module.exports = studentLessonBig;
+module.exports = lessonBig;

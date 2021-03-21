@@ -1,5 +1,5 @@
 /*!
- * lesson/views/add-lesson-view.js
+ * lesson/views/teacher-add-lesson-view.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -13,7 +13,7 @@ const config = require('../../main/models/model-config').getConfig();
 const lessonForm = require('./lesson-form');
 
 
-function addLessonView (itemObj, myGroup, teacher) {
+function teacherAddLessonView (itemObj, myGroup, teacher) {
   return `
   <div class="container">
     <div class="border py-2 px-3 my-3">
@@ -27,4 +27,4 @@ function addLessonView (itemObj, myGroup, teacher) {
 }
 
 
-module.exports = addLessonView;
+module.exports = teacherAddLessonView;

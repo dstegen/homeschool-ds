@@ -1,5 +1,5 @@
 /*!
- * lesson/views/all-lessons-view.js
+ * lesson/views/teacher-lesson-overview.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -20,7 +20,7 @@ const getIcon = require('../../main/views/get-icon');
 const lessonDateandtime = require('./lesson-dateandtime');
 
 
-function allLessonsView (user) {
+function teacherLessonOverview (user) {
   let allLessonsList = ['Filter...'];
   for (let i=0; i<user.group.length; i++) {
     getGroupConfig(user.group[i]).courses.forEach( item => {
@@ -102,4 +102,4 @@ function helperListitem (item, group) {
 }
 
 
-module.exports = allLessonsView;
+module.exports = teacherLessonOverview;

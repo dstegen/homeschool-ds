@@ -1,5 +1,5 @@
 /*!
- * views/lessons/student-lesson-view.js
+ * views/lessons/student-lesson-dayview.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -11,10 +11,10 @@
 const locale = require('../../lib/locale');
 const config = require('../../main/models/model-config').getConfig();
 const { formatDay } = require('../../lib/dateJuggler');
-const studentLessonBig = require('./student-lesson-big');
+const lessonBig = require('./lesson-big');
 
 
-function studentLessonView (myLessonsToday, myGroup, curDay, curWeekDay, user, lessonsNotFinishedToday) {
+function studentLessonDayview (myLessonsToday, myGroup, curDay, curWeekDay, user, lessonsNotFinishedToday) {
   myLessonsToday = myLessonsToday.sort((a,b) => reorderLessonsByDateAsc(a,b));
   return `
     <div id="today" class="container my-3 p-3 border collapse show" data-parent="#homeschool-ds">
@@ -28,7 +28,7 @@ function studentLessonView (myLessonsToday, myGroup, curDay, curWeekDay, user, l
       <hr />
       <div class="row">
         <div class="col-12 col-md-6 border-right">
-          ${myLessonsToday.map(lesson => studentLessonBig(lesson, curWeekDay, curDay, myGroup, user.id)).join('')}
+          ${myLessonsToday.map(lesson => lessonBig(lesson, curWeekDay, curDay, myGroup, user.id)).join('')}
           ${myLessonsToday.length === 0 ? '<div class="text-muted w-100 text-center mt-4">- '+locale.student.no_lessons[config.lang]+' -</div>' : ''}
         </div>
         <div class="col-12 col-md-6">
@@ -46,7 +46,7 @@ function helperLessonsNotFinished (lessonsNotFinishedToday, curWeekDay, curDay, 
   if (lessonsNotFinishedToday.length > 0) {
     return `
       <h6 class="text-center text-danger my-4">${locale.student.not_finished_lessons[config.lang]}:</h6>
-      ${lessonsNotFinishedToday.map( lessonObj => studentLessonBig(lessonObj, curWeekDay, curDay, myGroup, user.id)).join('')}
+      ${lessonsNotFinishedToday.map( lessonObj => lessonBig(lessonObj, curWeekDay, curDay, myGroup, user.id)).join('')}
     `;
   } else {
     return '';
@@ -68,4 +68,4 @@ function reorderLessonsByDateAsc (lessonA, lessonB) {
 }
 
 
-module.exports = studentLessonView;
+module.exports = studentLessonDayview;
