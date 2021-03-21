@@ -35,7 +35,7 @@ function timetableController (request, response, user) {
     myLessons = getLessons(myGroup);
     uniSend(view('', naviObj, timetableView(myLessons, myGroup, curWeek)), response);
   } else {
-    uniSend(new SendObj(320), response);
+    uniSend(new SendObj(302), response);
   }
 }
 

@@ -1,5 +1,5 @@
 /*!
- * classroom/views/lobby-view.js
+ * classroom/views/student-lobby-view.js
  * homeschool-ds (https://github.com/dstegen/homeschool-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/homeschool-ds/blob/master/LICENSE)
@@ -12,7 +12,7 @@ const locale = require('../../lib/locale');
 const config = require('../../main/models/model-config').getConfig();
 
 
-function lobbyView (recentLesson) {
+function studentLobbyView (recentLesson) {
   if (recentLesson.lesson === undefined) {
     return `
       <div class="container border my-3 p-3 h-50 text-center">
@@ -31,4 +31,4 @@ function lobbyView (recentLesson) {
 }
 
 
-module.exports = lobbyView;
+module.exports = studentLobbyView;

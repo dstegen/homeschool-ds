@@ -17,8 +17,8 @@ const { uniSend, getFormObj, SendObj, cookie } = require('webapputils-ds');
 const { createOnlinelesson, getRecentLesson, disposeOnlinelesson, joinOnlinelesson, exitOnlinelesson } = require('./models/model-classroom');
 const getNaviObj = require('../lib/getNaviObj');
 const classroomView = require('./views/view');
-const lobbyView = require('./views/lobby-view');
-const teacherView = require('./views/teacher-view');
+const studentLobbyView = require('./views/student-lobby-view');
+const teacherStartOnlinelessonView = require('./views/teacher-start-onlinelesson-view');
 const view = require('../main/views/base-view');
 const saveFile = require('../utils/save-file');
 const { registerWs, sendWsMessage } = require('../lib/websockets');
@@ -44,7 +44,7 @@ function classroomController (request, response, wss, wsport, user) {
     } else if (route.startsWith('classroom/requestaccess')) {
       grantAccess(response, recentLesson, user, wss);
     } else {
-      uniSend(view('', naviObj, lobbyView(recentLesson)), response);
+      uniSend(view('', naviObj, studentLobbyView(recentLesson)), response);
     }
   } else if (user.role === 'teacher') {
     myGroup = route.split('/')[1];
@@ -64,7 +64,7 @@ function classroomController (request, response, wss, wsport, user) {
         uniSend(view('', naviObj, classroomView(myGroup, user, wss, wsport, recentLesson)), response);
       }
     } else {
-      uniSend(view('', naviObj, teacherView(myGroup)), response);
+      uniSend(view('', naviObj, teacherStartOnlinelessonView(myGroup)), response);
     }
   } else {
     uniSend(new SendObj(302), response);

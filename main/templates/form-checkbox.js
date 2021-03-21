@@ -25,6 +25,8 @@ function formCheckbox (valueArray, prop, checkedArray=[], disabledArray=[], oneG
 function helperCheckbox (valueIn, prop, checkedArray, disabledArray, oneGroup) {
   let value = '';
   let label = '';
+  let checked = '';
+  let disabled = '';
   if (typeof(valueIn) === 'object') {
     value = valueIn[0];
     label = valueIn[1]
@@ -34,10 +36,10 @@ function helperCheckbox (valueIn, prop, checkedArray, disabledArray, oneGroup) {
   }
   let inputName = prop;
   if (oneGroup === false) inputName = label;
-  let checked = '';
   if (checkedArray.includes(value)) checked = 'checked';
-  let disabled = '';
   if (disabledArray.includes(value)) disabled = 'disabled';
+  if (value === true && checkedArray.includes(label)) checked = 'checked';
+  if (value === true && disabledArray.includes(label)) disabled = 'disabled';
   return `
     <div class="form-check form-check-inline">
       <input class="form-check-input" type="checkbox" name="${inputName}" id="${prop}-${label}" value="${value}" ${disabled} ${checked}>
