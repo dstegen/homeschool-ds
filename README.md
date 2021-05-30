@@ -53,7 +53,8 @@ A simple HomeSchool server for teachers and students to have a better overview o
 - big refactoring, all new structure
 - refactored forms for better reusability
 - code cleanup & minor bug fixes
-- ...
+- added module for ordering lessons
+- updated dependencies
 
 #### v0.4.1 ####
 - added basic sanitizer for sanitize form inputs

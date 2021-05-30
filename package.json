@@ -1,6 +1,6 @@
 {
   "name": "homeschool-ds",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "simple homeschool web app",
   "main": "index.js",
   "directories": {
@@ -42,7 +42,7 @@
     "jquery": "^3.6.0",
     "jquery-ui-dist": "^1.12.1",
     "moment": "^2.29.1",
-    "webapputils-ds": "^0.5.0"
+    "webapputils-ds": "^0.5.1"
   },
   "nodemonConfig": {
     "ignore": [
