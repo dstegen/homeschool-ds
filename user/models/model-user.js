@@ -69,9 +69,11 @@ function usersOnline (group) {
 }
 
 function cleanLogins () {
-  let sessionIds = loadFile(path.join(__dirname, '../../sessionids.json'));
-  sessionIds = sessionIds.filter( item => dateIsRecent(item.timeStamp, 1));
-  saveFile(path.join(__dirname, '../../'), 'sessionids.json', sessionIds);
+  if (fs.existsSync(path.join(__dirname, '../../sessionids.json'))) {
+    let sessionIds = loadFile(path.join(__dirname, '../../sessionids.json'));
+    sessionIds = sessionIds.filter( item => dateIsRecent(item.timeStamp, 1));
+    saveFile(path.join(__dirname, '../../'), 'sessionids.json', sessionIds);
+  }
 }
 
 function getUserById (id) {
