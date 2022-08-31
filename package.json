@@ -41,7 +41,7 @@
     "cron": "^1.8.2",
     "jquery": "^3.6.0",
     "jquery-ui-dist": "^1.12.1",
-    "moment": "^2.29.2",
+    "moment": "^2.29.4",
     "webapputils-ds": "^0.5.1"
   },
   "nodemonConfig": {
